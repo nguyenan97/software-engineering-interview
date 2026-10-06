@@ -1,8 +1,21 @@
 # Software Engineering Interview
 
-A public, privacy-safe knowledge base for software engineering interview preparation.
+An English-first, privacy-safe knowledge base for software engineering interview preparation, with optional Vietnamese semantic notes for difficult concepts.
 
 This repository organizes real-world interview topics into reusable Markdown notes and an Agent Skill for structured daily practice.
+
+## Language policy
+
+The repository is designed for an international audience while still supporting Vietnamese learners.
+
+- **English is the primary language.**
+- Technical concepts, terminology, headings, interview questions, model answers, code and diagrams stay in English.
+- Established terms such as `Dependency Injection`, `Deadlock`, `Optimistic Concurrency`, `Garbage Collection`, `Idempotency` and `Eventual Consistency` are not translated into Vietnamese substitutes.
+- Vietnamese is used only as optional semantic support when it helps explain meaning, intuition or a difficult mental model.
+- Vietnamese notes should supplement the English content, not duplicate the full lesson.
+- Interview practice is English by default.
+
+The goal is to build both software-engineering depth and the English technical vocabulary required for real interviews and engineering discussions.
 
 ## Coverage
 
@@ -45,7 +58,9 @@ The original notes were normalized before publication. Personal names, candidate
 
 ## Source policy
 
-The Markdown files preserve the useful interview questions, concepts and technical notes while removing attribution and identifying context. Source notes can be incomplete or outdated; treat them as interview prompts rather than authoritative product documentation.
+The Markdown files preserve useful interview questions, concepts and technical notes while removing attribution and identifying context. Source notes can be incomplete or outdated; treat them as interview prompts rather than authoritative product documentation.
+
+Vietnamese source questions may be normalized into natural technical English while preserving their original technical intent.
 
 ## GitHub Pages
 
