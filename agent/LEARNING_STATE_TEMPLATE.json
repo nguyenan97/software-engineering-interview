@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "learner_profile": {
+    "target_level": "senior-to-solution-architect",
+    "default_stack": ["C#", ".NET", "ASP.NET Core", "Angular", "TypeScript", "SQL Server", "Azure", "Docker"]
+  },
+  "lessons": [],
+  "reviews": [],
+  "domain_stats": {},
+  "weak_concepts": [],
+  "next_review_queue": [],
+  "last_updated": null,
+  "example_lesson_record": {
+    "topic_id": "messaging-at-least-once-idempotency",
+    "domain": "messaging-event-driven",
+    "level": "senior",
+    "completed_at": "YYYY-MM-DD",
+    "objectives": [
+      "Explain why at-least-once delivery can create duplicates",
+      "Design an idempotent consumer",
+      "Choose database/message-broker mechanisms and explain trade-offs"
+    ],
+    "concept_fingerprint": ["at-least-once", "idempotency", "duplicate-message", "unique-constraint", "inbox", "retry"],
+    "score": {
+      "technical": 0,
+      "reasoning": 0,
+      "implementation": 0,
+      "operations": 0,
+      "communication": 0
+    },
+    "weak_points": [],
+    "review_due": [],
+    "source_refs": []
+  }
+}
