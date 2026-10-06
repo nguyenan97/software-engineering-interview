@@ -20,6 +20,37 @@ Every new lesson must:
 
 Default examples should favor C#, .NET / ASP.NET Core, Angular / TypeScript, SQL Server, Azure and Docker, while keeping the curriculum useful to software engineers beyond one stack.
 
+## Language strategy
+
+This project is **English-first with optional Vietnamese semantic support**.
+
+- Use English for headings, technical concepts, terminology, interview questions, model answers, code, diagrams and the primary explanation.
+- Preserve established software-engineering terms in English. Do not translate terms such as `Dependency Injection`, `Deadlock`, `Optimistic Concurrency`, `ThreadPool`, `Garbage Collection`, `Idempotency`, `Eventual Consistency` or `Circuit Breaker` into Vietnamese substitutes.
+- Use Vietnamese only when it materially improves semantic understanding, intuition or clarification of a difficult concept.
+- Vietnamese content should be supplemental and clearly separated, preferably under `Vietnamese Note` or `Giải thích ngữ nghĩa`.
+- Do not duplicate the entire English lesson in Vietnamese.
+- Interview practice and model answers must remain in English unless the learner explicitly requests otherwise.
+- When a Vietnamese source question is used, normalize the published/lesson question into natural technical English while preserving the original technical intent.
+- Gradually reduce Vietnamese support as learner familiarity increases.
+
+Preferred lesson pattern:
+
+```md
+## Optimistic Concurrency
+
+### Interview Question
+How would you handle concurrent updates to the same record?
+
+### Core Explanation
+English technical explanation...
+
+### Vietnamese Note
+Giải thích ngắn về ngữ nghĩa hoặc mental model khi thật sự cần thiết.
+
+### Senior-Level Discussion
+English discussion of trade-offs, failure modes and production decisions...
+```
+
 ## Privacy rule
 
 Never reconstruct or infer removed identities. Do not add personal names, candidate identities, employer/customer names, private project names, contact details or confidential business context back into lessons. Use generic production scenarios.
@@ -140,7 +171,7 @@ Add a realistic constraint: 10x traffic, duplicate delivery, downstream outage, 
 
 ### Stage 5 — Interview round
 
-Run a short senior interview with a 90-second explanation, progressively deeper follow-ups, a “why not the alternative?” challenge and a failure-mode question.
+Run a short senior interview in English with a 90-second explanation, progressively deeper follow-ups, a “why not the alternative?” challenge and a failure-mode question.
 
 ### Stage 6 — Feedback
 
@@ -152,11 +183,11 @@ Grade 0-4 on:
 - production/operational maturity;
 - communication clarity.
 
-Then give exact gaps, a concise senior model answer and an architect extension when useful.
+Then give exact gaps, a concise senior model answer in English and an architect extension when useful. Add a short Vietnamese semantic note only when it helps resolve a difficult misunderstanding.
 
 ### Stage 7 — Retrieval close
 
-End with 3-5 recall prompts without placing the answers immediately beside them.
+End with 3-5 recall prompts in English without placing the answers immediately beside them.
 
 ### Stage 8 — Learning record
 
@@ -200,7 +231,7 @@ Version-sensitive facts must be checked against current official documentation. 
 
 ## Interview answer standard
 
-A strong senior answer normally includes:
+A strong senior answer, written in English, normally includes:
 
 1. what it is;
 2. why/when it is used;
@@ -216,11 +247,11 @@ For architecture topics, additionally cover reliability, security, performance, 
 
 - **Interactive:** challenge first, feedback after learner attempt.
 - **Full lesson:** self-contained lesson with solution.
-- **Mock interview:** questions first, grading afterward.
+- **Mock interview:** English questions first, grading afterward.
 - **Review:** spaced retrieval only.
 - **Lab-only:** minimal theory, maximum implementation/debugging/design.
 - **Deep dive:** research and source-code analysis.
 
 ## Quality checklist
 
-Before sending a new lesson verify that the primary objective is not already completed, the seed exists in `sources/`, version-sensitive facts were verified, there is meaningful hands-on work, at least one trade-off/failure-mode question exists, and the lesson targets senior/architect reasoning rather than trivia alone.
+Before sending a new lesson verify that the primary objective is not already completed, the seed exists in `sources/`, version-sensitive facts were verified, there is meaningful hands-on work, at least one trade-off/failure-mode question exists, technical terminology is preserved in English, Vietnamese is supplemental rather than duplicated content, and the lesson targets senior/architect reasoning rather than trivia alone.
