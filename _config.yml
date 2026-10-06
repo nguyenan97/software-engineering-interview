@@ -1,0 +1,9 @@
+title: Software Engineering Interview
+description: Privacy-safe software engineering interview knowledge base and daily practice curriculum.
+theme: minima
+markdown: kramdown
+permalink: pretty
+header_pages:
+  - index.md
+exclude:
+  - agent/LEARNING_STATE_TEMPLATE.json
