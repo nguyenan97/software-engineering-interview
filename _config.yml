@@ -1,9 +1,20 @@
 title: Software Engineering Interview
+url: https://nguyenan97.github.io
+baseurl: /software-engineering-interview
+repository: nguyenan97/software-engineering-interview
 description: Privacy-safe software engineering interview knowledge base and daily practice curriculum.
 theme: minima
 markdown: kramdown
 permalink: pretty
 header_pages:
   - index.md
+  - curriculum/index.md
+  - lessons/index.md
 exclude:
   - agent/LEARNING_STATE_TEMPLATE.json
+  - learning
+  - scripts
+  - tests
+  - requirements.txt
+  - AGENTS.md
+  - work

@@ -1,44 +1,32 @@
 ---
 layout: default
-title: Software Engineering Interview
+title: Daily Software Engineering Interview Practice
 ---
 
-# Software Engineering Interview
+# Daily Software Engineering Interview Practice
 
-An **English-first** collection of privacy-safe software engineering interview material, organized for senior-level learning and practical system-design practice.
+Practice senior engineering decisions, hands-on implementation and clear English interview answers. The curriculum favors C#, .NET, ASP.NET Core, SQL Server, Angular/TypeScript, Azure and Docker, with architect extensions.
 
-Technical terminology, interview questions and model answers stay in English. Short Vietnamese notes may be added only when they improve semantic understanding of a difficult concept.
+## Start learning
 
-## Interview Sources
+With this repository open in your agent, ask **“Viết bài học hôm nay.”** The [daily skill](agent/SKILL.md) chooses a new source-grounded objective, checks history, writes a complete lesson and saves its delivery record.
 
-- [C# and .NET](sources/01-csharp-dotnet.md)
-- [ASP.NET Core, API, EF Core and LINQ](sources/02-aspnet-api-ef.md)
-- [SQL Server and Data Performance](sources/03-sql-data-performance.md)
-- [Architecture and Distributed Systems](sources/04-architecture-distributed-systems.md)
-- [Security, Azure, Observability and DevOps](sources/05-security-cloud-devops.md)
-- [Frontend and Communication](sources/06-frontend-behavioral.md)
+For challenge-first coaching, ask **“Học interactive hôm nay.”** For recall, ask **“Ôn tập hôm nay.”** For spoken practice, ask **“Mock interview hôm nay.”**
 
-## Agent Curriculum
+- [Browse domains and learning levels](curriculum/index.md)
+- [Read the complete idempotent-consumer example](lessons/2026-10-08-messaging-idempotent-consumer.md)
+- [Browse generated lessons](lessons/index.md)
+- [Learn the interview answer method](agent/INTERVIEW_METHOD.md)
+- [Understand progress and review scheduling](docs/workflow.md)
 
-- [Daily Interview Mastery Skill](agent/SKILL.md)
-- [Topic Taxonomy](agent/TOPIC_TAXONOMY.md)
+## Study with evidence
 
-## Language Strategy
+Predict before seeing the answer, attempt a realistic lab, explain the mechanism, check observable results and retrieve later without notes. Practice concise answers with explicit guarantees, trade-offs and failure modes. Offer a relevant next discussion only after answering the current question.
 
-**English first, Vietnamese when it adds semantic value.**
+Generated lessons are delivered content. Completion and scores require actual learner evidence. Reviews are scheduled from completion and remain separate from new lessons. English is primary; a short Vietnamese Note may clarify a difficult concept.
 
-Keep established terms such as `Dependency Injection`, `Async/Await`, `ThreadPool`, `Deadlock`, `Optimistic Concurrency`, `Idempotency`, `Eventual Consistency`, `Circuit Breaker` and other industry terminology in English.
+## Source integrity
 
-Vietnamese is not intended as a parallel translation of the site. A `Vietnamese Note` may be used to explain intuition or clarify a difficult mental model while the core technical content remains in English.
+[Source coverage](curriculum/source-coverage.md) preserves the original normalized prompts with stable IDs and canonical topic links. These are interview seeds, not authoritative technical answers. Product behavior is verified against official references when a lesson is prepared.
 
-## How to Use This Repository
-
-Start from a source topic and answer it in English without notes. Then expand the answer toward production constraints: failure modes, performance, reliability, security, observability and cost.
-
-The Agent Skill formalizes this into challenge-first lessons with hands-on practice, spaced retrieval, senior-level follow-up questions and learning-state tracking.
-
-## Privacy and Source Integrity
-
-Only reusable technical content is published. Names, employers, customers, private project identifiers, contact details and personal interview answers have been removed.
-
-The source notes represent interview prompts and may contain historical or incomplete framing. Version-sensitive technical claims should be verified against current authoritative documentation.
+The site publishes generic teaching material. Committed data remains public on GitHub even when excluded from the site; keep private attempts outside the repo.

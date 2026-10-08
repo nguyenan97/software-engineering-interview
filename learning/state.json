@@ -1,0 +1,72 @@
+{
+  "schema_version": 2,
+  "learner_profile": {
+    "target_level": "senior-to-solution-architect",
+    "default_stack": [
+      "C#",
+      ".NET",
+      "ASP.NET Core",
+      "Angular",
+      "TypeScript",
+      "SQL Server",
+      "Azure",
+      "Docker"
+    ],
+    "timezone": "Asia/Bangkok"
+  },
+  "lessons": [
+    {
+      "lesson_id": "2026-10-08-messaging-idempotent-consumer",
+      "topic_id": "messaging-idempotent-consumer",
+      "domain": "messaging-event-driven",
+      "level": "senior",
+      "objectives": [
+        "Implement an atomic SQL Server inbox and business update that handles concurrent deliveries and conflicting event identities.",
+        "Explain redelivery after a successful database commit and identify the acknowledgment failure window.",
+        "Verify rollback, retries, and unknown commit outcomes without assuming every timeout means failure.",
+        "Deliver a concise interview answer with a defensible guarantee, trade-offs, and an honest follow-up bridge."
+      ],
+      "concept_fingerprint": [
+        "at-least-once-delivery",
+        "stable-event-identity",
+        "transactional-inbox",
+        "atomic-business-update",
+        "concurrent-consumers",
+        "commit-acknowledgment-gap",
+        "failure-injection"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q024",
+        "sources/04-architecture-distributed-systems.md#q025",
+        "sources/04-architecture-distributed-systems.md#q026",
+        "sources/04-architecture-distributed-systems.md#production-scenario",
+        "sources/02-aspnet-api-ef.md#background-processing",
+        "sources/02-aspnet-api-ef.md#large-file-processing-scenario",
+        "https://learn.microsoft.com/en-us/azure/service-bus-messaging/message-transfers-locks-settlement",
+        "https://learn.microsoft.com/en-us/azure/service-bus-messaging/duplicate-detection",
+        "https://learn.microsoft.com/en-us/sql/t-sql/queries/hints-transact-sql-table",
+        "https://learn.microsoft.com/en-us/sql/t-sql/statements/set-xact-abort-transact-sql",
+        "https://learn.microsoft.com/en-us/sql/relational-databases/tables/create-unique-constraints",
+        "https://learn.microsoft.com/en-us/sql/t-sql/language-elements/commit-transaction-transact-sql",
+        "https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/servicebus/Azure.Messaging.ServiceBus/src/Processor/ServiceBusProcessorOptions.cs"
+      ],
+      "status": "generated",
+      "created_at": "2026-10-08",
+      "completed_at": null,
+      "mode": "full-lesson",
+      "lesson_path": "lessons/2026-10-08-messaging-idempotent-consumer.md",
+      "score": {
+        "technical": null,
+        "reasoning": null,
+        "implementation": null,
+        "operations": null,
+        "communication": null
+      },
+      "weak_points": [],
+      "evidence": [],
+      "review_due": []
+    }
+  ],
+  "reviews": [],
+  "last_updated": "2026-10-08"
+}

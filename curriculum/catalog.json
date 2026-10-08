@@ -1,0 +1,1321 @@
+{
+  "schema_version": 1,
+  "topics": [
+    {
+      "topic_id": "dotnet-type-semantics",
+      "title": "C# type, equality and member semantics",
+      "domain": "dotnet-runtime",
+      "level": "foundation",
+      "ring": "A",
+      "objectives": [
+        "Predict assignment, boxing and equality behavior in value/reference examples.",
+        "Choose equality, type-test and cast semantics from the input contract.",
+        "Explain observed behavior using executable examples and explicit assumptions."
+      ],
+      "concept_fingerprint": [
+        "value-reference-semantics",
+        "equality",
+        "boxing",
+        "type-tests",
+        "casts"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q004",
+        "sources/01-csharp-dotnet.md#q005",
+        "sources/01-csharp-dotnet.md#q008",
+        "sources/01-csharp-dotnet.md#q011",
+        "sources/01-csharp-dotnet.md#q020"
+      ],
+      "prerequisites": []
+    },
+    {
+      "topic_id": "dotnet-members-inheritance",
+      "title": "C# members, inheritance and accessibility",
+      "domain": "dotnet-runtime",
+      "level": "foundation",
+      "ring": "A",
+      "objectives": [
+        "Choose member storage and initialization behavior for a stated requirement.",
+        "Compare abstract classes, interfaces and virtual dispatch using a small extension example.",
+        "Explain accessibility and inheritance restrictions for the chosen target version."
+      ],
+      "concept_fingerprint": [
+        "member-initialization",
+        "inheritance",
+        "interfaces",
+        "virtual-dispatch",
+        "accessibility"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q001",
+        "sources/01-csharp-dotnet.md#q003",
+        "sources/01-csharp-dotnet.md#q006",
+        "sources/01-csharp-dotnet.md#q007",
+        "sources/01-csharp-dotnet.md#q012",
+        "sources/01-csharp-dotnet.md#q013",
+        "sources/01-csharp-dotnet.md#q014",
+        "sources/01-csharp-dotnet.md#q015",
+        "sources/01-csharp-dotnet.md#q016",
+        "sources/01-csharp-dotnet.md#q017",
+        "sources/01-csharp-dotnet.md#q018"
+      ],
+      "prerequisites": []
+    },
+    {
+      "topic_id": "dotnet-collections-delegates",
+      "title": "Collections, strings and delegates",
+      "domain": "dotnet-runtime",
+      "level": "foundation",
+      "ring": "A",
+      "objectives": [
+        "Choose collections from lookup, ordering and mutation requirements.",
+        "Use delegates and string-building choices in a small implementation.",
+        "Explain the evidence needed to compare allocation and runtime costs."
+      ],
+      "concept_fingerprint": [
+        "collections",
+        "dictionary",
+        "hash-set",
+        "delegates",
+        "string-building"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q002",
+        "sources/01-csharp-dotnet.md#q009",
+        "sources/01-csharp-dotnet.md#q019",
+        "sources/01-csharp-dotnet.md#q021",
+        "sources/01-csharp-dotnet.md#q022",
+        "sources/01-csharp-dotnet.md#q023"
+      ],
+      "prerequisites": []
+    },
+    {
+      "topic_id": "dotnet-async-io",
+      "title": "Asynchronous execution and exception flow",
+      "domain": "dotnet-runtime",
+      "level": "foundation",
+      "ring": "A",
+      "objectives": [
+        "Trace an asynchronous operation without equating Task with a dedicated thread.",
+        "Choose asynchronous I/O or CPU parallelism from the workload.",
+        "Predict exception propagation through awaited operations."
+      ],
+      "concept_fingerprint": [
+        "async-await",
+        "task-thread",
+        "async-io",
+        "cpu-parallelism",
+        "async-exceptions"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q024",
+        "sources/01-csharp-dotnet.md#q025",
+        "sources/01-csharp-dotnet.md#q026",
+        "sources/01-csharp-dotnet.md#q030",
+        "sources/01-csharp-dotnet.md#q031"
+      ],
+      "prerequisites": []
+    },
+    {
+      "topic_id": "dotnet-threadpool-starvation",
+      "title": "Diagnosing blocking asynchronous code",
+      "domain": "dotnet-runtime",
+      "level": "senior",
+      "ring": "A",
+      "objectives": [
+        "Distinguish blocking, deadlock and ThreadPool starvation hypotheses.",
+        "Diagnose a slow API using runtime and request evidence.",
+        "Validate a change against throughput and latency measurements."
+      ],
+      "concept_fingerprint": [
+        "threadpool-starvation",
+        "sync-over-async",
+        "deadlock",
+        "runtime-diagnostics"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q027"
+      ],
+      "prerequisites": [
+        "dotnet-async-io"
+      ]
+    },
+    {
+      "topic_id": "dotnet-memory-lifetime",
+      "title": "Memory growth and deterministic cleanup",
+      "domain": "dotnet-runtime",
+      "level": "senior",
+      "ring": "A",
+      "objectives": [
+        "Explain managed memory reclamation versus resource cleanup.",
+        "Investigate retained memory using an explicit hypothesis and evidence.",
+        "Design cleanup boundaries for owned disposable resources."
+      ],
+      "concept_fingerprint": [
+        "garbage-collection",
+        "memory-retention",
+        "idisposable",
+        "resource-ownership"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q028",
+        "sources/01-csharp-dotnet.md#q029"
+      ],
+      "prerequisites": []
+    },
+    {
+      "topic_id": "dotnet-di-solid",
+      "title": "DI lifetimes and SOLID design",
+      "domain": "dotnet-runtime",
+      "level": "senior",
+      "ring": "A",
+      "objectives": [
+        "Identify captive dependencies and select compatible service lifetimes.",
+        "Distinguish inversion of control, dependency inversion and injection.",
+        "Refactor a concrete SOLID violation while explaining the trade-off."
+      ],
+      "concept_fingerprint": [
+        "dependency-injection",
+        "service-lifetimes",
+        "captive-dependency",
+        "solid",
+        "dependency-inversion"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q032",
+        "sources/01-csharp-dotnet.md#q033",
+        "sources/01-csharp-dotnet.md#q034",
+        "sources/01-csharp-dotnet.md#q035",
+        "sources/01-csharp-dotnet.md#q036",
+        "sources/01-csharp-dotnet.md#q037",
+        "sources/01-csharp-dotnet.md#q038"
+      ],
+      "prerequisites": []
+    },
+    {
+      "topic_id": "dotnet-behavioral-patterns",
+      "title": "Factory, Strategy and Template Method",
+      "domain": "dotnet-runtime",
+      "level": "senior",
+      "ring": "A",
+      "objectives": [
+        "Select a behavioral or creation pattern from a concrete change requirement.",
+        "Compare the chosen pattern with a simpler implementation.",
+        "Explain dependency and testing implications without pattern-name guessing."
+      ],
+      "concept_fingerprint": [
+        "factory",
+        "strategy",
+        "template-method",
+        "change-boundaries"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q041"
+      ],
+      "prerequisites": [
+        "dotnet-di-solid"
+      ]
+    },
+    {
+      "topic_id": "aspnet-request-pipeline",
+      "title": "Request pipeline, middleware and filters",
+      "domain": "aspnet-api",
+      "level": "foundation",
+      "ring": "A",
+      "objectives": [
+        "Trace a request through routing, middleware, endpoint and response.",
+        "Explain how ordering changes authentication and exception handling.",
+        "Choose middleware or filters for a stated cross-cutting concern."
+      ],
+      "concept_fingerprint": [
+        "middleware",
+        "routing",
+        "filters",
+        "request-lifecycle",
+        "exception-handling"
+      ],
+      "source_refs": [
+        "sources/02-aspnet-api-ef.md#q001",
+        "sources/02-aspnet-api-ef.md#q002",
+        "sources/02-aspnet-api-ef.md#q003",
+        "sources/02-aspnet-api-ef.md#q004",
+        "sources/02-aspnet-api-ef.md#q005",
+        "sources/02-aspnet-api-ef.md#q006",
+        "sources/02-aspnet-api-ef.md#q007",
+        "sources/02-aspnet-api-ef.md#q008",
+        "sources/02-aspnet-api-ef.md#q009"
+      ],
+      "prerequisites": []
+    },
+    {
+      "topic_id": "aspnet-http-contracts",
+      "title": "HTTP contracts, validation and MVC state",
+      "domain": "aspnet-api",
+      "level": "foundation",
+      "ring": "A",
+      "objectives": [
+        "Choose HTTP methods and response semantics from the operation contract.",
+        "Compare REST APIs and server-rendered MVC responsibilities.",
+        "Explain validation and session or transient state choices."
+      ],
+      "concept_fingerprint": [
+        "http-methods",
+        "http-status",
+        "rest-mvc",
+        "validation",
+        "session-state"
+      ],
+      "source_refs": [
+        "sources/02-aspnet-api-ef.md#q010",
+        "sources/02-aspnet-api-ef.md#q011",
+        "sources/02-aspnet-api-ef.md#q012",
+        "sources/02-aspnet-api-ef.md#q013",
+        "sources/02-aspnet-api-ef.md#q014",
+        "sources/02-aspnet-api-ef.md#q015",
+        "sources/02-aspnet-api-ef.md#q016"
+      ],
+      "prerequisites": []
+    },
+    {
+      "topic_id": "aspnet-background-jobs",
+      "title": "Background processing across replicas",
+      "domain": "aspnet-api",
+      "level": "senior",
+      "ring": "A",
+      "objectives": [
+        "Move long-running work off the synchronous request path with an explicit contract.",
+        "Compare hosted services, schedulers and queue-based workers.",
+        "Design retries, cancellation and shutdown for multiple instances."
+      ],
+      "concept_fingerprint": [
+        "background-processing",
+        "scheduling",
+        "cancellation",
+        "graceful-shutdown",
+        "multiple-replicas"
+      ],
+      "source_refs": [
+        "sources/02-aspnet-api-ef.md#q017",
+        "sources/02-aspnet-api-ef.md#q019",
+        "sources/02-aspnet-api-ef.md#q020",
+        "sources/02-aspnet-api-ef.md#q021",
+        "sources/02-aspnet-api-ef.md#q022",
+        "sources/02-aspnet-api-ef.md#q023",
+        "sources/05-security-cloud-devops.md#q044",
+        "sources/05-security-cloud-devops.md#q046"
+      ],
+      "prerequisites": [
+        "aspnet-request-pipeline"
+      ]
+    },
+    {
+      "topic_id": "aspnet-idempotent-operations",
+      "title": "Idempotent APIs and large-file job submission",
+      "domain": "aspnet-api",
+      "level": "senior",
+      "ring": "A",
+      "objectives": [
+        "Define a stable request identity and repeated-submission behavior.",
+        "Design asynchronous import submission, status and error-report contracts.",
+        "Separate job deduplication from row-level duplicate prevention."
+      ],
+      "concept_fingerprint": [
+        "api-idempotency",
+        "import-submission",
+        "job-status",
+        "request-identity",
+        "validation-report"
+      ],
+      "source_refs": [
+        "sources/02-aspnet-api-ef.md#q018",
+        "sources/02-aspnet-api-ef.md#large-file-processing-scenario",
+        "sources/04-architecture-distributed-systems.md#production-scenario"
+      ],
+      "prerequisites": [
+        "aspnet-http-contracts",
+        "aspnet-background-jobs"
+      ]
+    },
+    {
+      "topic_id": "ef-query-execution",
+      "title": "LINQ execution and query translation",
+      "domain": "ef-linq",
+      "level": "foundation",
+      "ring": "A",
+      "objectives": [
+        "Predict execution timing for IEnumerable and IQueryable pipelines.",
+        "Choose terminal operators from cardinality requirements.",
+        "Inspect generated SQL and distinguish translation from local evaluation."
+      ],
+      "concept_fingerprint": [
+        "ienumerable-iqueryable",
+        "deferred-execution",
+        "query-translation",
+        "terminal-operators",
+        "generated-sql"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q010",
+        "sources/02-aspnet-api-ef.md#q024",
+        "sources/02-aspnet-api-ef.md#q025",
+        "sources/02-aspnet-api-ef.md#q026"
+      ],
+      "prerequisites": []
+    },
+    {
+      "topic_id": "ef-loading-performance",
+      "title": "EF loading, tracking and query shape",
+      "domain": "ef-linq",
+      "level": "senior",
+      "ring": "A",
+      "objectives": [
+        "Detect N+1 queries from command evidence.",
+        "Compare loading, projection and tracking choices for one workload.",
+        "Validate query changes using generated SQL and before/after measurements."
+      ],
+      "concept_fingerprint": [
+        "n-plus-one",
+        "loading-strategies",
+        "projection",
+        "tracking",
+        "query-shape"
+      ],
+      "source_refs": [
+        "sources/02-aspnet-api-ef.md#q027",
+        "sources/02-aspnet-api-ef.md#q028",
+        "sources/02-aspnet-api-ef.md#q029",
+        "sources/02-aspnet-api-ef.md#q030",
+        "sources/02-aspnet-api-ef.md#q031",
+        "sources/02-aspnet-api-ef.md#q032"
+      ],
+      "prerequisites": [
+        "ef-query-execution"
+      ]
+    },
+    {
+      "topic_id": "ef-context-concurrency",
+      "title": "DbContext, optimistic concurrency and repository boundaries",
+      "domain": "ef-linq",
+      "level": "senior",
+      "ring": "A",
+      "objectives": [
+        "Define a DbContext lifetime that fits the unit of work.",
+        "Handle an optimistic-concurrency conflict explicitly.",
+        "Justify repository abstractions or raw SQL from real requirements."
+      ],
+      "concept_fingerprint": [
+        "dbcontext-lifetime",
+        "optimistic-concurrency",
+        "row-version",
+        "repository",
+        "unit-of-work",
+        "raw-sql"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q039",
+        "sources/01-csharp-dotnet.md#q040",
+        "sources/02-aspnet-api-ef.md#q033",
+        "sources/02-aspnet-api-ef.md#q034",
+        "sources/02-aspnet-api-ef.md#q035"
+      ],
+      "prerequisites": [
+        "ef-query-execution"
+      ]
+    },
+    {
+      "topic_id": "sql-objects-boundaries",
+      "title": "Stored procedures, functions, views and triggers",
+      "domain": "sql-data",
+      "level": "foundation",
+      "ring": "A",
+      "objectives": [
+        "Compare SQL object contracts and parameter usage.",
+        "Choose database-side or application-side logic from ownership and maintenance constraints.",
+        "Explain trigger risks and when their behavior is required."
+      ],
+      "concept_fingerprint": [
+        "stored-procedure",
+        "sql-function",
+        "view",
+        "trigger",
+        "logic-ownership"
+      ],
+      "source_refs": [
+        "sources/03-sql-data-performance.md#q001",
+        "sources/03-sql-data-performance.md#q002",
+        "sources/03-sql-data-performance.md#q003",
+        "sources/03-sql-data-performance.md#q004",
+        "sources/03-sql-data-performance.md#q005",
+        "sources/03-sql-data-performance.md#q006"
+      ],
+      "prerequisites": []
+    },
+    {
+      "topic_id": "sql-index-design",
+      "title": "Index design and workload trade-offs",
+      "domain": "sql-data",
+      "level": "foundation",
+      "ring": "A",
+      "objectives": [
+        "Explain clustered, nonclustered and covering index roles.",
+        "Choose composite key order from the access pattern.",
+        "Compare seek, scan and lookup evidence with write-maintenance cost."
+      ],
+      "concept_fingerprint": [
+        "clustered-index",
+        "nonclustered-index",
+        "composite-index",
+        "covering-index",
+        "seek-scan-lookup",
+        "write-cost"
+      ],
+      "source_refs": [
+        "sources/03-sql-data-performance.md#q007",
+        "sources/03-sql-data-performance.md#q008",
+        "sources/03-sql-data-performance.md#q009",
+        "sources/03-sql-data-performance.md#q010",
+        "sources/03-sql-data-performance.md#q011",
+        "sources/03-sql-data-performance.md#q012",
+        "sources/03-sql-data-performance.md#q013",
+        "sources/03-sql-data-performance.md#q014",
+        "sources/03-sql-data-performance.md#q015",
+        "sources/03-sql-data-performance.md#q016"
+      ],
+      "prerequisites": []
+    },
+    {
+      "topic_id": "sql-query-investigation",
+      "title": "Evidence-led SQL query optimization",
+      "domain": "sql-data",
+      "level": "senior",
+      "ring": "A",
+      "objectives": [
+        "Investigate a slow join or stored procedure using plans and measurements.",
+        "Relate cardinality, statistics and SARGability to observed query behavior.",
+        "Prove an optimization with logical reads and duration before and after."
+      ],
+      "concept_fingerprint": [
+        "execution-plan",
+        "cardinality",
+        "statistics",
+        "sargability",
+        "logical-reads",
+        "query-duration"
+      ],
+      "source_refs": [
+        "sources/03-sql-data-performance.md#query-optimization",
+        "sources/03-sql-data-performance.md#q036"
+      ],
+      "prerequisites": [
+        "sql-index-design"
+      ]
+    },
+    {
+      "topic_id": "sql-transactions-concurrency",
+      "title": "Isolation, row versioning and deadlocks",
+      "domain": "sql-data",
+      "level": "senior",
+      "ring": "A",
+      "objectives": [
+        "Explain the consistency and throughput consequences of isolation choices.",
+        "Compare optimistic concurrency with pessimistic locking.",
+        "Diagnose a deadlock and design a safe application response."
+      ],
+      "concept_fingerprint": [
+        "transaction-atomicity",
+        "isolation",
+        "row-versioning",
+        "blocking",
+        "deadlock",
+        "concurrency"
+      ],
+      "source_refs": [
+        "sources/03-sql-data-performance.md#q017",
+        "sources/03-sql-data-performance.md#q018",
+        "sources/03-sql-data-performance.md#q019",
+        "sources/03-sql-data-performance.md#q020",
+        "sources/03-sql-data-performance.md#q021",
+        "sources/03-sql-data-performance.md#q022",
+        "sources/03-sql-data-performance.md#q023",
+        "sources/03-sql-data-performance.md#q024",
+        "sources/03-sql-data-performance.md#q025",
+        "sources/03-sql-data-performance.md#q026"
+      ],
+      "prerequisites": []
+    },
+    {
+      "topic_id": "sql-bulk-import",
+      "title": "Bulk import, transaction size and validation",
+      "domain": "sql-data",
+      "level": "senior",
+      "ring": "A",
+      "objectives": [
+        "Compare row inserts, batching and bulk copy for a large import.",
+        "Design bounded-memory validation and duplicate-record prevention.",
+        "Justify all-or-nothing or partial-success behavior and recovery."
+      ],
+      "concept_fingerprint": [
+        "bulk-copy",
+        "batching",
+        "bounded-memory",
+        "import-validation",
+        "transaction-size",
+        "partial-success"
+      ],
+      "source_refs": [
+        "sources/02-aspnet-api-ef.md#large-file-processing-scenario",
+        "sources/03-sql-data-performance.md#q027",
+        "sources/03-sql-data-performance.md#q028",
+        "sources/03-sql-data-performance.md#q029",
+        "sources/03-sql-data-performance.md#q030",
+        "sources/03-sql-data-performance.md#q031"
+      ],
+      "prerequisites": [
+        "sql-transactions-concurrency"
+      ]
+    },
+    {
+      "topic_id": "architecture-boundaries",
+      "title": "Dependency direction and service boundaries",
+      "domain": "architecture-distributed",
+      "level": "senior",
+      "ring": "A",
+      "objectives": [
+        "Draw ownership and dependency boundaries for a generic system.",
+        "Compare layered, Clean, Onion, Hexagonal and modular-monolith choices.",
+        "Explain when independent deployment justifies microservice complexity."
+      ],
+      "concept_fingerprint": [
+        "dependency-direction",
+        "modular-monolith",
+        "microservices",
+        "service-boundaries",
+        "data-ownership"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q042",
+        "sources/04-architecture-distributed-systems.md#q003",
+        "sources/04-architecture-distributed-systems.md#q004",
+        "sources/04-architecture-distributed-systems.md#q005",
+        "sources/04-architecture-distributed-systems.md#q006",
+        "sources/04-architecture-distributed-systems.md#q007",
+        "sources/04-architecture-distributed-systems.md#q008",
+        "sources/04-architecture-distributed-systems.md#q009",
+        "sources/04-architecture-distributed-systems.md#q010"
+      ],
+      "prerequisites": [
+        "dotnet-di-solid"
+      ]
+    },
+    {
+      "topic_id": "architecture-cache-replicas",
+      "title": "Caching and shared state across replicas",
+      "domain": "architecture-distributed",
+      "level": "senior",
+      "ring": "A",
+      "objectives": [
+        "Choose in-memory or distributed caching from ownership and replica requirements.",
+        "Explain how multiple replicas change cache consistency and invalidation decisions.",
+        "Compare latency, stale-data tolerance and operational cost in a concrete caching scenario."
+      ],
+      "concept_fingerprint": [
+        "in-memory-cache",
+        "distributed-cache",
+        "multiple-replicas",
+        "cache-consistency",
+        "cache-invalidation"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q043",
+        "sources/01-csharp-dotnet.md#q044",
+        "sources/01-csharp-dotnet.md#q045"
+      ],
+      "prerequisites": []
+    },
+    {
+      "topic_id": "architecture-communication",
+      "title": "Synchronous and asynchronous service communication",
+      "domain": "architecture-distributed",
+      "level": "senior",
+      "ring": "A",
+      "objectives": [
+        "Compare REST, gRPC and messaging for a concrete interaction.",
+        "Trace failure and latency boundaries across services.",
+        "Explain scaling and backpressure consequences of the chosen interaction."
+      ],
+      "concept_fingerprint": [
+        "synchronous-asynchronous",
+        "rest-grpc-messaging",
+        "failure-boundaries",
+        "horizontal-scaling",
+        "backpressure"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q011",
+        "sources/04-architecture-distributed-systems.md#q014"
+      ],
+      "prerequisites": [
+        "architecture-boundaries"
+      ]
+    },
+    {
+      "topic_id": "architecture-api-gateway",
+      "title": "Gateway responsibilities and routing change",
+      "domain": "architecture-distributed",
+      "level": "senior",
+      "ring": "A",
+      "objectives": [
+        "Separate gateway policy and routing from domain business logic.",
+        "Design downstream routing and configuration ownership.",
+        "Explain coupling introduced by gateway changes and deployment."
+      ],
+      "concept_fingerprint": [
+        "api-gateway",
+        "reverse-proxy",
+        "routing-configuration",
+        "policy-boundaries"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q015",
+        "sources/04-architecture-distributed-systems.md#q016",
+        "sources/04-architecture-distributed-systems.md#q017",
+        "sources/04-architecture-distributed-systems.md#q018",
+        "sources/05-security-cloud-devops.md#q024"
+      ],
+      "prerequisites": [
+        "aspnet-request-pipeline"
+      ]
+    },
+    {
+      "topic_id": "architecture-ddd-cqrs",
+      "title": "DDD boundaries, aggregates and CQRS",
+      "domain": "architecture-distributed",
+      "level": "architect",
+      "ring": "A",
+      "objectives": [
+        "Explain ubiquitous language, bounded contexts and aggregate ownership.",
+        "Relate domain events to business boundaries.",
+        "Justify separate read/write models or explain why CQRS is unnecessary."
+      ],
+      "concept_fingerprint": [
+        "bounded-context",
+        "ubiquitous-language",
+        "aggregate",
+        "domain-event",
+        "cqrs"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q031",
+        "sources/04-architecture-distributed-systems.md#q032",
+        "sources/04-architecture-distributed-systems.md#q033",
+        "sources/04-architecture-distributed-systems.md#q034",
+        "sources/04-architecture-distributed-systems.md#q035",
+        "sources/04-architecture-distributed-systems.md#q036",
+        "sources/04-architecture-distributed-systems.md#q037",
+        "sources/04-architecture-distributed-systems.md#q038"
+      ],
+      "prerequisites": [
+        "architecture-boundaries"
+      ]
+    },
+    {
+      "topic_id": "architecture-saga-compensation",
+      "title": "Distributed consistency and compensation",
+      "domain": "architecture-distributed",
+      "level": "architect",
+      "ring": "A",
+      "objectives": [
+        "Explain why independently owned databases complicate one ACID transaction.",
+        "Compare Saga orchestration and choreography for partial failure.",
+        "Distinguish compensation from rollback and design recoverable progress."
+      ],
+      "concept_fingerprint": [
+        "eventual-consistency",
+        "saga",
+        "orchestration",
+        "choreography",
+        "compensation",
+        "partial-failure"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q039",
+        "sources/04-architecture-distributed-systems.md#q040",
+        "sources/04-architecture-distributed-systems.md#q041",
+        "sources/04-architecture-distributed-systems.md#q042",
+        "sources/04-architecture-distributed-systems.md#q043"
+      ],
+      "prerequisites": [
+        "architecture-communication",
+        "messaging-outbox"
+      ]
+    },
+    {
+      "topic_id": "messaging-delivery-recovery",
+      "title": "Delivery, competing consumers and dead-letter recovery",
+      "domain": "messaging-event-driven",
+      "level": "foundation",
+      "ring": "A",
+      "objectives": [
+        "Choose queue or topic/subscription delivery from recipient requirements.",
+        "Explain competing consumers and processing-failure redelivery.",
+        "Design retry and dead-letter recovery responsibilities."
+      ],
+      "concept_fingerprint": [
+        "queue-topic",
+        "competing-consumers",
+        "at-least-once",
+        "retry",
+        "dead-letter"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q019",
+        "sources/04-architecture-distributed-systems.md#q020",
+        "sources/04-architecture-distributed-systems.md#q021",
+        "sources/04-architecture-distributed-systems.md#q022",
+        "sources/04-architecture-distributed-systems.md#q023",
+        "sources/05-security-cloud-devops.md#q047"
+      ],
+      "prerequisites": []
+    },
+    {
+      "topic_id": "messaging-idempotent-consumer",
+      "title": "Atomic inbox and idempotent consumer",
+      "domain": "messaging-event-driven",
+      "level": "senior",
+      "ring": "A",
+      "objectives": [
+        "Implement an atomic SQL Server inbox and business update that handles concurrent deliveries and conflicting event identities.",
+        "Explain redelivery after a successful database commit and identify the acknowledgment failure window.",
+        "Verify rollback, retries, and unknown commit outcomes without assuming every timeout means failure.",
+        "Deliver a concise interview answer with a defensible guarantee, trade-offs, and an honest follow-up bridge."
+      ],
+      "concept_fingerprint": [
+        "at-least-once-delivery",
+        "stable-event-identity",
+        "transactional-inbox",
+        "atomic-business-update",
+        "concurrent-consumers",
+        "commit-acknowledgment-gap",
+        "failure-injection"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q024",
+        "sources/04-architecture-distributed-systems.md#q025",
+        "sources/04-architecture-distributed-systems.md#q026",
+        "sources/04-architecture-distributed-systems.md#production-scenario"
+      ],
+      "prerequisites": []
+    },
+    {
+      "topic_id": "messaging-outbox",
+      "title": "Transactional outbox and external-effect boundaries",
+      "domain": "messaging-event-driven",
+      "level": "architect",
+      "ring": "C",
+      "objectives": [
+        "Define the local transaction boundary for business state and an outgoing event.",
+        "Explain dispatcher retry and duplicate delivery failure windows.",
+        "Identify downstream idempotency or reconciliation needs for remote effects."
+      ],
+      "concept_fingerprint": [
+        "transactional-outbox",
+        "local-transaction",
+        "dispatcher-retry",
+        "remote-side-effect",
+        "reconciliation"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q030"
+      ],
+      "prerequisites": [
+        "messaging-idempotent-consumer"
+      ]
+    },
+    {
+      "topic_id": "messaging-ordering-correlation",
+      "title": "Ordering, throughput and asynchronous results",
+      "domain": "messaging-event-driven",
+      "level": "senior",
+      "ring": "A",
+      "objectives": [
+        "Choose ordering boundaries without assuming global order.",
+        "Design asynchronous result correlation and status visibility.",
+        "Distinguish event identity, correlation and causation identifiers."
+      ],
+      "concept_fingerprint": [
+        "message-ordering",
+        "throughput",
+        "correlation-id",
+        "causation-id",
+        "asynchronous-results"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q027",
+        "sources/04-architecture-distributed-systems.md#q028",
+        "sources/04-architecture-distributed-systems.md#q029"
+      ],
+      "prerequisites": [
+        "messaging-delivery-recovery"
+      ]
+    },
+    {
+      "topic_id": "azure-service-selection",
+      "title": "Cloud compute, storage and messaging selection",
+      "domain": "azure-cloud",
+      "level": "senior",
+      "ring": "A",
+      "objectives": [
+        "Choose functions, messaging, blob storage or relational storage from workload requirements.",
+        "Compare one-to-one and one-to-many messaging use cases.",
+        "Explain reliability and cost implications without assuming one universal service."
+      ],
+      "concept_fingerprint": [
+        "serverless-functions",
+        "cloud-messaging",
+        "blob-storage",
+        "managed-database",
+        "service-selection"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q018",
+        "sources/05-security-cloud-devops.md#q019",
+        "sources/05-security-cloud-devops.md#q020",
+        "sources/05-security-cloud-devops.md#q021",
+        "sources/05-security-cloud-devops.md#q022"
+      ],
+      "prerequisites": []
+    },
+    {
+      "topic_id": "azure-operations-iac",
+      "title": "Cloud scaling, configuration and infrastructure as code",
+      "domain": "azure-cloud",
+      "level": "architect",
+      "ring": "A",
+      "objectives": [
+        "Explain autoscaling trade-offs across reliability, performance and cost.",
+        "Separate environment configuration from infrastructure definitions.",
+        "Design an infrastructure-as-code deployment boundary and verification plan."
+      ],
+      "concept_fingerprint": [
+        "autoscaling",
+        "cloud-cost",
+        "infrastructure-as-code",
+        "environment-configuration",
+        "operability"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q025",
+        "sources/05-security-cloud-devops.md#q026",
+        "sources/05-security-cloud-devops.md#q027"
+      ],
+      "prerequisites": [
+        "azure-service-selection"
+      ]
+    },
+    {
+      "topic_id": "security-token-lifecycle",
+      "title": "JWT validation, claims and token lifecycle",
+      "domain": "security-identity",
+      "level": "senior",
+      "ring": "A",
+      "objectives": [
+        "Explain token structure and validation without treating decoding as verification.",
+        "Separate authentication from role or policy authorization.",
+        "Design access/refresh expiry, rotation, revocation and reuse handling."
+      ],
+      "concept_fingerprint": [
+        "jwt-validation",
+        "claims",
+        "authentication-authorization",
+        "access-refresh-token",
+        "rotation-revocation"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q001",
+        "sources/05-security-cloud-devops.md#q002",
+        "sources/05-security-cloud-devops.md#q003",
+        "sources/05-security-cloud-devops.md#q004",
+        "sources/05-security-cloud-devops.md#q005",
+        "sources/05-security-cloud-devops.md#q006",
+        "sources/05-security-cloud-devops.md#q007",
+        "sources/05-security-cloud-devops.md#q008"
+      ],
+      "prerequisites": []
+    },
+    {
+      "topic_id": "security-browser-transport",
+      "title": "TLS, browser boundaries and least privilege",
+      "domain": "security-identity",
+      "level": "foundation",
+      "ring": "A",
+      "objectives": [
+        "Explain HTTPS and the TLS handshake at an appropriate architectural depth.",
+        "Distinguish CORS, CSRF and XSS threats and controls.",
+        "Choose browser storage and logging behavior from security requirements."
+      ],
+      "concept_fingerprint": [
+        "tls",
+        "cors",
+        "csrf",
+        "xss",
+        "browser-storage",
+        "sensitive-logs"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q013",
+        "sources/05-security-cloud-devops.md#q014",
+        "sources/05-security-cloud-devops.md#q015",
+        "sources/05-security-cloud-devops.md#q017"
+      ],
+      "prerequisites": []
+    },
+    {
+      "topic_id": "security-service-identity",
+      "title": "OAuth/OIDC, secrets and service identities",
+      "domain": "security-identity",
+      "level": "architect",
+      "ring": "A",
+      "objectives": [
+        "Draw SPA-to-API and service-to-service identity flows.",
+        "Explain OAuth and OpenID Connect responsibilities.",
+        "Apply least privilege and managed-identity or secret-store choices."
+      ],
+      "concept_fingerprint": [
+        "oauth-oidc",
+        "service-identity",
+        "managed-identity",
+        "secret-management",
+        "least-privilege"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q009",
+        "sources/05-security-cloud-devops.md#q010",
+        "sources/05-security-cloud-devops.md#q011",
+        "sources/05-security-cloud-devops.md#q012",
+        "sources/05-security-cloud-devops.md#q016",
+        "sources/05-security-cloud-devops.md#q023"
+      ],
+      "prerequisites": [
+        "security-token-lifecycle",
+        "security-browser-transport"
+      ]
+    },
+    {
+      "topic_id": "observability-request-diagnosis",
+      "title": "Tracing requests and diagnosing production latency",
+      "domain": "observability-reliability",
+      "level": "senior",
+      "ring": "A",
+      "objectives": [
+        "Correlate logs, metrics and traces across a cross-stack request.",
+        "Investigate slow APIs, memory growth or resource pressure using hypotheses.",
+        "Interpret tail latency and select evidence that confirms a fix."
+      ],
+      "concept_fingerprint": [
+        "logs-metrics-traces",
+        "distributed-tracing",
+        "correlation",
+        "p95-p99",
+        "incident-diagnosis"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q046",
+        "sources/04-architecture-distributed-systems.md#production-scenario",
+        "sources/05-security-cloud-devops.md#q028",
+        "sources/05-security-cloud-devops.md#q029",
+        "sources/05-security-cloud-devops.md#q030",
+        "sources/05-security-cloud-devops.md#q031",
+        "sources/05-security-cloud-devops.md#q032",
+        "sources/05-security-cloud-devops.md#q033",
+        "sources/05-security-cloud-devops.md#q034",
+        "sources/06-frontend-behavioral.md#cross-stack-request-flow"
+      ],
+      "prerequisites": [
+        "aspnet-request-pipeline"
+      ]
+    },
+    {
+      "topic_id": "reliability-dependency-failures",
+      "title": "Timeouts, retries, circuit breakers and backpressure",
+      "domain": "observability-reliability",
+      "level": "senior",
+      "ring": "A",
+      "objectives": [
+        "Design downstream-failure behavior from an explicit latency and load budget.",
+        "Explain retry storms and select bounded retry, circuit-breaker or load-shedding behavior.",
+        "Connect repeated failures to recovery paths, telemetry and actionable alerts."
+      ],
+      "concept_fingerprint": [
+        "timeouts",
+        "retry-backoff",
+        "retry-storm",
+        "circuit-breaker",
+        "backpressure",
+        "load-shedding"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q047",
+        "sources/04-architecture-distributed-systems.md#q012",
+        "sources/04-architecture-distributed-systems.md#q013",
+        "sources/05-security-cloud-devops.md#q045",
+        "sources/05-security-cloud-devops.md#q048"
+      ],
+      "prerequisites": [
+        "observability-request-diagnosis"
+      ]
+    },
+    {
+      "topic_id": "devops-container-delivery",
+      "title": "Containers, image layers and runtime configuration",
+      "domain": "devops-delivery",
+      "level": "foundation",
+      "ring": "A",
+      "objectives": [
+        "Compare containers and virtual machines for application delivery.",
+        "Explain image layers and multi-stage build responsibilities.",
+        "Separate runtime configuration and secrets without rebuilding application code."
+      ],
+      "concept_fingerprint": [
+        "containers-vms",
+        "image-layers",
+        "multi-stage-build",
+        "runtime-configuration",
+        "secret-store"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q035",
+        "sources/05-security-cloud-devops.md#q036",
+        "sources/05-security-cloud-devops.md#q037",
+        "sources/05-security-cloud-devops.md#q038",
+        "sources/05-security-cloud-devops.md#q039"
+      ],
+      "prerequisites": []
+    },
+    {
+      "topic_id": "devops-safe-release",
+      "title": "CI/CD, rollout, rollback and graceful shutdown",
+      "domain": "devops-delivery",
+      "level": "senior",
+      "ring": "A",
+      "objectives": [
+        "Define evidence-driven CI/CD gates for a release.",
+        "Compare blue/green, canary and deployment-slot rollout strategies.",
+        "Explain rollback, readiness and graceful shutdown requirements."
+      ],
+      "concept_fingerprint": [
+        "ci-cd-gates",
+        "blue-green",
+        "canary",
+        "deployment-slots",
+        "rollback",
+        "readiness-shutdown"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q040",
+        "sources/05-security-cloud-devops.md#q041",
+        "sources/05-security-cloud-devops.md#q042",
+        "sources/05-security-cloud-devops.md#q043"
+      ],
+      "prerequisites": [
+        "devops-container-delivery"
+      ]
+    },
+    {
+      "topic_id": "frontend-typescript-semantics",
+      "title": "TypeScript, JavaScript equality and browser async",
+      "domain": "frontend-typescript",
+      "level": "foundation",
+      "ring": "A",
+      "objectives": [
+        "Predict equality and variable-binding behavior in small JavaScript examples.",
+        "Explain structural typing and TypeScript boundaries.",
+        "Trace asynchronous browser behavior with Promises or Observables."
+      ],
+      "concept_fingerprint": [
+        "javascript-equality",
+        "let-const",
+        "structural-typing",
+        "typescript",
+        "browser-async"
+      ],
+      "source_refs": [
+        "sources/06-frontend-behavioral.md#q011",
+        "sources/06-frontend-behavioral.md#q012",
+        "sources/06-frontend-behavioral.md#q013",
+        "sources/06-frontend-behavioral.md#q014",
+        "sources/06-frontend-behavioral.md#q015"
+      ],
+      "prerequisites": []
+    },
+    {
+      "topic_id": "frontend-angular-architecture",
+      "title": "Angular rendering, routing, state and forms",
+      "domain": "frontend-typescript",
+      "level": "senior",
+      "ring": "A",
+      "objectives": [
+        "Trace Angular components, dependency injection and routing.",
+        "Choose state and form boundaries for a medium or large SPA.",
+        "Investigate rendering and bundle performance with concrete evidence."
+      ],
+      "concept_fingerprint": [
+        "angular-di",
+        "routing-lazy-loading",
+        "change-detection",
+        "state-management",
+        "reactive-forms",
+        "bundle-splitting"
+      ],
+      "source_refs": [
+        "sources/06-frontend-behavioral.md#q001",
+        "sources/06-frontend-behavioral.md#q002",
+        "sources/06-frontend-behavioral.md#q003",
+        "sources/06-frontend-behavioral.md#q006",
+        "sources/06-frontend-behavioral.md#q007",
+        "sources/06-frontend-behavioral.md#q008",
+        "sources/06-frontend-behavioral.md#q010"
+      ],
+      "prerequisites": [
+        "frontend-typescript-semantics"
+      ]
+    },
+    {
+      "topic_id": "frontend-http-auth",
+      "title": "Interceptors, caching and token refresh",
+      "domain": "frontend-typescript",
+      "level": "senior",
+      "ring": "A",
+      "objectives": [
+        "Design interceptor responsibilities for authentication and refresh.",
+        "Choose HTTP caching only when the response contract permits it.",
+        "Explain browser storage security and failure behavior across the request flow."
+      ],
+      "concept_fingerprint": [
+        "http-interceptors",
+        "http-caching",
+        "token-refresh",
+        "browser-token-storage",
+        "frontend-request-flow"
+      ],
+      "source_refs": [
+        "sources/06-frontend-behavioral.md#q004",
+        "sources/06-frontend-behavioral.md#q005",
+        "sources/06-frontend-behavioral.md#q009"
+      ],
+      "prerequisites": [
+        "security-token-lifecycle",
+        "frontend-typescript-semantics"
+      ]
+    },
+    {
+      "topic_id": "algorithms-collection-reasoning",
+      "title": "Collection choice and evidence-led coding",
+      "domain": "algorithms-debugging",
+      "level": "foundation",
+      "ring": "B",
+      "objectives": [
+        "Implement a generic duplicate-detection or lookup exercise using appropriate collections.",
+        "Explain correctness before comparing resource costs.",
+        "State which complexity claims require implementation or workload assumptions."
+      ],
+      "concept_fingerprint": [
+        "arrays",
+        "hash-map",
+        "hash-set",
+        "duplicate-detection",
+        "coding-evidence"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q021",
+        "sources/01-csharp-dotnet.md#q022"
+      ],
+      "prerequisites": [
+        "dotnet-collections-delegates"
+      ]
+    },
+    {
+      "topic_id": "algorithms-sql-relations",
+      "title": "Relational SQL exercises and uniqueness",
+      "domain": "algorithms-debugging",
+      "level": "foundation",
+      "ring": "A",
+      "objectives": [
+        "Write a grouped department/employee query from cardinality requirements.",
+        "Reason about equivalent outer-join rewrites.",
+        "Compare primary keys, unique constraints and nullable-value semantics."
+      ],
+      "concept_fingerprint": [
+        "group-by",
+        "having",
+        "outer-join",
+        "primary-key",
+        "unique-constraint",
+        "null-semantics"
+      ],
+      "source_refs": [
+        "sources/03-sql-data-performance.md#q032",
+        "sources/03-sql-data-performance.md#q033",
+        "sources/03-sql-data-performance.md#q034",
+        "sources/03-sql-data-performance.md#q035"
+      ],
+      "prerequisites": []
+    },
+    {
+      "topic_id": "communication-system-explanation",
+      "title": "Concise architecture explanations and evidence",
+      "domain": "engineering-communication",
+      "level": "senior",
+      "ring": "A",
+      "objectives": [
+        "Explain a cross-stack request in a concise causal sequence.",
+        "Describe a design choice with constraints, alternatives and validation evidence.",
+        "Answer follow-ups using bounded claims and a relevant adjacent topic."
+      ],
+      "concept_fingerprint": [
+        "cross-stack-flow",
+        "technical-explanation",
+        "trade-off-communication",
+        "evidence",
+        "follow-up-bridge"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q001",
+        "sources/04-architecture-distributed-systems.md#q002",
+        "sources/06-frontend-behavioral.md#cross-stack-request-flow",
+        "sources/06-frontend-behavioral.md#q019",
+        "sources/06-frontend-behavioral.md#q024",
+        "sources/06-frontend-behavioral.md#q025"
+      ],
+      "prerequisites": []
+    },
+    {
+      "topic_id": "communication-behavioral-stories",
+      "title": "Professional introduction and behavioral evidence",
+      "domain": "engineering-communication",
+      "level": "senior",
+      "ring": "A",
+      "objectives": [
+        "Give a 60\u201390 second professional introduction without confidential details.",
+        "Explain an incident or disagreement using actions, outcomes and evidence.",
+        "Describe learning and career motivation without invented biography."
+      ],
+      "concept_fingerprint": [
+        "professional-introduction",
+        "incident-story",
+        "disagreement",
+        "engineering-outcomes",
+        "learning-process"
+      ],
+      "source_refs": [
+        "sources/06-frontend-behavioral.md#q016",
+        "sources/06-frontend-behavioral.md#q017",
+        "sources/06-frontend-behavioral.md#q018",
+        "sources/06-frontend-behavioral.md#q020",
+        "sources/06-frontend-behavioral.md#q021",
+        "sources/06-frontend-behavioral.md#q022",
+        "sources/06-frontend-behavioral.md#q023"
+      ],
+      "prerequisites": []
+    }
+  ]
+}
