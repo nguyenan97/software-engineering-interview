@@ -61,6 +61,8 @@ python scripts/learning.py reschedule 2026-10-08-messaging-idempotent-consumer -
 
 `review_adjustments` keeps original/new dates, adjustment date, reason and evidence. The validator reconstructs the plan from the unchanged completion date and this audit trail. A change cannot move a performed review, collide with another interval or schedule in the past. It creates no review, completion or grade. Keep the default plan when there is no evidence for changing it.
 
+Each new adjustment records how many review entries existed at that point, preserving operation order when changes and attempts share a date. A later review on a reused date does not invalidate an earlier adjustment.
+
 ## State reference
 
 The GitHub source files document the full schema and commands:

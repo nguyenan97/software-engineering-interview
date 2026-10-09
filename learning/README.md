@@ -82,6 +82,8 @@ python scripts/learning.py reschedule LESSON_ID --date YYYY-MM-DD --from-date YY
 
 The optional `review_adjustments` array is backward compatible with existing v2 profiles. Each entry contains `lesson_id`, `adjusted_at`, `from_due`, `to_due`, `reason` and nonempty `evidence`. Validation replays the audit trail from the original completion offsets; `review_due` is the sorted current plan of five distinct intervals. It rejects performed intervals, past/duplicate new dates and missing evidence/reasons. A change creates no review or grade, and never rewrites completion evidence. The agent judges the evidence; the CLI checks its existence and structure.
 
+New adjustments also save `review_count`, the length of the review history at that moment. Validation uses that prefix to distinguish a review already performed from one recorded later, even on the same day or after another interval reuses a vacated date. Preserve the review array's append order. Older entries without this field use date-only ordering; do not invent finer ordering for legacy records.
+
 ## Persistence and recovery
 
 Interactive/Mock cursors use `sessions/LESSON_ID.md` beside the state file. The

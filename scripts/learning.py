@@ -40,6 +40,7 @@ def validate_state(state):
     plans = {key: review_dates(item["completed_at"]) if item["completed_at"] else []
              for key, item in lessons.items()}
     previous_adjustment = None
+    previous_review_count = 0
     for change in state.get("review_adjustments", []):
         parent = lessons.get(change["lesson_id"])
         if not parent or parent["status"] != "completed":
@@ -49,10 +50,21 @@ def validate_state(state):
                 not state["last_updated"] or change["adjusted_at"] > state["last_updated"]):
             raise ValueError("Review adjustment dates must preserve chronology")
         previous_adjustment = change["adjusted_at"]
+        # Dates can be reused by another interval after rescheduling. Only
+        # reviews already recorded at this adjustment may make its source
+        # interval immutable. The prefix also resolves same-day ordering.
+        count = change.get("review_count", sum(
+            review["reviewed_at"] <= change["adjusted_at"] for review in state["reviews"]
+        ))
+        if (count < previous_review_count or count > len(state["reviews"]) or
+                any(r["reviewed_at"] > change["adjusted_at"] for r in state["reviews"][:count]) or
+                any(r["reviewed_at"] < change["adjusted_at"] for r in state["reviews"][count:])):
+            raise ValueError("Review adjustment count must preserve recorded review order")
+        previous_review_count = count
         plan = plans[change["lesson_id"]]
         if change["from_due"] not in plan:
             raise ValueError("Review adjustment must reference a planned interval")
-        if (change["lesson_id"], change["from_due"]) in review_slots:
+        if (change["lesson_id"], change["from_due"]) in review_slots[:count]:
             raise ValueError("Cannot reschedule a performed review")
         if change["to_due"] < change["adjusted_at"] or change["to_due"] in plan:
             raise ValueError("New review date must be today or later and distinct")
@@ -268,11 +280,15 @@ def main(argv=None):
             evidence = evidence_path(args.evidence)
             if args.to_date < args.date or args.to_date in record["review_due"]:
                 raise ValueError("New review date must be today or later and distinct")
+            if any(r["lesson_id"] == args.lesson_id and r["scheduled_for"] == args.from_date
+                   for r in state["reviews"]):
+                raise ValueError("Cannot reschedule a performed review")
             # Validation replays this audit trail against the completion anchor.
             state.setdefault("review_adjustments", []).append({
                 "lesson_id": args.lesson_id, "adjusted_at": args.date,
                 "from_due": args.from_date, "to_due": args.to_date,
                 "reason": args.reason, "evidence": [evidence],
+                "review_count": len(state["reviews"]),
             })
             if args.from_date not in record["review_due"]:
                 raise ValueError("Review adjustment must reference a planned interval")

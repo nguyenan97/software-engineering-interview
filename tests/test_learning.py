@@ -215,6 +215,41 @@ class LearningWorkflowTests(unittest.TestCase):
                          "--from-date", "2026-10-12", "--to-date", "2026-10-11", "--reason", " ", "--evidence", self.evidence())
         self.assertEqual(before, (self.root / "learning/state.json").read_text())
 
+    def test_reusing_a_vacated_date_does_not_invalidate_later_reviews(self):
+        self.record()
+        self.run_cli("complete", "2026-10-08-topic-a", "--date", "2026-10-09", "--evidence", self.evidence())
+        for old, new in (("2026-10-12", "2026-10-11"), ("2026-10-16", "2026-10-12")):
+            self.run_cli("reschedule", "2026-10-08-topic-a", "--date", "2026-10-10",
+                         "--from-date", old, "--to-date", new, "--reason", "Observed recall evidence", "--evidence", self.evidence())
+        for day in ("2026-10-10", "2026-10-11", "2026-10-12"):
+            state = self.run_cli("review", "2026-10-08-topic-a", "--date", day, "--evidence", self.evidence())
+        self.assertEqual([r["scheduled_for"] for r in state["reviews"]], ["2026-10-10", "2026-10-11", "2026-10-12"])
+        self.assertEqual(len(state["lessons"]), 1)
+        self.assertEqual([c["review_count"] for c in state["review_adjustments"]], [0, 0])
+        learning.validate_state(state)
+        # Older v2 adjustments with date-only ordering remain readable.
+        for change in state["review_adjustments"]:
+            del change["review_count"]
+        learning.validate_state(state)
+
+    def test_same_day_adjustment_before_review_preserves_operation_order(self):
+        self.record()
+        self.run_cli("complete", "2026-10-08-topic-a", "--date", "2026-10-09", "--evidence", self.evidence())
+        for old, new in (("2026-10-10", "2026-10-11"), ("2026-10-12", "2026-10-10")):
+            self.run_cli("reschedule", "2026-10-08-topic-a", "--date", "2026-10-10",
+                         "--from-date", old, "--to-date", new, "--reason", "Observed attempt justifies timing", "--evidence", self.evidence())
+        state = self.run_cli("review", "2026-10-08-topic-a", "--date", "2026-10-10", "--evidence", self.evidence())
+        self.assertEqual(state["reviews"][0]["scheduled_for"], "2026-10-10")
+        learning.validate_state(state)
+        before = (self.root / "learning/state.json").read_text()
+        with self.assertRaisesRegex(ValueError, "performed"):
+            self.run_cli("reschedule", "2026-10-08-topic-a", "--date", "2026-10-10",
+                         "--from-date", "2026-10-10", "--to-date", "2026-10-13", "--reason", "Cannot rewrite an actual review", "--evidence", self.evidence())
+        self.assertEqual(before, (self.root / "learning/state.json").read_text())
+        state["review_adjustments"][0]["review_count"] = 2
+        with self.assertRaisesRegex(ValueError, "recorded review order"):
+            learning.validate_state(state)
+
 
 if __name__ == "__main__":
     unittest.main()

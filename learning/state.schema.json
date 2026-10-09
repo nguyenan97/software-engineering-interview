@@ -454,6 +454,11 @@
               "type": "string",
               "minLength": 1
             }
+          },
+          "review_count": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Number of review records already present when this adjustment was saved; preserves same-day ordering."
           }
         }
       }
