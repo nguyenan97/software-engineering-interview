@@ -14,11 +14,13 @@ generated lesson and its status. Save the following as
 ---
 lesson_id: YYYY-MM-DD-topic-id
 mode: interactive
-stage: 1
+step: predict
 updated_at: "YYYY-MM-DD"
 next_action: await-learner-attempt
 ---
 ```
+
+Use `goal | predict | model | practice | verify | recall` for `step`. A saved legacy numeric `stage` can be read on resume; map its current task to the matching step without changing lesson identity. A browser reading bookmark is separate from this durable session cursor.
 
 ## Current unanswered prompt
 

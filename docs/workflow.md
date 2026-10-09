@@ -9,7 +9,7 @@ title: Daily Workflow and Learning State
 
 1. Say **“Viết bài học hôm nay.”** The agent reads the skill, catalog, source seeds and current state.
 2. The agent checks generated, in-progress and completed objectives, chooses a fresh eligible topic and verifies current technical claims.
-3. A complete lesson is saved in `lessons/`, linked from its index and registered as generated in `learning/state.json`.
+3. A 30–45-minute lesson with one primary goal and six guided steps is saved in `lessons/`, linked from its index and registered as generated in `learning/state.json`.
 4. Submit your attempt, lab output or spoken-answer transcript. The agent gives evidence-based feedback and records actual completion.
 5. Say **“Ôn tập hôm nay.”** to retrieve due concepts, with solutions withheld until after your attempt.
 
@@ -17,10 +17,18 @@ Full lesson provides a self-contained solution. Interactive and Mock interview w
 
 For Interactive/Mock sessions, the agent saves a cursor at
 `learning/sessions/LESSON_ID.md` using the [session template](../agent/SESSION_TEMPLATE.md).
-It records the unanswered prompt, stage, sanitized feedback and next action,
+It records the unanswered prompt, six-step cursor, sanitized feedback and next action,
 then reads that note on resume. A separate profile keeps session notes beside
 its own state file. The `start` command changes status only; the agent saves the
 note separately after each turn. A question without an attempt remains generated.
+
+## Public desk and daily actions
+
+The [daily desk](../index.md) serves published lessons. **Start this lesson** opens the latest artifact, not a personalized recommendation. **Learn something new** copies a prompt for your repo agent. **Continue reading** uses a local browser reading step; without a bookmark it opens the latest lesson. **Review** and **Interview** provide prompts and a practice entry; your agent reads real state to choose due work or resume coaching.
+
+The site is static: there is no generation endpoint or GitHub write integration. Copying a prompt does not run an agent. Bookmarks contain only lesson ID, published path, step and timestamp; no attempt, score or completion. They are specific to this browser and can be cleared. Blocked storage or clipboard access leaves ordinary links and selectable prompts working. No JavaScript is needed to read lessons or open answers.
+
+For durable resume, ask **“Tiếp tục bài đang học”** in the repo agent. It reads the session note and current state. Clicking a step does not start or complete a lesson. Supply your own lab output or answer before progress is recorded.
 
 ## Persistence commands
 
@@ -41,7 +49,19 @@ python scripts/learning.py review 2026-10-08-messaging-idempotent-consumer --dat
 
 Completion and review require a real nonempty evidence file. Optional `--assessment /path/to/assessment.json` supplies five rubric scores and weak points. The CLI validates structure; the agent evaluates substance. Scores are `null` until assessed. A zero is an assessed result.
 
-Reviews are scheduled D+1/3/7/14/30 from actual completion. Generated lessons have no active review dates. One attempt records one due interval. A review never creates another lesson or rewrites original completion evidence.
+Reviews are initially scheduled D+1/3/7/14/30 from actual completion. Generated lessons have no active review dates. One attempt records one due interval. A review never creates another lesson or rewrites original completion evidence.
+
+### Adjust a future review from observed evidence
+
+After an actual recall attempt, an agent may shorten or extend an **unperformed** interval when that evidence justifies it. These example dates assume completion on October 9 and a real review on October 10:
+
+```sh
+python scripts/learning.py reschedule 2026-10-08-messaging-idempotent-consumer --date 2026-10-10 --from-date 2026-10-12 --to-date 2026-10-11 --reason "Observed rollback gap; retry sooner" --evidence /path/to/retrieval-attempt.md
+```
+
+`review_adjustments` keeps original/new dates, adjustment date, reason and evidence. The validator reconstructs the plan from the unchanged completion date and this audit trail. A change cannot move a performed review, collide with another interval or schedule in the past. It creates no review, completion or grade. Keep the default plan when there is no evidence for changing it.
+
+Each new adjustment records how many review entries existed at that point, preserving operation order when changes and attempts share a date. A later review on a reused date does not invalidate an earlier adjustment.
 
 ## State reference
 
@@ -60,6 +80,6 @@ State writes use atomic replacement and require one writer at a time. If an agen
 
 State, scores and attempts committed to this public repository remain public on GitHub even though excluded from Pages. Keep sensitive evidence outside the checkout or use a private local profile. Record sanitized examples and real learner evidence.
 
-Run `python scripts/validate.py` and `python -m unittest discover -s tests -v` after updates. PR CI also builds the site; deployment continues through the existing `main` workflow.
+Run `python scripts/validate.py` and `python -m unittest discover -s tests -v` after updates. See [browser, lab and build verification](verification.md). PR CI also builds the site; deployment continues through the existing `main` workflow.
 
 [Curriculum](../curriculum/index.md) · [Lessons](../lessons/index.md) · [Skill](../agent/SKILL.md)

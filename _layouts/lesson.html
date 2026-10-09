@@ -1,0 +1,32 @@
+---
+layout: default
+---
+<article class="study-lesson" data-lesson-id="{{ page.lesson_id | escape }}" data-lesson-url="{{ page.url | relative_url }}" data-lesson-title="{{ page.title | escape }}">
+  <header class="lesson-header">
+    <a class="back-link" href="{{ '/' | relative_url }}">← Back to the daily desk</a>
+    <p class="eyebrow">GUIDED PRACTICE · {{ page.level | upcase | escape }}</p>
+    <h1>{{ page.title | escape }}</h1>
+    <p class="lesson-goal">{{ page.primary_objective | default: page.objectives.first | escape }}</p>
+    <ul class="lesson-facts" aria-label="Lesson details">
+      <li>{{ page.duration_minutes }} minutes</li><li>{{ page.practice_minutes }} minutes practicing &amp; recalling</li><li>One main objective</li>
+    </ul>
+    <p class="prerequisites"><strong>Before you start:</strong> {{ page.prerequisites_note | escape }}</p>
+  </header>
+  <div class="lesson-grid">
+    <div class="lesson-sidebar">
+      <nav aria-label="Lesson steps" class="step-nav">
+        <p class="eyebrow">YOUR SESSION</p>
+        <ol>
+          <li><a href="#goal" data-step="goal"><span>01</span> Set the goal</a></li>
+          <li><a href="#predict" data-step="predict"><span>02</span> Predict first</a></li>
+          <li><a href="#model" data-step="model"><span>03</span> Understand why</a></li>
+          <li><a href="#practice" data-step="practice"><span>04</span> Try the lab</a></li>
+          <li><a href="#verify" data-step="verify"><span>05</span> Verify &amp; correct</a></li>
+          <li><a href="#recall" data-step="recall"><span>06</span> Say it &amp; recall</a></li>
+        </ol>
+      </nav>
+      <div class="reading-note"><p id="bookmark-status" role="status" aria-live="polite">Step links can save your reading place in this browser. Completion and review dates are recorded by your repo agent.</p><button type="button" class="text-button" data-clear-place disabled>Clear reading place</button></div>
+    </div>
+    <div class="lesson-content">{{ content }}</div>
+  </div>
+</article>

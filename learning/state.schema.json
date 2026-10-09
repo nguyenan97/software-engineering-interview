@@ -410,6 +410,58 @@
           "type": "null"
         }
       ]
+    },
+    "review_adjustments": {
+      "type": "array",
+      "description": "Optional evidence-backed changes to unperformed intervals; replayed from completion anchors.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "lesson_id",
+          "adjusted_at",
+          "from_due",
+          "to_due",
+          "reason",
+          "evidence"
+        ],
+        "properties": {
+          "lesson_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          },
+          "adjusted_at": {
+            "type": "string",
+            "format": "date"
+          },
+          "from_due": {
+            "type": "string",
+            "format": "date"
+          },
+          "to_due": {
+            "type": "string",
+            "format": "date"
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "review_count": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Number of review records already present when this adjustment was saved; preserves same-day ordering."
+          }
+        }
+      }
     }
   }
 }

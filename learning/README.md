@@ -74,13 +74,21 @@ Intervals D+1, D+3, D+7, D+14 and D+30 start at **actual completion**, not lesso
 generation. They are adjustable curriculum defaults, not a universal optimal
 schedule. A generated lesson has no active due dates. One review command consumes
 the earliest due interval for that lesson; it does not mark every overdue review
-done. The agent can discuss a revised schedule with the learner when needed.
+done. An agent can adjust an unperformed interval when an actual recall attempt supports a different timing:
+
+```sh
+python scripts/learning.py reschedule LESSON_ID --date YYYY-MM-DD --from-date YYYY-MM-DD --to-date YYYY-MM-DD --reason "Observed gap or successful transfer and timing rationale" --evidence /path/to/retrieval-attempt.md
+```
+
+The optional `review_adjustments` array is backward compatible with existing v2 profiles. Each entry contains `lesson_id`, `adjusted_at`, `from_due`, `to_due`, `reason` and nonempty `evidence`. Validation replays the audit trail from the original completion offsets; `review_due` is the sorted current plan of five distinct intervals. It rejects performed intervals, past/duplicate new dates and missing evidence/reasons. A change creates no review or grade, and never rewrites completion evidence. The agent judges the evidence; the CLI checks its existence and structure.
+
+New adjustments also save `review_count`, the length of the review history at that moment. Validation uses that prefix to distinguish a review already performed from one recorded later, even on the same day or after another interval reuses a vacated date. Preserve the review array's append order. Older entries without this field use date-only ordering; do not invent finer ordering for legacy records.
 
 ## Persistence and recovery
 
 Interactive/Mock cursors use `sessions/LESSON_ID.md` beside the state file. The
 agent follows [`SESSION_TEMPLATE.md`](../agent/SESSION_TEMPLATE.md), saving the
-current unanswered prompt, stage, sanitized attempt/feedback and next action
+current unanswered prompt, six-step cursor, sanitized attempt/feedback and next action
 before each turn ends, then reading it on resume. The CLI `start` command only
 changes status; it does not save a cursor or transcript. Initial question
 delivery is generated, and the first actual attempt starts in-progress work.
@@ -105,6 +113,10 @@ and validate the migrated state before replacing it.
 If filesystem writes are unavailable, return the complete lesson and proposed
 state JSON/patch. State clearly that they have not been saved and request the
 current state on a subsequent session. Never claim persistence from chat alone.
+
+## Browser reading place is separate
+
+The public Pages site does not load this state or mutate it. Its local-storage bookmark stores only lesson ID/path, `goal | predict | model | practice | verify | recall` and timestamp. It is a reading convenience, never a coaching cursor or a completion signal. Use the session note and state CLI for cross-session persistence. If browser storage is blocked, links still work; if repo writes are blocked, return the proposed note/state and say unsaved.
 
 ## Privacy
 
