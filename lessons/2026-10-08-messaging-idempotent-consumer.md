@@ -1,164 +1,337 @@
 ---
-layout: default
-title: "Idempotent Consumers: Safe Retries Without Duplicate Effects"
+layout: lesson
+title: 'One Transaction: Make a Failed Credit Safe to Retry'
 lesson_id: 2026-10-08-messaging-idempotent-consumer
 topic_id: messaging-idempotent-consumer
 domain: messaging-event-driven
 level: senior
 mode: full-lesson
-created_at: "2026-10-08"
+created_at: '2026-10-08'
 status: generated
 objectives:
-  - Implement an atomic SQL Server inbox and business update that handles concurrent deliveries and conflicting event identities.
-  - Explain redelivery after a successful database commit and identify the acknowledgment failure window.
-  - Verify rollback, retries, and unknown commit outcomes without assuming every timeout means failure.
-  - Deliver a concise interview answer with a defensible guarantee, trade-offs, and an honest follow-up bridge.
+- Implement an atomic SQL Server inbox and business update that handles concurrent
+  deliveries and conflicting event identities.
+- Explain redelivery after a successful database commit and identify the acknowledgment
+  failure window.
+- Verify rollback, retries, and unknown commit outcomes without assuming every timeout
+  means failure.
+- Deliver a concise interview answer with a defensible guarantee, trade-offs, and
+  an honest follow-up bridge.
 concept_fingerprint:
-  - at-least-once-delivery
-  - stable-event-identity
-  - transactional-inbox
-  - atomic-business-update
-  - concurrent-consumers
-  - commit-acknowledgment-gap
-  - failure-injection
+- at-least-once-delivery
+- stable-event-identity
+- transactional-inbox
+- atomic-business-update
+- concurrent-consumers
+- commit-acknowledgment-gap
+- failure-injection
 source_refs:
-  - sources/04-architecture-distributed-systems.md#q024
-  - sources/04-architecture-distributed-systems.md#q025
-  - sources/04-architecture-distributed-systems.md#q026
-  - sources/04-architecture-distributed-systems.md#production-scenario
-  - sources/02-aspnet-api-ef.md#background-processing
-  - sources/02-aspnet-api-ef.md#large-file-processing-scenario
-  - https://learn.microsoft.com/en-us/azure/service-bus-messaging/message-transfers-locks-settlement
-  - https://learn.microsoft.com/en-us/azure/service-bus-messaging/duplicate-detection
-  - https://learn.microsoft.com/en-us/sql/t-sql/queries/hints-transact-sql-table
-  - https://learn.microsoft.com/en-us/sql/t-sql/statements/set-xact-abort-transact-sql
-  - https://learn.microsoft.com/en-us/sql/relational-databases/tables/create-unique-constraints
-  - https://learn.microsoft.com/en-us/sql/t-sql/language-elements/commit-transaction-transact-sql
-  - https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/servicebus/Azure.Messaging.ServiceBus/src/Processor/ServiceBusProcessorOptions.cs
-checked_at: "2026-10-08"
+- sources/04-architecture-distributed-systems.md#q024
+- sources/04-architecture-distributed-systems.md#q025
+- sources/04-architecture-distributed-systems.md#q026
+- sources/04-architecture-distributed-systems.md#production-scenario
+- sources/02-aspnet-api-ef.md#background-processing
+- sources/02-aspnet-api-ef.md#large-file-processing-scenario
+- https://learn.microsoft.com/en-us/azure/service-bus-messaging/message-transfers-locks-settlement
+- https://learn.microsoft.com/en-us/azure/service-bus-messaging/duplicate-detection
+- https://learn.microsoft.com/en-us/sql/t-sql/queries/hints-transact-sql-table
+- https://learn.microsoft.com/en-us/sql/t-sql/statements/set-xact-abort-transact-sql
+- https://learn.microsoft.com/en-us/sql/relational-databases/tables/create-unique-constraints
+- https://learn.microsoft.com/en-us/sql/t-sql/language-elements/commit-transaction-transact-sql
+- https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/servicebus/Azure.Messaging.ServiceBus/src/Processor/ServiceBusProcessorOptions.cs
+checked_at: '2026-10-08'
+lesson_format: focused-v1
+duration_minutes: 40
+practice_minutes: 28
+refactored_at: '2026-10-09'
+primary_objective: Keep the inbox marker and business update in one transaction so
+  a failed credit can be retried safely.
+prerequisites_note: Basic SQL transactions. Python 3.10+ with sqlite3 for the portable
+  lab; SQL Server is optional.
 ---
 
-# Idempotent Consumers: Safe Retries Without Duplicate Effects
+## A · Set the goal — 2 minutes
+{: #goal }
 
-## Stage 0 — Lesson card
+**After this lesson, you can repair a retry bug by committing an inbox marker and an account credit together, then prove the repair with a failed-attempt test.**
 
-| Field | Value |
+Imagine an account-credit worker crashes after recording that an event was handled, but before changing the balance. A retry must still be able to apply the credit. An **inbox marker** is a durable record of a handled logical operation; it is useful only when its meaning agrees with the committed business state.
+
+| Lesson card | Value |
 | --- | --- |
-| Topic | `messaging-idempotent-consumer` |
-| Lesson ID / ring | `2026-10-08-messaging-idempotent-consumer` / A — source-direct |
-| Domain / level | Messaging and event-driven systems / senior |
-| Mode | Full lesson, including worked solution |
-| Duration | 80 minutes: 15 minutes explanation, 45 minutes lab, 20 minutes retrieval and spoken interview practice |
-| Primary source | [At-least-once duplicate processing](../sources/04-architecture-distributed-systems.md#q024), [idempotent consumers](../sources/04-architecture-distributed-systems.md#q025), [unique constraints](../sources/04-architecture-distributed-systems.md#q026) (original Messaging questions 6–8) |
-| Supporting sources | [Repeated import scenario](../sources/04-architecture-distributed-systems.md#production-scenario); [background processing](../sources/02-aspnet-api-ef.md#background-processing), questions 4–5; [large-file processing](../sources/02-aspnet-api-ef.md#large-file-processing-scenario) |
-| Selection reason | A source-direct topic connecting messaging, transactions, concurrency, and production recovery. The repository has no completed attempt for this objective. |
-| Status | Generated; learner work and assessment are pending |
+| Topic / lesson | `messaging-idempotent-consumer` / `2026-10-08-messaging-idempotent-consumer` |
+| Domain / level / ring | Messaging and event-driven systems / senior / A — source-direct |
+| Source seed | [Message queues and background processing, Q024–Q026](../sources/04-architecture-distributed-systems.md#q024); [credit-like production scenario](../sources/04-architecture-distributed-systems.md#production-scenario) |
+| Selection | The source asks about queue failures. This existing sample is refactored around one transaction invariant; it is **not a second new lesson**. |
+| Core / optional | 40 minutes, including 28 minutes of lab, verification and recall. SQL Server concurrency is an optional extension. |
+| Mode | Full lesson: complete answers are available in expandable sections. Try first. |
 
-By the end, you should be able to:
+Success means you can (1) draw the correct transaction boundary, (2) show that an injected failure leaves **no marker and no credit**, and (3) explain why the retry works. These are checks of one objective. The original catalog objectives and fingerprint remain in the generation metadata for provenance; the SQL Server implementation is retained below.
 
-1. Implement an atomic SQL Server inbox and business update under concurrent delivery and conflicting identities.
-2. Explain why redelivery can follow a successful database commit.
-3. Verify rollback, retries, and unknown commit outcomes.
-4. Give a concise interview answer with defensible boundaries and a relevant follow-up.
+Use a disposable environment. The portable Python/SQLite lab demonstrates the same transaction invariant used by the project's SQL Server stack. It does **not** simulate a broker or validate SQL Server locking. If basic `COMMIT` and `ROLLBACK` are unfamiliar, begin with the state trace in C; a senior label does not prove prerequisites.
 
-**Source questions are prompts, not verified answers.** The implementation below is a worked example; current product behavior is checked separately in the evidence table. This SQL and its broker integration have not been executed during preparation.
+**Next:** [Predict the failure before opening an answer](#predict).
+{: .next-step }
 
-Use the learning cycle **predict → attempt → explain → verify → retrieve**. In this Full lesson, solutions are available below. Spend time attempting the challenge before reading them, then close the lesson during recall. Record observable results rather than familiarity from rereading.
+## B · Predict first — 4 minutes
+{: #predict }
 
-## Stage 1 — Cold start
+<div class="task-box" markdown="1">
 
-Spend five minutes answering without notes:
-
-1. A worker commits a database update and crashes before acknowledging the message. What can happen next?
-2. Two replicas both check `HasProcessed(eventId)` before either writes. What prevents two balance increases?
-3. Does broker duplicate detection make the consumer database update and acknowledgment atomic?
-
-### Prediction challenge
-
-A broker delivers this immutable event:
-
-```json
-{
-  "eventId": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
-  "accountId": 42,
-  "amount": 100.00
-}
-```
-
-The account balance starts at zero. The handler does this:
-
-```csharp
-if (!await HasProcessed(eventId))
-{
-    await IncreaseBalance(accountId, amount);
-    await MarkProcessed(eventId);
-}
-
-await Acknowledge();
-```
-
-Predict the outcome if both workers pass the check, if `MarkProcessed` fails after the increase, or if acknowledgment fails after the marker is saved. Write the invariant your replacement must preserve.
-
-The challenge is to make retries safe across several replicas while retaining failed work for recovery. Do not assume a process-local lock, broker lock, or successful send is an end-to-end guarantee.
-
-## Stage 2 — Core model
-
-### The broker and database have different state
+Do not run the code yet. Write your prediction and one reason.
 
 ```text
-Receive message
-      ↓
-Apply business update and inbox entry
-      ↓
-Commit database transaction
-      ↓       ← a crash or lost connection here can cause redelivery
-Acknowledge message to broker
+BEGIN
+  insert inbox(event-7, account-42, +100 cents)
+COMMIT
+
+BEGIN
+  update account balance +100
+COMMIT
 ```
 
-Acknowledgment tells the broker that processing is complete. It cannot undo a database commit. With Azure Service Bus Peek-Lock, settlement can fail after work succeeded, and expired or lost locks can permit redelivery [V1].
+1. The worker crashes between the two transactions. What are the balance and inbox contents?
+2. On retry, it sees `event-7` in the inbox and skips the credit. Is the operation actually complete?
+3. Would a unique event ID alone fix this bug?
 
-The engineering goal is precise:
+**Practical challenge:** Repair the transaction boundary without removing deduplication. Start with balance `0`. A successful first attempt followed by the same event must leave balance `100`; a failure before the business update must leave balance `0` **and no inbox row**.
 
-> For one consumer and stable event identity, repeated attempts do not repeat its committed business mutation in this database, while the processed identity remains retained.
+</div>
 
-The handler can run several times. This guarantee does not promise successful processing of every message, global ordering, or exactly one external email or payment.
+An unanswered prediction is a starting point for teaching, not a score or diagnosed weakness. Keep it to compare with your test output.
 
-### Identity is a contract
+**Next:** [Understand the invariant](#model).
+{: .next-step }
 
-Increasing a balance is naturally non-idempotent: adding 100 twice changes 0 to 200. We make that mutation conditional on a durable identity.
+## C · Understand why — 6 minutes
+{: #model }
 
-- Retries of the same event preserve `eventId`.
-- Different legitimate events have different IDs.
-- Reusing an ID with different business data is an error.
-- The key includes the consumer name: independent consumers can process the same event for different purposes.
-- A producer retry that creates a new event ID bypasses event-level deduplication. Use an additional business invariant, such as a unique `paymentId`, when several events can represent one logical operation.
+**Problem → cause.** Retrying an operation can duplicate its effect. But recording “processed” before the effect commits creates the opposite bug: a failed operation is skipped forever. The marker and balance tell different stories.
 
-The lab event contains only `accountId` and `amount`. Those fields are compared on a duplicate. A larger event contract needs a version-aware canonical representation or comparison of every field affecting business behavior; an arbitrary raw JSON hash can incorrectly treat equivalent payloads as different.
+**Mechanism.** Commit the marker and mutation in **one database transaction**. For this handler, the invariant is: a committed marker means that this event's credit committed in the same transaction.
 
-### The atomicity invariant
+```text
+New event → BEGIN → insert marker → apply credit → COMMIT → Applied
+                        │                 │
+                        └── failure ──────┴── ROLLBACK → retry may apply
 
-The inbox row means **business processing committed**. It does not mean the broker acknowledgment succeeded.
+Same event after commit → validate stored business data → AlreadyProcessed
+```
 
-| Inbox row | Business mutation | Meaning |
+A rollback discards both changes; a successful commit keeps both. A later delivery with the same identity and business data sees the marker and skips the mutation. An identity reused with different data must be rejected, not quietly accepted.
+
+| Attempt | Committed balance | Committed marker | Next delivery |
+| --- | --- | --- | --- |
+| Failure after inserting marker, before credit | 0 | None | Can apply |
+| Successful credit | 100 | `event-7` | Skip the same credit |
+| Same ID with a different amount | Still 100 | Original data | Reject the conflicting identity |
+
+The portable lab uses SQLite's explicit `BEGIN IMMEDIATE`, `COMMIT`, and `ROLLBACK`. SQLite permits one write transaction at a time; starting it can fail when another writer is active. Those are [SQLite transaction semantics](https://www.sqlite.org/lang_transaction.html), not a SQL Server locking model. With Python `sqlite3`, the verifier sets `isolation_level=None` and uses explicit SQL transactions ([official Python documentation](https://docs.python.org/3/library/sqlite3.html), checked 2026-10-09).
+
+**Boundary.** This protects one database effect. It does not atomically commit a remote HTTP call or a broker acknowledgment. Never turn the invariant into a promise that every distributed action occurs exactly once.
+
+**Vietnamese Note:** Inbox không phải chỉ là “đã nhận tin”. Trong bài này, marker chỉ có ý nghĩa khi việc cộng tiền đã commit cùng nó. Tách hai commit có thể khiến retry bỏ qua một việc chưa làm xong.
+
+**Next:** [Repair the starter and observe the failure](#practice).
+{: .next-step }
+
+## D · Try the lab — 16 minutes
+{: #practice }
+
+**Setup:** Python 3.10+ with the standard-library `sqlite3` module. No database server, package install, network service or credentials. The verifier creates a fresh in-memory database for each test.
+
+<a class="button button-primary" href="{{ '/assets/labs/atomic-inbox.zip' | relative_url }}" download>Download the runnable lab (.zip)</a>
+
+Unzip, enter the extracted `atomic-inbox/` directory, and run `python verify.py`. If using a repository checkout instead, run:
+
+```bash
+python labs/atomic-inbox/verify.py
+```
+
+Files: `exercise.py` is the intentionally broken starter; `verify.py` contains five checks; `solution.py` is the reference. See [lab setup](../labs/atomic-inbox/README.md) for scope and commands.
+
+<div class="task-box" markdown="1">
+
+**Your task:** Edit only `apply_credit` in `exercise.py`. Keep its signature and outcomes `Applied` / `AlreadyProcessed`. Use positive integer cents. Reject a changed account or amount under the same event ID. Make rollback remove the marker when the credit cannot happen. Do not change tests to accept the bug.
+
+1. Run the starter. It should pass the normal retry test but fail the injected-failure and missing-account tests.
+2. Move the boundary; explain what must be inside it.
+3. Run again until all five tests pass. Keep your actual output and your prediction.
+
+**Evidence question:** Which test distinguishes a correct transaction from a happy-path-only implementation?
+
+</div>
+
+<details markdown="1" data-answer>
+<summary>Open the complete worked solution after your attempt</summary>
+
+```python
+"""Reference solution for the single-consumer SQLite learning lab."""
+
+
+def apply_credit(db, event_id, account_id, amount, fail_after_marker=False):
+    if type(amount) is not int or amount <= 0:
+        raise ValueError("Amount must be positive integer cents")
+    db.execute("BEGIN IMMEDIATE")
+    try:
+        existing = db.execute(
+            "SELECT account_id, amount FROM inbox WHERE event_id = ?", (event_id,)
+        ).fetchone()
+        if existing:
+            if existing != (account_id, amount):
+                raise ValueError("Event identity reused with different business data")
+            db.execute("COMMIT")
+            return "AlreadyProcessed"
+
+        db.execute("INSERT INTO inbox VALUES (?, ?, ?)", (event_id, account_id, amount))
+        if fail_after_marker:
+            raise RuntimeError("Injected failure after marker")
+        updated = db.execute(
+            "UPDATE accounts SET balance = balance + ? WHERE account_id = ?",
+            (amount, account_id),
+        )
+        if updated.rowcount != 1:
+            raise ValueError("Account not found")
+        db.execute("COMMIT")
+        return "Applied"
+    except Exception:
+        if db.in_transaction:
+            db.execute("ROLLBACK")
+        raise
+```
+
+`BEGIN` comes before the lookup and both writes. One `COMMIT` makes the marker meaningful. On a failed account update or injected exception, `ROLLBACK` restores both tables. The existing marker is checked against the original business data, so ID reuse is not mistaken for a legitimate retry.
+
+Compare without editing the starter:
+
+```bash
+python labs/atomic-inbox/verify.py --solution
+```
+
+From the downloaded directory, use `python verify.py --solution`. Passing the reference does not show that your own repair works: run the default command against your edited starter too.
+
+</details>
+
+### Transfer: reserve inventory with fewer hints
+
+A handler must decrement available stock by `2` for one reservation ID. Change the account example to inventory. Design the transaction and a test where insufficient stock rejects the reservation. On rejection, what must remain retryable? Spend the last four minutes on a state trace or code sketch; you need not build another database.
+
+<details markdown="1" data-answer>
+<summary>Transfer answer guide</summary>
+
+Keep the reservation marker and stock decrement in the same transaction. Update only if stock is at least the requested quantity; if no row qualifies, roll back the marker too. A rejected reservation must leave stock unchanged and no committed success marker. Once stock is replenished, a retry may succeed. A committed reservation replay must not decrement stock again. Compare the failure trace with the account-not-found test: it is the same invariant in a new setting.
+
+</details>
+
+**Next:** [Compare predictions with the checks](#verify).
+{: .next-step }
+
+## E · Verify and correct — 6 minutes
+{: #verify }
+
+| Check | Expected result for the repair | Evidence to inspect |
 | --- | --- | --- |
-| Absent | Absent | Safe to attempt the operation |
-| Present | Present | Already processed |
-| Present | Absent | Work may be skipped permanently |
-| Absent | Present | Retry may repeat the mutation |
+| First delivery then same event | `Applied`, then `AlreadyProcessed`; balance 100, one marker | Return values and both tables |
+| Failure immediately after marker | Balance 0, no marker; retry succeeds | Rollback state, then retry state |
+| Missing account | Error; no marker committed | Inbox count |
+| Same ID, changed business data | Error; original balance and marker retained | Stored account/amount and balance |
+| Invalid amount | Error; no writes | 0, negative, boolean and fractional inputs |
 
-The inbox insert and balance update must commit together or roll back together. A separate marker transaction cannot protect the gap between them.
+**Checks actually run during preparation (2026-10-09):** the reference implementation passed all five tests. The unchanged starter failed the two intended rollback tests. These are author checks, not learner evidence. No SQL Server runtime, broker, multi-worker concurrency, process termination or unknown-commit outcome was exercised by this portable suite.
 
-### Vietnamese Note
+**One important misconception:** “If the normal retry passes, the handler is safe.” The starter passes that path while losing a credit after failure. Compare your B prediction with the injected-failure output. If you missed the retained marker, draw the two committed states and rerun only that scenario; then explain why the repair changes it. An agent gives feedback on your actual output, not a guessed weakness.
 
-Khoảng trống khó xử lý nằm giữa **database commit** và **broker acknowledgment**. Database đã cập nhật nhưng broker có thể chưa biết. Khi retry, worker phải đọc được bằng chứng xử lý đã commit. Vì vậy inbox và thay đổi nghiệp vụ cần nằm trong **cùng transaction**; ghi trước hoặc ghi sau bằng transaction riêng đều tạo failure window.
+### Production twist: commit succeeds, acknowledgment fails
 
-## Stage 3 — Hands-on lab
+After the correct database transaction commits, a broker acknowledgment may fail and the message may return ([Service Bus settlement, V1 below](https://learn.microsoft.com/en-us/azure/service-bus-messaging/message-transfers-locks-settlement)). Do not undo the committed credit simply because acknowledgment failed. The stable identity lets the retry return `AlreadyProcessed`. A database timeout or lost response can also leave the client unsure whether commit succeeded; retry the **same** identity rather than inventing a new operation.
 
-### Attempt first — 15 minutes
+| Decision | Suitable condition | Cost / failure boundary | Validation |
+| --- | --- | --- | --- |
+| Durable inbox plus business transaction | Non-idempotent database mutation may be retried | Extra writes, retained history and contention; no remote-call atomicity | Rollback/replay tests; production concurrency and recovery tests |
+| Naturally idempotent update | Assigning the same intended value is safe under the domain's ordering rules | An old event may overwrite newer state unless ordering is handled | Out-of-order and replay tests |
 
-Design a consumer for `CreditAccount` events. Your solution must preserve one credit per stable event, coordinate multiple replicas, roll back the marker when business processing fails, detect conflicting reused IDs, and acknowledge only after database success.
+A process-local “seen IDs” set cannot survive a restart or coordinate replicas. SQL Server locking, concurrent callers and the acknowledgment contract require additional validation; use the optional adaptation below when ready. This lesson's portable checks establish the transaction invariant in its stated environment only.
 
-Sketch the transaction boundary and failure timeline before reading the solution. Then implement and run the cases below for 30 minutes. SQL Server is the data owner for both tables; the lab makes no external HTTP calls.
+In production, track applied/replayed outcomes, identity conflicts and transaction failures; inspect the inbox and business state using a sanitized event identity when investigating a retry. Rising replay counts explain extra processing attempts, not duplicate credits by themselves. Measure contention before changing the transaction design.
+
+**Next:** [Close answers and explain the mechanism from memory](#recall).
+{: .next-step }
+
+## F · Say it and recall — 6 minutes
+{: #recall }
+
+**Interview question:** “How would you stop a retried account-credit event from changing the balance twice?”
+
+**Likely assessment intent:** Can you explain a durable invariant, partial failure and the boundary of your guarantee? This is an inference about the question, not a universal interviewer rubric.
+
+Speak your own 30-second answer first. Expand to 90 seconds with the failed-attempt example, one trade-off and the test you would run. Time your speech rather than assuming a word count is exact.
+
+<details markdown="1" data-answer>
+<summary>30-second model answer</summary>
+
+> I would use a stable event ID and commit the inbox marker together with the account credit in one database transaction. A failed attempt rolls back both, so it remains retryable. A replay after commit finds the marker and skips the credit. This protects the database effect; a remote call needs a separate strategy.
+
+</details>
+
+<details markdown="1" data-answer>
+<summary>90-second model answer, two follow-ups and a related-topic bridge</summary>
+
+> I would identify the logical credit with a stable event ID, then put the inbox marker and balance update in the same database transaction. The key invariant is that a committed marker means that the business effect committed too.
+>
+> If a failure happens between the two writes, both roll back and the same event can be retried. If the database commits but the broker acknowledgment fails, a later delivery finds the marker and skips the credit. Reusing that ID with different business data is a contract error that I would reject.
+>
+> In this lab, the failure-after-marker test distinguishes the correct transaction from two separate commits. For the project's SQL Server implementation, I would also test concurrent workers and uncertain commit responses rather than infer those guarantees from SQLite. The trade-offs are database writes, contention and keeping deduplication records for the replay horizon. An external side effect has a separate failure boundary.
+
+**Follow-up 1 — Why is a unique event ID insufficient?** It prevents two committed markers but does not make the credit atomic with the marker. The broken starter proves that failure can commit the marker without any credit.
+
+**Follow-up 2 — What if a timeout happens during commit?** A missing response does not establish rollback. Reuse the same logical ID; a committed marker leads to skipping, while no committed marker permits a fresh attempt. Connection recovery and retry policy need runtime testing.
+
+**Optional bridge after the complete answer:** “If this handler also needs to publish an event, the next question is coordinating that publication through an outbox.” Be ready to explain the limit: the outbox records publication intent in the database transaction; a publisher can still retry, so downstream idempotency remains relevant. Answer direct follow-ups first. This bridge does not prevent deeper questions.
+
+These answers use “I would” and “in this lab”; they do not invent production experience.
+
+</details>
+
+<button type="button" class="button button-secondary" data-close-answers disabled>Close answers for recall</button>
+<p id="recall-status" role="status" aria-live="polite">Close the explanation or cover it. Answer without notes.</p>
+
+1. State the invariant linking the inbox row to the account credit.
+2. A reservation fails because inventory is insufficient. What must the transaction leave behind, and why?
+3. Commit succeeds but acknowledgment fails. Why is a stable identity still needed?
+
+<details markdown="1" data-answer>
+<summary>Retrieval guide — open after answering</summary>
+
+1. A committed marker means this event's credit committed in the same transaction.
+2. No success marker and no stock change; otherwise a retry could skip a reservation that never happened.
+3. Redelivery must identify the same logical operation so it can skip the already committed effect.
+
+</details>
+
+### Evidence, feedback and your next session
+
+Save your edited function, actual test output, prediction correction and spoken-answer transcript (or a short written attempt). Ask the agent: **“Review my attempt; correct one misconception, then let me retry.”** Reading this page or running the provided reference is not a completion signal.
+
+| Rubric dimension | Evidence | Score at delivery |
+| --- | --- | --- |
+| Technical | Correct transaction invariant and scope | `null` |
+| Reasoning | Explains why two commits fail and compares an alternative | `null` |
+| Implementation | Own repair plus meaningful failure test | `null` |
+| Operations | Explains retry after failure and commit/ack gap | `null` |
+| Communication | Direct 30–90-second answer, defended follow-ups | `null` |
+
+Use the [0–4 rubric](../agent/INTERVIEW_METHOD.md#evidence-based-feedback) only for observed dimensions. Then retry the specific gap. Completion means an evidenced attempt, not a certification of mastery.
+
+The saved record is still `generated`, created `2026-10-08`, with `completed_at: null`, all scores null, no evidence and no review dates. Refactoring on `2026-10-09` preserves that history. Your repo agent saves the attempt and session step; the public site saves at most a browser reading bookmark. See [the real state workflow](../docs/workflow.md).
+
+After evidenced completion, reviews begin at **D+1, D+3, D+7, D+14 and D+30**. Use a different account or inventory example and answer before opening notes. The agent can adjust an unperformed review based on actual evidence and record the reason; it cannot backfill a review. **Next:** submit your attempt, or [start a review with the agent](../practice/review.md).
+
+## Optional depth — outside the 40-minute session
+
+<details markdown="1" data-answer>
+<summary>SQL Server adaptation: durable uniqueness and concurrent callers</summary>
+
+This retained implementation serves the project's SQL Server stack and original catalog objectives. It requires a disposable supported SQL Server instance and further tests; **it was not executed in this environment**. The portable SQLite tests do not validate these locks. In production, scope the inbox identity to the consumer contract and retain markers for the supported replay horizon.
 
 ### Database setup
 
@@ -288,330 +461,20 @@ The existence check is protected by database locking. `HOLDLOCK` has `SERIALIZAB
 
 The primary key remains the durable uniqueness boundary. The transaction couples it to the mutation. If the account is absent or the update fails, the inbox insert rolls back. `THROW` honors `XACT_ABORT`; explicit transaction-state handling preserves rollback behavior for catchable failures [V5]. Connection loss must still be treated as an unknown outcome, not as proof of rollback.
 
-### Worker integration
 
-```text
-Deserialize and validate the immutable event
-    ↓
-Execute ApplyAccountCredit with SQL parameters, no outer transaction
-    ↓
-Applied or AlreadyProcessed
-    ↓
-Acknowledge the received message
-```
 
-For a .NET Service Bus handler using explicit completion, set `ServiceBusProcessorOptions.AutoCompleteMessages = false` [V7], await the database operation, then await `CompleteMessageAsync`. Check the installed SDK version before implementation. This lesson provides integration steps rather than an executed .NET worker.
+Additional verification plan: concurrent identical callers must apply once; conflicting same-ID payloads must be rejected; a missing account must roll back its marker; a crash after commit must permit replay without another credit. Test deadlocks/transient retries using the same identity. A timeout is an unknown outcome until resolved; it is not evidence that rollback happened. Avoid remote calls while holding the transaction open.
 
-If database processing fails, do not acknowledge success. Distinguish transient failure such as a deadlock or temporary connectivity loss from a permanent invalid event or identity conflict. Missing account behavior is domain-dependent: it may require a bounded retry for eventual arrival or a dead-letter reason for an invalid reference. Avoid unbounded poison-message retry loops.
+For a Service Bus worker, configure the acknowledgment contract explicitly: process the database operation first and complete the broker message only after the real commit. The checked .NET processor source allows `AutoCompleteMessages = false` [V7]; do not manually complete while also relying on automatic completion. Preserve stable business identity across retries. Broker duplicate detection has a configured time window and its own scope [V2]; it does not replace atomic consumer effects.
 
-### Verification A — duplicate and conflicting payload
+</details>
 
-Run once after setup:
+<details markdown="1">
+<summary>Source provenance and dated verification</summary>
 
-```sql
-EXEC dbo.ApplyAccountCredit
-    @EventId = 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
-    @AccountId = 42, @Amount = 100;
+The source questions are interview seeds, not validated answers: [Q024](../sources/04-architecture-distributed-systems.md#q024), [Q025](../sources/04-architecture-distributed-systems.md#q025), [Q026](../sources/04-architecture-distributed-systems.md#q026), [background processing](../sources/02-aspnet-api-ef.md#background-processing) and [large-file scenario](../sources/02-aspnet-api-ef.md#large-file-processing-scenario).
 
-EXEC dbo.ApplyAccountCredit
-    @EventId = 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
-    @AccountId = 42, @Amount = 100;
-
-IF NOT EXISTS
-    (SELECT 1 FROM dbo.Accounts WHERE AccountId = 42 AND Balance = 100)
-    THROW 51001, 'Duplicate test: unexpected balance.', 1;
-
-IF (SELECT COUNT(*) FROM dbo.ConsumerInbox
-    WHERE ConsumerName = 'account-credit-v1'
-      AND EventId = 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa') <> 1
-    THROW 51002, 'Duplicate test: unexpected inbox count.', 1;
-GO
-
-BEGIN TRY
-    EXEC dbo.ApplyAccountCredit
-        @EventId = 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
-        @AccountId = 42, @Amount = 250;
-
-    THROW 51003, 'Conflict test: expected error 50002.', 1;
-END TRY
-BEGIN CATCH
-    IF ERROR_NUMBER() <> 50002
-        THROW;
-END CATCH;
-
-IF NOT EXISTS
-    (SELECT 1 FROM dbo.Accounts WHERE AccountId = 42 AND Balance = 100)
-    THROW 51004, 'Conflict test: balance changed.', 1;
-GO
-```
-
-Expected: `Applied`, then `AlreadyProcessed`; the conflicting reuse raises `50002` and leaves the balance unchanged.
-
-### Verification B — rollback and invalid input
-
-```sql
-BEGIN TRY
-    EXEC dbo.ApplyAccountCredit
-        @EventId = 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb',
-        @AccountId = 999, @Amount = 10;
-
-    THROW 51005, 'Rollback test: expected error 50003.', 1;
-END TRY
-BEGIN CATCH
-    IF ERROR_NUMBER() <> 50003
-        THROW;
-END CATCH;
-
-IF EXISTS
-    (SELECT 1 FROM dbo.ConsumerInbox
-     WHERE ConsumerName = 'account-credit-v1'
-       AND EventId = 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb')
-    THROW 51006, 'Rollback test: marker was retained.', 1;
-GO
-
-BEGIN TRY
-    EXEC dbo.ApplyAccountCredit
-        @EventId = 'cccccccc-cccc-cccc-cccc-cccccccccccc',
-        @AccountId = 42, @Amount = NULL;
-
-    THROW 51007, 'Validation test: expected error 50001.', 1;
-END TRY
-BEGIN CATCH
-    IF ERROR_NUMBER() <> 50001
-        THROW;
-END CATCH;
-
-IF EXISTS
-    (SELECT 1 FROM dbo.ConsumerInbox
-     WHERE ConsumerName = 'account-credit-v1'
-       AND EventId = 'cccccccc-cccc-cccc-cccc-cccccccccccc')
-    THROW 51008, 'Validation test: marker was retained.', 1;
-GO
-```
-
-Expected: no marker for either event. Now create account `999` and retry event `bbbbbbbb...` unchanged. It should apply once: the failed first attempt did not falsely mark it completed.
-
-### Verification C — concurrent replicas
-
-Open two independent SQL connections. From both, submit the same new event at nearly the same time:
-
-```sql
-EXEC dbo.ApplyAccountCredit
-    @EventId = 'dddddddd-dddd-dddd-dddd-dddddddddddd',
-    @AccountId = 42, @Amount = 25;
-```
-
-In a disposable copy of the procedure, you can temporarily insert `WAITFOR DELAY '00:00:05';` immediately after the inbox insert to hold the first transaction while the second arrives. Remove that delay after the experiment. This deliberately forces overlap; simultaneous clicks alone may execute sequentially.
-
-After both attempts succeed, or transient deadlock victims are retried with the same event ID, assert:
-
-```sql
-IF NOT EXISTS
-    (SELECT 1 FROM dbo.Accounts WHERE AccountId = 42 AND Balance = 125)
-    THROW 51009, 'Concurrency test: unexpected balance.', 1;
-
-IF (SELECT COUNT(*) FROM dbo.ConsumerInbox
-    WHERE ConsumerName = 'account-credit-v1'
-      AND EventId = 'dddddddd-dddd-dddd-dddd-dddddddddddd') <> 1
-    THROW 51010, 'Concurrency test: unexpected inbox count.', 1;
-```
-
-Record whether you observed waiting, a deadlock, or immediate completion. Repeat with fresh IDs and accounts to test additional schedules. One passing schedule is useful evidence, not an exhaustive proof.
-
-### Verification D — commit before acknowledgment
-
-For a broker integration test, terminate the worker immediately after the procedure returns `Applied` and before it acknowledges. Allow redelivery after the lock is released or expires. The repeated call should return `AlreadyProcessed`, then acknowledgment should succeed, with one balance increase and one inbox entry.
-
-A SQL-only replay can verify the database behavior, but cannot demonstrate actual broker redelivery. Keep those two kinds of evidence separate.
-
-### Verification E — unknown commit outcome
-
-In a disposable environment, interrupt the client connection around commit, before the client receives the result. Preserve the event ID and retry. Do not infer rollback solely from a timeout.
-
-| Actual database outcome | Expected retry outcome |
-| --- | --- |
-| Transaction did not commit | `Applied`, with inbox and mutation committing together |
-| Transaction committed but response was lost | `AlreadyProcessed`, without another mutation |
-
-Verify the inbox and balance from a separate connection. If a transaction is still resolving, the retry may wait or fail transiently before the outcome becomes visible. Do not acknowledge merely because the client lost its connection.
-
-Save observations with event IDs, starting and final balances, inbox counts, errors, and whether SQL-only or broker integration was exercised. No successful runtime result is claimed for these exercises until you run them.
-
-### Reduced-support task
-
-Without copying the procedure, sketch an inventory-reservation handler for an event containing `reservationId`, `productId`, and `quantity`. Several event IDs may refer to one reservation. State which identity prevents transport duplicates, which domain constraint prevents repeated reservations, and which updates must be atomic. Include a condition that prevents available stock from becoming negative, then design a two-worker test for different reservations competing for the final item. Explain why event deduplication alone cannot protect that business invariant.
-
-## Stage 4 — Production twist
-
-### Ten times the traffic
-
-Several replicas still coordinate through the database. A local `HashSet`, `lock`, or semaphore does not cover all replicas and does not survive process loss.
-
-Measure processing latency, queue age, lock waits, deadlocks, retry rate, duplicate outcomes, inbox growth, and commit-success/completion-failure events. Concurrency should follow database capacity. Updates to the same account serialize even when event IDs differ; adding workers can increase contention.
-
-Retry deadlock victims as complete operations using the same event ID, with bounded backoff and jitter. A duplicate-key error from another business table is not proof that this event completed. Check the relevant constraint and transaction outcome rather than swallowing every unique-constraint exception.
-
-### Broker deduplication and business uniqueness
-
-Service Bus duplicate detection filters repeated submitted message identities within its configured history window [V2]. It does not atomically couple a consumer database commit to message completion. Partitioning changes the identity used for broker detection; see the official documentation before configuring it.
-
-| Boundary | Protection |
-| --- | --- |
-| Producer → broker | Broker duplicate detection can reduce duplicate accepted sends |
-| Event → consumer database | Transactional inbox prevents repeated committed effects for a retained event identity |
-| Business operation → domain state | A domain unique key protects one logical operation even if several event IDs represent it |
-
-For the source import scenario, use a stable request/job identity and domain uniqueness for imported records. A filename alone may identify neither the same content nor the same intended operation.
-
-### Retention and replay
-
-Deleting a marker removes knowledge that the event was processed. Choose retention from the longest replay horizon, including dead-letter recovery and manual replay. Preserve a longer-lived business key or define a controlled replay policy when messages may arrive after inbox deletion.
-
-The consumer name also matters. Renaming `account-credit-v1` creates a new namespace; old events can apply again under it. Treat namespace changes and payload evolution as a migration decision.
-
-### External side effects — a follow-up boundary
-
-Calling an email or payment API inside this database transaction cannot roll back the external effect. Calling it after commit creates another crash window.
-
-An adjacent design is to insert an outbox record together with the business update, then dispatch it separately. The dispatcher still faces uncertainty between sending and recording success. A stable downstream idempotency key, an idempotent receiving consumer, or reconciliation is needed where supported. An outbox alone does not guarantee exactly one external effect.
-
-This is a follow-up topic with a distinct objective: **reliably publish a committed business event and reconcile downstream delivery**. It is not a second lesson that merely renames the inbox objective.
-
-## Stage 5 — Interview round
-
-### Why the interviewer asks this
-
-The question tests whether you can locate a failure boundary, coordinate concurrent instances, distinguish delivery from business guarantees, and prove behavior. A definition without the transaction and failure timeline leaves the most useful reasoning unstated.
-
-Practice **direct claim → mechanism → example → trade-off → evidence → optional bridge**. Give a bounded answer first, then expand if asked. This makes your assumptions inspectable and reduces accidental overclaims. It does not prevent legitimate deep follow-ups; prepare to defend them honestly.
-
-### 30-second model answer
-
-> I assume a message can be redelivered after processing, because the database can commit before acknowledgment succeeds. I use a stable event ID and a consumer-specific inbox key. The inbox entry and business mutation commit in one database transaction, so retries skip a matching completed operation. I acknowledge after commit and verify the design with concurrent-delivery, rollback, and crash tests. The guarantee covers that database mutation; external effects need an additional design.
-
-### 90-second model answer
-
-> I would first define the guarantee: repeated deliveries of one stable event must not repeat its committed mutation in the consumer database. The failure window is between the database commit and acknowledgment. If the worker crashes there, the broker can redeliver even though the work succeeded.
->
-> I use a consumer-specific inbox keyed by event ID. The inbox insert and business update happen in one SQL transaction, with database uniqueness and appropriate concurrency control. A matching existing entry means the operation already committed. Reusing the same ID with different business data is rejected. I acknowledge only after that transaction succeeds.
->
-> For example, a credit event must increase an account balance once even when two replicas receive copies. A standalone existence check cannot prevent both replicas from passing. The transaction and database constraint protect the invariant. Stable IDs matter; if a producer generates a new ID for the same payment, I also need a business unique key.
->
-> The trade-offs are inbox retention, storage, and lock contention. I validate duplicate delivery, failed business updates, concurrency, and a crash after commit. In production, I monitor queue age, duplicate outcomes, deadlocks, and settlement failures. This covers local database effects. If we extend the flow to publish an event or call a payment provider, I would examine an outbox and downstream idempotency next.
-
-The example is hypothetical lab work. Replace it with your own incident or measurements only when you have evidence; do not present this model answer as personal production experience.
-
-### Defend deeper follow-ups
-
-| Interviewer follow-up | Defensible answer boundary |
-| --- | --- |
-| Why not just check before insert? | An ordinary check can race; this implementation holds database locks in the same transaction and retains a primary key. |
-| Why not only rely on the broker lock? | The lock is volatile, and duplicate copies can be separate broker messages; database effects need their own invariant. |
-| Why not catch any duplicate-key exception? | A different unique constraint may fail; an exception alone does not prove this event committed. |
-| Does a timeout mean retry is dangerous? | The outcome can be unknown. Retry the whole operation with the same identity; it either applies or recognizes the commit. |
-| What if I use a new ID on retry? | Event deduplication cannot recognize the same operation. Preserve identity and add domain uniqueness where needed. |
-| Why not a distributed transaction? | It adds coordination and availability costs and only applies where all participants support the required protocol. This design needs one local owner and tolerates broker redelivery. |
-| Can you promise exactly-once delivery? | No such guarantee is made here. I can defend one committed local mutation per retained stable identity, with retry/recovery requirements. |
-| When can inbox rows be deleted? | After the chosen replay horizon, or with a longer-lived domain invariant and controlled replay policy. |
-
-### An honest bridge
-
-After answering the question fully, you may close with: **“If the next requirement is publishing the committed result to another service, the next boundary to examine is the outbox and downstream idempotency.”** This offers a relevant continuation without hiding a limitation or trying to redirect away from an unanswered question.
-
-Record a 90-second answer. Listen for an unsupported “exactly once,” jargon before explanation, or a missing commit/acknowledgment gap. Re-record once with those gaps corrected. Then ask a partner to choose two unpredictable follow-ups from the table.
-
-## Stage 6 — Feedback and self-assessment
-
-No learner attempt has been submitted; all scores are unassigned. A self-rating is useful reflection but is not a verified assessment.
-
-Use a 0–4 rubric: **0** missing or incorrect; **1** terminology without a workable model; **2** correct normal case; **3** correct handling of retries, concurrency, and failure boundaries; **4** justified alternatives and observable validation.
-
-| Dimension | Evidence for a strong attempt |
-| --- | --- |
-| Technical correctness | Identifies stable identity and atomic inbox/business commit |
-| Reasoning | States the guarantee and distinguishes broker, event, and domain deduplication |
-| Implementation | Runs duplicate, conflict, rollback, and concurrent attempts with recorded outcomes |
-| Operations | Handles transient failures, retention, unknown outcomes, and useful telemetry |
-| Communication | Explains the failure window plainly within 90 seconds and answers follow-ups without overclaiming |
-
-Submit your transaction sketch, lab output, and spoken-answer transcript for feedback. Assessment should quote the exact evidence supporting each score, identify one or two gaps, and assign a focused correction exercise. Merely reading this lesson does not establish mastery.
-
-## Stage 7 — Retrieval close
-
-Close the worked solution and answer without looking:
-
-1. Which failure window makes a transactional inbox useful?
-2. Which two writes must commit atomically, and what happens if either is written separately?
-3. How do event identity and business identity differ?
-4. Why can more worker replicas reduce throughput on a hot account?
-5. What guarantee is lost after deleting the inbox entry, and what changes for an external payment call?
-
-Explain your SQL transaction from memory, then recreate only its key control flow. Compare with the solution after your attempt. At the next review, use a different scenario, such as a repeated inventory reservation, to test transfer rather than memorized credit code.
-
-Reviews are scheduled from **actual learner completion D**, not generation. Suggested intervals are D+1, D+3, D+7, D+14, D+30. If completion occurs on 8 October 2026 in Asia/Bangkok, those dates are 9 October, 11 October, 15 October, 22 October, and 7 November. These are conditional examples, not active review entries.
-
-## Stage 8 — Learning record
-
-This generated artifact has no completion evidence. Persist it as `generated`; use `in_progress` after an actual attempt and `completed` only under the learning-state completion rules. Assessment and review dates stay empty until appropriate evidence is available.
-
-```yaml
-LESSON_RECORD:
-  lesson_id: 2026-10-08-messaging-idempotent-consumer
-  lesson_path: lessons/2026-10-08-messaging-idempotent-consumer.md
-  topic_id: messaging-idempotent-consumer
-  domain: messaging-event-driven
-  level: senior
-  mode: full-lesson
-  status: generated
-  created_at: "2026-10-08"
-  completed_at: null
-  objectives:
-    - Implement an atomic SQL Server inbox and business update that handles concurrent deliveries and conflicting event identities.
-    - Explain redelivery after a successful database commit and identify the acknowledgment failure window.
-    - Verify rollback, retries, and unknown commit outcomes without assuming every timeout means failure.
-    - Deliver a concise interview answer with a defensible guarantee, trade-offs, and an honest follow-up bridge.
-  concept_fingerprint:
-    - at-least-once-delivery
-    - stable-event-identity
-    - transactional-inbox
-    - atomic-business-update
-    - concurrent-consumers
-    - commit-acknowledgment-gap
-    - failure-injection
-  score:
-    technical: null
-    reasoning: null
-    implementation: null
-    operations: null
-    communication: null
-  evidence: []
-  weak_points: []
-  review_due: []
-  source_refs:
-    - sources/04-architecture-distributed-systems.md#q024
-    - sources/04-architecture-distributed-systems.md#q025
-    - sources/04-architecture-distributed-systems.md#q026
-    - sources/04-architecture-distributed-systems.md#production-scenario
-    - sources/02-aspnet-api-ef.md#background-processing
-    - sources/02-aspnet-api-ef.md#large-file-processing-scenario
-    - https://learn.microsoft.com/en-us/azure/service-bus-messaging/message-transfers-locks-settlement
-    - https://learn.microsoft.com/en-us/azure/service-bus-messaging/duplicate-detection
-    - https://learn.microsoft.com/en-us/sql/t-sql/queries/hints-transact-sql-table
-    - https://learn.microsoft.com/en-us/sql/t-sql/statements/set-xact-abort-transact-sql
-    - https://learn.microsoft.com/en-us/sql/relational-databases/tables/create-unique-constraints
-    - https://learn.microsoft.com/en-us/sql/t-sql/language-elements/commit-transaction-transact-sql
-    - https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/servicebus/Azure.Messaging.ServiceBus/src/Processor/ServiceBusProcessorOptions.cs
-```
-
-### Runtime verification status
-
-On 2026-10-08, an attempt to run the SQL lab on a disposable SQL Server 2022
-container was blocked before container creation: image blobs redirected from
-`mcr.microsoft.com` to `centralus.data.mcr.microsoft.com`, which the environment
-proxy denied with HTTP 403. No SQL assertions or broker crash tests were run.
-Documentation verification below is complete; runtime outcomes remain expected
-results for the learner to verify. This infrastructure check is not learner
-completion evidence.
+Portable scope checked on 2026-10-09: [SQLite transaction documentation](https://www.sqlite.org/lang_transaction.html) describes explicit transactions and the single-writer boundary; [Python sqlite3 documentation](https://docs.python.org/3/library/sqlite3.html) describes `isolation_level=None` with explicit transaction SQL. The lab requires Python 3.10+ with `sqlite3`; no newer `autocommit` constructor option is used. Runtime evidence is the five portable checks in E, not proof about another database.
 
 ### Verification evidence
 
@@ -627,4 +490,8 @@ completion evidence.
 | V6 | A nested `COMMIT` only decrements `@@TRANCOUNT`; permanence depends on the outer commit | [COMMIT TRANSACTION](https://learn.microsoft.com/en-us/sql/t-sql/language-elements/commit-transaction-transact-sql) | [MicrosoftDocs source](https://github.com/MicrosoftDocs/sql-docs/blob/live/docs/t-sql/language-elements/commit-transaction-transact-sql.md) |
 | V7 | .NET Service Bus processor automatic completion is configurable with `AutoCompleteMessages` and defaults to true in the checked source | [Official .NET SDK source](https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/servicebus/Azure.Messaging.ServiceBus/src/Processor/ServiceBusProcessorOptions.cs) | Same official source |
 
-[Lesson index](index.md) · [Daily Interview Mastery skill](../agent/SKILL.md) · [Repository guide](../README.md)
+
+
+SQL Server execution remains unverified: the container image download was blocked by the environment's network policy. Retained Microsoft checks are dated 2026-10-08; the refactor does not falsely redate them. Official-doc checks and runtime tests are separate evidence.
+
+</details>

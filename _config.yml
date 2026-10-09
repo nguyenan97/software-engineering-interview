@@ -16,5 +16,6 @@ exclude:
   - scripts
   - tests
   - requirements.txt
+  - requirements-browser.txt
   - AGENTS.md
   - work

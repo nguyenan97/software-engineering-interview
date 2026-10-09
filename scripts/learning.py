@@ -37,12 +37,35 @@ def validate_state(state):
     if len(review_slots) != len(set(review_slots)):
         raise ValueError("Duplicate lesson/review interval in learning state")
     lessons = {item["lesson_id"]: item for item in state["lessons"]}
+    plans = {key: review_dates(item["completed_at"]) if item["completed_at"] else []
+             for key, item in lessons.items()}
+    previous_adjustment = None
+    for change in state.get("review_adjustments", []):
+        parent = lessons.get(change["lesson_id"])
+        if not parent or parent["status"] != "completed":
+            raise ValueError("Review adjustments require a completed lesson")
+        if (change["adjusted_at"] < parent["completed_at"] or
+                (previous_adjustment and change["adjusted_at"] < previous_adjustment) or
+                not state["last_updated"] or change["adjusted_at"] > state["last_updated"]):
+            raise ValueError("Review adjustment dates must preserve chronology")
+        previous_adjustment = change["adjusted_at"]
+        plan = plans[change["lesson_id"]]
+        if change["from_due"] not in plan:
+            raise ValueError("Review adjustment must reference a planned interval")
+        if (change["lesson_id"], change["from_due"]) in review_slots:
+            raise ValueError("Cannot reschedule a performed review")
+        if change["to_due"] < change["adjusted_at"] or change["to_due"] in plan:
+            raise ValueError("New review date must be today or later and distinct")
+        if not change["reason"].strip():
+            raise ValueError("Review adjustment needs a reason")
+        plan[plan.index(change["from_due"])] = change["to_due"]
+        plan.sort()
     for item in state["lessons"]:
         if item["completed_at"] and item["completed_at"] < item["created_at"]:
             raise ValueError("Completion precedes creation")
-        expected = review_dates(item["completed_at"]) if item["completed_at"] else []
+        expected = plans[item["lesson_id"]]
         if item["review_due"] != expected:
-            raise ValueError("Review dates must be anchored to actual completion")
+            raise ValueError("Review dates must follow completion and audited adjustments")
         if any(value is not None for value in item["score"].values()) and not item["evidence"]:
             raise ValueError("Scores require learner evidence")
     for review in state["reviews"]:
@@ -162,19 +185,28 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--state", type=Path, default=ROOT / "learning/state.json")
     sub = parser.add_subparsers(dest="command", required=True)
-    for name in ("next", "record", "start", "complete", "review"):
+    for name in ("next", "record", "start", "complete", "review", "reschedule"):
         cmd = sub.add_parser(name)
         cmd.add_argument("--date", required=True, help="Learner-local ISO date; never inferred from host timezone")
         if name == "record":
             cmd.add_argument("--lesson", type=Path, required=True)
-        elif name in ("start", "complete", "review"):
+        elif name in ("start", "complete", "review", "reschedule"):
             cmd.add_argument("lesson_id")
-        if name in ("complete", "review"):
+        if name in ("complete", "review", "reschedule"):
             cmd.add_argument("--evidence", type=Path, required=True)
+        if name in ("complete", "review"):
             cmd.add_argument("--assessment", type=Path)
+        if name == "reschedule":
+            cmd.add_argument("--from-date", required=True)
+            cmd.add_argument("--to-date", required=True)
+            cmd.add_argument("--reason", required=True)
     args = parser.parse_args(argv)
     if date.fromisoformat(args.date).isoformat() != args.date:
         raise ValueError("Date must use canonical YYYY-MM-DD format")
+    if args.command == "reschedule":
+        for day in (args.from_date, args.to_date):
+            if date.fromisoformat(day).isoformat() != day:
+                raise ValueError("Date must use canonical YYYY-MM-DD format")
     state = load_json(args.state)
     validate_state(state)
     catalog = load_json(ROOT / "curriculum/catalog.json")
@@ -230,6 +262,22 @@ def main(argv=None):
             scores, weak = assessment(args.assessment)
             record.update(status="completed", completed_at=args.date, score=scores,
                           weak_points=weak, evidence=[evidence], review_due=review_dates(args.date))
+        elif args.command == "reschedule":
+            if record["status"] != "completed":
+                raise ValueError("Complete the lesson before adjusting a review")
+            evidence = evidence_path(args.evidence)
+            if args.to_date < args.date or args.to_date in record["review_due"]:
+                raise ValueError("New review date must be today or later and distinct")
+            # Validation replays this audit trail against the completion anchor.
+            state.setdefault("review_adjustments", []).append({
+                "lesson_id": args.lesson_id, "adjusted_at": args.date,
+                "from_due": args.from_date, "to_due": args.to_date,
+                "reason": args.reason, "evidence": [evidence],
+            })
+            if args.from_date not in record["review_due"]:
+                raise ValueError("Review adjustment must reference a planned interval")
+            record["review_due"][record["review_due"].index(args.from_date)] = args.to_date
+            record["review_due"].sort()
         else:
             if record["status"] != "completed":
                 raise ValueError("Complete the lesson before recording a spaced review")

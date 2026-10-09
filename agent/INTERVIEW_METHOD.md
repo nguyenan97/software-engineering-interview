@@ -21,17 +21,24 @@ Use a small cycle repeatedly: **attempt → explain → apply → receive feedba
 
 Research establishes support for these general techniques, not a guarantee of interview success. Adapt difficulty to the attempt: give a foundation explanation when the learner cannot begin, then retry with fewer hints. Reading a fluent model answer is not evidence of mastery.
 
-### A practical 60-minute session
+### A focused 40-minute session
 
-| Time | Activity | Artifact |
+One main objective is a mechanism or decision, not a broad domain. Supporting checks may use the same mechanism in a changed example; independent topics belong in optional depth. The six-step structure is a design choice applying the research-supported principles above.
+
+| Step | Time | Artifact |
 | --- | --- | --- |
-| 5 minutes | Cold recall and prediction | Short answers; confidence recorded separately from correctness |
-| 10 minutes | Core model and worked example | Causal explanation and one invariant |
-| 25 minutes | Lab, reduced-support variation, and failure case | Code/design/query plus expected or observed checks |
-| 10 minutes | 30/90-second spoken answer and follow-ups | Transcript or concise written attempt |
-| 10 minutes | Targeted correction and retrieval close | Reattempt, remaining uncertainty, and evidence file |
+| A · Goal | 2 minutes | One capability, real use, prerequisites |
+| B · Predict | 4 minutes | Outcome and reason, before explanation |
+| C · Model | 6 minutes | One invariant and causal trace |
+| D · Practice | 16 minutes | Own repair/design plus reduced-support transfer |
+| E · Verify and correct | 6 minutes | Happy/failure output, prediction comparison, reattempt |
+| F · Speak and recall | 6 minutes | Own 30–90-second answer and three closed-note responses |
 
-Time budgets are defaults. Reserve most work for applying and retrieving; do not require irrelevant code for a behavioral discussion or architecture exercise. In Full lesson mode, the solution is available immediately, so the learner should attempt the challenge before reading it. Interactive mode provides that separation across turns.
+D–F reserve 28 minutes for practice/retrieval; B also requires an attempt. Defaults may vary within 30–45 minutes, with at least half active. Extra depth does not inflate the required session. Give a simpler task when an actual attempt reveals a prerequisite gap, then retry the mechanism independently.
+
+Full lesson keeps complete answers in closed native disclosure sections; the learner decides when to open them. Interactive waits for an attempt before providing answers. A runnable reference is author evidence, not evidence that the learner understands it. Architecture/behavioral exercises use an inspectable design or truthful response, not forced code.
+
+After a review, choose the next difficulty and timing from the observed answer. Shorten an unperformed interval when a specific recall gap warrants it; extend when justified by independently successful transfer. Record the evidence and reason with the state CLI, retain the original completion anchor, and leave past review evidence intact. There is no automatic mastery estimate from page views.
 
 ### Explain difficult concepts clearly
 

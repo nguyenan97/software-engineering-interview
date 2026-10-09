@@ -1,0 +1,2 @@
+# Verification only; no runtime dependency or scripts bundled into the site.
+playwright==1.56.0

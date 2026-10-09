@@ -26,6 +26,7 @@ def body(text):
 def anchors(path):
     text = body(path.read_text(encoding="utf-8"))
     values = set(re.findall(r'\bid=["\']([^"\']+)["\']', text))
+    values.update(re.findall(r'^\{:\s*#([\w-]+)\s*\}', text, re.M))
     for heading in re.findall(r"^#{1,6}\s+(.+?)\s*#*\s*$", text, re.M):
         clean = re.sub(r"[`*_]", "", heading).lower()
         values.add(re.sub(r"[^\w\- ]", "", clean).replace(" ", "-"))
@@ -93,7 +94,17 @@ def main():
             check_ref(ref, ROOT)
         content = path.read_text(encoding="utf-8")
         if record["mode"] == "full-lesson":
-            assert all(f"Stage {i}" in content for i in range(9)), "Full lesson must contain all stages"
+            if meta.get("lesson_format") == "focused-v1":
+                assert meta.get("layout") == "lesson", "Focused lessons use the lesson layout"
+                assert isinstance(meta.get("primary_objective"), str) and meta["primary_objective"].strip(), "One primary objective is required"
+                duration, practice = meta.get("duration_minutes"), meta.get("practice_minutes")
+                assert type(duration) is int and 30 <= duration <= 45, "Focused sessions take 30–45 minutes"
+                assert type(practice) is int and duration / 2 <= practice <= duration, "At least half the budget is active practice"
+                assert meta.get("prerequisites_note"), "Show prerequisites before starting"
+                assert {"goal", "predict", "model", "practice", "verify", "recall"} <= anchors(path), "Six stable step anchors are required"
+                assert "data-answer" in content and "<details" in content, "Full lesson answers must be available separately"
+            else:
+                assert all(f"Stage {i}" in content for i in range(9)), "Legacy full lesson must contain all stages"
     registered = {record["lesson_path"] for record in state["lessons"]}
     saved_lessons = {p.relative_to(ROOT).as_posix() for p in (ROOT / "lessons").glob("*.md") if p.name != "index.md"}
     assert registered == saved_lessons, "Saved lessons and learning-state records must agree"

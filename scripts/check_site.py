@@ -58,7 +58,7 @@ def main():
                 errors.append(f"Missing {link} in {path.relative_to(site)}")
             elif parts.fragment and target in pages and unquote(parts.fragment) not in pages[target].ids:
                 errors.append(f"Missing anchor {link} in {path.relative_to(site)}")
-    for excluded in ("learning", "scripts", "tests", "agent/LEARNING_STATE_TEMPLATE.json", "AGENTS.md", "requirements.txt", "work"):
+    for excluded in ("learning", "scripts", "tests", "agent/LEARNING_STATE_TEMPLATE.json", "AGENTS.md", "requirements.txt", "requirements-browser.txt", "work"):
         if (site / excluded).exists():
             errors.append(f"Excluded content published: {excluded}")
     if errors:

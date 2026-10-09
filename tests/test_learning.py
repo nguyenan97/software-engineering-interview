@@ -174,6 +174,47 @@ class LearningWorkflowTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "scheduled interval"):
             learning.validate_state(state)
 
+    def test_evidenced_review_adjustment_preserves_history_and_due_flow(self):
+        self.record()
+        completed = self.run_cli("complete", "2026-10-08-topic-a", "--date", "2026-10-09", "--evidence", self.evidence())
+        reviewed = self.run_cli("review", "2026-10-08-topic-a", "--date", "2026-10-10", "--evidence", self.evidence())
+        state = self.run_cli("reschedule", "2026-10-08-topic-a", "--date", "2026-10-10",
+                             "--from-date", "2026-10-12", "--to-date", "2026-10-11",
+                             "--reason", "Recall missed the failure boundary; retry sooner.", "--evidence", self.evidence())
+        self.assertEqual(state["lessons"][0]["completed_at"], completed["lessons"][0]["completed_at"])
+        self.assertEqual(state["reviews"], reviewed["reviews"])
+        self.assertEqual(len(state["lessons"]), 1)
+        self.assertEqual(state["lessons"][0]["score"], completed["lessons"][0]["score"])
+        self.assertEqual(learning.due_reviews(state, "2026-10-11"), [{"lesson_id": "2026-10-08-topic-a", "scheduled_for": "2026-10-11"}])
+        state = self.run_cli("review", "2026-10-08-topic-a", "--date", "2026-10-11", "--evidence", self.evidence())
+        self.assertEqual(len(state["reviews"]), 2)
+        self.assertEqual(state["reviews"][-1]["scheduled_for"], "2026-10-11")
+        learning.validate_state(state)
+
+    def test_review_adjustments_reject_invalid_changes_without_writing(self):
+        self.record()
+        self.run_cli("complete", "2026-10-08-topic-a", "--date", "2026-10-09", "--evidence", self.evidence())
+        self.run_cli("review", "2026-10-08-topic-a", "--date", "2026-10-10", "--evidence", self.evidence())
+        before = (self.root / "learning/state.json").read_text()
+        cases = [("2026-10-10", "2026-10-11", "performed"),
+                 ("2026-10-12", "2026-10-16", "distinct"),
+                 ("2026-10-12", "2026-10-09", "today or later"),
+                 ("2026-10-20", "2026-10-11", "planned interval")]
+        for old, new, error in cases:
+            with self.subTest(old=old, new=new), self.assertRaisesRegex(ValueError, error):
+                self.run_cli("reschedule", "2026-10-08-topic-a", "--date", "2026-10-10",
+                             "--from-date", old, "--to-date", new, "--reason", "Observed recall gap", "--evidence", self.evidence())
+            self.assertEqual(before, (self.root / "learning/state.json").read_text())
+        empty = self.root / "no-attempt.md"
+        empty.write_text(" ")
+        with self.assertRaisesRegex(ValueError, "nonempty"):
+            self.run_cli("reschedule", "2026-10-08-topic-a", "--date", "2026-10-10",
+                         "--from-date", "2026-10-12", "--to-date", "2026-10-11", "--reason", "Earlier", "--evidence", str(empty))
+        with self.assertRaisesRegex(ValueError, "reason"):
+            self.run_cli("reschedule", "2026-10-08-topic-a", "--date", "2026-10-10",
+                         "--from-date", "2026-10-12", "--to-date", "2026-10-11", "--reason", " ", "--evidence", self.evidence())
+        self.assertEqual(before, (self.root / "learning/state.json").read_text())
+
 
 if __name__ == "__main__":
     unittest.main()

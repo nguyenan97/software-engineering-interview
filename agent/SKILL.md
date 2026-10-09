@@ -80,20 +80,30 @@ For an unfinished Interactive session, resume its current challenge and lesson I
 
 A due review may be a short warm-up before a new lesson, but it is labeled **Review**, uses the existing lesson ID, and is recorded separately. It does not replace a new lesson when the learner explicitly requests one. If the catalog has no semantically new eligible topic, create a source-linked extension with distinct objectives or explain the exhausted coverage and provide a clearly labeled review; do not claim novelty.
 
-## Learning protocol
+## Focused learning protocol
 
-Apply [the learning method](INTERVIEW_METHOD.md), which records research support and its limits. Treat timing and session lengths as configurable repository defaults, not scientifically optimal prescriptions.
+Apply [the learning method](INTERVIEW_METHOD.md). Retrieval, spacing, worked examples, self-explanation and faded practice have research support; the six-step format and calendar are repository defaults, not scientifically optimal prescriptions.
 
-1. **Retrieve:** begin with 2–3 recall questions and a prediction or design challenge, before the explanation. In Interactive mode, wait for an attempt.
-2. **Model:** explain one causal mechanism or invariant, then trace a concrete example. Use a diagram when it clarifies execution, state, or ownership.
-3. **Practice:** provide a worked solution in Full lesson mode; in Interactive mode, provide it after the attempt or an explicit request. Ask the learner to explain why key steps work.
-4. **Fade support:** give a second task with fewer hints or changed constraints; require independent reasoning instead of copying the solution.
-5. **Transfer:** add a production failure, alternative, and a way to validate the decision.
-6. **Speak:** rehearse a direct 30-second answer, a 90-second answer, and deeper follow-ups in English.
-7. **Correct:** use actual learner evidence for precise feedback. Reattempt the weak step after correction.
-8. **Space:** review at D+1, D+3, D+7, D+14, and D+30 **after completion**, varying recall and application tasks. Keep overdue reviews visible until performed; do not backfill fictional sessions.
+Each default lesson has **one main objective**, one causal mechanism or decision the learner can practice and verify in **30–45 minutes**. At least half the budget is practice and retrieval. Do not turn a broad catalog topic into a checklist of everything it mentions. Keep 2–4 observable acceptance criteria that serve the single objective; put independent mechanisms, scale and advanced versions in optional depth or a distinct later catalog entry. Never change a delivered record's objectives to conceal repetition.
 
-Default Full lessons should fit roughly 45–75 minutes, with more time reserved for attempts and application than reading. Behavioral or architecture lessons use a concrete response/design task instead of forcing irrelevant code.
+For a catalog topic too broad for one session, add a narrowly scoped, source-linked catalog entry with distinct objectives/fingerprint before registering it. Respect its prerequisites and compare it semantically with all delivered lessons; narrowing an already taught primary objective does not make it new. Existing generation snapshots may retain broader criteria when refactored; explain this and preserve history.
+
+Use six visible steps with stable IDs:
+
+| Step / ID | Work | Next action |
+| --- | --- | --- |
+| A · `goal` | One capability, real situation, prerequisites and time budget | Predict a concrete outcome |
+| B · `predict` | A faulty implementation, incident or constrained choice; attempt before explanation | Keep prediction and reason |
+| C · `model` | Problem → cause → mechanism → example → boundary; one state trace/invariant | Try the lab |
+| D · `practice` | Small executable/debugging/design task, inputs, constraints and success checks; then a changed example with fewer hints | Run or inspect evidence |
+| E · `verify` | Happy path and failure case; compare prediction with actual checks; correct one evidenced misconception and retry | Explain without notes |
+| F · `recall` | Own explanation, 30/90-second answer, two defended follow-ups and three retrieval questions | Submit evidence; schedule later retrieval |
+
+Full lesson includes complete worked solutions, transfer answer guide, model answers and retrieval guide in separate native `<details markdown="1" data-answer>` blocks, closed by default. Questions and tasks remain outside. Advanced material and sources are expandable; important scope or unverified claims stay visible near the relevant task. In Interactive, **wait for the learner's attempt** before revealing the corresponding answer. Behavioral/architecture lessons use a concrete response/design artifact rather than irrelevant code.
+
+Each lab needs an explicit run/inspection path, expected outputs, a happy path, at least one meaningful failure and the question **“What evidence supports your conclusion?”** Prefer the project stack. A lightweight portable lab may isolate its invariant, but label the substitution and guarantee boundary; do not infer SQL Server, broker or concurrent-worker behavior from a different runtime. Label prepared tests, actual author execution and learner evidence separately.
+
+Adapt difficulty using actual attempts: repair a missing prerequisite, correct one precise misconception and let the learner retry the weak step with fewer hints. Never infer proficiency from a title or from reading an answer. Review D+1/3/7/14/30 after evidenced completion; vary examples and keep overdue work visible. Adjust only unperformed review dates with evidence and a recorded reason; no fictional sessions.
 
 ## Modes and turn boundaries
 
@@ -106,21 +116,13 @@ Default Full lessons should fit roughly 45–75 minutes, with more time reserved
 
 `Lab-only` and `Deep dive` remain optional variations. Do not switch from Full lesson to Interactive by withholding requested solutions. Do not treat delivery of a model answer as the learner's answer.
 
-## Default lesson stages
+## Lesson presentation and navigation
 
-Follow [LESSON_TEMPLATE.md](LESSON_TEMPLATE.md):
+Follow [LESSON_TEMPLATE.md](LESSON_TEMPLATE.md), using `layout: lesson` and `lesson_format: focused-v1`. Put the primary objective, duration and prerequisites in front matter for the lesson header. Use the six stable step IDs so the sidebar, next actions and browser reading bookmark work. Include identity, domain/level/ring, source seed and selection reason in A; supporting acceptance criteria must all serve the main objective.
 
-0. **Lesson card:** stable topic and lesson IDs, domain, level, ring, source section, selection reason, time budget, and 2–4 observable objectives.
-1. **Cold start:** recall questions and one realistic prediction, debugging, or design challenge.
-2. **Core model:** minimum theory, causal flow/invariant, example, and optional Vietnamese semantic note.
-3. **Hands-on lab:** prerequisites, task, constraints, worked solution, expected outcomes, verification, and a task with reduced scaffolding.
-4. **Production twist:** failure modes, alternatives, operational signals, and explicit boundaries.
-5. **Interview round:** interviewer intent, 30/90-second answers, deeper defense, one alternative challenge, and an optional honest follow-up bridge.
-6. **Feedback:** five-dimension rubric; unobserved dimensions remain null. Identify gaps only from evidence.
-7. **Retrieval close:** 3–5 prompts, with answers located separately; explain completion-based review intervals.
-8. **Learning record:** metadata consistent with the saved file and durable state; distinguish prepared, attempted, and completed work.
+The public [daily desk](../index.md) offers new lesson, continue reading, review and mock actions. It serves published artifacts, not personalized learner status. New/review/mock prompts are pasted into an agent with repo access; they do not invoke a server. The browser can save a reading step only. Authoritative completion, scores and due dates come from the selected repo state profile. Interactive/Mock resume uses the saved session note, not a browser bookmark.
 
-Include direct source links and verification notes in the lesson, not just in an agent's chat narration.
+Keep version verification, provenance, production trade-offs, rubric and learning record in the lesson. Collapse extra detail rather than dropping it. Legacy nine-stage lessons remain readable; new lessons use the focused template.
 
 ## Interview answer standard
 
@@ -171,6 +173,14 @@ python3 scripts/learning.py complete LESSON_ID --date YYYY-MM-DD --evidence /pat
 python3 scripts/learning.py review LESSON_ID --date YYYY-MM-DD --evidence /path/to/retrieval-attempt.md
 ```
 
+To change an unperformed interval after observing recall evidence, use:
+
+```bash
+python3 scripts/learning.py reschedule LESSON_ID --date YYYY-MM-DD --from-date YYYY-MM-DD --to-date YYYY-MM-DD --reason "Observed gap and reason for timing" --evidence /path/to/retrieval-attempt.md
+```
+
+This preserves the original completion anchor and an adjustment audit trail; it never creates a review, score or completion. Leave intervals unchanged when evidence does not justify adjustment.
+
 Completion is an attempted learning session supported by evidence, not certification of mastery. Assess each dimension only when that evidence supports it; `--assessment /path/to/assessment.json` may attach an evidence-grounded assessment to completion. Never fill missing dimensions with zero. Keep historical lesson-generation metadata distinct from subsequent state transitions. Do not run completion or review commands merely because they appear in an example.
 
 State writes must be atomic and preserve existing records. Use one writer at a time; atomic replacement does not prevent two writers from overwriting one another's changes. Re-read state before recording a choice; if another session delivered the same objective, resume it or select another. Do not overwrite a prior lesson to conceal duplication.
@@ -180,7 +190,7 @@ State writes must be atomic and preserve existing records. Use one writer at a t
 Before yielding a question, save its cursor at `learning/sessions/LESSON_ID.md`
 using [the session template](SESSION_TEMPLATE.md). With a separate `--state`
 profile, use `sessions/LESSON_ID.md` beside that profile's state file. Store the
-mode, stage, exact unanswered prompt, next action, sanitized attempt/feedback
+mode, six-step cursor, exact unanswered prompt, next action, sanitized attempt/feedback
 and update date. Initial question delivery remains `generated`; call `start`
 after a learner attempt. The CLI updates status, not this session note: the agent
 must write the note separately, re-read it on resume, and preserve the lesson ID.
@@ -197,7 +207,9 @@ If filesystem access or mutation is unavailable, deliver the lesson plus the exa
 - [ ] Primary objectives are semantically new across all delivered records, or the session is explicitly Review/extension.
 - [ ] Prerequisites are handled without assuming pending work was learned.
 - [ ] Version-sensitive claims have official links, scope, and a real check date, or a clear unverified label.
-- [ ] A meaningful challenge, solution, verification method, and reduced-support task exist for Full lesson.
+- [ ] One primary objective fits 30–45 minutes; at least half is practice/retrieval.
+- [ ] Six stable steps, next actions, prerequisites and closed answer sections are present.
+- [ ] A meaningful challenge, complete solution, happy/failure checks and reduced-support task exist for Full lesson.
 - [ ] At least one failure mode and alternative decision are explained.
 - [ ] Interview answers are direct, concise, defensible, and honest about boundaries/experience.
 - [ ] English is primary; optional Vietnamese support is brief and purposeful.

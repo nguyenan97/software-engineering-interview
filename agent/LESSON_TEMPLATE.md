@@ -1,227 +1,213 @@
 ---
 layout: default
-title: Lesson Template
+title: Focused Lesson Template
 ---
 
-# Lesson Template
+# Focused Lesson Template
 
-Use this template with [the skill](SKILL.md) and [the learning/interview method](INTERVIEW_METHOD.md). Replace every placeholder with source-grounded content. This file is a template, not a generated lesson; do not register it in learning state.
+Use with [the skill](SKILL.md) and [the method](INTERVIEW_METHOD.md). This is a template, not a delivered lesson. Replace every placeholder with source-grounded content; do not register this file in state. The default is **one objective in 30–45 minutes**, with at least half reserved for practice/retrieval. Optional depth is outside that budget.
 
-The following stages describe a **Full lesson**. For Interactive, deliver the card and first challenge, register that session once, then wait for an attempt. Resume the same lesson ID on later turns. For Review, use an existing lesson ID and separate review history. For Mock interview, ask one question at a time before showing model answers or grades.
+Full lesson includes all solutions, separately expandable and closed by default. Interactive presents A and the first challenge, registers once and **waits** before revealing answers. Resume that same lesson ID. Review reuses an existing ID and records a separate evidence-backed review. Mock asks one question at a time before model answers or assessment.
 
-## File metadata
+## Front matter
 
-Save the completed lesson as `lessons/YYYY-MM-DD-topic-id.md`. Begin it with YAML front matter in this format (remove the surrounding code fence in the actual file):
+Save as `lessons/YYYY-MM-DD-topic-id.md`. Remove the code fence in the actual file. Keep ISO dates quoted.
 
 ```yaml
 ---
-layout: default
-title: "<Clear problem-oriented title>"
+layout: lesson
+lesson_format: focused-v1
+title: "<Concrete problem the learner will solve>"
 lesson_id: "YYYY-MM-DD-<topic_id>"
-topic_id: "<stable catalog topic ID>"
+topic_id: "<catalog topic ID>"
 domain: "<catalog domain>"
-level: "foundation"
+level: foundation
+mode: full-lesson
 created_at: "YYYY-MM-DD"
 status: generated
-mode: full-lesson
+primary_objective: "<One observable capability, not a list of independent topics>"
+duration_minutes: 40
+practice_minutes: 28
+prerequisites_note: "<Actual prior knowledge and runtime needed; do not assume mastery>"
 objectives:
-  - "<Observable outcome 1, copied exactly from the selected catalog topic>"
-  - "<Observable outcome 2, copied exactly from the selected catalog topic>"
+  - "<Catalog primary objective, copied exactly>"
+  - "<Catalog supporting acceptance criterion, copied exactly>"
 concept_fingerprint:
   - "<catalog-concept-1>"
   - "<catalog-concept-2>"
   - "<catalog-concept-3>"
 source_refs:
-  - "sources/<source-file>.md"
-  - "https://<direct-official-documentation-url>"
+  - "sources/<file>.md#<exact-section>"
+  - "https://<official-behavior-reference>"
 ---
 ```
 
-Use `foundation | senior | architect` for level, 2–4 objectives, and 3–7 fingerprint concepts. Identity, objectives, and fingerprint must agree exactly with `curriculum/catalog.json`; extend the catalog first for a genuinely new topic. Match the local delivery date to `lesson_id`, filename, `created_at`, and the record command. Quote ISO dates so that the YAML parser treats them as strings.
+Use catalog level `foundation | senior | architect`, 2–4 objectives and 3–7 fingerprint concepts. All criteria serve the single main capability. Identity/objectives/fingerprint agree exactly with the catalog; add a narrowly scoped, source-linked entry first if an existing topic is too broad. Compare primary objectives semantically across delivered lessons, including pending ones. Never relabel an old objective as new.
 
-The front matter is the **generation snapshot**, not the current learner state. Keep `status: generated` in the original file; `learning/state.json` records later attempts, completion, assessment, and reviews. Do not confuse a populated solution with evidence of completion.
+The layout displays the title, objective, duration and prerequisites: **do not add another H1 in the body**. Metadata is the generation snapshot. Keep `status: generated`; actual attempts, completion, scores and reviews belong in state. Do not rewrite original delivery dates when refactoring.
 
-## Stage 0 — Lesson Card
+The following six H2s and explicit Kramdown IDs are required for navigation. Copy their IDs unchanged. End every step with a meaningful next action. Keep questions/tasks outside disclosure sections. Scope, dependencies and any unverified behavior must be visible near the relevant task.
 
-| Field | Value |
+## A · Set the goal — 2 minutes
+{: #goal }
+
+**After this lesson, you can:** `<one mechanism/decision you can apply and verify>`.
+
+Show the concrete production situation needing it. Define unfamiliar terms before requiring their use.
+
+| Lesson card | Value |
 | --- | --- |
-| Lesson ID | `<date-topic_id>` |
-| Topic ID | `<topic_id>` |
-| Domain / level / ring | `<domain>` / `<foundation, senior, or architect>` / `<A, B, or C>` |
+| Lesson / topic IDs | `<IDs matching metadata>` |
+| Domain / level / ring | `<catalog values>` |
+| Source seed | `<exact source question/section with relative link>` |
+| Selection | `<why now, prerequisites, and what is new compared with delivered objectives>` |
+| Core / optional | `<30–45 minutes; active practice minutes; optional material excluded>` |
 | Mode | Full lesson |
-| Time budget | `<practical duration; reserve most time for application>` |
-| Source seed | `<relative link and exact source section/question>` |
-| Prerequisites | `<completed catalog prerequisites; optional foundation support>` |
 
-**Selection reason:** State which source question this develops, why it is appropriate now, and how its primary objectives differ from delivered lessons. Distinguish a new objective from a supporting concept being reinforced.
+**Success checks:** 2–4 observable criteria supporting the one objective. Explain version/workload/ownership assumptions and boundaries. If prerequisite evidence is missing, offer the required foundation or resume it; don't assume a generated prerequisite is learned.
 
-**By the end, you should be able to:**
+**Next:** [Predict the outcome](#predict).
 
-1. `<Observable outcome 1>`
-2. `<Observable outcome 2>`
-3. `<Optional outcome 3>`
-4. `<Optional outcome 4>`
+## B · Predict first — 4 minutes
+{: #predict }
 
-State important scope assumptions: framework/product version when relevant, ownership, workload, and what the lesson's guarantee covers.
+Give a short faulty implementation, incident or constrained design choice. Include concrete input, starting state and one interruption. Ask for the predicted outcome and causal reason **before execution or explanation**. Add 1–2 prerequisite recall prompts if useful.
 
-## Stage 1 — Cold Start
+**Challenge:** `<specific repair, diagnosis or decision with success criteria>`.
 
-Spend `<short time budget>` answering without notes before reading the explanation.
+Record confidence separately from correctness. An unanswered prompt is not a grade.
 
-1. `<Retrieve prerequisite or previously learned concept>`
-2. `<Explain a causal mechanism or compare two related options>`
-3. `<Optional application question>`
+**Next:** [Understand the mechanism](#model).
 
-**Challenge:** Present a realistic faulty implementation, incident, query, design, or behavioral situation. Give concrete inputs, constraints, and the observable task. Ask the learner to predict an outcome and justify it before offering the solution.
+## C · Understand why — 6 minutes
+{: #model }
 
-Record confidence separately from correctness. An unanswered question identifies a possible need for teaching; it is not proof of a weakness or a score of zero.
+Explain **problem → cause → mechanism → concrete trace → boundary**. Use one invariant, execution flow or state transition. Show one failure/alternative and connect the abstract term to that state. Explain why the key step matters. Avoid introducing unrelated concepts.
 
-## Stage 2 — Core Model
+Place direct official citations and scope next to version-dependent claims. A short Vietnamese Note is optional when it clarifies a difficult mental model; do not translate everything.
 
-Explain the minimum theory needed to solve the challenge:
+**Next:** [Try the task](#practice).
 
-- Define the concept in clear language.
-- State the invariant or the decision the mechanism supports.
-- Trace a concrete input through execution/state/data ownership.
-- Show one interruption, invalid input, or alternative condition.
-- Explain the boundary of the guarantee.
+## D · Try the lab — 16 minutes
+{: #practice }
 
-Use a compact diagram if it improves the explanation. Connect abstract terms to the concrete trace. Place direct official citations near version-sensitive claims.
+State prerequisites, safe environment, files/sample inputs, exact commands or inspection path, acceptance criteria and expected outputs. Prefer the project's stack. Label a portable substitute's scope; it cannot validate a different runtime's behavior. Architecture/behavioral lessons may use an inspectable design or truthful answer artifact.
 
-**Self-explanation prompt:** `<Ask why one critical step works and what breaks if it is removed.>`
+**Attempt:** `<one meaningful repair/query/log investigation/design task; don't ask only to copy>`.
 
-### Vietnamese Note (optional)
+**Evidence question:** What observation or failure test supports your conclusion?
 
-`<Short semantic clarification for a difficult mental model; preserve established English terms. Remove this block when unnecessary.>`
+<details markdown="1" data-answer>
+<summary>Complete worked solution — open after trying</summary>
 
-## Stage 3 — Hands-On Lab
+`<Full executable code/commands or complete design/response, not just hints>`
 
-### Setup and task
+Explain why key steps preserve the invariant or meet the constraint. Distinguish pseudocode from executable code. State what was actually checked during preparation.
 
-Specify dependencies, versions/applicability, setup instructions, sample data, safe scope, and the task. Use meaningful code, queries, diagnostics, a design artifact, or a truthful behavioral response. State the required invariant or acceptance criteria.
+</details>
 
-**Attempt first:** `<A concrete implementation/debugging/design task with a time budget.>`
+**Transfer:** `<same mechanism, new input/context/constraint with fewer hints>`.
 
-### Worked solution
+<details markdown="1" data-answer>
+<summary>Transfer answer guide</summary>
 
-Provide a complete, usable solution and explain why its important steps meet the constraints. Include exact commands or code where relevant. Do not label pseudocode executable. Distinguish prerequisites for running from commands actually run.
+`<Usable solution/trace and test that distinguish understanding from copying>`
 
-### Verification
+</details>
 
-| Case | Expected result | What to inspect |
+**Next:** [Check the evidence](#verify).
+
+## E · Verify and correct — 6 minutes
+{: #verify }
+
+| Case | Expected result | Observable evidence |
 | --- | --- | --- |
-| Normal input | `<result>` | `<observable artifact>` |
-| Boundary or invalid input | `<result>` | `<observable artifact>` |
-| Concurrent/repeated/failed execution where relevant | `<result>` | `<observable artifact>` |
+| Happy path | `<result>` | `<test/output/state>` |
+| Meaningful failure | `<result>` | `<test/output/state>` |
+| Boundary/replay/changed constraint | `<result>` | `<test/output/state>` |
 
-**Checks performed while preparing:** `<Actual checks and results, or a clear statement that execution was unavailable.>`
+**Actually run during preparation:** `<commands, date, observed results and important untested limits>`.
 
-Expected results are a test plan, not observed evidence. Include a failure injection or contrasting case when it tests the mechanism more meaningfully than another happy-path example.
+Compare the B prediction with the outcome. Explain one likely misconception through the trace; call it a learner weakness only if an actual attempt supports that conclusion. Correct the precise gap and ask for a reattempt of that step. Reference execution is author evidence, not learner evidence.
 
-### Reduced-support task
+**Production twist:** `<one failure/constraint, recovery path and observable signal>`.
 
-Change one important constraint and remove hints: `<Independent task requiring transfer rather than copying.>`
-
-Provide an answer guide later in the Full lesson so it remains self-contained. In Interactive mode, wait for the learner's independent attempt before showing it.
-
-## Stage 4 — Production Twist
-
-Introduce a realistic constraint such as more replicas, a dependency outage, duplicate delivery, query regression, token expiry, increasing data volume, or a cost ceiling.
-
-| Option | Suitable condition | Principal cost/failure boundary | Validation |
+| Option | When suitable | Trade-off / guarantee boundary | Validation |
 | --- | --- | --- | --- |
-| `<Preferred option>` | `<condition>` | `<cost or failure>` | `<test/metric/trace>` |
-| `<Alternative>` | `<condition changing the choice>` | `<cost or failure>` | `<test/metric/trace>` |
+| `<preferred>` | `<constraint>` | `<cost/failure>` | `<evidence>` |
+| `<alternative>` | `<condition changing choice>` | `<cost/failure>` | `<evidence>` |
 
-Explain observable signals, the recovery path, and one decision that changes under the new constraint. Do not claim a performance improvement without measurement.
+**Next:** [Explain without notes](#recall).
 
-**Architect extension:** `<Optional source-linked extension involving ownership, consistency, security, reliability, cost, or deployment.>` Label its objective as an extension rather than silently treating it as a completed new lesson.
+## F · Say it and recall — 6 minutes
+{: #recall }
 
-## Stage 5 — Interview Round
+**Interview question:** `<source-grounded English question>`.
 
-**Primary question:** `<Natural English question matching the source intent.>`
+**Likely assessment intent:** `<inference, not a universal interviewer rule>`.
 
-**Likely assessment intent:** `<What the interviewer is trying to learn; identify this as an inference rather than a universal rule.>`
+Try an own 30-second answer, then 90 seconds. Include a direct claim, mechanism, concrete example, trade-off, failure and evidence. Measure speech time. No invented production experience.
 
-### 30-second answer
+<details markdown="1" data-answer>
+<summary>Short and senior model answers, follow-ups and bridge</summary>
 
-`<Direct claim, mechanism, important boundary; approximately 3–4 clear sentences.>`
+`<Complete 30-second and 90-second answers in English>`
 
-### 90-second senior answer
+**Follow-up 1:** `<deeper mechanism question and defensible answer>`.
 
-`<Direct claim → mechanism → example → trade-off and validation. Include one relevant assumption. Use hypothetical wording unless learner experience is documented.>`
+**Follow-up 2:** `<failure/alternative question and defensible answer>`.
 
-### Deeper follow-ups and defense
+**Optional bridge:** `<related topic after answering completely, plus its boundary and a prepared answer>`. Answer direct follow-ups first; do not promise to avoid probing.
 
-1. `<How does the mechanism work?>` — `<Defensible answer or evidence path.>`
-2. `<What fails?>` — `<Specific case and resulting state.>`
-3. `<Why not the alternative?>` — `<Constraint and condition changing the choice.>`
-4. `<How would you validate it?>` — `<Relevant evidence without invented results.>`
-5. `<What changes at scale?>` — `<Bottleneck hypothesis and measurement.>`
+</details>
 
-**Optional bridge:** `<One relevant adjacent topic after the direct answer is complete.>` Explain the connection and prepare one honest follow-up answer. Do not promise to prevent deeper questions or use the bridge to evade one.
+<button type="button" class="button button-secondary" data-close-answers disabled>Close answers for recall</button>
+<p id="recall-status" role="status" aria-live="polite">Close the explanation or cover it. Answer without notes.</p>
 
-For behavioral questions, replace the technical sequence with genuine STAR plus reflection. A fictional model is labeled fictional and must not become claimed learner experience.
+1. `<Recall the invariant/mechanism>`
+2. `<Apply it to a changed failure>`
+3. `<Choose between related alternatives or defend a boundary>`
 
-## Stage 6 — Feedback and Self-Assessment
+<details markdown="1" data-answer>
+<summary>Retrieval guide — open after answering</summary>
 
-No learner evidence means **no assigned scores or diagnosed weaknesses**. Provide the rubric and criteria, then request a real attempt when assessment is wanted.
+`<Three concise answers, distinct from the prompts>`
 
-| Dimension | Evidence to assess | Score |
+</details>
+
+### Evidence, rubric and learning record
+
+Ask for a real attempt: own artifact/output, corrected prediction and explanation. Assess only supported dimensions with the [0–4 rubric](../agent/INTERVIEW_METHOD.md#evidence-based-feedback).
+
+| Dimension | Evidence | Delivery score |
 | --- | --- | --- |
-| Technical | Correct mechanism and boundaries | `null` until observed |
-| Reasoning | Justified choice and alternatives | `null` until observed |
-| Implementation | Relevant code/query/design correctness and checks | `null` until observed |
-| Operations | Failure handling, recovery, and observability | `null` until observed |
-| Communication | Direct, clear, ordered, responsive explanation | `null` until observed |
+| Technical | Correct mechanism and limits | `null` |
+| Reasoning | Justified decision and alternative | `null` |
+| Implementation | Own working artifact and checks | `null` |
+| Operations | Failure, recovery and observation | `null` |
+| Communication | Direct answer and defended follow-ups | `null` |
 
-Use the 0–4 anchors from [the interview method](INTERVIEW_METHOD.md). If evidence exists, cite the relevant part of the attempt, explain the score, correct one precise gap, and give a reattempt. Unobserved dimensions stay null.
+State whether lesson/state were actually saved. Initial record: `generated`, original delivery date, `completed_at: null`, all scores null, `weak_points: []`, `review_due: []`, `evidence: []`. Reuse metadata identity rather than adding a conflicting copy. If writes are blocked, return the exact proposed patch and say **not saved to the repository**.
 
-## Stage 7 — Retrieval Close
+Explain D+1/3/7/14/30 from evidenced completion, separate review events and evidence-backed adjustment of unperformed intervals. The public site's reading bookmark does not update repo state. **Next:** submit evidence or use [the state workflow](../docs/workflow.md).
 
-Close the explanation and answer these prompts from memory:
+## Optional depth and sources
 
-1. `<Recall the invariant or mechanism.>`
-2. `<Apply it to a new failure/constraint.>`
-3. `<Distinguish the preferred option from an alternative.>`
-4. `<Optional evidence/operations prompt.>`
-5. `<Optional concise spoken-answer prompt.>`
+<details markdown="1" data-answer>
+<summary>Optional advanced extension — outside the core budget</summary>
 
-Review at **D+1, D+3, D+7, D+14, and D+30 after completion**. Actual dates are written to learning state only when completion has supporting evidence. Use different examples and fewer hints over time. A review does not count as a new lesson.
+`<Source-linked advanced implementation/scale question, its new objective and untested boundaries>`
 
-### Answer guide
+</details>
 
-Place concise answers to the reduced-support task and retrieval close here, separate from the questions. This keeps Full lesson self-contained while allowing self-testing first. Do not include this guide in the first Interactive/Mock interview turn.
+<details markdown="1">
+<summary>Provenance and dated verification</summary>
 
-## Stage 8 — Learning Record
-
-State whether the file and record were actually saved. Link to authoritative state when writable. At initial delivery:
-
-```yaml
-lesson_id: "<date-topic_id>"
-status: generated
-created_at: "YYYY-MM-DD"
-completed_at: null
-score:
-  technical: null
-  reasoning: null
-  implementation: null
-  operations: null
-  communication: null
-weak_points: []
-review_due: []
-evidence: []
-```
-
-The remaining identity, objectives, fingerprint, source references, and lesson path are supplied by the metadata and state record. Do not insert a second conflicting identity block. To begin, complete, or review the lesson, follow [the durable-state commands](../docs/workflow.md) with actual evidence.
-
-If saving is blocked, include the proposed lesson metadata and exact proposed state entry/patch; say **not saved to the repository**. A generated date never stands in for the completion date.
-
-## Sources and Verification
-
-| Claim or seed | Source | Applicability/version | Verified on | Status |
+| Claim / seed | Source | Applicability | Actually checked on | Status |
 | --- | --- | --- | --- | --- |
-| Source interview question | `<relative source link and section>` | Source framing | `<read date>` | Interview seed, not an authoritative answer |
-| `<Version-sensitive technical claim>` | `<direct official URL>` | `<product/version/condition>` | `<actual check date>` | Verified or explicitly unverified |
+| Interview seed | `<exact local source link>` | Question framing | `<read date>` | Not an authoritative answer |
+| Technical behavior | `<direct official reference>` | `<product/version/scope>` | `<actual verification date>` | Verified / unverified |
 
-Record enough detail for another reader to assess the claim and its limits. Do not claim that every statement was independently verified merely because a bibliography exists.
+Do not redate old checks or equate documentation verification with execution. Keep significant unverified scope visible in the core as well.
+
+</details>
