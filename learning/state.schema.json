@@ -1,0 +1,415 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:daily-interview:state:v2",
+  "title": "Daily Interview Mastery learning state v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "learner_profile",
+    "lessons",
+    "reviews",
+    "last_updated"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 2
+    },
+    "learner_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "target_level",
+        "default_stack",
+        "timezone"
+      ],
+      "properties": {
+        "target_level": {
+          "type": "string",
+          "minLength": 1
+        },
+        "default_stack": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true,
+          "minItems": 1
+        },
+        "timezone": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "lessons": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "lesson_id",
+          "topic_id",
+          "domain",
+          "level",
+          "mode",
+          "status",
+          "created_at",
+          "completed_at",
+          "objectives",
+          "concept_fingerprint",
+          "source_refs",
+          "lesson_path",
+          "score",
+          "weak_points",
+          "evidence",
+          "review_due"
+        ],
+        "properties": {
+          "lesson_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          },
+          "topic_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          },
+          "domain": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          },
+          "level": {
+            "enum": [
+              "foundation",
+              "senior",
+              "architect"
+            ]
+          },
+          "mode": {
+            "enum": [
+              "full-lesson",
+              "interactive",
+              "mock-interview",
+              "lab-only",
+              "deep-dive"
+            ]
+          },
+          "status": {
+            "enum": [
+              "generated",
+              "in_progress",
+              "completed"
+            ]
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date"
+          },
+          "completed_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "objectives": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true,
+            "minItems": 2,
+            "maxItems": 4
+          },
+          "concept_fingerprint": {
+            "type": "array",
+            "minItems": 3,
+            "maxItems": 7,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+            }
+          },
+          "source_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true,
+            "minItems": 1
+          },
+          "lesson_path": {
+            "type": "string",
+            "pattern": "^lessons/.+\\.md$"
+          },
+          "score": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "technical",
+              "reasoning",
+              "implementation",
+              "operations",
+              "communication"
+            ],
+            "properties": {
+              "technical": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0,
+                "maximum": 4
+              },
+              "reasoning": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0,
+                "maximum": 4
+              },
+              "implementation": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0,
+                "maximum": 4
+              },
+              "operations": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0,
+                "maximum": 4
+              },
+              "communication": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0,
+                "maximum": 4
+              }
+            }
+          },
+          "weak_points": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "review_due": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "date"
+            },
+            "uniqueItems": true
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "status": {
+                  "const": "completed"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "completed_at": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "evidence": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "uniqueItems": true,
+                  "minItems": 1
+                },
+                "review_due": {
+                  "type": "array",
+                  "minItems": 5,
+                  "maxItems": 5,
+                  "items": {
+                    "type": "string",
+                    "format": "date"
+                  }
+                }
+              }
+            },
+            "else": {
+              "properties": {
+                "completed_at": {
+                  "type": "null"
+                },
+                "review_due": {
+                  "maxItems": 0
+                },
+                "score": {
+                  "properties": {
+                    "technical": {
+                      "type": "null"
+                    },
+                    "reasoning": {
+                      "type": "null"
+                    },
+                    "implementation": {
+                      "type": "null"
+                    },
+                    "operations": {
+                      "type": "null"
+                    },
+                    "communication": {
+                      "type": "null"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "reviews": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "review_id",
+          "lesson_id",
+          "scheduled_for",
+          "reviewed_at",
+          "evidence",
+          "score",
+          "weak_points"
+        ],
+        "properties": {
+          "review_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "lesson_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          },
+          "scheduled_for": {
+            "type": "string",
+            "format": "date"
+          },
+          "reviewed_at": {
+            "type": "string",
+            "format": "date"
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true,
+            "minItems": 1
+          },
+          "score": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "technical",
+              "reasoning",
+              "implementation",
+              "operations",
+              "communication"
+            ],
+            "properties": {
+              "technical": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0,
+                "maximum": 4
+              },
+              "reasoning": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0,
+                "maximum": 4
+              },
+              "implementation": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0,
+                "maximum": 4
+              },
+              "operations": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0,
+                "maximum": 4
+              },
+              "communication": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0,
+                "maximum": 4
+              }
+            }
+          },
+          "weak_points": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          }
+        }
+      }
+    },
+    "last_updated": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  }
+}
