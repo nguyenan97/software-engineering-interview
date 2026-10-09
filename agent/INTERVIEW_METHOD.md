@@ -1,6 +1,8 @@
 ---
 layout: default
 title: Learning and Interview Method
+locale: en
+translation_key: method
 ---
 
 # Learning and Interview Method

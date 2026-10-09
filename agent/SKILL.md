@@ -28,13 +28,21 @@ Resolve repository-relative paths from its root. Read:
 
 Use [the lesson template](LESSON_TEMPLATE.md) to construct the final lesson. A navigation/catalog entry is an index, not proof of a technical claim. Do not claim to have read a file or verified a source unless you actually did.
 
-## English-first language and privacy
+## Teaching language, translation and privacy
 
-- Use English for the main explanation, headings, technical terms, interview questions, model answers, code, and diagrams.
-- Preserve terms such as `Dependency Injection`, `Deadlock`, `ThreadPool`, `Garbage Collection`, `Idempotency`, and `Eventual Consistency`.
-- Add a short, separate `Vietnamese Note` only when it improves intuition about a difficult concept. Do not translate the whole lesson twice.
-- Normalize Vietnamese source questions into natural English while preserving their intent. Follow an explicit learner language request when it differs from the default.
-- Never reconstruct removed identities or confidential context. Use generic accounts, services, employers, and incidents. Do not include secrets, contact details, or identifying learner evidence in public examples.
+Read [the localization contract](../docs/localization.md). Resolve teaching language by **explicit request → learner_profile.preferred_language → English**. Browser preference is separate and unavailable to a repo agent unless the learner supplies it. Do not claim it was read or written to state. Commands `language --language en|vi --date YYYY-MM-DD` persist an explicit agent preference without changing lesson history.
+
+Support `Viết bài học hôm nay`, `Viết bài học hôm nay bằng tiếng Việt`, `Write today’s lesson in English`, `Chuyển bài đang học sang tiếng Việt`, `Học interactive bằng tiếng Việt` and `Mock interview bằng English, feedback bằng tiếng Việt`.
+
+- Create a canonical English lesson and a complete Vietnamese variant for each new public Full lesson. Use one topic/lesson ID, fingerprint, set of catalog objectives and source refs; only one delivery record. Follow [the lesson template](LESSON_TEMPLATE.md). Localize human explanations and headings naturally, not word-for-word.
+- For Interactive/Mock, keep any saved teaching chunks equivalent in both languages as they are revealed. Pending answers must stay out of public artifacts in both locales; closed `<details>` are readable and do not enforce a turn boundary. A language switch translates the pending challenge, not its unrevealed answer.
+- Keep runnable code and expected contracts identical, preferably in shared includes backed by lab sources. Translate explanation, challenges, solution reasoning, rubric and retrieval; preserve scope, assumptions and actual verification dates. A translated date never replaces creation or technical verification dates.
+- Preserve standard technical terms; define difficult terms naturally in the selected language. In English lessons a short Vietnamese Note remains optional, not a duplicate full translation.
+- Interview questions and model speech default to English, with Vietnamese reasoning/feedback when requested. Explicit learner interview-language instructions override that default. Do not require both versions to be read in one session.
+- On a switch/resume, read the existing record and session note, resolve `lesson-path LESSON_ID --language en|vi --date YYYY-MM-DD`, and keep the same unanswered prompt, step and ID. Do not generate a new topic or call start/complete/review merely to change language. Keep Interactive answers withheld until the learner attempts them.
+- Save session teaching/interview/feedback languages when they differ. If a variant is missing, explain the English fallback and author the real translation of that same lesson; do not substitute a different topic. If writes are blocked, return the proposed files/patch and say unsaved.
+- Compare both versions for technical equivalence before saving. Validate locale identities, shared code, source links, six anchors and rendered routes. Structural checks do not establish translation accuracy.
+- Never reconstruct removed identities/confidential context, invent experience, or publish sensitive learner evidence. Generic examples and private profiles remain required for privacy.
 
 ## Source and current-version policy
 
@@ -212,7 +220,7 @@ If filesystem access or mutation is unavailable, deliver the lesson plus the exa
 - [ ] A meaningful challenge, complete solution, happy/failure checks and reduced-support task exist for Full lesson.
 - [ ] At least one failure mode and alternative decision are explained.
 - [ ] Interview answers are direct, concise, defensible, and honest about boundaries/experience.
-- [ ] English is primary; optional Vietnamese support is brief and purposeful.
+- [ ] Both locale versions preserve the same technical contract; requested teaching language is respected and interview-language defaults are explicit.
 - [ ] Expected results are separated from checks actually run.
 - [ ] Scores, completion dates, and review events are supported by learner evidence.
 - [ ] Lesson metadata matches durable state; persistence succeeded or the unsaved patch is explicit.

@@ -1,0 +1,3 @@
+{%- assign translated_target = site.pages | where: 'translation_key', include.key | where: 'locale', include.locale | first -%}
+{%- unless translated_target -%}{%- assign translated_target = site.pages | where: 'translation_key', include.key | where: 'locale', site.default_locale | first -%}{%- endunless -%}
+{{- translated_target.url | relative_url -}}

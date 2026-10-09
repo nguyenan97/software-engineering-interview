@@ -1,0 +1,133 @@
+brand: Luyện phỏng vấn
+tagline: MỘT Ý CHÍNH. THỰC HÀNH THẬT.
+description: Ôn phỏng vấn Software Engineering mỗi ngày với bài học tập trung, tài liệu nguồn rõ ràng
+  và tiến độ dựa trên bài làm.
+skip: Đến nội dung chính
+language: Ngôn ngữ
+missing_translation: Trang này hiện chỉ có bản English. Liên kết mở đúng nội dung đó bằng English; chưa
+  có bản dịch Tiếng Việt.
+nav:
+  home: Học hôm nay
+  lessons: Bài học
+  curriculum: Lộ trình
+  workflow: Cách sử dụng
+footer:
+  tagline: Học một phần nhỏ. Hiểu cơ chế sâu hơn.
+  method: Phương pháp học
+  privacy: Tiến độ và riêng tư
+no_js: Bạn vẫn đọc bài, chuyển ngôn ngữ và mở lời giải khi tắt JavaScript. Hãy chọn và sao chép prompt
+  thủ công. Ghi nhớ ngôn ngữ, vị trí đọc và các nút hỗ trợ cần JavaScript.
+levels:
+  foundation: Nền tảng
+  senior: Senior
+  architect: Architect
+lesson:
+  back: ← Về trang học hôm nay
+  guided: THỰC HÀNH CÓ HƯỚNG DẪN
+  minutes: phút
+  active: phút thực hành và nhớ lại
+  one_goal: Một mục tiêu chính
+  prerequisites: 'Trước khi bắt đầu:'
+  steps_title: PHIÊN HỌC CỦA BẠN
+  goal: Xác định mục tiêu
+  predict: Dự đoán trước
+  model: Hiểu cơ chế
+  practice: Thử làm lab
+  verify: Kiểm chứng và sửa
+  recall: Nói lại và nhớ lại
+  bookmark_help: Liên kết từng bước có thể lưu vị trí đọc trong trình duyệt này. Agent trong repo ghi
+    ngày hoàn thành và lịch ôn.
+  clear: Xóa vị trí đọc
+  close_answers: Đóng lời giải để nhớ lại
+  recall_help: Đóng hoặc che phần giải thích. Tự trả lời mà không nhìn tài liệu.
+  download: Tải lab chạy được (.zip)
+home:
+  eyebrow: ĐIỂM VÀO HỌC MỖI NGÀY
+  headline_a: Một ý chính.
+  headline_b: Hiểu chắc, nhớ lâu.
+  intro: Dự đoán, thử làm rồi giải thích vì sao cách đó hoạt động. Mỗi phiên học nhỏ để lại một kỹ năng
+    có thể kiểm chứng.
+  routine_title: MỘT VÒNG HỌC ĐƠN GIẢN
+  routine:
+  - Dành 30–45 phút cho một mục tiêu.
+  - Tự thử trước khi mở lời giải.
+  - Đóng tài liệu và giải thích bằng lời của mình.
+  latest: BÀI CÓ HƯỚNG DẪN MỚI NHẤT
+  practice: Thực hành trước
+  start: Bắt đầu bài này →
+  actions_title: Hôm nay bạn muốn làm gì?
+  next: Chọn một bước tiếp theo.
+  actions:
+  - number: 01 / HỌC MỚI
+    title: Học một mục tiêu mới
+    body: Agent chọn mục tiêu phù hợp từ nguồn và lịch sử học trong repo.
+    label: Lấy prompt hằng ngày →
+  - number: 02 / TIẾP TỤC
+    title: Tiếp tục nơi đã dừng
+    body: Trở lại bước đang đọc trong trình duyệt này.
+    label: Tiếp tục đọc →
+  - number: 03 / NHỚ LẠI
+    title: Ôn mà không nhìn tài liệu
+    body: Agent kiểm tra lịch ôn; bạn tự nhớ lại cơ chế trước khi xem đáp án.
+    label: Bắt đầu ôn tập →
+  - number: 04 / GIẢI THÍCH
+    title: Luyện trả lời phỏng vấn
+    body: Trả lời ngắn, bảo vệ lập luận trước failure case và so sánh trade-off.
+    label: Luyện trả lời →
+  no_bookmark: Chưa có vị trí đọc trong trình duyệt này. Tiếp tục sẽ mở bài mới nhất; gửi “Tiếp tục bài
+    đang học” cho agent để tiếp tục phiên có cursor đã lưu.
+  scope: Trang công khai không đọc learning state cá nhân và không ghi vào GitHub. Ngôn ngữ và vị trí
+    đọc chỉ được lưu trong trình duyệt này. Agent trong repo ghi bài làm, hoàn thành và lịch ôn.
+  library: Các bài đã xuất bản
+  curriculum: Xem lộ trình →
+  empty: Chưa có bài được xuất bản. Gửi prompt hằng ngày cho agent đang mở repo.
+  fallback: Bản English; chưa có bản Tiếng Việt.
+prompts:
+  new:
+    title: Yêu cầu bài học tập trung tiếp theo
+    intro: 'Mở repo trong agent và gửi:'
+    text: Viết bài học hôm nay bằng tiếng Việt.
+    copy: Sao chép prompt
+    status: Agent tạo bài và ghi nhận bài đã được cung cấp.
+  review:
+    title: Kiểm tra các lượt ôn đến hạn
+    intro: 'Mở repo trong agent và gửi:'
+    text: Ôn tập hôm nay bằng tiếng Việt. Hỏi từng câu, chờ tôi trả lời rồi sửa đúng một hiểu lầm.
+    copy: Sao chép prompt ôn tập
+    status: Dán vào agent đang mở repo.
+  interview:
+    title: Bắt đầu mock interview ngắn
+    intro: 'Mở repo trong agent và gửi:'
+    text: Mock interview bài đang học bằng English, feedback bằng tiếng Việt. Hỏi từng câu; luyện câu
+      trả lời 30–90 giây và hai câu hỏi sâu hơn. Chỉ chấm những phần có bằng chứng từ câu trả lời của
+      tôi.
+    copy: Sao chép prompt phỏng vấn
+    status: Dán vào agent đang mở repo.
+index:
+  title: Các bài đã xuất bản
+  intro: Hai ngôn ngữ dùng chung một bài logic và một lịch sử học. Có bài để đọc không có nghĩa là đã
+    học xong.
+  created: Ngày tạo
+  lesson: Bài học
+  level: Mức độ
+  status: Trạng thái nội dung
+  generated: Đã tạo
+  scope: Agent đọc state thật để tiếp tục phiên và chọn lượt ôn đến hạn. Đổi ngôn ngữ không hoàn thành
+    bài.
+messages:
+  bookmark_saved: Vị trí đọc đã lưu trong trình duyệt này. Agent trong repo ghi ngày hoàn thành và lịch
+    ôn.
+  bookmark_blocked: Trình duyệt không cho lưu vị trí đọc. Liên kết bước và ngôn ngữ vẫn hoạt động; hãy
+    nhờ agent lưu cursor trong repo.
+  bookmark_cleared: Đã xóa vị trí đọc. Lịch sử học trong repo không thay đổi.
+  clear_blocked: Trình duyệt không cho truy cập lưu trữ; dữ liệu trong repo không thay đổi.
+  resume: Trình duyệt lưu vị trí tại bước “{step}”. Đây là dấu trang đọc, không phải hoàn thành bài.
+  copied: Đã sao chép. Dán vào agent đang mở repo này.
+  copy_blocked: Không thể sao chép tự động. Hãy chọn prompt phía trên và dán vào agent.
+  answers_closed: Đã đóng lời giải. Tự trả lời ba câu nhớ lại mà không nhìn tài liệu.
+  locale_saved: Ngôn ngữ đã được ghi nhớ trong trình duyệt này. State trong repo không thay đổi.
+  locale_blocked: Liên kết ngôn ngữ vẫn hoạt động, nhưng trình duyệt không thể ghi nhớ lựa chọn. State
+    trong repo không thay đổi.
+  locale_offer: Trình duyệt đã ghi nhớ {language}. Mở bản đó của trang này.
+  resume_fallback: Bài đã lưu chưa có bản ở ngôn ngữ này. Tiếp tục sẽ mở bản English của đúng bài; lịch
+    sử học không thay đổi.

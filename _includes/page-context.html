@@ -1,0 +1,8 @@
+{%- assign locale = page.locale | default: site.default_locale -%}
+{%- unless site.supported_locales contains locale -%}{%- assign locale = site.default_locale -%}{%- endunless -%}
+{%- assign t = site.data.i18n[locale] -%}
+{%- assign lesson_meta = page -%}
+{%- if page.canonical_lesson -%}
+  {%- assign lesson_meta = site.pages | where: 'path', page.canonical_lesson | first -%}
+{%- endif -%}
+{%- assign logical_lessons = site.pages | where_exp: 'item', 'item.lesson_id != nil' | where_exp: 'item', 'item.canonical_lesson == nil' | sort: 'created_at' -%}

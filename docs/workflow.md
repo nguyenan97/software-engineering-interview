@@ -1,6 +1,8 @@
 ---
 layout: default
 title: Daily Workflow and Learning State
+locale: en
+translation_key: workflow
 ---
 
 # Daily Workflow and Learning State
@@ -21,6 +23,14 @@ It records the unanswered prompt, six-step cursor, sanitized feedback and next a
 then reads that note on resume. A separate profile keeps session notes beside
 its own state file. The `start` command changes status only; the agent saves the
 note separately after each turn. A question without an attempt remains generated.
+
+## Choose a teaching language
+
+Say `Viết bài học hôm nay bằng tiếng Việt` or `Write today’s lesson in English`. Explicit requests override the optional agent preference; default is English. New public Full lessons have English and Vietnamese versions but one logical ID and delivery record. English interview model speech remains the default, with Vietnamese feedback when requested.
+
+`Chuyển bài đang học sang tiếng Việt` preserves its pending prompt, cursor and lesson ID, including withheld Interactive solutions. Use `python scripts/learning.py lesson-path LESSON_ID --language vi --date YYYY-MM-DD` to resolve the variant read-only. Use `python scripts/learning.py language --language vi --date YYYY-MM-DD` only when an agent preference should actually be saved; it changes no learning progress.
+
+On the site, English URLs remain unchanged and Vietnamese pages live under `vi/`. Language links retain the current step. Browser preference offers a counterpart instead of redirecting direct URLs. Continue resolves the same logical lesson in the preferred locale; missing translations open that exact English artifact with a notice. The public site does not update the agent profile. See [localization and authoring](localization.md).
 
 ## Public desk and daily actions
 

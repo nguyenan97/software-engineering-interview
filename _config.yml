@@ -19,3 +19,12 @@ exclude:
   - requirements-browser.txt
   - AGENTS.md
   - work
+default_locale: en
+supported_locales:
+  - en
+  - vi
+defaults:
+  - scope:
+      path: ''
+    values:
+      locale: en

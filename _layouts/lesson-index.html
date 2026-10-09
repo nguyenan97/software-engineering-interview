@@ -1,0 +1,7 @@
+---
+layout: default
+---
+{% include page-context.html %}
+<h1>{{ t.index.title | escape }}</h1><p>{{ t.index.intro | escape }}</p>
+<table><thead><tr><th>{{ t.index.created | escape }}</th><th>{{ t.index.lesson | escape }}</th><th>{{ t.index.level | escape }}</th><th>{{ t.index.status | escape }}</th></tr></thead><tbody>{% for logical in logical_lessons reversed %}{% assign variant = site.pages | where: 'translation_key', logical.translation_key | where: 'locale', locale | first %}{% assign variant = variant | default: logical %}<tr data-logical-lesson="{{ logical.lesson_id }}"><td>{{ logical.created_at }}</td><td><a href="{{ variant.url | relative_url }}" data-public-lesson>{{ variant.title | escape }}</a>{% if variant.locale != locale %}<p>{{ t.home.fallback | escape }}</p>{% endif %}</td><td>{{ t.levels[logical.level] | escape }}</td><td>{{ t.index.generated | escape }}</td></tr>{% endfor %}</tbody></table>
+<p>{{ t.index.scope | escape }}</p><a href="{% include localized-url.html key='home' locale=locale %}">{{ t.lesson.back | escape }}</a>

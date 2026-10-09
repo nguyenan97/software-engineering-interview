@@ -1,31 +1,27 @@
 ---
 layout: default
 ---
-<article class="study-lesson" data-lesson-id="{{ page.lesson_id | escape }}" data-lesson-url="{{ page.url | relative_url }}" data-lesson-title="{{ page.title | escape }}">
+{% include page-context.html %}
+<article class="study-lesson" data-lesson-id="{{ lesson_meta.lesson_id | escape }}" data-lesson-url="{{ page.url | relative_url }}">
   <header class="lesson-header">
-    <a class="back-link" href="{{ '/' | relative_url }}">← Back to the daily desk</a>
-    <p class="eyebrow">GUIDED PRACTICE · {{ page.level | upcase | escape }}</p>
+    <a class="back-link" href="{% include localized-url.html key='home' locale=locale %}">{{ t.lesson.back | escape }}</a>
+    <p class="eyebrow">{{ t.lesson.guided | escape }} · {{ t.levels[lesson_meta.level] | escape }}</p>
     <h1>{{ page.title | escape }}</h1>
-    <p class="lesson-goal">{{ page.primary_objective | default: page.objectives.first | escape }}</p>
-    <ul class="lesson-facts" aria-label="Lesson details">
-      <li>{{ page.duration_minutes }} minutes</li><li>{{ page.practice_minutes }} minutes practicing &amp; recalling</li><li>One main objective</li>
+    <p class="lesson-goal">{{ page.primary_objective | default: lesson_meta.primary_objective | escape }}</p>
+    <ul class="lesson-facts" aria-label="{{ t.nav.lessons | escape }}">
+      <li>{{ lesson_meta.duration_minutes }} {{ t.lesson.minutes | escape }}</li><li>{{ lesson_meta.practice_minutes }} {{ t.lesson.active | escape }}</li><li>{{ t.lesson.one_goal | escape }}</li>
     </ul>
-    <p class="prerequisites"><strong>Before you start:</strong> {{ page.prerequisites_note | escape }}</p>
+    <p class="prerequisites"><strong>{{ t.lesson.prerequisites | escape }}</strong> {{ page.prerequisites_note | default: lesson_meta.prerequisites_note | escape }}</p>
   </header>
   <div class="lesson-grid">
     <div class="lesson-sidebar">
-      <nav aria-label="Lesson steps" class="step-nav">
-        <p class="eyebrow">YOUR SESSION</p>
-        <ol>
-          <li><a href="#goal" data-step="goal"><span>01</span> Set the goal</a></li>
-          <li><a href="#predict" data-step="predict"><span>02</span> Predict first</a></li>
-          <li><a href="#model" data-step="model"><span>03</span> Understand why</a></li>
-          <li><a href="#practice" data-step="practice"><span>04</span> Try the lab</a></li>
-          <li><a href="#verify" data-step="verify"><span>05</span> Verify &amp; correct</a></li>
-          <li><a href="#recall" data-step="recall"><span>06</span> Say it &amp; recall</a></li>
-        </ol>
+      <nav aria-label="{{ t.lesson.steps_title | escape }}" class="step-nav">
+        <p class="eyebrow">{{ t.lesson.steps_title | escape }}</p>
+        <ol>{% assign step_ids = 'goal,predict,model,practice,verify,recall' | split: ',' %}{% for step in step_ids %}
+          <li><a href="#{{ step }}" data-step="{{ step }}"><span>0{{ forloop.index }}</span> {{ t.lesson[step] | escape }}</a></li>
+        {% endfor %}</ol>
       </nav>
-      <div class="reading-note"><p id="bookmark-status" role="status" aria-live="polite">Step links can save your reading place in this browser. Completion and review dates are recorded by your repo agent.</p><button type="button" class="text-button" data-clear-place disabled>Clear reading place</button></div>
+      <div class="reading-note"><p id="bookmark-status" role="status" aria-live="polite">{{ t.lesson.bookmark_help | escape }}</p><button type="button" class="text-button" data-clear-place disabled>{{ t.lesson.clear | escape }}</button></div>
     </div>
     <div class="lesson-content">{{ content }}</div>
   </div>

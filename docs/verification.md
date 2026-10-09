@@ -11,6 +11,7 @@ Run from the repository root. Content/state checks require the dependencies in `
 python scripts/validate.py
 python -m unittest discover -s tests -v
 python scripts/package_labs.py --check
+python scripts/render_lesson_code.py --check
 python labs/atomic-inbox/verify.py --solution
 ```
 
@@ -37,9 +38,9 @@ python tests/browser_check.py --site _site --axe work/browser-checks/node_module
 
 For an installed system Chromium, set `PLAYWRIGHT_CHROMIUM_EXECUTABLE=/path/to/chromium`. Optional `--screenshots work/screenshots` captures the daily desk and lesson. The browser script serves the actual build locally at its configured base URL, so ordinary links and downloads are exercised.
 
-The PR's site check uploads desktop/mobile screenshots as the `daily-learning-ui` artifact for review (retained for seven days).
+The PR's site check uploads English and Vietnamese desktop/mobile screenshots as the `daily-learning-ui` artifact for review (retained for seven days).
 
-Checks cover four daily actions, six-step navigation, closed/native keyboard answers, lab download, copied prompts, browser resume/clear, corrupt or untrusted bookmarks, blocked storage/clipboard, no-JavaScript reading, 1440px desktop and 390/320px mobile overflow. Axe runs WCAG 2 A/AA, WCAG 2.1 AA and best-practice rules on the desk, lesson and practice pages, including an open worked solution. Automated checks do not constitute a complete accessibility audit; keyboard and visual inspection supplement them.
+Checks cover both locales: four daily actions, six-step navigation, same-lesson/step language switching, reload/back/forward, preferences/resume/clear, missing translations, identical rendered lab code, native keyboard answers, downloads and copied prompts. Invalid preferences/bookmarks, blocked storage/clipboard and no-JavaScript reading have explicit fallbacks. The rendered-site checker verifies self-canonical URLs, reciprocal hreflang, document languages and unique logical IDs. Axe runs WCAG 2 A/AA, WCAG 2.1 AA and best-practice rules on paired entry points, guides and lessons at 1440/390/320px, including an open worked solution. Automated checks do not constitute a complete accessibility audit or prove semantic translation quality; keyboard, visual and technical comparison supplement them.
 
 ## Guarantee boundaries
 

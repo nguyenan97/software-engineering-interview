@@ -1,11 +1,13 @@
 ---
 layout: default
 title: Repository Guide
+locale: en
+translation_key: repo-guide
 ---
 
 # Software Engineering Interview
 
-A source-grounded daily interview curriculum for senior software engineers progressing toward solution architecture. Study engineering decisions and practice explaining them clearly in English, with short Vietnamese notes when they help understanding.
+A source-grounded daily interview curriculum for senior software engineers progressing toward solution architecture. Study engineering decisions and practice explaining them clearly in English, with complete English/Vietnamese teaching and English interview speech by default.
 
 ## Start a daily session
 
@@ -25,6 +27,14 @@ The [Daily Interview Mastery skill](agent/SKILL.md) reads the source prompts, cu
 | `Đánh giá bài làm này và cập nhật tiến độ` | Evidence-based rubric and completion/review bookkeeping |
 
 Full lesson is the default. The agent chooses the topic autonomously. Explicit topic or language requests override defaults. Resume pending prerequisites when no eligible new topic remains.
+
+## English and Vietnamese
+
+Use the page language links for the same content and reading step. Existing English URLs stay stable; Vietnamese content is under [`vi/`](vi/index.md). Layouts/UI dictionaries and lab code are shared. Direct URLs are never auto-redirected; a saved browser preference is offered explicitly. Missing translations open the same English content with a notice.
+
+Request `Viết bài học hôm nay bằng tiếng Việt`, `Write today’s lesson in English`, `Chuyển bài đang học sang tiếng Việt`, `Học interactive bằng tiếng Việt` or `Mock interview bằng English, feedback bằng tiếng Việt`. Explicit requests override the optional agent profile preference; default is English. Two language versions share one logical lesson, fingerprint, state record and review schedule.
+
+`python scripts/learning.py language --language vi --date YYYY-MM-DD` saves only agent preference and update date. Browser choices do not run this command. See [localization architecture and authoring](docs/localization.md) and [Vietnamese repository guide](vi/README.md).
 
 ## Learn and answer well
 
@@ -54,6 +64,9 @@ labs/           Runnable starters, verifiers and reference solutions
 practice/       Review and mock-interview entry pages
 _layouts/       Daily desk and six-step lesson layouts
 assets/         CSS, small browser helpers and downloadable labs
+vi/             Vietnamese teaching and entry pages
+_data/i18n/     Shared UI dictionaries
+_includes/      Shared presentation, routing and lab snippets
 learning/       Durable state, JSON schema, persistence reference
 scripts/        Candidate selection, lifecycle commands, validation
 tests/          State-machine and review bookkeeping tests
@@ -82,7 +95,7 @@ PR validation checks metadata, links, state rules, lab/download consistency, the
 
 ## Language, privacy and evidence
 
-English is primary for concepts, code, questions, model answers and diagrams. Keep terms such as `Dependency Injection`, `ThreadPool`, `Deadlock`, `Optimistic Concurrency`, `Idempotency` and `Eventual Consistency` in English. Vietnamese supplements difficult meaning rather than repeating the lesson.
+English is the default teaching language; Vietnamese pages provide full explanations. Interview model answers remain English by default. Keep terms such as `Dependency Injection`, `ThreadPool`, `Deadlock`, `Optimistic Concurrency`, `Idempotency` and `Eventual Consistency` in English, with a Vietnamese explanation when needed. Learn from one selected version; the other version shares its technical contract and history.
 
 Original identities and confidential contexts were removed before publication. Never reconstruct them. Interview notes determine question framing; official documentation and official source repositories establish current behavior. Version-sensitive lesson claims need dated references. Documentation verification is distinct from executing a lab.
 

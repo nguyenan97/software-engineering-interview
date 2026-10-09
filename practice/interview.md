@@ -1,17 +1,15 @@
 ---
 layout: default
 title: Practice the Interview
+locale: en
+translation_key: interview
 ---
 
 # Practice the interview
 
 Answer the question first. Explain the mechanism, then show a failure case and the condition that would change your choice.
 
-<section class="prompt-box" aria-labelledby="interview-prompt-title">
-<h2 id="interview-prompt-title">Start a short mock interview</h2>
-<p><code data-prompt>Mock interview bài đang học. Hỏi bằng English từng câu; luyện câu trả lời 30–90 giây rồi phản biện hai câu hỏi sâu hơn. Chỉ chấm những phần có bằng chứng từ bài làm của tôi.</code></p>
-<div class="prompt-actions"><button class="button secondary" type="button" data-copy-prompt disabled>Copy interview prompt</button><p role="status" class="prompt-status" data-copy-status aria-live="polite">Paste into your agent with the repo open.</p></div>
-</section>
+{% include prompt-box.html kind='interview' %}
 
 ## Practice now — five minutes
 
