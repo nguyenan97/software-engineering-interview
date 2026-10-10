@@ -11,6 +11,8 @@ from jsonschema import Draft202012Validator, FormatChecker
 from jsonschema.exceptions import ValidationError
 import yaml
 
+from localization import SUPPORTED_LANGUAGES, canonical_lesson, lesson_variant, metadata
+
 ROOT = Path(__file__).resolve().parents[1]
 OFFSETS = (1, 3, 7, 14, 30)
 DIMENSIONS = ("technical", "reasoning", "implementation", "operations", "communication")
@@ -113,13 +115,6 @@ def save_state(path, state):
             os.unlink(temporary)
 
 
-def metadata(path):
-    text = Path(path).read_text(encoding="utf-8")
-    if not text.startswith("---\n"):
-        raise ValueError("Lesson requires YAML front matter")
-    return yaml.safe_load(text.split("---", 2)[1])
-
-
 def null_scores():
     return dict.fromkeys(DIMENSIONS)
 
@@ -197,17 +192,19 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--state", type=Path, default=ROOT / "learning/state.json")
     sub = parser.add_subparsers(dest="command", required=True)
-    for name in ("next", "record", "start", "complete", "review", "reschedule"):
+    for name in ("next", "record", "start", "complete", "review", "reschedule", "language", "lesson-path"):
         cmd = sub.add_parser(name)
         cmd.add_argument("--date", required=True, help="Learner-local ISO date; never inferred from host timezone")
         if name == "record":
             cmd.add_argument("--lesson", type=Path, required=True)
-        elif name in ("start", "complete", "review", "reschedule"):
+        elif name in ("start", "complete", "review", "reschedule", "lesson-path"):
             cmd.add_argument("lesson_id")
         if name in ("complete", "review", "reschedule"):
             cmd.add_argument("--evidence", type=Path, required=True)
         if name in ("complete", "review"):
             cmd.add_argument("--assessment", type=Path)
+        if name in ("next", "language", "lesson-path"):
+            cmd.add_argument("--language", choices=SUPPORTED_LANGUAGES, required=name == "language")
         if name == "reschedule":
             cmd.add_argument("--from-date", required=True)
             cmd.add_argument("--to-date", required=True)
@@ -223,10 +220,24 @@ def main(argv=None):
     validate_state(state)
     catalog = load_json(ROOT / "curriculum/catalog.json")
     if args.command == "next":
-        print(json.dumps(select_next(catalog, state, args.date), indent=2))
+        selected = select_next(catalog, state, args.date)
+        selected["language"] = args.language or state["learner_profile"].get("preferred_language", "en")
+        print(json.dumps(selected, indent=2))
         return
-    if args.command == "record":
-        path = args.lesson.resolve()
+    if args.command == "lesson-path":
+        record = next((item for item in state["lessons"] if item["lesson_id"] == args.lesson_id), None)
+        if not record:
+            raise ValueError("Unknown lesson_id")
+        language = args.language or state["learner_profile"].get("preferred_language", "en")
+        path, fallback = lesson_variant(ROOT, ROOT / record["lesson_path"], language)
+        print(json.dumps({"lesson_id": record["lesson_id"], "requested_language": language,
+                          "language": "en" if fallback else language,
+                          "lesson_path": path.relative_to(ROOT).as_posix(), "fallback": fallback}, indent=2))
+        return
+    if args.command == "language":
+        state["learner_profile"]["preferred_language"] = args.language
+    elif args.command == "record":
+        path = canonical_lesson(ROOT, args.lesson)
         relative = path.relative_to(ROOT).as_posix()
         if not relative.startswith("lessons/") or path.suffix != ".md":
             raise ValueError("Lessons must be Markdown files inside lessons/")

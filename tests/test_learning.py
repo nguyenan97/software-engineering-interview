@@ -65,6 +65,92 @@ class LearningWorkflowTests(unittest.TestCase):
         path.write_text("I explain the commit/acknowledgment gap and tested a concurrent retry.")
         return str(path)
 
+    def translated_lesson(self, **overrides):
+        meta = learning.metadata(self.lesson)
+        translated = {
+            'locale': 'vi', 'translation_key': meta['lesson_id'],
+            'lesson_id': meta['lesson_id'], 'topic_id': meta['topic_id'],
+            'canonical_lesson': self.lesson.relative_to(self.root).as_posix(),
+            **overrides,
+        }
+        path = self.root / 'vi/lessons' / self.lesson.name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text('---\n' + yaml.safe_dump(translated) + '---\nBài học.\n')
+        return path
+
+    def read_cli(self, *args):
+        before = (self.root / 'learning/state.json').read_bytes()
+        output = io.StringIO()
+        with contextlib.redirect_stdout(output):
+            learning.main(['--state', str(self.root / 'learning/state.json'), *args])
+        self.assertEqual(before, (self.root / 'learning/state.json').read_bytes())
+        return json.loads(output.getvalue())
+
+    def test_language_change_preserves_evidence_assessment_and_review_history(self):
+        self.record()
+        self.write_json('assessment.json', {'score': dict.fromkeys(learning.DIMENSIONS, 3),
+                                         'weak_points': ['Explain the failure window.']})
+        self.run_cli('complete', '2026-10-08-topic-a', '--date', '2026-10-09',
+                     '--evidence', self.evidence(), '--assessment', str(self.root / 'assessment.json'))
+        old = self.run_cli('review', '2026-10-08-topic-a', '--date', '2026-10-10', '--evidence', self.evidence())
+        new = self.run_cli('language', '--language', 'vi', '--date', '2026-10-11')
+        expected = deepcopy(old)
+        expected['learner_profile']['preferred_language'] = 'vi'
+        expected['last_updated'] = '2026-10-11'
+        self.assertEqual(new, expected)
+
+    def test_optional_preference_is_compatible_and_explicit_next_override_is_read_only(self):
+        learning.validate_state(self.state)
+        default = self.read_cli('next', '--date', '2026-10-08')
+        self.assertEqual(default['language'], 'en')
+        self.run_cli('language', '--language', 'vi', '--date', '2026-10-08')
+        preferred = self.read_cli('next', '--date', '2026-10-09')
+        explicit = self.read_cli('next', '--language', 'en', '--date', '2026-10-09')
+        self.assertEqual(preferred['language'], 'vi')
+        self.assertEqual(explicit['language'], 'en')
+        self.assertEqual(preferred['candidate'], explicit['candidate'])
+        invalid = deepcopy(self.state)
+        invalid['learner_profile']['preferred_language'] = 'fr'
+        from jsonschema.exceptions import ValidationError
+        with self.assertRaises(ValidationError):
+            learning.validate_state(invalid)
+
+    def test_lesson_path_switch_and_missing_translation_keep_same_id_read_only(self):
+        self.record()
+        fallback = self.read_cli('lesson-path', '2026-10-08-topic-a', '--language', 'vi', '--date', '2026-10-09')
+        self.assertTrue(fallback['fallback'])
+        self.assertEqual(fallback['language'], 'en')
+        self.assertEqual(fallback['lesson_path'], self.lesson.relative_to(self.root).as_posix())
+        vi = self.translated_lesson()
+        mapped = self.read_cli('lesson-path', '2026-10-08-topic-a', '--language', 'vi', '--date', '2026-10-09')
+        self.assertFalse(mapped['fallback'])
+        self.assertEqual(mapped['lesson_id'], fallback['lesson_id'])
+        self.assertEqual(mapped['lesson_path'], vi.relative_to(self.root).as_posix())
+
+    def test_recording_translation_registers_canonical_metadata_once(self):
+        vi = self.translated_lesson(title='Tiêu đề khác, cùng bài học')
+        state = self.run_cli('record', '--lesson', str(vi), '--date', '2026-10-08')
+        self.assertEqual(len(state['lessons']), 1)
+        item = state['lessons'][0]
+        self.assertEqual(item['lesson_path'], self.lesson.relative_to(self.root).as_posix())
+        self.assertEqual(item['concept_fingerprint'], self.catalog['topics'][0]['concept_fingerprint'])
+        before = (self.root / 'learning/state.json').read_bytes()
+        for path in (self.lesson, vi):
+            with self.subTest(path=path), self.assertRaisesRegex(ValueError, 'already delivered'):
+                self.run_cli('record', '--lesson', str(path), '--date', '2026-10-08')
+            self.assertEqual(before, (self.root / 'learning/state.json').read_bytes())
+        self.assertIsNone(item['completed_at'])
+        self.assertEqual(item['review_due'], [])
+
+    def test_translation_cannot_override_identity_or_shared_contract(self):
+        before = (self.root / 'learning/state.json').read_bytes()
+        for override in ({'topic_id': 'other'}, {'lesson_id': 'another-id'},
+                         {'concept_fingerprint': ['translated-title']}, {'created_at': '2026-10-09'},
+                         {'canonical_lesson': 'vi/lessons/2026-10-08-topic-a.md'}, {'locale': 'fr'}):
+            with self.subTest(override=override), self.assertRaises(ValueError):
+                self.run_cli('record', '--lesson', str(self.translated_lesson(**override)), '--date', '2026-10-08')
+            self.assertEqual(before, (self.root / 'learning/state.json').read_bytes())
+
     def test_delivery_is_pending_and_blocks_redelivery(self):
         state = self.record()
         entry = state["lessons"][0]

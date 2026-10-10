@@ -1,0 +1,13 @@
+<script type="application/json" id="study-config">
+{
+  "locale": {{ locale | jsonify }},
+  "supportedLocales": {{ site.supported_locales | jsonify }},
+  "languageNames": {{ site.data.locales | jsonify }},
+  "messages": {{ t.messages | jsonify }},
+  "steps": {{ t.lesson | jsonify }},
+  "routes": {
+    {% if page.translation_key %}{% assign equivalents = site.pages | where: 'translation_key', page.translation_key %}{% for equivalent in equivalents %}{{ equivalent.locale | jsonify }}: {{ equivalent.url | relative_url | jsonify }}{% unless forloop.last %},{% endunless %}{% endfor %}{% else %}"en": {{ page.url | relative_url | jsonify }}{% endif %}
+  },
+  "lessons": [{% for logical in logical_lessons %}{"id": {{ logical.lesson_id | jsonify }}, "routes": { {% assign variants = site.pages | where: 'translation_key', logical.translation_key %}{% if logical.translation_key %}{% for variant in variants %}{{ variant.locale | jsonify }}: {{ variant.url | relative_url | jsonify }}{% unless forloop.last %},{% endunless %}{% endfor %}{% else %}"en": {{ logical.url | relative_url | jsonify }}{% endif %} }}{% unless forloop.last %},{% endunless %}{% endfor %}]
+}
+</script>

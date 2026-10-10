@@ -1,0 +1,7 @@
+{% include page-context.html %}
+{%- assign prompt = t.prompts[include.kind] -%}
+<section class="prompt-box" id="{{ include.id | default: include.kind }}" aria-labelledby="{{ include.kind }}-prompt-title">
+  <h2 id="{{ include.kind }}-prompt-title">{{ prompt.title | escape }}</h2>
+  <p>{{ prompt.intro | escape }}</p><p><code data-prompt>{{ prompt.text | escape }}</code></p>
+  <div class="prompt-actions"><button type="button" class="button secondary" data-copy-prompt disabled>{{ prompt.copy | escape }}</button><p class="prompt-status" role="status" data-copy-status aria-live="polite">{{ prompt.status | escape }}</p></div>
+</section>

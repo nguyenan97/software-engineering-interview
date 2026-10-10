@@ -2,8 +2,11 @@
 
 For daily lessons, follow [Daily Interview Mastery](agent/SKILL.md). Read the
 catalog, source prompts, and `learning/state.json` before selecting a topic.
-Use English for primary teaching and interview practice; Vietnamese notes are
-optional semantic support. User instructions take precedence.
+Support English and Vietnamese teaching using the shared localization workflow
+in docs/localization.md. Explicit language requests override the optional
+profile preference; otherwise default to English. Interview model answers stay
+English by default. Language variants share one lesson ID and state record.
+User instructions take precedence.
 
 Select the topic autonomously when asked for a new lesson. Generated lessons are
 already delivered content, not evidence of learning. Never infer completion,

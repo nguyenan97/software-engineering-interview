@@ -15,12 +15,17 @@ generated lesson and its status. Save the following as
 lesson_id: YYYY-MM-DD-topic-id
 mode: interactive
 step: predict
+teaching_language: vi
+interview_language: en
+feedback_language: vi
 updated_at: "YYYY-MM-DD"
 next_action: await-learner-attempt
 ---
 ```
 
 Use `goal | predict | model | practice | verify | recall` for `step`. A saved legacy numeric `stage` can be read on resume; map its current task to the matching step without changing lesson identity. A browser reading bookmark is separate from this durable session cursor.
+
+The language fields are optional for legacy notes and use `en | vi`. When absent, resolve the explicit request or profile preference, defaulting to English. A language switch preserves the exact unanswered prompt and step; translate its wording without revealing its answer. It creates no lesson, completion or review.
 
 ## Current unanswered prompt
 

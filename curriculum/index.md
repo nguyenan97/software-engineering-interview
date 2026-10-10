@@ -1,6 +1,8 @@
 ---
 layout: default
 title: Daily Interview Curriculum
+locale: en
+translation_key: curriculum
 ---
 
 # Daily Interview Curriculum

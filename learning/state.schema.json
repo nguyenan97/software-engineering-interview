@@ -40,6 +40,14 @@
         "timezone": {
           "type": "string",
           "minLength": 1
+        },
+        "preferred_language": {
+          "type": "string",
+          "enum": [
+            "en",
+            "vi"
+          ],
+          "description": "Agent teaching preference only; defaults to English when absent. Independent of browser preference."
         }
       }
     },

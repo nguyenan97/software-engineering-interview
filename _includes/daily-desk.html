@@ -1,0 +1,21 @@
+{% assign latest = logical_lessons | last %}
+{% if latest %}{% assign localized_latest = site.pages | where: 'translation_key', latest.translation_key | where: 'locale', locale | first %}{% assign localized_latest = localized_latest | default: latest %}{% endif %}
+<section class="hero" aria-labelledby="desk-title">
+  <div><p class="eyebrow">{{ t.home.eyebrow | escape }}</p><h1 id="desk-title">{{ t.home.headline_a | escape }}<br>{{ t.home.headline_b | escape }}</h1><p class="intro">{{ t.home.intro | escape }}</p></div>
+  <div class="hero-note"><p class="eyebrow">{{ t.home.routine_title | escape }}</p><ol>{% for action in t.home.routine %}<li>{{ action | escape }}</li>{% endfor %}</ol></div>
+</section>
+{% if latest %}
+<section class="featured" aria-labelledby="featured-title">
+  <div><p class="eyebrow">{{ t.home.latest | escape }} · {{ latest.created_at }}</p><h2 id="featured-title">{{ localized_latest.title | escape }}</h2><ul class="tag-row" aria-label="{{ t.nav.lessons | escape }}"><li>{{ latest.duration_minutes | default: 40 }} {{ t.lesson.minutes | escape }}</li><li>{{ t.levels[latest.level] | escape }}</li><li>{{ t.home.practice | escape }}</li></ul><p>{{ localized_latest.primary_objective | default: latest.objectives.first | escape }}</p>{% if localized_latest.locale != locale %}<p class="translation-fallback">{{ t.home.fallback | escape }}</p>{% endif %}</div>
+  <a class="button" href="{{ localized_latest.url | relative_url }}#goal" data-public-lesson>{{ t.home.start | escape }}</a>
+</section>
+{% else %}<p>{{ t.home.empty | escape }}</p>{% endif %}
+<div class="section-heading"><h2>{{ t.home.actions_title | escape }}</h2><p class="muted">{{ t.home.next | escape }}</p></div>
+<section class="actions" aria-label="{{ t.home.actions_title | escape }}">
+{% for action in t.home.actions %}<article class="action-card"><span class="action-number" aria-hidden="true">{{ action.number | escape }}</span><h3>{{ action.title | escape }}</h3><p>{{ action.body | escape }}</p>
+{% case forloop.index %}{% when 1 %}<a href="#new-session">{% when 2 %}{% if latest %}<a href="{{ localized_latest.url | relative_url }}#goal" data-resume>{% else %}<a href="#new-session">{% endif %}{% when 3 %}<a href="{% include localized-url.html key='review' locale=locale %}">{% when 4 %}<a href="{% include localized-url.html key='interview' locale=locale %}">{% endcase %}{{ action.label | escape }}</a></article>{% endfor %}
+</section>
+<p class="resume-text" data-resume-status>{{ t.home.no_bookmark | escape }}</p>
+{% include prompt-box.html kind='new' id='new-session' %}
+<p class="scope-note">{{ t.home.scope | escape }}</p>
+<section aria-labelledby="library-title"><div class="section-heading"><h2 id="library-title">{{ t.home.library | escape }}</h2><a href="{% include localized-url.html key='curriculum' locale=locale %}">{{ t.home.curriculum | escape }}</a></div><ul>{% for logical in logical_lessons reversed %}{% assign variant = site.pages | where: 'translation_key', logical.translation_key | where: 'locale', locale | first %}{% assign variant = variant | default: logical %}<li data-logical-lesson="{{ logical.lesson_id }}"><a href="{{ variant.url | relative_url }}" data-public-lesson>{{ variant.title | escape }}</a> <span class="muted">· {{ logical.created_at }}</span>{% if variant.locale != locale %} <span class="translation-fallback">{{ t.home.fallback | escape }}</span>{% endif %}</li>{% endfor %}</ul></section>

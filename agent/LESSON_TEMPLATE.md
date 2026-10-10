@@ -16,6 +16,8 @@ Save as `lessons/YYYY-MM-DD-topic-id.md`. Remove the code fence in the actual fi
 ```yaml
 ---
 layout: lesson
+locale: en
+translation_key: "YYYY-MM-DD-<topic_id>"
 lesson_format: focused-v1
 title: "<Concrete problem the learner will solve>"
 lesson_id: "YYYY-MM-DD-<topic_id>"
@@ -211,3 +213,9 @@ Explain D+1/3/7/14/30 from evidenced completion, separate review events and evid
 Do not redate old checks or equate documentation verification with execution. Keep significant unverified scope visible in the core as well.
 
 </details>
+
+## Publish both locales without duplicate history
+
+Follow [the localization contract](../docs/localization.md). Save this canonical English lesson and a complete Vietnamese page under `vi/lessons/` with `locale: vi`, identical `lesson_id`, `topic_id`, `translation_key`, and `canonical_lesson` pointing to this file. Localize title, primary objective and prerequisites. Shared level/timing/catalog metadata comes from canonical; do not create another delivery record. Preserve the six step IDs and identical lab code/contracts, use shared executable snippets and retain dated verification boundaries. Mark English interview speech `lang="en"` within Vietnamese explanation. Resolve the requested teaching language separately from interview/feedback language. Never reveal a pending Interactive answer during translation.
+
+This complete template is for Full lesson. For Interactive/Mock, save only the currently revealed teaching/challenge in either locale and preserve the session cursor. Closed answer disclosures are publicly readable, so do not use them to store pending Interactive solutions.

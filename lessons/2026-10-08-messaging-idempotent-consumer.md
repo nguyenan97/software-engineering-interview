@@ -48,6 +48,8 @@ primary_objective: Keep the inbox marker and business update in one transaction 
   a failed credit can be retried safely.
 prerequisites_note: Basic SQL transactions. Python 3.10+ with sqlite3 for the portable
   lab; SQL Server is optional.
+locale: en
+translation_key: 2026-10-08-messaging-idempotent-consumer
 ---
 
 ## A · Set the goal — 2 minutes
@@ -140,7 +142,7 @@ The portable lab uses SQLite's explicit `BEGIN IMMEDIATE`, `COMMIT`, and `ROLLBA
 
 **Setup:** Python 3.10+ with the standard-library `sqlite3` module. No database server, package install, network service or credentials. The verifier creates a fresh in-memory database for each test.
 
-<a class="button button-primary" href="{{ '/assets/labs/atomic-inbox.zip' | relative_url }}" download>Download the runnable lab (.zip)</a>
+{% include lab-download.html path='/assets/labs/atomic-inbox.zip' %}
 
 Unzip, enter the extracted `atomic-inbox/` directory, and run `python verify.py`. If using a repository checkout instead, run:
 
@@ -165,40 +167,7 @@ Files: `exercise.py` is the intentionally broken starter; `verify.py` contains f
 <details markdown="1" data-answer>
 <summary>Open the complete worked solution after your attempt</summary>
 
-```python
-"""Reference solution for the single-consumer SQLite learning lab."""
-
-
-def apply_credit(db, event_id, account_id, amount, fail_after_marker=False):
-    if type(amount) is not int or amount <= 0:
-        raise ValueError("Amount must be positive integer cents")
-    db.execute("BEGIN IMMEDIATE")
-    try:
-        existing = db.execute(
-            "SELECT account_id, amount FROM inbox WHERE event_id = ?", (event_id,)
-        ).fetchone()
-        if existing:
-            if existing != (account_id, amount):
-                raise ValueError("Event identity reused with different business data")
-            db.execute("COMMIT")
-            return "AlreadyProcessed"
-
-        db.execute("INSERT INTO inbox VALUES (?, ?, ?)", (event_id, account_id, amount))
-        if fail_after_marker:
-            raise RuntimeError("Injected failure after marker")
-        updated = db.execute(
-            "UPDATE accounts SET balance = balance + ? WHERE account_id = ?",
-            (amount, account_id),
-        )
-        if updated.rowcount != 1:
-            raise ValueError("Account not found")
-        db.execute("COMMIT")
-        return "Applied"
-    except Exception:
-        if db.in_transaction:
-            db.execute("ROLLBACK")
-        raise
-```
+{% include lab-code/atomic-inbox-solution.md %}
 
 `BEGIN` comes before the lookup and both writes. One `COMMIT` makes the marker meaningful. On a failed account update or injected exception, `ROLLBACK` restores both tables. The existing marker is checked against the original business data, so ID reuse is not mistaken for a legitimate retry.
 
@@ -269,18 +238,14 @@ Speak your own 30-second answer first. Expand to 90 seconds with the failed-atte
 <details markdown="1" data-answer>
 <summary>30-second model answer</summary>
 
-> I would use a stable event ID and commit the inbox marker together with the account credit in one database transaction. A failed attempt rolls back both, so it remains retryable. A replay after commit finds the marker and skips the credit. This protects the database effect; a remote call needs a separate strategy.
+{% include interview/inbox-30s.md %}
 
 </details>
 
 <details markdown="1" data-answer>
 <summary>90-second model answer, two follow-ups and a related-topic bridge</summary>
 
-> I would identify the logical credit with a stable event ID, then put the inbox marker and balance update in the same database transaction. The key invariant is that a committed marker means that the business effect committed too.
->
-> If a failure happens between the two writes, both roll back and the same event can be retried. If the database commits but the broker acknowledgment fails, a later delivery finds the marker and skips the credit. Reusing that ID with different business data is a contract error that I would reject.
->
-> In this lab, the failure-after-marker test distinguishes the correct transaction from two separate commits. For the project's SQL Server implementation, I would also test concurrent workers and uncertain commit responses rather than infer those guarantees from SQLite. The trade-offs are database writes, contention and keeping deduplication records for the replay horizon. An external side effect has a separate failure boundary.
+{% include interview/inbox-90s.md %}
 
 **Follow-up 1 — Why is a unique event ID insufficient?** It prevents two committed markers but does not make the credit atomic with the marker. The broken starter proves that failure can commit the marker without any credit.
 
@@ -292,8 +257,7 @@ These answers use “I would” and “in this lab”; they do not invent produc
 
 </details>
 
-<button type="button" class="button button-secondary" data-close-answers disabled>Close answers for recall</button>
-<p id="recall-status" role="status" aria-live="polite">Close the explanation or cover it. Answer without notes.</p>
+{% include recall-close.html %}
 
 1. State the invariant linking the inbox row to the account credit.
 2. A reservation fails because inventory is insufficient. What must the transaction leave behind, and why?
@@ -337,123 +301,13 @@ This retained implementation serves the project's SQL Server stack and original 
 
 Use a fresh disposable SQL Server database. The scripts use `CREATE OR ALTER PROCEDURE`; choose a supported SQL Server installation that supports this syntax. Execute batches with SSMS or another tool that understands `GO`; `GO` is a client batch separator, not SQL sent through a database command.
 
-```sql
-CREATE TABLE dbo.Accounts
-(
-    AccountId bigint NOT NULL
-        CONSTRAINT PK_Accounts PRIMARY KEY,
-    Balance decimal(19,2) NOT NULL
-);
-
-CREATE TABLE dbo.ConsumerInbox
-(
-    ConsumerName varchar(80) NOT NULL,
-    EventId uniqueidentifier NOT NULL,
-    AccountId bigint NOT NULL,
-    Amount decimal(19,2) NOT NULL,
-    ProcessedAt datetime2(7) NOT NULL
-        CONSTRAINT DF_ConsumerInbox_ProcessedAt
-        DEFAULT SYSUTCDATETIME(),
-
-    CONSTRAINT PK_ConsumerInbox
-        PRIMARY KEY (ConsumerName, EventId)
-);
-
-INSERT INTO dbo.Accounts (AccountId, Balance)
-VALUES (42, 0);
-GO
-```
+{% include lab-code/sql-server-setup.md %}
 
 The composite primary key provides a durable uniqueness boundary. A SQL Server unique constraint is another way to express a domain uniqueness rule and creates a corresponding unique index [V4].
 
 ### Worked solution
 
-```sql
-CREATE OR ALTER PROCEDURE dbo.ApplyAccountCredit
-    @EventId uniqueidentifier,
-    @AccountId bigint,
-    @Amount decimal(19,2)
-AS
-BEGIN
-    SET NOCOUNT ON;
-
-    -- This procedure owns the real commit, not a nested transaction.
-    IF @@TRANCOUNT <> 0 OR (2 & @@OPTIONS) = 2
-    BEGIN
-        THROW 50000,
-            'Call without an ambient or implicit transaction.', 1;
-    END;
-
-    SET XACT_ABORT ON;
-
-    DECLARE @ConsumerName varchar(80) = 'account-credit-v1';
-
-    IF @EventId IS NULL
-       OR @AccountId IS NULL
-       OR @AccountId <= 0
-       OR @Amount IS NULL
-       OR @Amount <= 0
-    BEGIN
-        THROW 50001, 'Invalid credit event.', 1;
-    END;
-
-    BEGIN TRY
-        BEGIN TRANSACTION;
-
-        -- Protect the existing key or insertion range until commit.
-        IF EXISTS
-        (
-            SELECT 1
-            FROM dbo.ConsumerInbox WITH (UPDLOCK, HOLDLOCK)
-            WHERE ConsumerName = @ConsumerName
-              AND EventId = @EventId
-        )
-        BEGIN
-            IF NOT EXISTS
-            (
-                SELECT 1
-                FROM dbo.ConsumerInbox
-                WHERE ConsumerName = @ConsumerName
-                  AND EventId = @EventId
-                  AND AccountId = @AccountId
-                  AND Amount = @Amount
-            )
-            BEGIN
-                THROW 50002,
-                    'Event ID reused with different business data.', 1;
-            END;
-
-            COMMIT TRANSACTION;
-            SELECT 'AlreadyProcessed' AS Outcome;
-            RETURN;
-        END;
-
-        INSERT INTO dbo.ConsumerInbox
-            (ConsumerName, EventId, AccountId, Amount)
-        VALUES
-            (@ConsumerName, @EventId, @AccountId, @Amount);
-
-        UPDATE dbo.Accounts
-        SET Balance = Balance + @Amount
-        WHERE AccountId = @AccountId;
-
-        IF @@ROWCOUNT <> 1
-        BEGIN
-            THROW 50003, 'Account not found.', 1;
-        END;
-
-        COMMIT TRANSACTION;
-        SELECT 'Applied' AS Outcome;
-    END TRY
-    BEGIN CATCH
-        IF XACT_STATE() <> 0
-            ROLLBACK TRANSACTION;
-
-        THROW;
-    END CATCH;
-END;
-GO
-```
+{% include lab-code/sql-server-procedure.md %}
 
 **Call contract:** use a standalone command without a caller transaction or ambient `TransactionScope`, and with implicit transactions disabled. An inner `COMMIT` does not commit an outer transaction [V6]; acknowledging before the actual outer commit would violate the design. The entry guard rejects unsupported callers. It is not a savepoint-based procedure for use inside an existing transaction. Validate amount scale at ingress because conversion to `decimal(19,2)` can round extra fractional digits before the procedure compares them.
 

@@ -1,0 +1,1 @@
+> I would use a stable event ID and commit the inbox marker together with the account credit in one database transaction. A failed attempt rolls back both, so it remains retryable. A replay after commit finds the marker and skips the credit. This protects the database effect; a remote call needs a separate strategy.

@@ -1,0 +1,132 @@
+brand: Interview Practice
+tagline: ONE IDEA. REAL PRACTICE.
+description: Source-grounded daily Software Engineering interview practice with focused lessons and real
+  learning evidence.
+skip: Skip to content
+language: Language
+missing_translation: This page is available in English only. The link opens the same content in English;
+  no translated page is claimed.
+nav:
+  home: Daily desk
+  lessons: Lessons
+  curriculum: Curriculum
+  workflow: How it works
+footer:
+  tagline: Small sessions. Deeper understanding.
+  method: Learning method
+  privacy: Progress & privacy
+no_js: Reading, step links and answer disclosures work without JavaScript. Select and copy prompts manually.
+  Language links work; browser preferences, bookmarks and helper buttons require JavaScript.
+levels:
+  foundation: Foundation
+  senior: Senior
+  architect: Architect
+lesson:
+  back: ← Back to the daily desk
+  guided: GUIDED PRACTICE
+  minutes: minutes
+  active: minutes practicing & recalling
+  one_goal: One main objective
+  prerequisites: 'Before you start:'
+  steps_title: YOUR SESSION
+  goal: Set the goal
+  predict: Predict first
+  model: Understand why
+  practice: Try the lab
+  verify: Verify & correct
+  recall: Say it & recall
+  bookmark_help: Step links can save your reading place in this browser. Completion and review dates are
+    recorded by your repo agent.
+  clear: Clear reading place
+  close_answers: Close answers for recall
+  recall_help: Close the explanation or cover it. Answer without notes.
+  download: Download the runnable lab (.zip)
+home:
+  eyebrow: YOUR DAILY LEARNING DESK
+  headline_a: One idea.
+  headline_b: Make it stick.
+  intro: Predict it. Build it. Explain why it works. A small session with something real to remember.
+  routine_title: A SIMPLE ROUTINE
+  routine:
+  - Choose one 30–45 minute session.
+  - Try before opening the answer.
+  - Close your notes and explain it back.
+  latest: LATEST GUIDED LESSON
+  practice: Practice first
+  start: Start this lesson →
+  actions_title: What would help today?
+  next: One clear next step.
+  actions:
+  - number: 01 / DISCOVER
+    title: Learn something new
+    body: Your repo agent chooses a fresh objective from your learning history.
+    label: Get the daily prompt →
+  - number: 02 / CONTINUE
+    title: Pick up where you left off
+    body: Return to your reading place in this browser.
+    label: Continue reading →
+  - number: 03 / RETRIEVE
+    title: Recall without notes
+    body: Ask your agent what is due, then test the mechanism from memory.
+    label: Start a review →
+  - number: 04 / EXPLAIN
+    title: Practice the interview
+    body: Give a short answer, defend a failure case and discuss a trade-off.
+    label: Practice speaking →
+  no_bookmark: No browser reading place saved yet. Continue opens the latest lesson; ask your repo agent
+    “Continue my lesson” to resume a saved coaching session.
+  scope: This public desk does not read your personal learning state or write to GitHub. Browser preferences
+    and bookmarks stay in this browser. Your repo agent records attempts, completion and due reviews.
+  library: Your lesson library
+  curriculum: Explore the curriculum →
+  empty: No lesson has been published yet. Use the daily prompt with your repo agent.
+  fallback: English version; Vietnamese translation not available.
+prompts:
+  new:
+    title: Ask for your next focused lesson
+    intro: 'Open this repository in your agent and send:'
+    text: Write today’s lesson in English.
+    copy: Copy prompt
+    status: The agent creates the lesson and saves its delivery record.
+  review:
+    title: Check your due reviews
+    intro: 'Open this repository in your agent and send:'
+    text: Review today’s due lessons in English. Ask one question at a time and wait for my attempt before
+      feedback.
+    copy: Copy review prompt
+    status: Paste into your agent with the repo open.
+  interview:
+    title: Start a short mock interview
+    intro: 'Open this repository in your agent and send:'
+    text: Mock interview my current lesson in English. Ask one question at a time; practice 30–90-second
+      answers and two deeper follow-ups. Score only dimensions supported by my answers.
+    copy: Copy interview prompt
+    status: Paste into your agent with the repo open.
+index:
+  title: Published lessons
+  intro: Language versions share one logical lesson and one learning history. Published content is not
+    evidence of completion.
+  created: Created
+  lesson: Lesson
+  level: Level
+  status: Artifact status
+  generated: Generated
+  scope: Your repo agent reads real state to resume coaching and select due reviews. Changing language
+    does not complete a lesson.
+messages:
+  bookmark_saved: Reading place saved in this browser only. Your repo agent records completion and review
+    dates.
+  bookmark_blocked: Browser storage is unavailable. Step and language links still work; ask your repo
+    agent to save session progress.
+  bookmark_cleared: Reading place cleared. Repository learning history is unchanged.
+  clear_blocked: Browser storage is unavailable; no repository data was changed.
+  resume: This browser saved your place at “{step}”. This is a reading bookmark, not completion.
+  copied: Copied. Paste into your agent with this repository open.
+  copy_blocked: Copy is unavailable. Select the prompt above and paste it into your repo agent.
+  answers_closed: Answers closed. Try the three recall questions without notes.
+  locale_saved: Language preference saved in this browser only. Repository state is unchanged.
+  locale_blocked: Language links work, but this browser cannot save your preference. Repository state
+    is unchanged.
+  locale_offer: This browser remembers {language}. Open that version of this page.
+  resume_fallback: Your saved lesson has no version in this language. Continue opens its English version;
+    learning history is unchanged.

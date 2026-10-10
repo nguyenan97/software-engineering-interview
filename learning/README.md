@@ -19,6 +19,14 @@ review dates. Reviews live in a separate array and never increment lesson count.
 Domain counts and weak-concept summaries are derived from those records rather
 than maintained as competing copies.
 
+## Languages and shared identity
+
+An optional `learner_profile.preferred_language` accepts `en | vi`; absent means English. Explicit requests override it. `language --language vi --date YYYY-MM-DD` writes only that preference and `last_updated`. It does not create a lesson or change status, evidence, scores or reviews.
+
+`next --language vi --date YYYY-MM-DD` reports selection language without writing. `lesson-path LESSON_ID --language vi --date YYYY-MM-DD` returns the matching translated path or the same canonical English path with `fallback: true`. Existing `lesson_path` remains canonical English. Passing a valid translated page to `record` resolves that canonical identity; repeated registration is still rejected.
+
+Language variants live under `vi/lessons/` with the same ID and an explicit canonical reference, not extra state records. Session notes may store teaching/interview/feedback languages alongside the same cursor. A switch never completes a lesson or consumes a review. Browser language storage is separate from this profile. See [the localization contract](../docs/localization.md).
+
 ## Commands
 
 From the repository root, install `python -m pip install -r requirements.txt`.

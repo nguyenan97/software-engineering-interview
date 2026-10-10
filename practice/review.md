@@ -1,17 +1,15 @@
 ---
 layout: default
 title: Recall Without Notes
+locale: en
+translation_key: review
 ---
 
 # Recall without notes
 
 A five-minute review starts with memory, not rereading. Your agent checks due dates against actual completion. This public page cannot know which reviews are due for you.
 
-<section class="prompt-box" aria-labelledby="review-prompt-title">
-<h2 id="review-prompt-title">Check your due reviews</h2>
-<p><code data-prompt>Ôn tập hôm nay. Hỏi từng câu, chờ tôi trả lời rồi sửa đúng một hiểu lầm.</code></p>
-<div class="prompt-actions"><button class="button secondary" type="button" data-copy-prompt disabled>Copy review prompt</button><p role="status" class="prompt-status" data-copy-status aria-live="polite">Paste into your agent with the repo open.</p></div>
-</section>
+{% include prompt-box.html kind='review' %}
 
 ## Try a practice review
 

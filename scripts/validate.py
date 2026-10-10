@@ -9,6 +9,7 @@ from urllib.parse import unquote, urlsplit
 import yaml
 
 from learning import ROOT, load_json, metadata, validate_state
+from localization import validate_localization
 
 DOMAINS = {
     "architecture-distributed", "dotnet-runtime", "aspnet-api", "ef-linq", "sql-data",
@@ -46,6 +47,7 @@ def check_ref(ref, relative_to):
 
 
 def main():
+    locale_report = validate_localization(ROOT)
     catalog = load_json(ROOT / "curriculum/catalog.json")
     assert catalog["schema_version"] == 1
     topics = catalog["topics"]
@@ -119,7 +121,7 @@ def main():
                 check_ref(ref.strip("<>"), path.parent)
     for path in ROOT.glob(".github/workflows/*.yml"):
         yaml.safe_load(path.read_text(encoding="utf-8"))
-    print(f"Validated {len(topics)} topics, {len(documents)} Markdown documents, {len(state['lessons'])} lesson record(s), state schema, links and prerequisite graph.")
+    print(f"Validated {len(topics)} topics, {len(documents)} Markdown documents, {len(state['lessons'])} logical lesson record(s), state schema, links and prerequisite graph; localization: {locale_report}.")
 
 
 if __name__ == "__main__":
