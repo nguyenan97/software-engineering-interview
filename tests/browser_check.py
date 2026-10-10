@@ -16,6 +16,7 @@ from playwright.sync_api import sync_playwright, expect
 KEY = 'interview-practice:reading-place:v1'
 LANGUAGE_KEY = 'interview-practice:language:v1'
 STEPS = ['goal', 'predict', 'model', 'practice', 'verify', 'recall']
+SAMPLE_LESSON_ID = '2026-10-08-messaging-idempotent-consumer'
 
 
 @contextmanager
@@ -70,6 +71,15 @@ def screenshot(page, directory, name):
         page.screenshot(path=str(directory / (name + '.png')), full_page=True)
 
 
+def check_library(page, lessons, language):
+    entries = page.locator('[data-logical-lesson]')
+    ids = entries.evaluate_all('(nodes) => nodes.map(node => node.dataset.logicalLesson)')
+    expected = {item['id']: item['routes'].get(language, item['routes']['en']) for item in lessons}
+    assert len(ids) == len(expected) and set(ids) == set(expected), 'Library must list each logical lesson once'
+    for entry in entries.all():
+        expect(entry.locator('[data-public-lesson]')).to_have_attribute('href', expected[entry.get_attribute('data-logical-lesson')])
+
+
 def check(args):
     with serve(args.site.resolve(), args.baseurl) as desk, sync_playwright() as p:
         launch = {'headless': True}
@@ -85,8 +95,14 @@ def check(args):
         assert page.locator('.action-card').count() == 4
         expect(page.locator('[data-resume-status]')).to_contain_text('No browser reading place')
         manifest = config(page)
-        assert len(manifest['lessons']) == 1, 'Translation must not become another latest lesson'
-        logical = manifest['lessons'][0]
+        ids = [item['id'] for item in manifest['lessons']]
+        assert ids and len(ids) == len(set(ids)), 'Translation must not become another logical lesson'
+        check_library(page, manifest['lessons'], 'en')
+        # The published library can grow daily. Only lab-specific assertions use
+        # the immutable sample; the desk's newest lesson may be a different topic.
+        latest = manifest['lessons'][-1]
+        expect(page.locator('[data-public-lesson]').first).to_have_attribute('href', latest['routes']['en'] + '#goal')
+        logical = next(item for item in manifest['lessons'] if item['id'] == SAMPLE_LESSON_ID)
         origin = desk[:desk.index(args.baseurl)] if args.baseurl else desk.rstrip('/')
         lesson_url = logical['routes']['en']
         lesson = origin + lesson_url
@@ -157,14 +173,14 @@ def check(args):
         expect(page).to_have_url(vi_lesson + '#verify')
         page.goto(vi_desk)
         assert page.locator('.action-card').count() == 4
-        expect(page.locator('[data-public-lesson]').first).to_have_attribute('href', logical['routes']['vi'] + '#goal')
+        expect(page.locator('[data-public-lesson]').first).to_have_attribute('href', latest['routes'].get('vi', latest['routes']['en']) + '#goal')
+        check_library(page, manifest['lessons'], 'vi')
         page.locator('[data-copy-prompt]').click()
         assert page.evaluate('navigator.clipboard.readText()') == 'Viết bài học hôm nay bằng tiếng Việt.'
         screenshot(page, args.screenshots, 'desk-vi-desktop')
         for language, home in (('en', desk), ('vi', vi_desk)):
             page.goto(home + 'lessons/')
-            assert page.locator('tbody tr').count() == 1
-            expect(page.locator('tbody a')).to_have_attribute('href', logical['routes'][language])
+            check_library(page, manifest['lessons'], language)
         # All paired entry points/guides: native switches and layout at three widths.
         pairs = ('', 'lessons/', 'practice/review/', 'practice/interview/',
                  'docs/workflow/', 'agent/INTERVIEW_METHOD/', 'curriculum/', 'README/')
@@ -203,7 +219,8 @@ def check(args):
             body = response.text()
             match = re.search(r'(<script type="application/json" id="study-config">)(.*?)(</script>)', body, re.S)
             changed = json.loads(match.group(2))
-            del changed['lessons'][0]['routes']['vi']
+            saved_lesson = next(item for item in changed['lessons'] if item['id'] == SAMPLE_LESSON_ID)
+            del saved_lesson['routes']['vi']
             body = body[:match.start(2)] + json.dumps(changed) + body[match.end(2):]
             route.fulfill(response=response, body=body)
         page.goto(desk)
@@ -220,7 +237,7 @@ def check(args):
                     json.dumps({'lessonId': 'other-id', 'path': lesson_url, 'step': 'practice'})):
             page.evaluate('value => localStorage.setItem("' + KEY + '", value)', bad)
             page.reload()
-            expect(page.locator('[data-resume]')).to_have_attribute('href', lesson_url + '#goal')
+            expect(page.locator('[data-resume]')).to_have_attribute('href', latest['routes']['en'] + '#goal')
         for invalid in ('fr', '{broken'):
             page.evaluate('value => localStorage.setItem("' + LANGUAGE_KEY + '", value)', invalid)
             page.reload()

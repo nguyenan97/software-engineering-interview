@@ -41,6 +41,13 @@ jobs:
       - run: python -m playwright install --with-deps chromium
       - run: npm install --prefix work/browser-checks --no-audit --no-fund axe-core@4.10.3
       - run: python tests/browser_check.py --site _site --axe work/browser-checks/node_modules/axe-core/axe.min.js --screenshots work/screenshots
+      - run: python tests/prepare_library_fixture.py --destination work/library-fixture
+      - uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./work/library-fixture
+          destination: ./work/library-fixture/_site
+      - run: python scripts/check_site.py work/library-fixture/_site
+      - run: python tests/browser_check.py --site work/library-fixture/_site --axe work/browser-checks/node_modules/axe-core/axe.min.js
       - uses: actions/upload-artifact@v4
         if: always()
         with:

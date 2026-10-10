@@ -40,6 +40,8 @@ For an installed system Chromium, set `PLAYWRIGHT_CHROMIUM_EXECUTABLE=/path/to/c
 
 The PR's site check uploads English and Vietnamese desktop/mobile screenshots as the `daily-learning-ui` artifact for review (retained for seven days).
 
+CI also builds an isolated copy with a synthetic later bilingual lesson and runs the same browser checks. This catches fixed-size library assumptions, incorrect latest-lesson selection and resume accidentally opening the newest lesson instead of the saved one. The fixture is test-only; it neither changes repository state nor appears in the published site or UI screenshots.
+
 Checks cover both locales: four daily actions, six-step navigation, same-lesson/step language switching, reload/back/forward, preferences/resume/clear, missing translations, identical rendered lab code, native keyboard answers, downloads and copied prompts. Invalid preferences/bookmarks, blocked storage/clipboard and no-JavaScript reading have explicit fallbacks. The rendered-site checker verifies self-canonical URLs, reciprocal hreflang, document languages and unique logical IDs. Axe runs WCAG 2 A/AA, WCAG 2.1 AA and best-practice rules on paired entry points, guides and lessons at 1440/390/320px, including an open worked solution. Automated checks do not constitute a complete accessibility audit or prove semantic translation quality; keyboard, visual and technical comparison supplement them.
 
 ## Guarantee boundaries
