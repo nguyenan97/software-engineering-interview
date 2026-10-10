@@ -56,3 +56,10 @@ Some source phrasing can conceal version assumptions: interface-member rules, LI
 ## Audit date
 
 Corpus and catalog structure reviewed on **2026-10-08**. This date records repository review, not verification of every product behavior.
+
+## Focused lesson addition — 2026-10-10
+
+Added [department headcount](domains/algorithms-debugging.md#algorithms-department-headcount)
+as a narrow, source-direct slice of S03-Q032. The catalog now has 47 topics;
+numbered source prompts remain 234. This is new catalog scope, not a new original
+question. The original broad relational topic and all source IDs remain stable.

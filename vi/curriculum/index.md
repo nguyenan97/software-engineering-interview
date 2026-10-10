@@ -21,7 +21,7 @@ Foundation xây mental model; senior áp dụng vào failure, concurrency và ev
 - **B:** thực hành hoặc kiến thức hỗ trợ cho câu hỏi có trong nguồn.
 - **C:** mở rộng kiến trúc từ nguồn, thêm phạm vi hệ thống.
 
-Catalog hiện có 46 topics. Ring A vẫn có thể ở mức architect nếu câu hỏi nguồn vốn thuộc mức đó.
+Catalog hiện có 47 topics. Ring A vẫn có thể ở mức architect nếu câu hỏi nguồn vốn thuộc mức đó.
 
 ## Các domain
 
@@ -40,7 +40,7 @@ Các route chuyên sâu và nguồn chưa dịch đầy đủ vẫn mở đúng 
 | [Observability, performance, reliability](../../curriculum/domains/observability-reliability.md) | 0 | 2 | 0 | 01, 04, 05, 06 |
 | [DevOps, containers, delivery](../../curriculum/domains/devops-delivery.md) | 1 | 1 | 0 | 05 |
 | [Angular, TypeScript và frontend](../../curriculum/domains/frontend-typescript.md) | 1 | 2 | 0 | 06 |
-| [Algorithms, coding, debugging](../../curriculum/domains/algorithms-debugging.md) | 2 | 0 | 0 | 01, 03 |
+| [Algorithms, coding, debugging](../../curriculum/domains/algorithms-debugging.md) | 3 | 0 | 0 | 01, 03 |
 | [Quy trình và giao tiếp kỹ thuật](../../curriculum/domains/engineering-communication.md) | 0 | 2 | 0 | 04, 06 |
 
 ## Phạm vi nguồn và lời giải

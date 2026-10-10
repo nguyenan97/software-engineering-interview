@@ -55,6 +55,30 @@ Each topic has one primary learning objective set. Repeated source wording point
 - [03-sql-data-performance · q034](../../sources/03-sql-data-performance.md#q034)
 - [03-sql-data-performance · q035](../../sources/03-sql-data-performance.md#q035)
 
+<a id="algorithms-department-headcount"></a>
+### Department headcount at the correct aggregation grain
+
+`algorithms-department-headcount` · Ring A · foundation
+
+**Learning objectives**
+
+- Return departments with more than three employees, grouping by department identity rather than its display name.
+- Count non-null employee identities and preserve zero-child departments when the reporting contract requires them.
+- Verify headcount with duplicate department names, nullable employee names and exact-threshold boundary data.
+
+**Concept fingerprint:** `group-by`, `having`, `aggregation-grain`, `non-null-child-count`, `outer-join-preservation`, `row-filter-placement`.
+
+**Prerequisites:** None required; the lesson introduces join rows and grouping before practice.
+
+**Source prompt:** [03-sql-data-performance · q032](../../sources/03-sql-data-performance.md#q032).
+
+**Scope note:** A focused slice of `algorithms-sql-relations`, added on 2026-10-10
+for one 40-minute session. It answers Q032; zero-count and active-count reports
+are labeled transfer practice, not additional original interview questions.
+It does not teach outer-join rewrites or unique-constraint semantics. The broader
+entry remains for source indexing; selection must compare objectives to avoid
+teaching this slice again through that entry.
+
 ## Senior
 
 No separate source-grounded topic is registered at this level. A production twist can deepen a lower-level topic; register a new extension only with distinct objectives and verified references.

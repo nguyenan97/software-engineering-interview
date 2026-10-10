@@ -1,0 +1,7 @@
+I would first clarify that “more than three” means at least four employees and that this question counts all employees, not only active ones. My query joins Department to Employee by DepartmentId, groups by DepartmentId and the selected department name, and filters the groups with HAVING COUNT(e.EmployeeId) greater than three.
+
+The key is the aggregation grain: each result row represents one department identity. A display name is not necessarily unique, so grouping only by the name can merge two departments. I count the non-null employee key because a missing employee name must not remove that person from the count. WHERE filters individual joined rows before grouping; HAVING filters the computed groups.
+
+An inner join is enough for this requirement. If the requirement changes to include every department with its count, I would use a left join and count the child key; COUNT(*) would incorrectly count the placeholder row for an empty department. For active-only counts that must retain empty departments, I would put the active filter in the join condition.
+
+I would test departments with zero, three and four employees, duplicate department names and a nullable employee name. Before making a performance claim on SQL Server, I would inspect the actual plan and logical reads with representative data. Adding another one-to-many join can multiply rows, so I would recheck the grain before trusting that count.

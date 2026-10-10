@@ -207,6 +207,7 @@ Level and ring are independent. A source-direct Saga question can be architect-l
 
 - [`algorithms-collection-reasoning`](../curriculum/domains/algorithms-debugging.md#algorithms-collection-reasoning) — foundation; Ring B.
 - [`algorithms-sql-relations`](../curriculum/domains/algorithms-debugging.md#algorithms-sql-relations) — foundation; Ring A.
+- [`algorithms-department-headcount`](../curriculum/domains/algorithms-debugging.md#algorithms-department-headcount) — foundation; Ring A; focused Q032 slice.
 
 **Adjacent or uncovered directions**
 
