@@ -47,7 +47,7 @@ Website tĩnh không tạo bài, đọc state cá nhân hay ghi completion lên 
 
 ## Nội dung và cấu trúc
 
-Corpus có 234 numbered prompts, bốn scenario/request-flow sections, tổ chức thành 46 topics thuộc 13 domains. Stable source IDs giữ traceability; những contract khác nhau không bị gộp chỉ vì dùng cùng thuật ngữ.
+Corpus có 234 numbered prompts, bốn scenario/request-flow sections, tổ chức thành 47 topics thuộc 13 domains. Stable source IDs giữ traceability; những contract khác nhau không bị gộp chỉ vì dùng cùng thuật ngữ.
 
 - [Lộ trình](curriculum/index.md), [taxonomy English](../agent/TOPIC_TAXONOMY.md), [source coverage English](../curriculum/source-coverage.md).
 - [Bài đã xuất bản](lessons/index.md) và [bài mẫu atomic inbox](lessons/2026-10-08-messaging-idempotent-consumer.md).

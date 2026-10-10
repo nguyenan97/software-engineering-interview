@@ -21,7 +21,7 @@ Foundation develops the mental model; senior applies it to failure, concurrency 
 - **Ring B:** practice or supporting detail is adjacent to an explicit question.
 - **Ring C:** a source-seeded architect extension adds system-level scope.
 
-The catalog currently contains 46 topics. Ring A can be architect-level when the source already asks an architect-level question.
+The catalog currently contains 47 topics. Ring A can be architect-level when the source already asks an architect-level question.
 
 ## Domains
 
@@ -38,7 +38,7 @@ The catalog currently contains 46 topics. Ring A can be architect-level when the
 | [Observability, Performance & Reliability](domains/observability-reliability.md) | 0 | 2 | 0 | 01, 04, 05, 06 |
 | [DevOps, Containers & Delivery](domains/devops-delivery.md) | 1 | 1 | 0 | 05 |
 | [Angular, TypeScript & Frontend Architecture](domains/frontend-typescript.md) | 1 | 2 | 0 | 06 |
-| [Algorithms, Coding & Debugging](domains/algorithms-debugging.md) | 2 | 0 | 0 | 01, 03 |
+| [Algorithms, Coding & Debugging](domains/algorithms-debugging.md) | 3 | 0 | 0 | 01, 03 |
 | [Engineering Process & Communication](domains/engineering-communication.md) | 0 | 2 | 0 | 04, 06 |
 
 ## Source and answer boundaries

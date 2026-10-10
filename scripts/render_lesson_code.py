@@ -5,16 +5,21 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCES = {
-    'atomic-inbox-solution': ('solution.py', 'python'),
-    'sql-server-setup': ('sql-server-setup.sql', 'sql'),
-    'sql-server-procedure': ('sql-server-procedure.sql', 'sql'),
+    'atomic-inbox-solution': ('atomic-inbox/solution.py', 'python'),
+    'sql-server-setup': ('atomic-inbox/sql-server-setup.sql', 'sql'),
+    'sql-server-procedure': ('atomic-inbox/sql-server-procedure.sql', 'sql'),
+    'department-headcount-setup': ('department-headcount/setup.sql', 'sql'),
+    'department-headcount-exercise': ('department-headcount/exercise.sql', 'sql'),
+    'department-headcount-solution': ('department-headcount/solution.sql', 'sql'),
+    'department-headcount-all': ('department-headcount/all-departments.sql', 'sql'),
+    'department-headcount-transfer': ('department-headcount/transfer.sql', 'sql'),
 }
 
 
 def render(check=False):
     for name, (source, language) in SOURCES.items():
         target = ROOT / '_includes/lab-code' / (name + '.md')
-        expected = '```' + language + '\n' + (ROOT / 'labs/atomic-inbox' / source).read_text().rstrip() + '\n```\n'
+        expected = '```' + language + '\n' + (ROOT / 'labs' / source).read_text().rstrip() + '\n```\n'
         if check:
             if not target.is_file() or target.read_text() != expected:
                 raise ValueError('Stale shared code: run python scripts/render_lesson_code.py')

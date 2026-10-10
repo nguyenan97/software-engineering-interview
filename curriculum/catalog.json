@@ -1316,6 +1316,30 @@
         "sources/06-frontend-behavioral.md#q023"
       ],
       "prerequisites": []
+    },
+    {
+      "topic_id": "algorithms-department-headcount",
+      "title": "Department headcount at the correct aggregation grain",
+      "domain": "algorithms-debugging",
+      "level": "foundation",
+      "ring": "A",
+      "objectives": [
+        "Return departments with more than three employees, grouping by department identity rather than its display name.",
+        "Count non-null employee identities and preserve zero-child departments when the reporting contract requires them.",
+        "Verify headcount with duplicate department names, nullable employee names and exact-threshold boundary data."
+      ],
+      "concept_fingerprint": [
+        "group-by",
+        "having",
+        "aggregation-grain",
+        "non-null-child-count",
+        "outer-join-preservation",
+        "row-filter-placement"
+      ],
+      "source_refs": [
+        "sources/03-sql-data-performance.md#q032"
+      ],
+      "prerequisites": []
     }
   ]
 }

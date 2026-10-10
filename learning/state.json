@@ -65,8 +65,53 @@
       "weak_points": [],
       "evidence": [],
       "review_due": []
+    },
+    {
+      "lesson_id": "2026-10-10-algorithms-department-headcount",
+      "topic_id": "algorithms-department-headcount",
+      "domain": "algorithms-debugging",
+      "level": "foundation",
+      "objectives": [
+        "Return departments with more than three employees, grouping by department identity rather than its display name.",
+        "Count non-null employee identities and preserve zero-child departments when the reporting contract requires them.",
+        "Verify headcount with duplicate department names, nullable employee names and exact-threshold boundary data."
+      ],
+      "concept_fingerprint": [
+        "group-by",
+        "having",
+        "aggregation-grain",
+        "non-null-child-count",
+        "outer-join-preservation",
+        "row-filter-placement"
+      ],
+      "source_refs": [
+        "sources/03-sql-data-performance.md#q032",
+        "https://learn.microsoft.com/en-us/sql/t-sql/functions/count-transact-sql",
+        "https://learn.microsoft.com/en-us/sql/t-sql/queries/select-group-by-transact-sql",
+        "https://learn.microsoft.com/en-us/sql/t-sql/queries/select-transact-sql",
+        "https://learn.microsoft.com/en-us/sql/t-sql/queries/from-transact-sql",
+        "https://github.com/MicrosoftDocs/sql-docs/blob/main/docs/t-sql/functions/count-transact-sql.md",
+        "https://github.com/MicrosoftDocs/sql-docs/blob/main/docs/t-sql/queries/select-group-by-transact-sql.md",
+        "https://github.com/MicrosoftDocs/sql-docs/blob/main/docs/t-sql/queries/select-transact-sql.md",
+        "https://github.com/MicrosoftDocs/sql-docs/blob/main/docs/t-sql/queries/from-transact-sql.md"
+      ],
+      "status": "generated",
+      "created_at": "2026-10-10",
+      "completed_at": null,
+      "mode": "full-lesson",
+      "lesson_path": "lessons/2026-10-10-algorithms-department-headcount.md",
+      "score": {
+        "technical": null,
+        "reasoning": null,
+        "implementation": null,
+        "operations": null,
+        "communication": null
+      },
+      "weak_points": [],
+      "evidence": [],
+      "review_due": []
     }
   ],
   "reviews": [],
-  "last_updated": "2026-10-08"
+  "last_updated": "2026-10-10"
 }

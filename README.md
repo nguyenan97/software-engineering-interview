@@ -51,7 +51,7 @@ Answer the question directly, explain the mechanism with a concrete example, sta
 - [Worked example: Idempotent Consumers](lessons/2026-10-08-messaging-idempotent-consumer.md)
 - [Workflow and state guide](docs/workflow.md)
 
-The corpus has **234 numbered prompts**, four scenarios/request-flow sections and its answer structure, organized into **46 topics across 13 domains**. Stable `S01-Q001` IDs preserve traceability. Overlapping prompts point to canonical topics; API request identity, SQL import behavior and consumer deduplication remain distinct objectives. Foundation/senior/architect depth is independent of source-direct/adjacent/extension rings.
+The corpus has **234 numbered prompts**, four scenarios/request-flow sections and its answer structure, organized into **47 topics across 13 domains**. Stable `S01-Q001` IDs preserve traceability. Overlapping prompts point to canonical topics; API request identity, SQL import behavior and consumer deduplication remain distinct objectives. Foundation/senior/architect depth is independent of source-direct/adjacent/extension rings.
 
 ## Repository layout
 

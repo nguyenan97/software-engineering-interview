@@ -22,6 +22,7 @@ jobs:
       - run: python scripts/package_labs.py --check
       - run: python scripts/render_lesson_code.py --check
       - run: python labs/atomic-inbox/verify.py --solution
+      - run: python labs/department-headcount/verify.py --solution --extensions
   site:
     runs-on: ubuntu-latest
     steps:
