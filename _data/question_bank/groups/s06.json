@@ -1,0 +1,114 @@
+[
+  {
+    "group_id": "communication-behavioral-stories",
+    "representative_question_id": "S06-Q018",
+    "en": {
+      "title": "Professional introduction and truthful engineering ownership",
+      "goal": "Explain your real engineering responsibility through actions, outcomes and reflection while protecting confidential context.",
+      "competencies": ["Give a focused 60–90-second introduction that connects actual experience to the role.", "Separate personal decisions from team contributions in a challenge, incident or disagreement.", "Support an outcome with real observations and acknowledge missing evidence.", "Connect learning and career motivation to genuine development goals."],
+      "bridge": "Start by making your responsibility clear; otherwise a compelling system story can hide what you actually contributed. Use that boundary to explain a challenge and learning process, then an incident or disagreement where evidence influenced action. Close with career goals that follow from the experience rather than a manufactured biography.",
+      "scenario": "Prepare a privacy-safe handover about a production issue you actually helped investigate: describe the symptom, your responsibility, an action you took, the evidence available and what remains uncertain. Summarize how that responsibility fits your introduction. If you have no suitable incident, use a clearly labeled hypothetical deployment failure and propose an investigation; do not present proposed observations as results or claim the exercise as experience.",
+      "rubric": {
+        "basic": "Describes the context and tasks coherently but gives limited detail about individual ownership or outcomes.",
+        "senior": "Explains actual decisions, collaboration and alternatives; connects observations to outcomes and reflects on limits without exposing private details.",
+        "evidence_missing": "The story relies on unsupported impact, unclear personal contribution or invented observations. Ask for a truthful clarification; no missing metric should be fabricated."
+      }
+    },
+    "vi": {
+      "title": "Giới thiệu nghề nghiệp và thể hiện trách nhiệm kỹ thuật có thật",
+      "goal": "Giải thích trách nhiệm kỹ thuật thực tế qua hành động, kết quả và điều rút ra, đồng thời bảo vệ bối cảnh mật.",
+      "competencies": ["Giới thiệu tập trung trong 60–90 giây, nối kinh nghiệm thật với vai trò.", "Tách quyết định cá nhân khỏi đóng góp của nhóm trong thử thách, sự cố hoặc bất đồng.", "Hỗ trợ kết quả bằng quan sát có thật và thừa nhận phần thiếu bằng chứng.", "Nối cách học và động lực nghề nghiệp với mục tiêu phát triển thực sự."],
+      "bridge": "Bắt đầu bằng phạm vi trách nhiệm rõ ràng; nếu thiếu nó, câu chuyện hệ thống hấp dẫn có thể che mất đóng góp thật của bạn. Dùng ranh giới đó để giải thích một thử thách và cách học, rồi đến sự cố hoặc bất đồng nơi bằng chứng ảnh hưởng đến hành động. Kết lại bằng mục tiêu nghề nghiệp xuất phát từ trải nghiệm, không phải tiểu sử được dựng lên.",
+      "scenario": "Chuẩn bị nội dung bàn giao đã loại thông tin riêng cho một vấn đề production bạn thực sự từng tham gia điều tra: mô tả triệu chứng, trách nhiệm, một hành động đã làm, bằng chứng có sẵn và điểm còn chưa chắc. Tóm tắt trách nhiệm đó liên quan thế nào đến phần giới thiệu của bạn. Nếu chưa có sự cố phù hợp, dùng tình huống deployment thất bại được ghi rõ là giả định và đề xuất cách điều tra; không biến quan sát dự kiến thành kết quả hoặc nhận bài tập là kinh nghiệm.",
+      "rubric": {
+        "basic": "Mô tả bối cảnh và công việc liền mạch nhưng chưa làm rõ trách nhiệm cá nhân hoặc kết quả.",
+        "senior": "Giải thích quyết định thật, cách phối hợp và phương án khác; nối quan sát với kết quả, nhìn lại giới hạn và không lộ chi tiết riêng.",
+        "evidence_missing": "Câu chuyện dựa vào tác động thiếu căn cứ, đóng góp cá nhân chưa rõ hoặc quan sát bịa ra. Cần làm rõ trung thực; không được tạo thêm số liệu để lấp chỗ thiếu."
+      }
+    }
+  },
+  {
+    "group_id": "frontend-angular-architecture",
+    "representative_question_id": "S06-Q001",
+    "en": {
+      "title": "Angular responsibility boundaries and the path to an updated screen",
+      "goal": "Explain and defend Angular boundaries by tracing one feature from navigation and input to state changes and a usable view.",
+      "competencies": ["Trace components, dependency injection and routing for a concrete user interaction.", "Choose form and state ownership based on lifetime and collaboration needs.", "Distinguish incorrect view updates from expensive rendering or code loading.", "Define evidence for a loading or rendering change, including regressions."],
+      "bridge": "First establish the parts of the application and how dependencies connect them. Follow navigation into a feature, then explain the form and state that drive its view. This makes rendering failures diagnosable and gives state-management choices a concrete context; code splitting can then be judged by the loading experience it actually changes.",
+      "scenario": "Design an order editor reached through a lazily loaded route. Two editor panels need some shared values, validation can still be pending when the user submits, and users report a slow first visit. Draw responsibility and state-lifetime boundaries, trace one update, then propose separate checks for a failed load, an incorrect view update and slow rendering. Specify the Angular/build versions and verify applicable APIs before selecting a framework-specific repair.",
+      "rubric": {
+        "basic": "Names the application parts and describes a working navigation and edit path.",
+        "senior": "Defends dependency and state boundaries, traces update and failure paths, and separates loading from rendering with a measurable validation plan.",
+        "evidence_missing": "A library or rendering strategy is prescribed without a reproduction, version context or observation that distinguishes the suspected cause."
+      }
+    },
+    "vi": {
+      "title": "Ranh giới trách nhiệm Angular và luồng cập nhật màn hình",
+      "goal": "Giải thích và bảo vệ ranh giới Angular bằng cách theo dõi một tính năng từ điều hướng và nhập liệu đến thay đổi state và giao diện dùng được.",
+      "competencies": ["Theo dõi component, dependency injection và routing của một thao tác cụ thể.", "Chọn nơi sở hữu form và state theo vòng đời và nhu cầu phối hợp.", "Phân biệt giao diện cập nhật sai với render hoặc tải mã tốn thời gian.", "Đặt bằng chứng cho thay đổi về tải hoặc render, kể cả kiểm tra tác dụng phụ."],
+      "bridge": "Trước hết xác định các phần của ứng dụng và cách dependency nối chúng. Theo điều hướng vào một tính năng rồi giải thích form và state điều khiển giao diện. Nhờ đó có thể chẩn đoán lỗi cập nhật và đặt quyết định quản lý state vào bối cảnh cụ thể; sau đó đánh giá code splitting qua trải nghiệm tải mà nó thực sự thay đổi.",
+      "scenario": "Thiết kế màn hình sửa đơn hàng đi vào qua route lazy load. Hai panel cần dùng chung một phần giá trị, validation có thể còn chờ khi người dùng gửi và người dùng báo lần mở đầu chậm. Vẽ ranh giới trách nhiệm cùng vòng đời state, theo dõi một lần cập nhật rồi đề xuất các phép kiểm tra riêng cho tải mã thất bại, giao diện cập nhật sai và render chậm. Nêu phiên bản Angular/build và kiểm tra API tương ứng trước khi chọn cách sửa phụ thuộc framework.",
+      "rubric": {
+        "basic": "Nêu các phần của ứng dụng và mô tả luồng điều hướng, chỉnh sửa hoạt động bình thường.",
+        "senior": "Bảo vệ ranh giới dependency và state, theo dõi luồng cập nhật và lỗi, phân biệt tải với render bằng kế hoạch kiểm chứng đo được.",
+        "evidence_missing": "Chỉ định thư viện hoặc chiến lược render mà chưa có cách tái hiện, ngữ cảnh phiên bản hay quan sát phân biệt nguyên nhân nghi ngờ."
+      }
+    }
+  },
+  {
+    "group_id": "frontend-http-auth",
+    "representative_question_id": "S06-Q005",
+    "en": {
+      "title": "Browser request ownership: credentials, refresh and caching",
+      "goal": "Defend an HTTP-client pipeline that respects credential, retry and response-ownership boundaries.",
+      "competencies": ["Relate browser credential storage to an explicit threat model.", "Trace authentication and overlapping refresh attempts through the interceptor pipeline.", "Choose response-cache eligibility, identity and invalidation from the contract.", "Define failure tests for sign-out, refresh rejection and stale or misowned data."],
+      "bridge": "Start with who can access credentials and when they leave the browser. That boundary informs how requests acquire authentication and recover from failure. Reusing a response adds another ownership question: data must remain associated with the right identity and freshness contract. These decisions belong to one request flow but require distinct security, retry and cache checks.",
+      "scenario": "A SPA displays user-specific orders. Several requests encounter an authentication failure together, while a user signs out and another signs in on the same browser. Design the interceptor flow and decide whether these responses should be cached at all. State the identity-provider contract, permitted request destinations and freshness requirement; propose checks for failed refresh, an overlapping retry and a response arriving after identity changes. Do not assume any provider's default behavior.",
+      "rubric": {
+        "basic": "Describes adding authentication and handling an ordinary response, with a plausible cache or no-cache choice.",
+        "senior": "Defines credential and response ownership, handles overlap and terminal failure, and justifies retry and cache choices using contracts and discriminating tests.",
+        "evidence_missing": "Security or cache correctness is asserted without a threat model, identity-transition test, provider contract or response-freshness requirement."
+      }
+    },
+    "vi": {
+      "title": "Quyền sở hữu request trong browser: xác thực, refresh và cache",
+      "goal": "Bảo vệ luồng HTTP client tôn trọng ranh giới thông tin xác thực, retry và chủ thể sở hữu response.",
+      "competencies": ["Liên hệ nơi lưu thông tin xác thực trong browser với mô hình đe dọa rõ ràng.", "Theo dõi xác thực và các lần refresh chồng nhau trong luồng interceptor.", "Chọn điều kiện cache, cách nhận diện và vô hiệu hóa response dựa trên hợp đồng.", "Đặt kiểm thử lỗi cho đăng xuất, refresh bị từ chối và dữ liệu cũ hoặc sai chủ thể."],
+      "bridge": "Bắt đầu bằng ai có thể truy cập thông tin xác thực và khi nào nó rời browser. Ranh giới đó quyết định cách request nhận thông tin xác thực và khôi phục khi lỗi. Dùng lại response đặt thêm câu hỏi về quyền sở hữu: dữ liệu phải gắn với đúng danh tính và yêu cầu về độ mới. Các quyết định này nằm trong một luồng request nhưng cần phép kiểm tra riêng cho bảo mật, retry và cache.",
+      "scenario": "Một SPA hiển thị đơn hàng riêng của từng user. Nhiều request cùng gặp lỗi xác thực trong lúc một user đăng xuất và user khác đăng nhập trên cùng browser. Thiết kế luồng interceptor và quyết định có nên cache các response này hay không. Nêu hợp đồng nhà cung cấp danh tính, địa chỉ request được phép và yêu cầu về độ mới; đề xuất kiểm tra refresh thất bại, retry chồng nhau và response đến sau khi đổi danh tính. Không mặc định hành vi mặc định của provider nào.",
+      "rubric": {
+        "basic": "Mô tả thêm thông tin xác thực và xử lý response bình thường, với lựa chọn cache hoặc không cache hợp lý.",
+        "senior": "Xác định quyền sở hữu thông tin xác thực và response, xử lý chồng nhau và lỗi kết thúc, bảo vệ lựa chọn retry/cache bằng hợp đồng và kiểm thử phân biệt.",
+        "evidence_missing": "Khẳng định an toàn hoặc cache đúng mà thiếu mô hình đe dọa, kiểm thử đổi danh tính, hợp đồng provider hoặc yêu cầu về độ mới của response."
+      }
+    }
+  },
+  {
+    "group_id": "frontend-typescript-semantics",
+    "representative_question_id": "S06-Q013",
+    "en": {
+      "title": "TypeScript guarantees and JavaScript behavior at browser boundaries",
+      "goal": "Predict frontend behavior by separating static type checks from runtime values, state changes and asynchronous execution.",
+      "competencies": ["Explain the limit of static typing for data received at runtime.", "Predict equality, reassignment and object-mutation outcomes from explicit values.", "Explain structural compatibility with a small typed example.", "Trace asynchronous results and justify Promise or Observable use for the interaction."],
+      "bridge": "Begin with what TypeScript checks and what still happens in JavaScript. Equality and variable declarations determine how concrete values are compared and changed; structural typing explains which shapes the compiler accepts. Asynchronous results then bring new values into that same state, so ordering and abstraction choices must be explained at the runtime boundary.",
+      "scenario": "A typed product-search screen receives a numeric-looking identifier from a form and JSON objects from an API. Two searches can finish in the opposite order from when they started. Prepare small cases for comparing the identifier, updating an object held by a const binding and accepting a typed shape; then trace which search result should reach the UI. State compiler/runtime/library context and propose an observable test for the stale-result case; do not present an annotation as validation of received JSON.",
+      "rubric": {
+        "basic": "Explains the language terms and predicts ordinary comparisons or assignments.",
+        "senior": "Defends predictions with mechanisms, separates compiler and runtime guarantees, and handles changed input and asynchronous ordering with a concrete evidence plan.",
+        "evidence_missing": "Only definitions or type annotations are offered, without explicit values, an execution trace or a test of the external-data boundary."
+      }
+    },
+    "vi": {
+      "title": "Bảo đảm TypeScript và hành vi JavaScript tại ranh giới browser",
+      "goal": "Dự đoán hành vi frontend bằng cách tách kiểm tra kiểu tĩnh khỏi giá trị runtime, thay đổi state và thực thi bất đồng bộ.",
+      "competencies": ["Giải thích giới hạn của kiểu tĩnh với dữ liệu nhận lúc chạy.", "Dự đoán so sánh bằng nhau, gán lại và sửa nội dung object từ giá trị cụ thể.", "Giải thích tương thích cấu trúc bằng một ví dụ có kiểu nhỏ.", "Theo dõi kết quả bất đồng bộ và bảo vệ cách dùng Promise hoặc Observable cho thao tác."],
+      "bridge": "Bắt đầu với phần TypeScript kiểm tra và phần vẫn xảy ra trong JavaScript. Phép so sánh và khai báo biến quyết định cách so sánh, thay đổi giá trị cụ thể; structural typing giải thích cấu trúc nào compiler chấp nhận. Kết quả bất đồng bộ sau đó đưa giá trị mới vào cùng state, nên phải giải thích thứ tự và lựa chọn abstraction tại ranh giới runtime.",
+      "scenario": "Một màn hình tìm sản phẩm có khai báo kiểu nhận ID nhìn giống số từ form và object JSON từ API. Hai lần tìm có thể hoàn thành theo thứ tự ngược với lúc bắt đầu. Chuẩn bị ví dụ nhỏ để so sánh ID, sửa object được giữ bởi binding const và nhận một cấu trúc có kiểu; sau đó theo dõi kết quả tìm nào nên tới UI. Nêu ngữ cảnh compiler/runtime/thư viện và đề xuất kiểm thử quan sát được cho kết quả đã cũ; không coi type annotation là kiểm tra JSON nhận về.",
+      "rubric": {
+        "basic": "Giải thích thuật ngữ ngôn ngữ và dự đoán phép so sánh hoặc gán thông thường.",
+        "senior": "Bảo vệ dự đoán bằng cơ chế, tách bảo đảm compiler và runtime, xử lý đầu vào thay đổi cùng thứ tự bất đồng bộ bằng kế hoạch bằng chứng cụ thể.",
+        "evidence_missing": "Chỉ đưa định nghĩa hoặc type annotation mà thiếu giá trị cụ thể, execution trace hoặc kiểm thử ranh giới dữ liệu bên ngoài."
+      }
+    }
+  }
+]

@@ -9,6 +9,7 @@ Run from the repository root. Content/state checks require the dependencies in `
 
 ```sh
 python scripts/validate.py
+python scripts/question_bank.py --check
 python -m unittest discover -s tests -v
 python scripts/package_labs.py --check
 python scripts/render_lesson_code.py --check
@@ -34,6 +35,7 @@ python -m pip install -r requirements-browser.txt
 python -m playwright install --with-deps chromium
 npm install --prefix work/browser-checks --no-audit --no-fund axe-core@4.10.3
 python tests/browser_check.py --site _site --axe work/browser-checks/node_modules/axe-core/axe.min.js
+python tests/questions_browser_check.py --site _site --axe work/browser-checks/node_modules/axe-core/axe.min.js
 ```
 
 For an installed system Chromium, set `PLAYWRIGHT_CHROMIUM_EXECUTABLE=/path/to/chromium`. Optional `--screenshots work/screenshots` captures the daily desk and lesson. The browser script serves the actual build locally at its configured base URL, so ordinary links and downloads are exercised.
@@ -46,6 +48,7 @@ Checks cover both locales: four daily actions, six-step navigation, same-lesson/
 
 ## Guarantee boundaries
 
+- Question-bank validation reconciles all numbered prompts and four source scenarios, checks preserved source hashes, merged alias coverage, bilingual structure and deterministic pages. Its browser check exercises every group and source-ID anchor, same-question language switching and native disclosures, plus mobile/desktop overflow and accessibility. Editorial EN/VI technical review supplements structural parity; these checks do not verify model answers or learner mastery.
 - The static desk shows published lessons. Personalized selection, durable session cursor, completion and review history require the repo agent. A browser bookmark is a reading step only.
 - The portable SQLite lab proves its transaction invariant for the exercised sequential, in-memory cases. It does not test SQL Server locks, a broker, process crashes, concurrent workers or uncertain commits.
 - SQL Server adaptation is retained in optional depth; its runtime execution remains unverified. Dated official documentation checks are separately recorded in the lesson.

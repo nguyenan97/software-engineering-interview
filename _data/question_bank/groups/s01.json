@@ -1,0 +1,506 @@
+[
+  {
+    "group_id": "architecture-boundaries",
+    "representative_question_id": "S01-Q042",
+    "en": {
+      "title": "Dependency direction and service ownership",
+      "goal": "Defend an application boundary and deployment shape from ownership and change requirements.",
+      "competencies": [
+        "Draw code dependencies separately from runtime collaboration.",
+        "Compare layered, Clean/Onion/Hexagonal and modular-monolith boundaries.",
+        "Justify data ownership and independent deployment against their operational cost."
+      ],
+      "bridge": "Begin with what may depend on what, then ask which capability owns the data and changes independently. The same boundary reasoning makes a microservice decision understandable without equating services with small codebases.",
+      "scenario": "A hypothetical .NET application handles orders and reporting. One team proposes separate deployments. Draw a modular-monolith option and a split option, assign data owners, trace an update and identify a failure introduced by the split. State what evidence would justify the added operational work.",
+      "rubric": {
+        "basic": "Explains dependency direction and names a coherent owner for each responsibility.",
+        "senior": "Defends the chosen boundaries, alternatives and consistency costs with a trace and validation plan.",
+        "evidence_missing": "Service boxes or folder labels alone do not demonstrate independent ownership or a safer deployment."
+      }
+    },
+    "vi": {
+      "title": "Hướng dependency và quyền sở hữu service",
+      "goal": "Bảo vệ ranh giới ứng dụng và cách triển khai từ yêu cầu sở hữu và thay đổi.",
+      "competencies": [
+        "Vẽ dependency trong mã riêng với sự phối hợp khi chạy.",
+        "So sánh ranh giới layered, Clean/Onion/Hexagonal và modular monolith.",
+        "Biện minh quyền sở hữu dữ liệu và triển khai độc lập so với chi phí vận hành."
+      ],
+      "bridge": "Bắt đầu từ bên nào được phụ thuộc bên nào, rồi hỏi năng lực nào sở hữu dữ liệu và thay đổi độc lập. Cùng cách lập luận đó giúp quyết định microservice dễ hiểu mà không đồng nhất service với codebase nhỏ.",
+      "scenario": "Ứng dụng .NET giả định xử lý đơn hàng và báo cáo. Một nhóm đề xuất triển khai riêng. Vẽ phương án modular monolith và phương án tách, phân quyền sở hữu dữ liệu, theo dõi cập nhật và chỉ ra lỗi mới do tách. Nêu bằng chứng biện minh cho công việc vận hành bổ sung.",
+      "rubric": {
+        "basic": "Giải thích hướng dependency và nêu bên sở hữu hợp lý cho từng trách nhiệm.",
+        "senior": "Bảo vệ ranh giới, phương án khác và chi phí nhất quán bằng trace và kế hoạch kiểm chứng.",
+        "evidence_missing": "Các ô service hoặc tên thư mục chưa chứng minh quyền sở hữu độc lập hay triển khai an toàn hơn."
+      }
+    }
+  },
+  {
+    "group_id": "architecture-cache-replicas",
+    "representative_question_id": "S01-Q044",
+    "en": {
+      "title": "Cache placement, freshness and replicas",
+      "goal": "Choose a caching design that meets the read contract across the stated number of replicas.",
+      "competencies": [
+        "Define the authoritative source and tolerated staleness.",
+        "Compare in-process and distributed placement with a read/update trace.",
+        "Plan invalidation, cache-failure behavior and replica checks."
+      ],
+      "bridge": "A cache choice starts with which data may be reused and for how long. Placement then changes who can see an update, so replica behavior follows directly from the freshness contract.",
+      "scenario": "A hypothetical service caches a frequently read product summary and grows from one instance to three. Specify permitted staleness, trace an update followed by reads on different replicas, and compare two placements. Describe the user-visible result during cache unavailability and checks for divergence.",
+      "rubric": {
+        "basic": "Describes both placements and states a freshness requirement.",
+        "senior": "Explains update visibility, failure handling and the constraint that would change the choice.",
+        "evidence_missing": "Product names or a claimed latency reduction alone do not establish consistency or the benefit of caching."
+      }
+    },
+    "vi": {
+      "title": "Vị trí cache, độ mới và replica",
+      "goal": "Chọn thiết kế cache đáp ứng hợp đồng đọc với số replica đã nêu.",
+      "competencies": [
+        "Xác định nguồn dữ liệu gốc và mức dữ liệu cũ chấp nhận được.",
+        "So sánh vị trí trong process và phân tán bằng trace đọc, cập nhật.",
+        "Lập phương án invalidation, hành vi khi cache lỗi và kiểm tra replica."
+      ],
+      "bridge": "Chọn cache bắt đầu từ dữ liệu nào được dùng lại và dùng trong bao lâu. Vị trí lưu thay đổi bên nào nhìn thấy cập nhật, nên hành vi giữa replica đi trực tiếp từ hợp đồng độ mới.",
+      "scenario": "Service giả định cache bản tóm tắt sản phẩm được đọc thường xuyên và tăng từ một lên ba instance. Nêu mức dữ liệu cũ cho phép, theo dõi cập nhật rồi đọc ở replica khác nhau và so hai vị trí cache. Mô tả kết quả người dùng thấy khi cache không truy cập được và cách kiểm tra lệch dữ liệu.",
+      "rubric": {
+        "basic": "Mô tả hai vị trí lưu và nêu yêu cầu độ mới.",
+        "senior": "Giải thích khả năng nhìn thấy cập nhật, xử lý lỗi và điều kiện khiến lựa chọn đổi.",
+        "evidence_missing": "Tên sản phẩm hoặc mức giảm latency được khẳng định chưa đủ chứng minh nhất quán hay lợi ích cache."
+      }
+    }
+  },
+  {
+    "group_id": "dotnet-async-io",
+    "representative_question_id": "S01-Q024",
+    "en": {
+      "title": "Async execution, waiting and failure",
+      "goal": "Explain an asynchronous operation from invocation through waiting, completion and failure.",
+      "competencies": [
+        "Distinguish an operation’s completion contract from its execution resources.",
+        "Trace awaited I/O and where an error is observed.",
+        "Choose I/O concurrency or CPU parallelism from a workload budget."
+      ],
+      "bridge": "First track the operation rather than imagining a dedicated thread. That trace explains waiting and exception observation, then gives a basis for deciding whether the workload needs asynchronous I/O or CPU parallelism.",
+      "scenario": "A hypothetical API downloads data and then performs a compute-heavy transformation. Trace success and a download failure, separate waiting from computation, and propose a concurrency limit. Identify the runtime/context assumptions to verify officially and measurements needed before promising higher capacity.",
+      "rubric": {
+        "basic": "Explains Task, Thread and await with a consistent operation trace.",
+        "senior": "Handles failure observation and workload-dependent concurrency while stating context and resource boundaries.",
+        "evidence_missing": "A fluent definition or an async method signature does not demonstrate resource behavior or improved throughput."
+      }
+    },
+    "vi": {
+      "title": "Thực thi async, chờ và lỗi",
+      "goal": "Giải thích một thao tác bất đồng bộ từ lúc gọi qua chờ, hoàn tất và thất bại.",
+      "competencies": [
+        "Phân biệt hợp đồng hoàn tất của thao tác với tài nguyên thực thi.",
+        "Theo dõi I/O được await và nơi quan sát lỗi.",
+        "Chọn concurrency cho I/O hoặc parallelism cho CPU theo ngân sách workload."
+      ],
+      "bridge": "Trước hết theo dõi thao tác thay vì hình dung một thread riêng. Trace đó giải thích chờ và quan sát exception, rồi tạo cơ sở quyết định công việc cần I/O bất đồng bộ hay parallelism cho CPU.",
+      "scenario": "API giả định tải dữ liệu rồi thực hiện biến đổi nặng CPU. Theo dõi đường thành công và lỗi tải, tách chờ khỏi tính toán, rồi đề xuất giới hạn concurrency. Chỉ ra giả định runtime/context cần kiểm chứng chính thức và phép đo cần trước khi hứa tăng năng lực xử lý.",
+      "rubric": {
+        "basic": "Giải thích Task, Thread và await bằng trace thao tác nhất quán.",
+        "senior": "Xử lý nơi quan sát lỗi và mức concurrency theo workload, đồng thời nêu ranh giới context, tài nguyên.",
+        "evidence_missing": "Định nghĩa trôi chảy hoặc chữ ký async chưa chứng minh hành vi tài nguyên hay throughput được cải thiện."
+      }
+    }
+  },
+  {
+    "group_id": "dotnet-behavioral-patterns",
+    "representative_question_id": "S01-Q041",
+    "en": {
+      "title": "Patterns that match what changes",
+      "goal": "Select a creation or behavior boundary that makes an expected variation manageable.",
+      "competencies": [
+        "Identify what varies in construction, behavior or workflow.",
+        "Compare Factory, Strategy and Template Method with a simple implementation.",
+        "Explain extension, dependency and testing costs."
+      ],
+      "bridge": "Start with the change you need to support, then locate the part that varies. This makes the comparison between creation, replaceable behavior and a shared workflow a design decision rather than a vocabulary exercise.",
+      "scenario": "A hypothetical import feature gains a new format and different validation behavior. State the variation, sketch a minimal design, then compare one candidate pattern. Show what adding another format changes and how existing behavior stays covered by tests; name a condition favoring the simpler option.",
+      "rubric": {
+        "basic": "Describes each candidate’s intended role and selects one matching the variation.",
+        "senior": "Defends the boundary and its testing and complexity costs against a credible simpler option.",
+        "evidence_missing": "A pattern diagram without an actual change trace does not demonstrate maintainability."
+      }
+    },
+    "vi": {
+      "title": "Chọn pattern theo phần thay đổi",
+      "goal": "Chọn ranh giới tạo object hoặc hành vi để quản lý một biến thể đã dự kiến.",
+      "competencies": [
+        "Xác định phần biến đổi trong tạo object, hành vi hoặc workflow.",
+        "So sánh Factory, Strategy và Template Method với triển khai đơn giản.",
+        "Giải thích chi phí mở rộng, dependency và test."
+      ],
+      "bridge": "Bắt đầu từ thay đổi cần hỗ trợ, rồi tìm phần biến đổi. Nhờ đó, so sánh việc tạo object, thay hành vi và dùng chung workflow trở thành quyết định thiết kế thay vì bài đọc thuật ngữ.",
+      "scenario": "Tính năng import giả định thêm định dạng mới và hành vi validation khác. Nêu phần biến đổi, phác thiết kế tối thiểu rồi so một pattern ứng viên. Chỉ ra thêm định dạng nữa cần sửa gì và test giữ hành vi cũ thế nào; nêu điều kiện nên chọn cách đơn giản hơn.",
+      "rubric": {
+        "basic": "Mô tả vai trò dự kiến của từng ứng viên và chọn cách khớp phần biến đổi.",
+        "senior": "Bảo vệ ranh giới cùng chi phí test, độ phức tạp so với phương án đơn giản hợp lý.",
+        "evidence_missing": "Sơ đồ pattern không có trace một thay đổi thực tế chưa chứng minh khả năng bảo trì."
+      }
+    }
+  },
+  {
+    "group_id": "dotnet-collections-delegates",
+    "representative_question_id": "S01-Q021",
+    "en": {
+      "title": "Contracts for small in-memory pipelines",
+      "goal": "Choose data and callback contracts that make a small processing pipeline correct and understandable.",
+      "competencies": [
+        "Select enumeration, indexing or mutation from caller requirements.",
+        "Define equality and duplicate handling for keyed or set-based operations.",
+        "Choose text-building and callback signatures without unsupported cost claims."
+      ],
+      "bridge": "The questions move from how data is exposed to how it is looked up, transformed and turned into text. Collections, delegates and strings belong to that processing flow, but each choice must answer a specific contract rather than share a universal “fastest” rule.",
+      "scenario": "A hypothetical component filters submitted identifiers, removes duplicates and builds a report through a supplied callback. Define ordering, mutation, string emptiness and callback results. Select collections and text construction, test empty and duplicate inputs, and propose a representative cost measurement.",
+      "rubric": {
+        "basic": "Selects contracts that satisfy the requested operations and boundary inputs.",
+        "senior": "Explains equality, callback failure and cost assumptions, then compares a relevant alternative.",
+        "evidence_missing": "Naming APIs or quoting complexity alone does not prove this pipeline’s correctness or cost."
+      }
+    },
+    "vi": {
+      "title": "Hợp đồng cho luồng xử lý nhỏ trong bộ nhớ",
+      "goal": "Chọn hợp đồng dữ liệu và callback để luồng xử lý nhỏ đúng và dễ hiểu.",
+      "competencies": [
+        "Chọn khả năng duyệt, truy cập chỉ mục hoặc thay đổi từ yêu cầu mã gọi.",
+        "Định nghĩa equality và xử lý trùng cho thao tác theo key hoặc tập hợp.",
+        "Chọn cách tạo văn bản và chữ ký callback mà không khẳng định chi phí thiếu bằng chứng."
+      ],
+      "bridge": "Các câu hỏi đi từ cách công khai dữ liệu đến tìm, biến đổi và tạo văn bản. Collection, delegate và string cùng nằm trong luồng đó, nhưng mỗi lựa chọn phải đáp ứng hợp đồng riêng thay vì theo quy tắc “nhanh nhất” chung.",
+      "scenario": "Component giả định lọc mã định danh được gửi, loại trùng và tạo báo cáo qua callback nhận vào. Xác định thứ tự, thay đổi dữ liệu, chuỗi rỗng và kết quả callback. Chọn collection và cách tạo văn bản, kiểm tra đầu vào rỗng hoặc trùng, rồi đề xuất phép đo chi phí đại diện.",
+      "rubric": {
+        "basic": "Chọn hợp đồng đáp ứng thao tác cần có và đầu vào biên.",
+        "senior": "Giải thích equality, lỗi callback và giả định chi phí, rồi so phương án khác phù hợp.",
+        "evidence_missing": "Nêu API hoặc đọc độ phức tạp chưa chứng minh tính đúng hay chi phí của luồng xử lý này."
+      }
+    }
+  },
+  {
+    "group_id": "dotnet-di-solid",
+    "representative_question_id": "S01-Q032",
+    "en": {
+      "title": "Dependency contracts and lifetime ownership",
+      "goal": "Design dependency relationships that remain valid across change and service lifetime boundaries.",
+      "competencies": [
+        "Distinguish DIP, IoC and DI in the same design.",
+        "Trace instance ownership and identify a captive dependency.",
+        "Assess SOLID contracts and refactor one recurring change pressure."
+      ],
+      "bridge": "Dependency direction explains who relies on which contract; construction and lifetime explain who supplies and retains its implementation. SOLID checks then ask whether that relationship survives replacement or a new requirement without breaking callers.",
+      "scenario": "A hypothetical singleton coordinator uses a data-access dependency and gains a new processing policy. Draw construction and dependency direction, trace two overlapping jobs and resource cleanup, and identify any lifetime mismatch. Propose a bounded refactor and contract tests rather than adding interfaces everywhere.",
+      "rubric": {
+        "basic": "Explains the terminology and lifetimes with a consistent instance trace.",
+        "senior": "Defends ownership, substitution and extension boundaries while comparing a simpler repair.",
+        "evidence_missing": "Successful container resolution or a list of SOLID names does not establish safe lifetimes or good contracts."
+      }
+    },
+    "vi": {
+      "title": "Hợp đồng dependency và sở hữu lifetime",
+      "goal": "Thiết kế quan hệ dependency còn hợp lệ qua thay đổi và ranh giới lifetime của service.",
+      "competencies": [
+        "Phân biệt DIP, IoC và DI trong cùng một thiết kế.",
+        "Theo dõi quyền sở hữu instance và nhận diện captive dependency.",
+        "Đánh giá hợp đồng SOLID và refactor một áp lực thay đổi lặp lại."
+      ],
+      "bridge": "Hướng dependency giải thích bên nào dựa vào hợp đồng nào; tạo object và lifetime giải thích bên nào cung cấp, giữ phần triển khai. Kiểm tra SOLID tiếp tục hỏi quan hệ đó chịu được thay thế hoặc yêu cầu mới mà không phá mã gọi hay không.",
+      "scenario": "Coordinator singleton giả định dùng dependency truy cập dữ liệu và cần thêm chính sách xử lý. Vẽ cách tạo object và hướng dependency, theo dõi hai job chồng lấn cùng cleanup, rồi tìm lifetime không khớp. Đề xuất refactor có giới hạn và contract test thay vì thêm interface khắp nơi.",
+      "rubric": {
+        "basic": "Giải thích thuật ngữ và lifetime bằng trace instance nhất quán.",
+        "senior": "Bảo vệ quyền sở hữu, khả năng thay thế và mở rộng, đồng thời so cách sửa đơn giản hơn.",
+        "evidence_missing": "Container resolve thành công hoặc danh sách tên SOLID chưa chứng minh lifetime an toàn hay hợp đồng tốt."
+      }
+    }
+  },
+  {
+    "group_id": "dotnet-members-inheritance",
+    "representative_question_id": "S01-Q006",
+    "en": {
+      "title": "Members, initialization and extension boundaries",
+      "goal": "Design a C# type whose storage, accessibility and extension rules express a clear caller contract.",
+      "competencies": [
+        "Choose member storage and initialization from the requirement.",
+        "Trace overloading, overriding and shared behavior through a hierarchy.",
+        "Verify accessibility and class/interface forms in the target language version."
+      ],
+      "bridge": "A type first exposes state and behavior to callers. Initialization determines when that state is established, while accessibility and inheritance determine who may use or extend it; the questions follow those related contract boundaries.",
+      "scenario": "A hypothetical public library exposes configuration and a replaceable calculation policy. Sketch the member declarations and extension contract, trace a base-typed call, and compare an interface with an abstract base. Check invalid declarations, initialization failure and independent consumer updates in the stated language/runtime version.",
+      "rubric": {
+        "basic": "Explains members and class forms and predicts a concrete caller’s behavior.",
+        "senior": "Connects initialization, visibility and dispatch to compatibility, extension costs and targeted checks.",
+        "evidence_missing": "A valid declaration or folder organization alone does not demonstrate a stable library contract."
+      }
+    },
+    "vi": {
+      "title": "Thành viên, khởi tạo và ranh giới mở rộng",
+      "goal": "Thiết kế kiểu C# có quy tắc lưu trạng thái, truy cập và mở rộng thể hiện hợp đồng rõ cho mã gọi.",
+      "competencies": [
+        "Chọn nơi lưu thành viên và cách khởi tạo từ yêu cầu.",
+        "Theo dõi overload, override và hành vi dùng chung qua hệ kế thừa.",
+        "Kiểm chứng accessibility cùng dạng class/interface theo phiên bản ngôn ngữ."
+      ],
+      "bridge": "Kiểu công khai trạng thái và hành vi cho mã gọi trước hết. Khởi tạo quyết định khi nào trạng thái được thiết lập; accessibility và kế thừa quyết định ai được dùng hoặc mở rộng. Các câu hỏi theo những ranh giới hợp đồng liên quan đó.",
+      "scenario": "Thư viện công khai giả định cung cấp cấu hình và chính sách tính toán có thể thay. Phác khai báo thành viên và hợp đồng mở rộng, theo dõi lời gọi qua kiểu cha, rồi so interface với abstract base. Kiểm tra khai báo sai, lỗi khởi tạo và cập nhật độc lập phía dùng thư viện trong phiên bản ngôn ngữ/runtime đã nêu.",
+      "rubric": {
+        "basic": "Giải thích thành viên, dạng class và dự đoán hành vi của mã gọi cụ thể.",
+        "senior": "Gắn khởi tạo, quyền truy cập và dispatch với tương thích, chi phí mở rộng và kiểm tra có mục tiêu.",
+        "evidence_missing": "Khai báo hợp lệ hoặc tổ chức thư mục chưa chứng minh hợp đồng thư viện ổn định."
+      }
+    }
+  },
+  {
+    "group_id": "dotnet-memory-lifetime",
+    "representative_question_id": "S01-Q029",
+    "en": {
+      "title": "Resource ownership and memory growth",
+      "goal": "Trace resource lifetime and use evidence to distinguish expected retention from a leak.",
+      "competencies": [
+        "Separate memory reclamation from explicit resource cleanup.",
+        "Assign owned and borrowed resource responsibilities.",
+        "Design a retention investigation and a check of the proposed repair."
+      ],
+      "bridge": "Begin with who creates, holds and releases a resource. That ownership model supplies the hypotheses for growing memory: inspect what remains alive and why before concluding that the collector or one component is at fault.",
+      "scenario": "A hypothetical .NET service retains more memory after repeated file-processing requests. Draw resource ownership and cleanup on success and failure, identify competing managed and external-resource explanations, and propose snapshots or measurements that distinguish them. State runtime/tool assumptions and the comparable rerun needed after a repair.",
+      "rubric": {
+        "basic": "Explains ownership and cleanup with a coherent lifecycle.",
+        "senior": "Uses retention evidence and falsifiable hypotheses, then checks the repair on equivalent work.",
+        "evidence_missing": "Rising process memory or a forced collection alone does not prove the diagnosis or fix."
+      }
+    },
+    "vi": {
+      "title": "Sở hữu tài nguyên và bộ nhớ tăng",
+      "goal": "Theo dõi vòng đời tài nguyên và dùng bằng chứng phân biệt retention dự kiến với leak.",
+      "competencies": [
+        "Tách thu hồi bộ nhớ khỏi dọn tài nguyên tường minh.",
+        "Phân trách nhiệm với tài nguyên sở hữu và được mượn.",
+        "Thiết kế điều tra retention và kiểm tra cách sửa đề xuất."
+      ],
+      "bridge": "Bắt đầu từ bên tạo, giữ và giải phóng tài nguyên. Mô hình sở hữu đó tạo giả thuyết cho bộ nhớ tăng: xem thứ gì còn sống và vì sao trước khi kết luận collector hoặc một component có lỗi.",
+      "scenario": "Service .NET giả định giữ nhiều bộ nhớ hơn sau các request xử lý file lặp lại. Vẽ quyền sở hữu và cleanup khi thành công, thất bại; nêu các giải thích cạnh tranh về managed memory hoặc tài nguyên ngoài, rồi đề xuất snapshot hay phép đo phân biệt. Nêu giả định runtime/tool và lần chạy lại tương đương sau khi sửa.",
+      "rubric": {
+        "basic": "Giải thích sở hữu và cleanup bằng vòng đời nhất quán.",
+        "senior": "Dùng bằng chứng retention và giả thuyết có thể bác bỏ, rồi kiểm tra sửa đổi với công việc tương đương.",
+        "evidence_missing": "Bộ nhớ process tăng hoặc ép thu gom riêng lẻ chưa chứng minh chẩn đoán hay cách sửa."
+      }
+    }
+  },
+  {
+    "group_id": "dotnet-threadpool-starvation",
+    "representative_question_id": "S01-Q027",
+    "en": {
+      "title": "Distinguishing blocking, deadlock and starvation",
+      "goal": "Diagnose lack of progress by distinguishing blocking, deadlock and ThreadPool starvation hypotheses.",
+      "competencies": [
+        "Trace a specific wait and its required continuation or worker.",
+        "Identify observations that discriminate the failure hypotheses.",
+        "Validate a targeted repair under representative concurrent load."
+      ],
+      "bridge": "A blocked request is a symptom, not a complete diagnosis. Follow what it waits for and whether the required work can progress; that separates a waiting cycle from worker-capacity pressure or a slow dependency.",
+      "scenario": "A hypothetical API slows sharply under concurrency and contains synchronous waits on asynchronous operations. State its runtime and context, draw the wait relationships, and propose runtime plus request observations. Design a targeted change and comparison run; explain which outcome would make you reject the initial diagnosis.",
+      "rubric": {
+        "basic": "Distinguishes the terms and supplies a plausible wait trace.",
+        "senior": "Uses evidence to discriminate causes and confirms the repair without universal context assumptions.",
+        "evidence_missing": "A .Result occurrence or a high latency graph alone cannot establish deadlock or starvation."
+      }
+    },
+    "vi": {
+      "title": "Phân biệt blocking, deadlock và starvation",
+      "goal": "Chẩn đoán việc không tiến triển bằng cách phân biệt blocking, deadlock và ThreadPool starvation.",
+      "competencies": [
+        "Theo dõi một lần chờ và phần tiếp tục hoặc worker nó cần.",
+        "Tìm quan sát giúp phân biệt các giả thuyết lỗi.",
+        "Kiểm chứng cách sửa có mục tiêu dưới tải đồng thời đại diện."
+      ],
+      "bridge": "Request bị chặn là triệu chứng, chưa phải chẩn đoán hoàn chỉnh. Theo dõi nó đợi gì và công việc cần thiết có tiến triển được không; nhờ đó tách chu trình chờ khỏi áp lực thiếu worker hoặc phụ thuộc chậm.",
+      "scenario": "API giả định chậm mạnh khi concurrency tăng và có chờ đồng bộ trên thao tác async. Nêu runtime/context, vẽ quan hệ chờ và đề xuất quan sát từ runtime cùng request. Thiết kế thay đổi có mục tiêu và lần chạy so sánh; giải thích kết quả nào khiến bạn bác bỏ chẩn đoán đầu.",
+      "rubric": {
+        "basic": "Phân biệt thuật ngữ và có trace chờ hợp lý.",
+        "senior": "Dùng bằng chứng phân biệt nguyên nhân, xác nhận sửa đổi mà không áp giả định context cho mọi nơi.",
+        "evidence_missing": "Có .Result hoặc đồ thị latency cao chưa đủ kết luận deadlock hay starvation."
+      }
+    }
+  },
+  {
+    "group_id": "dotnet-type-semantics",
+    "representative_question_id": "S01-Q011",
+    "en": {
+      "title": "Value, identity and conversion contracts",
+      "goal": "Predict assignment, conversion and comparison outcomes from an explicit C# type contract.",
+      "competencies": [
+        "Trace copies, aliases and mutation in value/reference examples.",
+        "Distinguish identity, state equality and custom comparison behavior.",
+        "Verify type tests and conversions on successful, null and invalid inputs."
+      ],
+      "bridge": "Start by following what each variable contains or refers to. Boxing and casts then change the representation or type view, and equality asks which aspect the application intends to compare; one concrete trace connects these questions.",
+      "scenario": "A hypothetical component receives objects, recognizes a supported type and stores accepted values in a keyed collection. Predict assignment and mutation effects, a valid and invalid conversion, and equality for two separately constructed inputs. Specify the contract and write checks before discussing resource costs.",
+      "rubric": {
+        "basic": "Predicts basic assignment, conversion and comparison for named types.",
+        "senior": "Defends null and invalid-type handling and tests equality consistency at the collection boundary.",
+        "evidence_missing": "Stack/heap slogans or a successful cast alone do not demonstrate the complete input contract."
+      }
+    },
+    "vi": {
+      "title": "Giá trị, danh tính và hợp đồng chuyển kiểu",
+      "goal": "Dự đoán kết quả gán, chuyển kiểu và so sánh từ hợp đồng kiểu C# rõ ràng.",
+      "competencies": [
+        "Theo dõi bản sao, tham chiếu chung và thay đổi trong ví dụ kiểu giá trị, tham chiếu.",
+        "Tách danh tính, equality về trạng thái và cách so sánh tự viết.",
+        "Kiểm chứng kiểm tra và chuyển kiểu với đầu vào hợp lệ, null và sai kiểu."
+      ],
+      "bridge": "Bắt đầu bằng việc theo dõi mỗi biến chứa hoặc tham chiếu đến gì. Boxing và cast sau đó đổi cách biểu diễn hoặc góc nhìn kiểu; equality hỏi ứng dụng muốn so khía cạnh nào. Một trace cụ thể nối được các câu hỏi.",
+      "scenario": "Component giả định nhận object, nhận diện kiểu hỗ trợ và lưu giá trị được chấp nhận vào collection theo key. Dự đoán ảnh hưởng của gán, thay đổi dữ liệu, chuyển kiểu đúng hoặc sai, cùng equality của hai đầu vào được tạo riêng. Nêu hợp đồng và viết checks trước khi bàn chi phí tài nguyên.",
+      "rubric": {
+        "basic": "Dự đoán gán, chuyển kiểu và so sánh cơ bản với các kiểu đã nêu.",
+        "senior": "Bảo vệ xử lý null, sai kiểu và kiểm tra tính nhất quán equality tại ranh giới collection.",
+        "evidence_missing": "Khẩu quyết stack/heap hoặc cast thành công chưa chứng minh đầy đủ hợp đồng đầu vào."
+      }
+    }
+  },
+  {
+    "group_id": "ef-context-concurrency",
+    "representative_question_id": "S01-Q039",
+    "en": {
+      "title": "Unit-of-work and data-access boundaries",
+      "goal": "Define a data-changing unit of work and defend its context, conflict and abstraction boundaries.",
+      "competencies": [
+        "Trace DbContext lifetime and the consistency boundary.",
+        "Specify optimistic-conflict behavior and evidence for retry or rejection.",
+        "Justify repository abstractions or raw SQL from a concrete requirement."
+      ],
+      "bridge": "First identify the changes that belong together and who owns their lifetime. Concurrency tests whether that operation still makes sense when another writer intervenes; repository and query choices are then judged by whether they express the same contract clearly.",
+      "scenario": "Two hypothetical requests edit the same record through EF Core. Define each unit of work, propose how a conflicting update is detected and surfaced, then compare direct EF usage with an extra repository for a specialized query. State provider/version assumptions and design a concurrent-writer check without claiming it has run.",
+      "rubric": {
+        "basic": "Explains context ownership, a conflict and the responsibilities of repository/unit-of-work patterns.",
+        "senior": "Defends user-visible conflict handling and the extra abstraction or SQL choice with targeted checks.",
+        "evidence_missing": "A CRUD wrapper or a retry instruction alone does not establish transaction or conflict correctness."
+      }
+    },
+    "vi": {
+      "title": "Ranh giới unit of work và truy cập dữ liệu",
+      "goal": "Xác định một unit of work thay đổi dữ liệu và bảo vệ ranh giới context, xung đột, abstraction của nó.",
+      "competencies": [
+        "Theo dõi lifetime DbContext và ranh giới nhất quán.",
+        "Nêu hành vi khi xung đột optimistic và bằng chứng để retry hoặc từ chối.",
+        "Biện minh repository abstraction hoặc raw SQL từ yêu cầu cụ thể."
+      ],
+      "bridge": "Trước tiên xác định những thay đổi thuộc cùng một thao tác và bên sở hữu vòng đời. Concurrency kiểm tra thao tác còn hợp lý không khi writer khác can thiệp; lựa chọn repository và truy vấn sau đó được xét theo khả năng biểu đạt rõ cùng hợp đồng.",
+      "scenario": "Hai request giả định sửa cùng bản ghi qua EF Core. Xác định unit of work từng bên, đề xuất cách phát hiện và báo cập nhật xung đột, rồi so dùng EF trực tiếp với repository bổ sung cho truy vấn chuyên biệt. Nêu giả định provider/phiên bản và thiết kế check hai writer mà không khẳng định đã chạy.",
+      "rubric": {
+        "basic": "Giải thích sở hữu context, một xung đột và trách nhiệm của repository/unit-of-work pattern.",
+        "senior": "Bảo vệ hành vi báo xung đột cho người dùng cùng lựa chọn abstraction hoặc SQL bằng kiểm tra có mục tiêu.",
+        "evidence_missing": "Lớp bọc CRUD hoặc lời khuyên retry riêng lẻ chưa chứng minh transaction hay xử lý xung đột đúng."
+      }
+    }
+  },
+  {
+    "group_id": "ef-query-execution",
+    "representative_question_id": "S01-Q010",
+    "en": {
+      "title": "LINQ execution and result cardinality",
+      "goal": "Predict where and when a query runs and whether its terminal operation matches the result contract.",
+      "competencies": [
+        "Distinguish sequence/provider behavior from the exposed interface.",
+        "Trace deferred construction, execution and materialization.",
+        "Choose terminal operators for zero, one and multiple matches."
+      ],
+      "bridge": "A pipeline description is not yet proof of when work runs. Follow it to the operation that requests a result, then test how many matches the caller permits; execution and cardinality together define the observable query contract.",
+      "scenario": "A hypothetical lookup expects either a missing item or one unique item. Build a LINQ pipeline over a named provider, choose a terminal operation, and predict zero, one and two matches. Locate any materialization boundary and propose command/output checks under the stated provider version.",
+      "rubric": {
+        "basic": "Explains deferred execution and predicts a terminal operation’s boundary cases.",
+        "senior": "Checks the actual provider and location of evaluation while defending the cardinality requirement.",
+        "evidence_missing": "An IQueryable declaration or one successful lookup does not prove translation or uniqueness handling."
+      }
+    },
+    "vi": {
+      "title": "Thực thi LINQ và số lượng kết quả",
+      "goal": "Dự đoán truy vấn chạy ở đâu, khi nào và thao tác lấy kết quả có khớp hợp đồng số lượng không.",
+      "competencies": [
+        "Phân biệt hành vi dữ liệu/provider với interface được công khai.",
+        "Theo dõi xây dựng trì hoãn, thực thi và lấy kết quả cụ thể.",
+        "Chọn terminal operator cho không có, một và nhiều kết quả khớp."
+      ],
+      "bridge": "Mô tả pipeline chưa chứng minh công việc chạy khi nào. Theo dõi đến thao tác yêu cầu kết quả, rồi kiểm tra mã gọi cho phép bao nhiêu kết quả khớp. Thực thi và số lượng kết quả cùng định nghĩa hợp đồng truy vấn có thể quan sát.",
+      "scenario": "Thao tác tra cứu giả định cho phép không tìm thấy hoặc đúng một item duy nhất. Xây pipeline LINQ với provider đã nêu, chọn terminal operator và dự đoán không có, một, hai kết quả. Tìm ranh giới lấy dữ liệu cụ thể và đề xuất kiểm tra lệnh, output theo phiên bản provider.",
+      "rubric": {
+        "basic": "Giải thích deferred execution và dự đoán các biên của thao tác lấy kết quả.",
+        "senior": "Kiểm tra provider thực tế cùng vị trí đánh giá, đồng thời bảo vệ yêu cầu số lượng kết quả.",
+        "evidence_missing": "Khai báo IQueryable hoặc một lần tra cứu thành công chưa chứng minh cách dịch hay xử lý tính duy nhất."
+      }
+    }
+  },
+  {
+    "group_id": "observability-request-diagnosis",
+    "representative_question_id": "S01-Q046",
+    "en": {
+      "title": "Tracing a symptom to a limiting stage",
+      "goal": "Use correlated telemetry to distinguish the cause of production latency or resource pressure.",
+      "competencies": [
+        "Connect logs, metrics and traces across a cross-stack request.",
+        "Form competing hypotheses for latency, memory growth or worker pressure.",
+        "Interpret tail measurements and select a discriminating check."
+      ],
+      "bridge": "Begin with the request that is slow, then connect its stages with aggregate resource evidence. Correlation makes a path inspectable, while distributions and targeted runtime checks tell you which suspected cause fits more than one anecdotal trace.",
+      "scenario": "A hypothetical API’s p99 latency rises while its average changes little. Design the evidence to follow a request from frontend through gateway and service to database, including correlation and safe logs. Compare downstream delay, CPU, retained memory and worker pressure, then define a falsifying check and a comparable verification run.",
+      "rubric": {
+        "basic": "Distinguishes telemetry types and locates relevant request and resource observations.",
+        "senior": "Uses correlated evidence and competing hypotheses, including tails and safe production collection.",
+        "evidence_missing": "An average latency value or a trace screenshot alone does not establish causality or a verified repair."
+      }
+    },
+    "vi": {
+      "title": "Theo dấu triệu chứng đến bước giới hạn xử lý",
+      "goal": "Dùng telemetry liên kết được để phân biệt nguyên nhân latency hoặc áp lực tài nguyên trong production.",
+      "competencies": [
+        "Liên kết log, metric và trace qua request xuyên các tầng.",
+        "Lập giả thuyết cạnh tranh cho latency, bộ nhớ tăng hoặc áp lực worker.",
+        "Diễn giải phần đuôi phân bố và chọn phép kiểm tra phân biệt."
+      ],
+      "bridge": "Bắt đầu từ request chậm rồi nối các bước với bằng chứng tài nguyên tổng hợp. Correlation giúp xem được đường đi; phân bố và kiểm tra runtime có mục tiêu giúp xác định nguyên nhân phù hợp hơn một trace đơn lẻ.",
+      "scenario": "P99 latency của API giả định tăng trong khi trung bình ít đổi. Thiết kế bằng chứng theo request từ frontend qua gateway, service đến database, có correlation và log an toàn. So giả thuyết phụ thuộc chậm, CPU, bộ nhớ bị giữ và áp lực worker; nêu phép kiểm tra bác bỏ cùng lần chạy kiểm chứng tương đương.",
+      "rubric": {
+        "basic": "Phân biệt loại telemetry và xác định quan sát request, tài nguyên liên quan.",
+        "senior": "Dùng bằng chứng liên kết và giả thuyết cạnh tranh, xét phần đuôi và thu thập an toàn trong production.",
+        "evidence_missing": "Latency trung bình hoặc ảnh chụp trace riêng lẻ chưa chứng minh quan hệ nhân quả hay cách sửa đã được xác nhận."
+      }
+    }
+  },
+  {
+    "group_id": "reliability-dependency-failures",
+    "representative_question_id": "S04-Q012",
+    "en": {
+      "title": "Load budgets, failure policies and recovery",
+      "goal": "Define a bounded response to downstream failure that preserves a stated user and capacity contract.",
+      "competencies": [
+        "Separate demand, waiting and execution capacity before selecting a load response.",
+        "Design timeout, retry and circuit-breaker boundaries with explicit assumptions.",
+        "Connect failure and recovery signals to an actionable incident."
+      ],
+      "bridge": "A slow or unavailable dependency consumes the caller’s time and capacity budget. Retry and queue decisions can shift or amplify that pressure, so start with acceptable user outcomes and finish by specifying how operators observe failure and recovery.",
+      "scenario": "A hypothetical dependency becomes intermittently slow while incoming traffic continues. State a request deadline and acceptable outcomes, compare bounded retries with rejection or deferred work, and trace a failure plus recovery. Define a queue/admission limit and an alert that tells an operator what evidence to inspect.",
+      "rubric": {
+        "basic": "Explains the mechanisms and states a coherent user-visible failure outcome.",
+        "senior": "Defends total budgets, duplicate or overload risks and recovery behavior with a validation and alert plan.",
+        "evidence_missing": "A list of resilience patterns or “retry three times” without timing and load assumptions is insufficient."
+      }
+    },
+    "vi": {
+      "title": "Ngân sách tải, chính sách lỗi và phục hồi",
+      "goal": "Xác định cách ứng phó có giới hạn khi phụ thuộc lỗi, vẫn giữ hợp đồng người dùng và sức chứa đã nêu.",
+      "competencies": [
+        "Tách nhu cầu, chờ và năng lực thực thi trước khi chọn cách ứng phó tải.",
+        "Thiết kế ranh giới timeout, retry và circuit breaker với giả định rõ.",
+        "Nối tín hiệu lỗi, phục hồi với sự cố có hành động cụ thể."
+      ],
+      "bridge": "Phụ thuộc chậm hoặc không truy cập được tiêu tốn ngân sách thời gian và sức chứa của mã gọi. Retry và queue có thể chuyển hoặc khuếch đại áp lực, nên bắt đầu từ kết quả người dùng chấp nhận rồi xác định cách vận hành quan sát lỗi và phục hồi.",
+      "scenario": "Phụ thuộc giả định thỉnh thoảng chậm trong khi traffic vẫn đến. Nêu deadline request và kết quả chấp nhận được, so retry có giới hạn với từ chối hoặc xử lý sau, rồi theo dõi lỗi và phục hồi. Xác định giới hạn queue/tiếp nhận cùng alert cho người vận hành biết cần xem bằng chứng nào.",
+      "rubric": {
+        "basic": "Giải thích cơ chế và nêu kết quả lỗi nhất quán mà người dùng thấy.",
+        "senior": "Bảo vệ tổng ngân sách, rủi ro trùng hoặc quá tải và phục hồi bằng kế hoạch kiểm chứng, alert.",
+        "evidence_missing": "Danh sách pattern hoặc “retry ba lần” thiếu giả định thời gian, tải chưa đủ."
+      }
+    }
+  }
+]

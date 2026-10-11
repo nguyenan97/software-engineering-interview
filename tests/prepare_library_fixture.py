@@ -23,6 +23,7 @@ level: foundation
 duration_minutes: 40
 practice_minutes: 28
 status: generated
+source_refs: []
 '''
         else:
             header += f'canonical_lesson: lessons/{identity}.md\n'

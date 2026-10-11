@@ -1,0 +1,1412 @@
+[
+  {
+    "question_id": "S03-Q001",
+    "phase": "foundation",
+    "order": 10,
+    "version_sensitive": true,
+    "en": {
+      "question": "Compare stored procedures, functions and views in SQL Server. What contract would callers rely on for each?",
+      "explanation": "Compare how each database object is invoked, what it exposes and where it fits in an application. Keep object capabilities separate from assumptions about performance.",
+      "intent": "Distinguish database object contracts through a concrete calling example.",
+      "scope": "Establish the SQL Server version and function/view form before making capability claims; check official documentation for those limits.",
+      "senior_signals": [
+        "Explains the calling contract and ownership for each object.",
+        "Chooses an object for an example and names a constraint that could change that choice."
+      ],
+      "pitfalls": [
+        "Treating every database object as interchangeable or assuming one is always faster."
+      ],
+      "followups": [
+        "How would the contract affect testing and changing its callers?"
+      ]
+    },
+    "vi": {
+      "question": "So sánh stored procedure, function và view trong SQL Server. Phần gọi mỗi loại đối tượng có thể dựa vào hợp đồng nào?",
+      "explanation": "So sánh cách gọi, dữ liệu hoặc hành vi được cung cấp và vai trò của từng đối tượng trong ứng dụng. Tách khả năng của đối tượng khỏi giả định về hiệu năng.",
+      "intent": "Phân biệt hợp đồng của các đối tượng cơ sở dữ liệu qua một ví dụ gọi cụ thể.",
+      "scope": "Xác định phiên bản SQL Server và dạng function/view trước khi nói về khả năng; đối chiếu các giới hạn đó với tài liệu chính thức.",
+      "senior_signals": [
+        "Giải thích hợp đồng gọi và phần chịu trách nhiệm cho từng đối tượng.",
+        "Chọn đối tượng cho một ví dụ và nêu ràng buộc có thể làm thay đổi lựa chọn."
+      ],
+      "pitfalls": [
+        "Coi các loại đối tượng có thể thay thế nhau hoàn toàn hoặc mặc định một loại luôn nhanh hơn."
+      ],
+      "followups": [
+        "Hợp đồng này ảnh hưởng thế nào đến kiểm thử và việc thay đổi các phần gọi?"
+      ]
+    }
+  },
+  {
+    "question_id": "S03-Q002",
+    "phase": "application",
+    "order": 20,
+    "version_sensitive": false,
+    "en": {
+      "question": "For a concrete database operation, why would you choose a stored procedure? What requirement would make you reconsider?",
+      "explanation": "Make a decision for an operation rather than list generic benefits. Explain what the database interface needs to protect or simplify.",
+      "intent": "Justify using a stored procedure against an application-side alternative.",
+      "scope": "Use SQL Server and a stated workload; separate desired properties from measured results. Do not assume the procedure improves performance automatically.",
+      "senior_signals": [
+        "Connects the choice to permissions, transaction boundaries or interface ownership.",
+        "Names a maintenance cost and an observable way to compare alternatives."
+      ],
+      "pitfalls": [
+        "Giving a memorized benefits list without identifying who calls or maintains the procedure."
+      ],
+      "followups": [
+        "How would you deploy a procedure change while older application instances still run?"
+      ]
+    },
+    "vi": {
+      "question": "Với một thao tác cơ sở dữ liệu cụ thể, vì sao bạn chọn stored procedure? Yêu cầu nào sẽ khiến bạn cân nhắc lại?",
+      "explanation": "Đưa ra quyết định cho một thao tác thay vì liệt kê lợi ích chung. Giải thích giao diện cơ sở dữ liệu cần bảo vệ hoặc đơn giản hóa điều gì.",
+      "intent": "Bảo vệ lựa chọn stored procedure khi so với phương án xử lý ở ứng dụng.",
+      "scope": "Dùng SQL Server và một workload được nêu rõ; phân biệt đặc tính mong muốn với kết quả đã đo. Không mặc định procedure tự làm tăng hiệu năng.",
+      "senior_signals": [
+        "Gắn lựa chọn với quyền truy cập, ranh giới transaction hoặc trách nhiệm quản lý giao diện.",
+        "Nêu chi phí bảo trì và cách quan sát để so sánh các phương án."
+      ],
+      "pitfalls": [
+        "Kể một danh sách lợi ích thuộc lòng nhưng không xác định ai gọi và ai bảo trì procedure."
+      ],
+      "followups": [
+        "Bạn triển khai thay đổi procedure thế nào khi các instance ứng dụng cũ vẫn đang chạy?"
+      ]
+    }
+  },
+  {
+    "question_id": "S03-Q003",
+    "phase": "application",
+    "order": 30,
+    "version_sensitive": false,
+    "en": {
+      "question": "When would you expose data through a view rather than let every caller write the underlying query?",
+      "explanation": "Explain the purpose of a reusable query interface and what it hides from its consumers. Use one reporting or application example.",
+      "intent": "Choose a view from the consumers' data contract and maintenance needs.",
+      "scope": "Discuss an ordinary SQL Server view; indexed-view behavior is a separate, version-sensitive extension. State which columns and rows callers require.",
+      "senior_signals": [
+        "Describes the caller-facing contract and the owner of changes.",
+        "Explains how to check correctness and performance instead of assuming the abstraction guarantees either."
+      ],
+      "pitfalls": [
+        "Confusing an ordinary view with stored results or promising faster queries without evidence."
+      ],
+      "followups": [
+        "What could break consumers when the underlying schema changes?"
+      ]
+    },
+    "vi": {
+      "question": "Khi nào bạn cung cấp dữ liệu qua view thay vì để mỗi phần gọi tự viết truy vấn vào các bảng bên dưới?",
+      "explanation": "Giải thích mục đích của một giao diện truy vấn dùng lại và những chi tiết nó che khỏi bên sử dụng. Dùng một ví dụ báo cáo hoặc ứng dụng.",
+      "intent": "Chọn view dựa trên hợp đồng dữ liệu của bên sử dụng và nhu cầu bảo trì.",
+      "scope": "Bàn về view thông thường trong SQL Server; hành vi indexed view là phần mở rộng riêng cần xét phiên bản. Nêu rõ các cột và dòng mà bên gọi cần.",
+      "senior_signals": [
+        "Mô tả hợp đồng cung cấp cho bên gọi và ai chịu trách nhiệm thay đổi.",
+        "Nêu cách kiểm tra tính đúng và hiệu năng thay vì mặc định lớp trừu tượng bảo đảm cả hai."
+      ],
+      "pitfalls": [
+        "Nhầm view thông thường với kết quả đã lưu hoặc hứa truy vấn nhanh hơn khi chưa có bằng chứng."
+      ],
+      "followups": [
+        "Thay đổi schema bên dưới có thể làm hỏng các phần sử dụng view ở đâu?"
+      ]
+    }
+  },
+  {
+    "question_id": "S03-Q004",
+    "phase": "production",
+    "order": 60,
+    "version_sensitive": false,
+    "en": {
+      "question": "For a business operation that reads and updates SQL Server data, how would you decide between a stored procedure and application code?",
+      "explanation": "Choose where the logic belongs from responsibilities and constraints. The question concerns ownership and change as well as the transaction's data access.",
+      "intent": "Defend a placement decision and the condition that changes it.",
+      "scope": "State the operation, transaction boundary, application callers and teams that deploy each side. No universal placement rule is assumed.",
+      "senior_signals": [
+        "Connects the decision to atomicity, testability and deployment ownership.",
+        "Explains a realistic alternative and how to validate the chosen boundary."
+      ],
+      "pitfalls": [
+        "Saying all business logic must always live on one side without examining the operation."
+      ],
+      "followups": [
+        "How would your choice change if two independently deployed applications share this operation?"
+      ]
+    },
+    "vi": {
+      "question": "Với một nghiệp vụ đọc và cập nhật dữ liệu SQL Server, bạn quyết định dùng stored procedure hay code ứng dụng như thế nào?",
+      "explanation": "Chọn nơi đặt logic dựa trên trách nhiệm và ràng buộc. Câu hỏi xét cả việc quản lý, thay đổi lẫn truy cập dữ liệu trong transaction.",
+      "intent": "Bảo vệ quyết định đặt logic và điều kiện khiến quyết định đó thay đổi.",
+      "scope": "Nêu nghiệp vụ, ranh giới transaction, các ứng dụng gọi và nhóm triển khai mỗi phía. Không giả định một quy tắc áp dụng cho mọi hệ thống.",
+      "senior_signals": [
+        "Gắn lựa chọn với tính nguyên tử, khả năng kiểm thử và trách nhiệm triển khai.",
+        "Giải thích một phương án khác khả thi và cách kiểm chứng ranh giới đã chọn."
+      ],
+      "pitfalls": [
+        "Khẳng định mọi logic nghiệp vụ luôn phải nằm ở một phía mà không xét thao tác cụ thể."
+      ],
+      "followups": [
+        "Lựa chọn thay đổi thế nào nếu hai ứng dụng triển khai độc lập cùng sử dụng nghiệp vụ này?"
+      ]
+    }
+  },
+  {
+    "question_id": "S03-Q005",
+    "phase": "mechanism",
+    "order": 20,
+    "version_sensitive": true,
+    "en": {
+      "question": "How does a caller pass parameters to a SQL Server stored procedure and obtain its outputs?",
+      "explanation": "Trace a call from argument values to the procedure's parameter contract and back to the caller. Distinguish different forms of output rather than calling everything a return value.",
+      "intent": "Explain a procedure call accurately across the application/database boundary.",
+      "scope": "Specify the SQL Server and .NET provider versions, parameter types and nullability; confirm binding and output behavior in official documentation.",
+      "senior_signals": [
+        "Separates inputs, output parameters, return status and result sets in an example.",
+        "Identifies a type or null-handling boundary and describes how to test it."
+      ],
+      "pitfalls": [
+        "Treating text concatenation as parameter binding or mixing output channels."
+      ],
+      "followups": [
+        "What would you inspect if a parameter works in a SQL console but fails in a C# call?"
+      ]
+    },
+    "vi": {
+      "question": "Phần gọi truyền tham số vào stored procedure SQL Server và nhận đầu ra như thế nào?",
+      "explanation": "Lần theo lời gọi từ giá trị đối số đến hợp đồng tham số của procedure rồi quay về bên gọi. Phân biệt các dạng đầu ra, thay vì gọi mọi thứ là giá trị trả về.",
+      "intent": "Giải thích chính xác lời gọi procedure qua ranh giới ứng dụng và cơ sở dữ liệu.",
+      "scope": "Nêu phiên bản SQL Server và provider .NET, kiểu tham số và khả năng nhận NULL; xác nhận cách bind và nhận đầu ra bằng tài liệu chính thức.",
+      "senior_signals": [
+        "Phân biệt input, output parameter, trạng thái trả về và result set trong một ví dụ.",
+        "Xác định một biên về kiểu dữ liệu hoặc NULL và mô tả cách kiểm thử."
+      ],
+      "pitfalls": [
+        "Coi nối chuỗi là bind tham số hoặc nhầm các kênh đầu ra với nhau."
+      ],
+      "followups": [
+        "Bạn kiểm tra gì khi một tham số dùng được trong SQL console nhưng lỗi khi gọi từ C#?"
+      ]
+    }
+  },
+  {
+    "question_id": "S03-Q006",
+    "phase": "tradeoff",
+    "order": 50,
+    "version_sensitive": true,
+    "en": {
+      "question": "What are database triggers, which types matter in SQL Server, and when would you choose one for a specific requirement?",
+      "explanation": "Explain the event that invokes the trigger and the responsibility it takes on. Then justify the choice against an explicit application-side alternative.",
+      "intent": "Reason about automatic database behavior and its operational consequences.",
+      "scope": "Name the SQL Server version and trigger category; verify supported events and execution behavior in official documentation. State whether an operation affects one or many rows.",
+      "senior_signals": [
+        "Traces triggering work, resulting changes and the failure boundary.",
+        "Addresses multi-row testing, hidden coupling and troubleshooting for the chosen use."
+      ],
+      "pitfalls": [
+        "Listing trigger types without explaining who can observe or diagnose the implicit work."
+      ],
+      "followups": [
+        "How would you test a trigger when a single statement changes many rows?"
+      ]
+    },
+    "vi": {
+      "question": "Database trigger là gì, những loại nào cần phân biệt trong SQL Server và khi nào bạn chọn trigger cho một yêu cầu cụ thể?",
+      "explanation": "Giải thích sự kiện kích hoạt trigger và trách nhiệm mà nó đảm nhận. Sau đó bảo vệ lựa chọn khi so với một phương án xử lý rõ ràng ở ứng dụng.",
+      "intent": "Lập luận về hành vi tự động trong cơ sở dữ liệu và hệ quả khi vận hành.",
+      "scope": "Nêu phiên bản SQL Server và loại trigger; xác minh sự kiện được hỗ trợ và hành vi thực thi bằng tài liệu chính thức. Nêu thao tác tác động một hay nhiều dòng.",
+      "senior_signals": [
+        "Lần theo thao tác kích hoạt, thay đổi phát sinh và ranh giới khi xảy ra lỗi.",
+        "Xét kiểm thử nhiều dòng, sự phụ thuộc khó nhìn thấy và cách chẩn đoán cho mục đích đã chọn."
+      ],
+      "pitfalls": [
+        "Liệt kê các loại trigger nhưng không nói ai quan sát hoặc chẩn đoán được phần việc phát sinh ngầm."
+      ],
+      "followups": [
+        "Bạn kiểm thử trigger thế nào khi một statement thay đổi nhiều dòng?"
+      ]
+    }
+  },
+  {
+    "question_id": "S03-Q007",
+    "phase": "foundation",
+    "order": 10,
+    "version_sensitive": true,
+    "en": {
+      "question": "Which SQL Server index types are relevant to the workloads you know, and how would you distinguish their intended uses?",
+      "explanation": "Build a useful classification rather than recite every index name. Relate an index category to the access pattern it is intended to support.",
+      "intent": "Organize index choices by workload and supported capabilities.",
+      "scope": "Establish the SQL Server version, edition and table/storage form; consult official documentation before claiming an index type is available or suitable.",
+      "senior_signals": [
+        "Distinguishes categories using a concrete read or write pattern.",
+        "Separates feature availability from measured suitability for that workload."
+      ],
+      "pitfalls": [
+        "Listing types without explaining differences or assuming every deployment supports all types."
+      ],
+      "followups": [
+        "Which evidence would narrow the choices for a mixed transactional and reporting workload?"
+      ]
+    },
+    "vi": {
+      "question": "Những loại index SQL Server nào phù hợp với các workload bạn biết, và bạn phân biệt mục đích của chúng như thế nào?",
+      "explanation": "Xây dựng cách phân loại hữu ích thay vì kể tên mọi loại index. Gắn mỗi nhóm index với kiểu truy cập mà nó được dùng để hỗ trợ.",
+      "intent": "Sắp xếp các lựa chọn index theo workload và khả năng được hỗ trợ.",
+      "scope": "Xác định phiên bản, edition SQL Server và dạng bảng/lưu trữ; đọc tài liệu chính thức trước khi khẳng định loại index được hỗ trợ hoặc phù hợp.",
+      "senior_signals": [
+        "Phân biệt các nhóm bằng một kiểu đọc hoặc ghi cụ thể.",
+        "Tách việc tính năng có sẵn khỏi mức độ phù hợp đã đo cho workload đó."
+      ],
+      "pitfalls": [
+        "Kể tên nhưng không giải thích khác biệt hoặc mặc định mọi môi trường hỗ trợ tất cả các loại."
+      ],
+      "followups": [
+        "Bằng chứng nào giúp thu hẹp lựa chọn cho workload vừa xử lý giao dịch vừa làm báo cáo?"
+      ]
+    }
+  },
+  {
+    "question_id": "S03-Q008",
+    "phase": "mechanism",
+    "order": 30,
+    "version_sensitive": false,
+    "en": {
+      "question": "Compare clustered and nonclustered rowstore indexes in SQL Server. How does each affect locating a requested row?",
+      "explanation": "Use one lookup to explain the difference in the structures and their relationship to table data. Avoid replacing the mechanism with a faster/slower ranking.",
+      "intent": "Explain the row access path and consequences of the index structure.",
+      "scope": "Limit the comparison to ordinary rowstore tables and state whether the base table is clustered or a heap; specialized index types are outside this question.",
+      "senior_signals": [
+        "Traces a lookup from the chosen key toward the required row values.",
+        "Connects a key choice to storage or update cost without inventing a performance result."
+      ],
+      "pitfalls": [
+        "Claiming one index type always wins or that physical output order replaces ORDER BY."
+      ],
+      "followups": [
+        "What changes in a nonclustered lookup when the base table is a heap?"
+      ]
+    },
+    "vi": {
+      "question": "So sánh clustered index và nonclustered index dạng rowstore trong SQL Server. Mỗi loại ảnh hưởng thế nào đến việc tìm một dòng?",
+      "explanation": "Dùng một lần tìm dữ liệu để giải thích khác biệt về cấu trúc và quan hệ với dữ liệu bảng. Không thay cơ chế bằng xếp hạng nhanh/chậm.",
+      "intent": "Giải thích đường truy cập dòng và hệ quả của cấu trúc index.",
+      "scope": "Giới hạn ở bảng rowstore thông thường và nêu bảng gốc có clustered index hay là heap; các loại index chuyên biệt nằm ngoài câu hỏi.",
+      "senior_signals": [
+        "Lần theo việc tìm từ khóa đã chọn đến các giá trị cần lấy trong dòng.",
+        "Gắn lựa chọn khóa với chi phí lưu trữ hoặc cập nhật mà không bịa kết quả hiệu năng."
+      ],
+      "pitfalls": [
+        "Khẳng định một loại luôn tốt hơn hoặc coi thứ tự lưu trữ là thay thế cho ORDER BY."
+      ],
+      "followups": [
+        "Khi bảng gốc là heap, việc tìm dòng từ nonclustered index thay đổi thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S03-Q009",
+    "phase": "tradeoff",
+    "order": 20,
+    "version_sensitive": false,
+    "en": {
+      "question": "What benefits and costs would you assess before adding an index to a SQL Server workload?",
+      "explanation": "Compare the read paths helped by the index with the work introduced elsewhere. Make the unit of evaluation a workload, not one isolated SELECT.",
+      "intent": "Balance access benefits against storage, writes and maintenance.",
+      "scope": "State representative queries, update frequency and storage constraints. Benefits are hypotheses until checked with relevant measurements.",
+      "senior_signals": [
+        "Links the proposed index to a specific access pattern and competing write load.",
+        "Defines before/after measurements and a condition for rejecting the index."
+      ],
+      "pitfalls": [
+        "Counting the number of indexes as a quality measure or discussing reads alone."
+      ],
+      "followups": [
+        "How would you decide whether a rarely used index is still worth retaining?"
+      ]
+    },
+    "vi": {
+      "question": "Trước khi thêm index cho một workload SQL Server, bạn đánh giá những lợi ích và chi phí nào?",
+      "explanation": "So sánh đường đọc được hỗ trợ với công việc phát sinh ở những nơi khác. Đánh giá cả workload, không chỉ một câu SELECT riêng lẻ.",
+      "intent": "Cân bằng lợi ích truy cập với chi phí lưu trữ, ghi và bảo trì.",
+      "scope": "Nêu các truy vấn đại diện, tần suất cập nhật và giới hạn lưu trữ. Lợi ích vẫn là giả thuyết cho đến khi có số đo phù hợp.",
+      "senior_signals": [
+        "Gắn index đề xuất với một kiểu truy cập cụ thể và tải ghi cạnh tranh.",
+        "Xác định số đo trước/sau cùng điều kiện để bác bỏ việc thêm index."
+      ],
+      "pitfalls": [
+        "Dùng số lượng index làm thước đo chất lượng hoặc chỉ bàn về đọc."
+      ],
+      "followups": [
+        "Bạn quyết định giữ hay bỏ một index ít được sử dụng như thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S03-Q010",
+    "phase": "mechanism",
+    "order": 20,
+    "version_sensitive": false,
+    "en": {
+      "question": "Using a small example, explain how an index helps a database locate data and why the same index may not help every query.",
+      "explanation": "Trace the access mechanism from a search condition to candidate rows. Connect the organization of indexed keys to the shape of the query.",
+      "intent": "Explain index behavior causally rather than by analogy alone.",
+      "scope": "Choose a conventional SQL Server rowstore index and a stated predicate. Keep conceptual access separate from the actual optimizer plan.",
+      "senior_signals": [
+        "Walks through a concrete lookup and the data still required afterward.",
+        "Names a changed query or data distribution that needs a different access path."
+      ],
+      "pitfalls": [
+        "Stopping at 'like a book index' without mapping keys, candidate rows and access cost."
+      ],
+      "followups": [
+        "How would you check whether SQL Server actually used the path you described?"
+      ]
+    },
+    "vi": {
+      "question": "Dùng một ví dụ nhỏ để giải thích index giúp cơ sở dữ liệu tìm dữ liệu như thế nào, và vì sao cùng index đó có thể không giúp mọi truy vấn.",
+      "explanation": "Lần theo cơ chế truy cập từ điều kiện tìm đến các dòng có khả năng phù hợp. Gắn cách tổ chức khóa index với hình dạng truy vấn.",
+      "intent": "Giải thích index bằng quan hệ nguyên nhân–kết quả thay vì chỉ dùng phép ví von.",
+      "scope": "Chọn một index rowstore SQL Server thông thường và nêu điều kiện lọc. Tách mô hình truy cập khái niệm khỏi plan thật do optimizer chọn.",
+      "senior_signals": [
+        "Mô tả từng bước tìm cụ thể và phần dữ liệu còn phải lấy sau đó.",
+        "Nêu thay đổi của truy vấn hoặc phân bố dữ liệu cần đường truy cập khác."
+      ],
+      "pitfalls": [
+        "Dừng ở 'giống mục lục sách' mà không giải thích khóa, dòng ứng viên và chi phí truy cập."
+      ],
+      "followups": [
+        "Bạn kiểm tra thế nào để biết SQL Server thực sự dùng đường truy cập vừa mô tả?"
+      ]
+    }
+  },
+  {
+    "question_id": "S03-Q011",
+    "phase": "production",
+    "order": 60,
+    "version_sensitive": false,
+    "en": {
+      "question": "What evidence would justify creating an index, and how would you decide whether to keep it after deployment?",
+      "explanation": "Move from an observed access problem to a testable index proposal. Explain the acceptance and removal criteria for the change.",
+      "intent": "Make and validate an index decision across a representative workload.",
+      "scope": "Use SQL Server with stated query frequency, data distribution and write load. An advisory suggestion or one plan is input, not the decision by itself.",
+      "senior_signals": [
+        "Relates the key and coverage proposal to observed predicates and required columns.",
+        "Checks benefit, regressions and ongoing usage against an explicit baseline."
+      ],
+      "pitfalls": [
+        "Creating every suggested index or deciding from a single fast local execution."
+      ],
+      "followups": [
+        "What would you measure if the target SELECT improves but API throughput falls?"
+      ]
+    },
+    "vi": {
+      "question": "Bằng chứng nào đủ để đề xuất tạo index, và bạn quyết định giữ index sau triển khai như thế nào?",
+      "explanation": "Đi từ vấn đề truy cập đã quan sát đến một đề xuất index có thể kiểm chứng. Nêu tiêu chí chấp nhận và tiêu chí gỡ thay đổi.",
+      "intent": "Ra quyết định và kiểm chứng index trên một workload đại diện.",
+      "scope": "Dùng SQL Server với tần suất truy vấn, phân bố dữ liệu và tải ghi rõ ràng. Gợi ý từ công cụ hoặc một plan chỉ là đầu vào, không tự quyết định thay bạn.",
+      "senior_signals": [
+        "Gắn đề xuất khóa và độ bao phủ với điều kiện lọc đã quan sát và các cột cần lấy.",
+        "Kiểm tra lợi ích, regression và mức sử dụng lâu dài dựa trên baseline rõ ràng."
+      ],
+      "pitfalls": [
+        "Tạo mọi index được gợi ý hoặc quyết định từ một lần chạy nhanh ở máy local."
+      ],
+      "followups": [
+        "Bạn đo gì nếu SELECT mục tiêu nhanh hơn nhưng throughput API giảm?"
+      ]
+    }
+  },
+  {
+    "question_id": "S03-Q012",
+    "phase": "failure",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "When could adding an index make the overall system slower, even if one query improves?",
+      "explanation": "Explain a regression as a causal chain. Identify where extra work appears and which measurements distinguish it from unrelated load changes.",
+      "intent": "Diagnose an indexing trade-off at system level.",
+      "scope": "Consider a SQL Server workload containing both reads and writes. State the changed index and compare similar load conditions; no regression is assumed observed.",
+      "senior_signals": [
+        "Connects a proposed regression to write, resource or plan effects.",
+        "Specifies evidence that separates competing explanations before removing the index."
+      ],
+      "pitfalls": [
+        "Saying 'too many indexes' without showing which work or constraint caused the slowdown."
+      ],
+      "followups": [
+        "How would you investigate a slowdown that appears only during a bulk import?"
+      ]
+    },
+    "vi": {
+      "question": "Khi nào thêm index có thể làm cả hệ thống chậm hơn, dù một truy vấn đã được cải thiện?",
+      "explanation": "Giải thích regression theo chuỗi nguyên nhân–kết quả. Xác định nơi phát sinh thêm công việc và số đo giúp phân biệt với thay đổi tải không liên quan.",
+      "intent": "Chẩn đoán sự đánh đổi của index ở cấp hệ thống.",
+      "scope": "Xét workload SQL Server có cả đọc và ghi. Nêu index thay đổi và so sánh trong điều kiện tải tương đương; không coi regression giả định là kết quả đã quan sát.",
+      "senior_signals": [
+        "Gắn regression giả định với tác động lên ghi, tài nguyên hoặc plan.",
+        "Nêu bằng chứng phân biệt các cách giải thích trước khi gỡ index."
+      ],
+      "pitfalls": [
+        "Nói 'quá nhiều index' nhưng không chỉ ra công việc hoặc giới hạn nào gây chậm."
+      ],
+      "followups": [
+        "Bạn điều tra thế nào nếu chỉ xuất hiện chậm khi chạy bulk import?"
+      ]
+    }
+  },
+  {
+    "question_id": "S03-Q013",
+    "phase": "mechanism",
+    "order": 40,
+    "version_sensitive": false,
+    "en": {
+      "question": "How do the order of columns in a composite index and the distribution of their values affect a query's access options?",
+      "explanation": "A composite index has several key columns. Selectivity describes how narrowly a condition identifies data; explain its relationship to the actual predicate and ordering needs.",
+      "intent": "Reason about key order from a concrete query and data distribution.",
+      "scope": "Use a SQL Server rowstore example with equality/range predicates and required sorting stated. Do not assume selectivity alone determines the best key order.",
+      "senior_signals": [
+        "Compares candidate orders against the same query's access requirements.",
+        "Uses plan and read evidence to test the choice under relevant data distributions."
+      ],
+      "pitfalls": [
+        "Applying 'most selective column first' as a universal rule without examining predicates."
+      ],
+      "followups": [
+        "How would the choice change when a frequent query omits one predicate?"
+      ]
+    },
+    "vi": {
+      "question": "Thứ tự các cột trong composite index và phân bố giá trị của chúng ảnh hưởng thế nào đến các cách truy cập của truy vấn?",
+      "explanation": "Composite index có nhiều cột khóa. Selectivity nói về mức độ một điều kiện thu hẹp dữ liệu; giải thích quan hệ với điều kiện lọc và nhu cầu sắp xếp thực tế.",
+      "intent": "Lập luận về thứ tự khóa từ truy vấn cụ thể và phân bố dữ liệu.",
+      "scope": "Dùng ví dụ rowstore SQL Server, nêu điều kiện bằng/khoảng và yêu cầu sắp xếp. Không mặc định chỉ selectivity quyết định thứ tự tốt nhất.",
+      "senior_signals": [
+        "So sánh các thứ tự ứng viên với nhu cầu truy cập của cùng truy vấn.",
+        "Dùng plan và số đo đọc để kiểm chứng lựa chọn với phân bố dữ liệu liên quan."
+      ],
+      "pitfalls": [
+        "Áp dụng 'cột có selectivity cao nhất đứng đầu' như quy tắc chung mà không xét điều kiện lọc."
+      ],
+      "followups": [
+        "Lựa chọn thay đổi thế nào khi một truy vấn thường gặp bỏ đi một điều kiện lọc?"
+      ]
+    }
+  },
+  {
+    "question_id": "S03-Q014",
+    "phase": "application",
+    "order": 50,
+    "version_sensitive": true,
+    "en": {
+      "question": "What makes an index cover a particular query, and when would you consider INCLUDE columns in SQL Server?",
+      "explanation": "Relate coverage to everything the query needs, not to the table as a whole. Compare key columns and included columns for that access pattern.",
+      "intent": "Design query coverage while accounting for its storage and write costs.",
+      "scope": "Specify the query, SQL Server version and index type; verify INCLUDE capabilities and limits in official documentation. No automatic performance improvement is assumed.",
+      "senior_signals": [
+        "Accounts for predicates, output columns and relevant ordering in the proposal.",
+        "Checks the access plan and workload cost before retaining the extra columns."
+      ],
+      "pitfalls": [
+        "Including every column or claiming a covering index is best for every query."
+      ],
+      "followups": [
+        "When would you avoid covering a query with a very wide output?"
+      ]
+    },
+    "vi": {
+      "question": "Điều gì khiến một index bao phủ được một truy vấn cụ thể, và khi nào bạn cân nhắc các cột INCLUDE trong SQL Server?",
+      "explanation": "Gắn khả năng bao phủ với toàn bộ dữ liệu truy vấn cần, không phải với cả bảng. So sánh cột khóa và cột included theo kiểu truy cập đó.",
+      "intent": "Thiết kế độ bao phủ của truy vấn đồng thời xét chi phí lưu trữ và ghi.",
+      "scope": "Nêu truy vấn, phiên bản SQL Server và loại index; xác minh khả năng cùng giới hạn của INCLUDE qua tài liệu chính thức. Không mặc định hiệu năng tự cải thiện.",
+      "senior_signals": [
+        "Xét điều kiện lọc, cột đầu ra và yêu cầu sắp xếp liên quan trong đề xuất.",
+        "Kiểm tra plan truy cập và chi phí workload trước khi giữ các cột thêm vào."
+      ],
+      "pitfalls": [
+        "INCLUDE mọi cột hoặc khẳng định covering index tốt nhất cho mọi truy vấn."
+      ],
+      "followups": [
+        "Khi nào bạn tránh bao phủ một truy vấn có đầu ra nhiều cột hoặc dữ liệu rất lớn?"
+      ]
+    }
+  },
+  {
+    "question_id": "S03-Q015",
+    "phase": "application",
+    "order": 60,
+    "version_sensitive": false,
+    "en": {
+      "question": "Explain index seek, scan and key lookup in a SQL Server execution plan. How would you decide whether the observed access is a problem?",
+      "explanation": "Interpret what the operators do for a particular query. Evaluate the amount of work rather than label an operator good or bad from its name.",
+      "intent": "Use access operators as diagnostic evidence in context.",
+      "scope": "Use a stated rowstore query and actual plan where available. Separate estimates from observations and do not invent execution results.",
+      "senior_signals": [
+        "Traces the data access and rows involved in each relevant operator.",
+        "Relates reads, row counts and required output to a testable change."
+      ],
+      "pitfalls": [
+        "Assuming every seek is efficient or every scan requires an index fix."
+      ],
+      "followups": [
+        "What would you inspect if a plan uses a seek but still performs many reads?"
+      ]
+    },
+    "vi": {
+      "question": "Giải thích index seek, scan và key lookup trong execution plan SQL Server. Bạn xác định đường truy cập quan sát được có vấn đề hay không như thế nào?",
+      "explanation": "Diễn giải công việc các operator làm cho một truy vấn cụ thể. Đánh giá lượng công việc thay vì gắn nhãn tốt/xấu chỉ từ tên operator.",
+      "intent": "Dùng các operator truy cập làm bằng chứng chẩn đoán trong đúng bối cảnh.",
+      "scope": "Dùng truy vấn rowstore rõ ràng và actual plan nếu có. Tách ước tính khỏi quan sát và không bịa kết quả thực thi.",
+      "senior_signals": [
+        "Lần theo việc truy cập dữ liệu và các dòng liên quan của từng operator cần xét.",
+        "Gắn số lần đọc, số dòng và đầu ra cần thiết với thay đổi có thể kiểm chứng."
+      ],
+      "pitfalls": [
+        "Mặc định mọi seek đều hiệu quả hoặc mọi scan đều cần sửa bằng cách thêm index."
+      ],
+      "followups": [
+        "Bạn kiểm tra gì nếu plan có seek nhưng vẫn đọc rất nhiều dữ liệu?"
+      ]
+    }
+  },
+  {
+    "question_id": "S03-Q016",
+    "phase": "tradeoff",
+    "order": 30,
+    "version_sensitive": false,
+    "en": {
+      "question": "How would you adapt an indexing strategy for a write-heavy workload without abandoning important read requirements?",
+      "explanation": "Describe the change in priorities when writes dominate. Choose what to keep, alter or remove from the observed access patterns.",
+      "intent": "Balance write capacity with read service requirements through evidence.",
+      "scope": "State insert/update/delete proportions, important read paths and latency targets. Treat performance gains as hypotheses requiring representative load tests.",
+      "senior_signals": [
+        "Identifies which indexes support important reads and which impose avoidable maintenance.",
+        "Validates both write behavior and read regressions rather than optimizing one metric."
+      ],
+      "pitfalls": [
+        "Removing all indexes or keeping all of them without considering the workload contract."
+      ],
+      "followups": [
+        "What changes if writes arrive as a nightly batch instead of continuous traffic?"
+      ]
+    },
+    "vi": {
+      "question": "Bạn điều chỉnh chiến lược index cho workload ghi nhiều như thế nào mà vẫn đáp ứng các yêu cầu đọc quan trọng?",
+      "explanation": "Mô tả sự thay đổi ưu tiên khi phần lớn công việc là ghi. Chọn index cần giữ, sửa hoặc bỏ từ các kiểu truy cập đã quan sát.",
+      "intent": "Cân bằng năng lực ghi với yêu cầu phục vụ đọc dựa trên bằng chứng.",
+      "scope": "Nêu tỷ lệ insert/update/delete, các đường đọc quan trọng và mục tiêu latency. Coi cải thiện hiệu năng là giả thuyết cần thử tải đại diện.",
+      "senior_signals": [
+        "Xác định index hỗ trợ các lần đọc quan trọng và index tạo chi phí bảo trì có thể tránh.",
+        "Kiểm chứng cả hành vi ghi lẫn regression đọc thay vì tối ưu một số đo."
+      ],
+      "pitfalls": [
+        "Bỏ mọi index hoặc giữ tất cả mà không xét hợp đồng của workload."
+      ],
+      "followups": [
+        "Cách làm thay đổi thế nào nếu ghi theo batch mỗi đêm thay vì lưu lượng liên tục?"
+      ]
+    }
+  },
+  {
+    "question_id": "S03-Q017",
+    "phase": "foundation",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "What does a database transaction protect, and what happens to its changes on commit or rollback? Trace a two-step update.",
+      "explanation": "Use an operation with a clear consistency rule. Explain the state visible after success and after a failure between the steps.",
+      "intent": "Reason about a local transaction's state changes and failure boundary.",
+      "scope": "Assume one SQL Server database and an explicit transaction. External requests and messages are outside that transaction unless a separate mechanism is stated.",
+      "senior_signals": [
+        "States an invariant and traces both successful and interrupted execution.",
+        "Separates database atomicity from uncertainty at the caller or effects outside the database."
+      ],
+      "pitfalls": [
+        "Claiming rollback undoes external calls or treating a caller timeout as proof of rollback."
+      ],
+      "followups": [
+        "How would you investigate a timeout that occurs while the caller waits for commit?"
+      ]
+    },
+    "vi": {
+      "question": "Transaction cơ sở dữ liệu bảo vệ điều gì, và các thay đổi ra sao khi commit hoặc rollback? Hãy lần theo một cập nhật gồm hai bước.",
+      "explanation": "Dùng thao tác có quy tắc nhất quán rõ ràng. Giải thích trạng thái sau thành công và sau lỗi xảy ra giữa hai bước.",
+      "intent": "Lập luận về thay đổi trạng thái và ranh giới lỗi của transaction cục bộ.",
+      "scope": "Giả định một cơ sở dữ liệu SQL Server và transaction tường minh. Request hoặc message bên ngoài không nằm trong transaction nếu chưa nêu cơ chế riêng.",
+      "senior_signals": [
+        "Nêu bất biến và lần theo cả luồng thành công lẫn luồng bị gián đoạn.",
+        "Phân biệt tính nguyên tử trong cơ sở dữ liệu với sự không chắc chắn ở bên gọi hoặc hiệu ứng bên ngoài."
+      ],
+      "pitfalls": [
+        "Khẳng định rollback hoàn tác lời gọi bên ngoài hoặc coi timeout của bên gọi là bằng chứng đã rollback."
+      ],
+      "followups": [
+        "Bạn điều tra thế nào khi timeout xảy ra lúc bên gọi đang chờ commit?"
+      ]
+    }
+  },
+  {
+    "question_id": "S03-Q018",
+    "phase": "foundation",
+    "order": 20,
+    "version_sensitive": false,
+    "en": {
+      "question": "What changes when multiple database operations overlap in time? Use two requests that access the same business data.",
+      "explanation": "Concurrency is overlapping progress, not merely many users. Trace the possible interleavings and identify which outcome violates the business rule.",
+      "intent": "Recognize a concurrency problem from an execution sequence.",
+      "scope": "State the reads, writes and invariant for one SQL Server database. Do not assume that transactions alone provide every required concurrency guarantee.",
+      "senior_signals": [
+        "Shows a specific interleaving and the resulting state rather than naming races abstractly.",
+        "Distinguishes correctness requirements from waiting and throughput requirements."
+      ],
+      "pitfalls": [
+        "Saying concurrent access is safe simply because each request uses a transaction."
+      ],
+      "followups": [
+        "How would you reproduce the unsafe interleaving with two database sessions?"
+      ]
+    },
+    "vi": {
+      "question": "Điều gì thay đổi khi nhiều thao tác cơ sở dữ liệu diễn ra chồng lấn thời gian? Dùng hai request cùng truy cập một dữ liệu nghiệp vụ.",
+      "explanation": "Concurrency là quá trình tiến triển chồng lấn, không chỉ là nhiều người dùng. Lần theo các thứ tự xen kẽ có thể xảy ra và xác định kết quả vi phạm quy tắc nghiệp vụ.",
+      "intent": "Nhận diện vấn đề concurrency từ một chuỗi thực thi.",
+      "scope": "Nêu các bước đọc, ghi và bất biến trong một cơ sở dữ liệu SQL Server. Không mặc định chỉ có transaction là đủ mọi bảo đảm concurrency cần thiết.",
+      "senior_signals": [
+        "Chỉ ra thứ tự xen kẽ cụ thể và trạng thái thu được thay vì chỉ gọi tên race.",
+        "Phân biệt yêu cầu về tính đúng với yêu cầu về thời gian chờ và throughput."
+      ],
+      "pitfalls": [
+        "Nói truy cập đồng thời an toàn chỉ vì mỗi request đều có transaction."
+      ],
+      "followups": [
+        "Bạn tái hiện thứ tự xen kẽ không an toàn bằng hai session cơ sở dữ liệu như thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S03-Q019",
+    "phase": "tradeoff",
+    "order": 30,
+    "version_sensitive": false,
+    "en": {
+      "question": "For competing updates to the same business record, how would you choose between optimistic concurrency and pessimistic locking?",
+      "explanation": "Compare when conflicts are dealt with and what the caller must do afterward. Give the workload condition that favors each approach.",
+      "intent": "Choose concurrency control from conflict rates and required behavior.",
+      "scope": "State the invariant, transaction duration and expected contention. Name the concrete conflict-detection or locking mechanism rather than relying on the labels alone.",
+      "senior_signals": [
+        "Traces a conflict through the chosen mechanism and the application response.",
+        "Explains retry, waiting and resource costs with a condition that changes the choice."
+      ],
+      "pitfalls": [
+        "Calling optimistic control lock-free or ignoring failed updates and retry limits."
+      ],
+      "followups": [
+        "How would your choice change if conflicts become frequent during a traffic spike?"
+      ]
+    },
+    "vi": {
+      "question": "Khi các cập nhật cạnh tranh trên cùng bản ghi nghiệp vụ, bạn chọn optimistic concurrency hay pessimistic locking như thế nào?",
+      "explanation": "So sánh thời điểm xử lý xung đột và phần việc bên gọi phải làm sau đó. Nêu điều kiện workload thuận lợi cho từng phương án.",
+      "intent": "Chọn cách kiểm soát concurrency từ tần suất xung đột và hành vi cần đạt.",
+      "scope": "Nêu bất biến, thời lượng transaction và mức cạnh tranh dự kiến. Gọi tên cơ chế phát hiện xung đột hoặc khóa cụ thể thay vì chỉ dựa vào nhãn.",
+      "senior_signals": [
+        "Lần theo một xung đột qua cơ chế đã chọn đến phản ứng của ứng dụng.",
+        "Giải thích chi phí retry, chờ và tài nguyên cùng điều kiện làm thay đổi lựa chọn."
+      ],
+      "pitfalls": [
+        "Gọi optimistic control là không có khóa hoặc bỏ qua cập nhật thất bại và giới hạn retry."
+      ],
+      "followups": [
+        "Lựa chọn thay đổi thế nào nếu xung đột tăng nhiều khi lưu lượng đột biến?"
+      ]
+    }
+  },
+  {
+    "question_id": "S03-Q020",
+    "phase": "mechanism",
+    "order": 20,
+    "version_sensitive": true,
+    "en": {
+      "question": "Explain row versioning in SQL Server. Which reader/writer interaction are you discussing, and what is the relevant consistency boundary?",
+      "explanation": "Describe what a reader sees as data changes and distinguish this mechanism from an application concurrency token. The source term needs a precise context.",
+      "intent": "Explain versioned reads without confusing different uses of 'version'.",
+      "scope": "Specify SQL Server version, isolation mode and database configuration. Verify behavior and version-storage requirements in official documentation; do not assume defaults.",
+      "senior_signals": [
+        "Traces two overlapping sessions and identifies the reader's view of data.",
+        "Discusses write conflicts and resource/lifetime boundaries for the chosen mode."
+      ],
+      "pitfalls": [
+        "Equating row versioning with the rowversion data type or claiming it eliminates all blocking."
+      ],
+      "followups": [
+        "What would you inspect if a long-running reader creates operational pressure?"
+      ]
+    },
+    "vi": {
+      "question": "Giải thích row versioning trong SQL Server. Bạn đang xét tương tác đọc/ghi nào, và ranh giới nhất quán liên quan là gì?",
+      "explanation": "Mô tả bên đọc thấy gì khi dữ liệu thay đổi và phân biệt cơ chế này với token kiểm tra concurrency ở ứng dụng. Thuật ngữ trong nguồn cần được đặt vào bối cảnh chính xác.",
+      "intent": "Giải thích cách đọc theo phiên bản mà không nhầm các nghĩa khác nhau của từ 'version'.",
+      "scope": "Nêu phiên bản SQL Server, chế độ isolation và cấu hình cơ sở dữ liệu. Xác minh hành vi cùng yêu cầu lưu phiên bản bằng tài liệu chính thức; không mặc định cấu hình ban đầu.",
+      "senior_signals": [
+        "Lần theo hai session chồng lấn và xác định dữ liệu bên đọc nhìn thấy.",
+        "Bàn về xung đột ghi và giới hạn tài nguyên/thời gian tồn tại của chế độ đã chọn."
+      ],
+      "pitfalls": [
+        "Đồng nhất row versioning với kiểu dữ liệu rowversion hoặc khẳng định nó loại bỏ mọi blocking."
+      ],
+      "followups": [
+        "Bạn kiểm tra gì nếu một lần đọc kéo dài gây áp lực khi vận hành?"
+      ]
+    }
+  },
+  {
+    "question_id": "S03-Q021",
+    "phase": "mechanism",
+    "order": 30,
+    "version_sensitive": true,
+    "en": {
+      "question": "Compare common transaction isolation levels using a concrete read/write sequence. Which consistency property and cost would drive your choice?",
+      "explanation": "Isolation describes how overlapping transactions may affect what is observed. Explain the difference through outcomes, not only the names of levels.",
+      "intent": "Connect an isolation choice to a required observable guarantee.",
+      "scope": "Specify SQL Server version, database options and transaction boundaries. Check official behavior for locking or versioned modes before claiming defaults or supported guarantees.",
+      "senior_signals": [
+        "Predicts a relevant anomaly or protected invariant for the chosen sequence.",
+        "Explains the cost and a two-session test that distinguishes the alternatives."
+      ],
+      "pitfalls": [
+        "Choosing the strongest-sounding name without identifying the anomaly the business must prevent."
+      ],
+      "followups": [
+        "How would you test whether two reads in one transaction observe the intended data boundary?"
+      ]
+    },
+    "vi": {
+      "question": "So sánh các isolation level thông dụng qua một chuỗi đọc/ghi cụ thể. Thuộc tính nhất quán và chi phí nào quyết định lựa chọn của bạn?",
+      "explanation": "Isolation mô tả cách các transaction chồng lấn có thể ảnh hưởng điều quan sát được. Giải thích khác biệt bằng kết quả, không chỉ bằng tên mức.",
+      "intent": "Gắn lựa chọn isolation với một bảo đảm có thể quan sát mà nghiệp vụ cần.",
+      "scope": "Nêu phiên bản SQL Server, tùy chọn cơ sở dữ liệu và ranh giới transaction. Kiểm tra hành vi chính thức của chế độ khóa hoặc đọc theo phiên bản trước khi khẳng định default hay bảo đảm.",
+      "senior_signals": [
+        "Dự đoán bất thường liên quan hoặc bất biến được bảo vệ cho chuỗi đã chọn.",
+        "Giải thích chi phí và phép thử hai session giúp phân biệt các phương án."
+      ],
+      "pitfalls": [
+        "Chọn tên nghe có vẻ mạnh nhất nhưng không xác định bất thường nghiệp vụ cần ngăn."
+      ],
+      "followups": [
+        "Bạn kiểm tra thế nào để biết hai lần đọc trong một transaction thấy đúng ranh giới dữ liệu mong muốn?"
+      ]
+    }
+  },
+  {
+    "question_id": "S03-Q022",
+    "phase": "tradeoff",
+    "order": 40,
+    "version_sensitive": true,
+    "en": {
+      "question": "How could strengthening transaction isolation change blocking and throughput? Explain how you would assess the impact on a real workload.",
+      "explanation": "Relate a consistency decision to interactions between concurrent requests. Distinguish possible costs from effects you have actually measured.",
+      "intent": "Evaluate isolation's workload consequences without oversimplifying them.",
+      "scope": "Specify SQL Server version, isolation implementation, configuration and transaction duration; check official behavior. A higher level does not imply one universal performance ranking.",
+      "senior_signals": [
+        "Explains which overlapping operations could wait or conflict under the selected modes.",
+        "Compares correctness, waits, throughput and resource use under representative contention."
+      ],
+      "pitfalls": [
+        "Saying 'higher isolation is always slower' without naming the modes, workload or measurements."
+      ],
+      "followups": [
+        "What evidence would separate blocking from a CPU bottleneck after the change?"
+      ]
+    },
+    "vi": {
+      "question": "Tăng mức bảo đảm isolation có thể thay đổi blocking và throughput như thế nào? Giải thích cách bạn đánh giá tác động trên workload thực tế.",
+      "explanation": "Gắn quyết định về nhất quán với tương tác giữa các request đồng thời. Phân biệt chi phí có thể xảy ra với tác động đã thực sự đo.",
+      "intent": "Đánh giá hệ quả isolation đối với workload mà không đơn giản hóa quá mức.",
+      "scope": "Nêu phiên bản SQL Server, cách thực hiện isolation, cấu hình và thời lượng transaction; đối chiếu hành vi chính thức. Mức cao hơn không tạo một thứ hạng hiệu năng chung.",
+      "senior_signals": [
+        "Giải thích thao tác chồng lấn nào có thể chờ hoặc xung đột trong các chế độ đã chọn.",
+        "So sánh tính đúng, thời gian chờ, throughput và tài nguyên với mức cạnh tranh đại diện."
+      ],
+      "pitfalls": [
+        "Nói 'isolation cao hơn luôn chậm hơn' mà không nêu chế độ, workload hoặc số đo."
+      ],
+      "followups": [
+        "Bằng chứng nào phân biệt blocking với bottleneck CPU sau thay đổi?"
+      ]
+    }
+  },
+  {
+    "question_id": "S03-Q023",
+    "phase": "failure",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "What is a database deadlock? Illustrate the dependency that makes it different from ordinary blocking.",
+      "explanation": "Trace two or more operations waiting on resources. Make clear why the system cannot resolve that particular wait by simply letting one holder continue normally.",
+      "intent": "Recognize a deadlock from its resource and wait relationships.",
+      "scope": "Use a small SQL Server transaction example and state the resources involved. Separate deadlock, prolonged blocking and timeout symptoms.",
+      "senior_signals": [
+        "Draws or describes a complete wait cycle with owners and requested resources.",
+        "Explains which observation distinguishes the cycle from a one-way wait."
+      ],
+      "pitfalls": [
+        "Calling every slow or blocked query a deadlock without establishing a cycle."
+      ],
+      "followups": [
+        "What evidence would you request before accepting a report that a timeout was caused by a deadlock?"
+      ]
+    },
+    "vi": {
+      "question": "Deadlock trong cơ sở dữ liệu là gì? Minh họa quan hệ phụ thuộc khiến nó khác blocking thông thường.",
+      "explanation": "Lần theo hai hoặc nhiều thao tác đang chờ tài nguyên. Làm rõ vì sao không thể giải quyết lần chờ đó chỉ bằng cách để một bên giữ tài nguyên tiếp tục bình thường.",
+      "intent": "Nhận diện deadlock từ quan hệ giữ tài nguyên và chờ.",
+      "scope": "Dùng ví dụ transaction SQL Server nhỏ và nêu các tài nguyên liên quan. Phân biệt deadlock, blocking kéo dài và triệu chứng timeout.",
+      "senior_signals": [
+        "Vẽ hoặc mô tả một vòng chờ đầy đủ với bên giữ và tài nguyên được yêu cầu.",
+        "Giải thích quan sát nào phân biệt vòng chờ với chờ một chiều."
+      ],
+      "pitfalls": [
+        "Gọi mọi truy vấn chậm hoặc bị chặn là deadlock khi chưa xác lập được vòng chờ."
+      ],
+      "followups": [
+        "Bạn yêu cầu bằng chứng gì trước khi chấp nhận nhận định timeout do deadlock gây ra?"
+      ]
+    }
+  },
+  {
+    "question_id": "S03-Q024",
+    "phase": "failure",
+    "order": 20,
+    "version_sensitive": true,
+    "en": {
+      "question": "How would you diagnose a recurring SQL Server deadlock and connect it to the application operations that created it?",
+      "explanation": "Reconstruct the conflicting resource acquisition from evidence. Separate the session selected as the victim from the underlying cause of the cycle.",
+      "intent": "Turn a deadlock report into a testable root-cause explanation.",
+      "scope": "Specify the deployed SQL Server version and available capture tooling; verify documented collection behavior. No particular graph, plan or incident is supplied here.",
+      "senior_signals": [
+        "Identifies owners, waiters, statements and transaction boundaries from diagnostic evidence.",
+        "Proposes a reproduction and evidence that could disprove the suspected cause."
+      ],
+      "pitfalls": [
+        "Blaming the victim alone or changing isolation without reconstructing the conflicting operations."
+      ],
+      "followups": [
+        "What information would you need if the application logs contain only the victim's error?"
+      ]
+    },
+    "vi": {
+      "question": "Bạn chẩn đoán một deadlock SQL Server lặp lại và liên hệ nó với các thao tác ứng dụng tạo ra deadlock như thế nào?",
+      "explanation": "Dựng lại thứ tự lấy tài nguyên gây xung đột từ bằng chứng. Phân biệt session bị chọn làm victim với nguyên nhân tạo vòng chờ.",
+      "intent": "Chuyển báo cáo deadlock thành giải thích nguyên nhân gốc có thể kiểm chứng.",
+      "scope": "Nêu phiên bản SQL Server đang triển khai và công cụ thu thập sẵn có; xác minh hành vi thu thập trong tài liệu. Ở đây chưa có graph, plan hoặc sự cố cụ thể được cung cấp.",
+      "senior_signals": [
+        "Xác định bên giữ, bên chờ, statement và ranh giới transaction từ bằng chứng chẩn đoán.",
+        "Đề xuất cách tái hiện và bằng chứng có thể bác bỏ nguyên nhân nghi ngờ."
+      ],
+      "pitfalls": [
+        "Chỉ đổ lỗi cho victim hoặc đổi isolation khi chưa dựng lại các thao tác xung đột."
+      ],
+      "followups": [
+        "Bạn cần thông tin gì nếu log ứng dụng chỉ chứa lỗi của victim?"
+      ]
+    }
+  },
+  {
+    "question_id": "S03-Q025",
+    "phase": "tradeoff",
+    "order": 50,
+    "version_sensitive": false,
+    "en": {
+      "question": "Once you understand a deadlock cycle, how would you reduce its probability without weakening the required correctness?",
+      "explanation": "Choose a change that addresses the demonstrated conflict. Explain which part of the cycle changes and what new cost or limitation the change introduces.",
+      "intent": "Design a targeted deadlock reduction and validate its trade-offs.",
+      "scope": "State the resource cycle, business invariant and representative contention. Reducing probability is not a promise that every deadlock disappears.",
+      "senior_signals": [
+        "Connects the proposed change to resource order, transaction duration or the demonstrated access pattern.",
+        "Tests concurrency and correctness while retaining a safe application recovery path."
+      ],
+      "pitfalls": [
+        "Applying a blanket hint or isolation change without proving it addresses this cycle."
+      ],
+      "followups": [
+        "How would you verify the fix if the original deadlock appears only under load?"
+      ]
+    },
+    "vi": {
+      "question": "Sau khi hiểu vòng deadlock, bạn giảm khả năng nó xảy ra như thế nào mà không làm yếu tính đúng cần bảo vệ?",
+      "explanation": "Chọn thay đổi xử lý đúng xung đột đã có bằng chứng. Giải thích phần nào của vòng chờ thay đổi và chi phí hoặc giới hạn mới phát sinh.",
+      "intent": "Thiết kế cách giảm deadlock có mục tiêu và kiểm chứng các đánh đổi.",
+      "scope": "Nêu vòng tài nguyên, bất biến nghiệp vụ và mức cạnh tranh đại diện. Giảm khả năng xảy ra không phải lời hứa mọi deadlock đều biến mất.",
+      "senior_signals": [
+        "Gắn thay đổi đề xuất với thứ tự tài nguyên, thời lượng transaction hoặc kiểu truy cập đã được chứng minh.",
+        "Kiểm tra concurrency và tính đúng đồng thời giữ đường phục hồi an toàn cho ứng dụng."
+      ],
+      "pitfalls": [
+        "Áp dụng hint hoặc đổi isolation hàng loạt mà chưa chứng minh có tác động đến vòng chờ này."
+      ],
+      "followups": [
+        "Bạn xác minh cách sửa thế nào nếu deadlock ban đầu chỉ xuất hiện khi có tải?"
+      ]
+    }
+  },
+  {
+    "question_id": "S03-Q026",
+    "phase": "production",
+    "order": 60,
+    "version_sensitive": true,
+    "en": {
+      "question": "When SQL Server selects a transaction as a deadlock victim, how should its application caller recover safely?",
+      "explanation": "Trace database state, application state and the decision to retry or report failure. The question concerns safe recovery as well as identifying the error.",
+      "intent": "Design a bounded, observable recovery path for a failed transaction.",
+      "scope": "Specify SQL Server and .NET provider versions; confirm documented error and transaction behavior. State any external effects and whether the business operation can be retried.",
+      "senior_signals": [
+        "Identifies the retry unit and prevents incomplete or duplicated business effects.",
+        "Defines retry limits, user-visible outcome and telemetry for repeated failures."
+      ],
+      "pitfalls": [
+        "Retrying one statement blindly or looping indefinitely without considering the whole operation."
+      ],
+      "followups": [
+        "How would recovery change if the operation had already called an external service?"
+      ]
+    },
+    "vi": {
+      "question": "Khi SQL Server chọn một transaction làm deadlock victim, phần gọi ở ứng dụng nên phục hồi an toàn như thế nào?",
+      "explanation": "Lần theo trạng thái cơ sở dữ liệu, trạng thái ứng dụng và quyết định retry hoặc báo thất bại. Câu hỏi xét cách phục hồi an toàn, không chỉ nhận diện lỗi.",
+      "intent": "Thiết kế đường phục hồi có giới hạn và có thể quan sát cho transaction thất bại.",
+      "scope": "Nêu phiên bản SQL Server và provider .NET; xác nhận hành vi lỗi và transaction được tài liệu mô tả. Nêu hiệu ứng bên ngoài và liệu nghiệp vụ có thể retry hay không.",
+      "senior_signals": [
+        "Xác định đơn vị retry và ngăn hiệu ứng nghiệp vụ thiếu bước hoặc bị lặp.",
+        "Định nghĩa giới hạn retry, kết quả người dùng nhận và telemetry khi lỗi tái diễn."
+      ],
+      "pitfalls": [
+        "Retry mù một statement hoặc lặp vô hạn mà không xét toàn bộ nghiệp vụ."
+      ],
+      "followups": [
+        "Cách phục hồi thay đổi thế nào nếu nghiệp vụ đã gọi một service bên ngoài?"
+      ]
+    }
+  },
+  {
+    "question_id": "S03-Q027",
+    "phase": "application",
+    "order": 20,
+    "version_sensitive": false,
+    "en": {
+      "question": "How would you choose and validate an efficient way to insert 10,000 or more records into SQL Server?",
+      "explanation": "Start from the import requirements, then propose a data path and a comparison. The row count alone is not enough to select an implementation.",
+      "intent": "Turn an import requirement into a measurable insertion strategy.",
+      "scope": "State row sizes, validation rules, acceptable failure behavior, network path and concurrent workload. Treat the scenario as hypothetical until tests are supplied.",
+      "senior_signals": [
+        "Explains the proposed data flow and the bottleneck it is intended to address.",
+        "Checks correctness, elapsed time and resource costs under equivalent inputs."
+      ],
+      "pitfalls": [
+        "Naming bulk copy as the answer without considering validation, transactions or workload constraints."
+      ],
+      "followups": [
+        "How would you compare candidates if production traffic must remain responsive during the import?"
+      ]
+    },
+    "vi": {
+      "question": "Bạn chọn và kiểm chứng cách insert từ 10.000 bản ghi trở lên bản ghi vào SQL Server hiệu quả như thế nào?",
+      "explanation": "Bắt đầu từ yêu cầu import rồi đề xuất luồng dữ liệu và cách so sánh. Chỉ số lượng dòng chưa đủ để chọn cách triển khai.",
+      "intent": "Chuyển yêu cầu import thành chiến lược insert có thể đo lường.",
+      "scope": "Nêu kích thước dòng, quy tắc validation, hành vi thất bại chấp nhận được, đường mạng và workload chạy đồng thời. Đây là tình huống giả định cho đến khi có kết quả kiểm thử.",
+      "senior_signals": [
+        "Giải thích luồng dữ liệu đề xuất và bottleneck mà nó hướng tới.",
+        "Kiểm tra tính đúng, thời gian chạy và chi phí tài nguyên với đầu vào tương đương."
+      ],
+      "pitfalls": [
+        "Chỉ nêu bulk copy là đáp án mà không xét validation, transaction hoặc ràng buộc workload."
+      ],
+      "followups": [
+        "Bạn so sánh các phương án thế nào nếu lưu lượng production phải tiếp tục phản hồi tốt khi import?"
+      ]
+    }
+  },
+  {
+    "question_id": "S03-Q028",
+    "phase": "mechanism",
+    "order": 10,
+    "version_sensitive": true,
+    "en": {
+      "question": "Compare row-by-row inserts, batched inserts and bulk copy for a SQL Server import. What work and guarantees differ?",
+      "explanation": "Trace how data reaches the database in each approach. Compare call overhead and processing boundaries alongside correctness requirements.",
+      "intent": "Compare insertion mechanisms using the same workload and contract.",
+      "scope": "Name SQL Server and client-provider versions, batch sizes and transaction options. Verify bulk-copy behavior and options in official documentation rather than assuming identical guarantees.",
+      "senior_signals": [
+        "Describes the data path and where each approach performs validation or database work.",
+        "Defines comparable tests and explains which constraint could favor a different approach."
+      ],
+      "pitfalls": [
+        "Ranking approaches by speed without fixing transaction, validation and input conditions."
+      ],
+      "followups": [
+        "Which behavior would you check if an import must enforce triggers and constraints?"
+      ]
+    },
+    "vi": {
+      "question": "So sánh insert từng dòng, insert theo batch và bulk copy cho một lần import SQL Server. Công việc và bảo đảm khác nhau ở đâu?",
+      "explanation": "Lần theo cách dữ liệu đi vào cơ sở dữ liệu ở mỗi phương án. So sánh chi phí lời gọi và ranh giới xử lý cùng với yêu cầu về tính đúng.",
+      "intent": "So sánh các cơ chế insert trên cùng workload và hợp đồng.",
+      "scope": "Nêu phiên bản SQL Server và provider phía client, kích thước batch và tùy chọn transaction. Xác minh hành vi, tùy chọn bulk copy qua tài liệu chính thức thay vì mặc định bảo đảm giống nhau.",
+      "senior_signals": [
+        "Mô tả luồng dữ liệu và nơi từng phương án thực hiện validation hoặc công việc cơ sở dữ liệu.",
+        "Định nghĩa phép thử so sánh công bằng và ràng buộc có thể khiến phương án khác phù hợp hơn."
+      ],
+      "pitfalls": [
+        "Xếp hạng theo tốc độ khi chưa cố định điều kiện transaction, validation và đầu vào."
+      ],
+      "followups": [
+        "Bạn cần kiểm tra hành vi nào nếu import phải áp dụng trigger và constraint?"
+      ]
+    }
+  },
+  {
+    "question_id": "S03-Q029",
+    "phase": "tradeoff",
+    "order": 40,
+    "version_sensitive": true,
+    "en": {
+      "question": "How do transaction size, logging, indexes and constraints influence a bulk-write workload? How would you distinguish their effects?",
+      "explanation": "Relate each factor to database work and recovery requirements. Propose measurements that separate competing explanations for slow imports.",
+      "intent": "Explain bulk-write costs and test a targeted change.",
+      "scope": "Specify SQL Server version, recovery model, table/index state and chosen import options. Check official logging and constraint behavior before relying on configuration-specific claims.",
+      "senior_signals": [
+        "Connects the factors to throughput, contention, resource usage and correctness requirements.",
+        "Changes one relevant factor at a time and verifies recovery as well as speed."
+      ],
+      "pitfalls": [
+        "Disabling safeguards or changing logging assumptions solely to maximize one throughput number."
+      ],
+      "followups": [
+        "What would you inspect if larger batches stop improving throughput but increase recovery time?"
+      ]
+    },
+    "vi": {
+      "question": "Kích thước transaction, logging, index và constraint ảnh hưởng thế nào đến workload ghi hàng loạt? Bạn phân biệt tác động của chúng bằng cách nào?",
+      "explanation": "Gắn từng yếu tố với công việc cơ sở dữ liệu và yêu cầu phục hồi. Đề xuất số đo phân biệt các cách giải thích việc import chậm.",
+      "intent": "Giải thích chi phí bulk write và thử một thay đổi có mục tiêu.",
+      "scope": "Nêu phiên bản SQL Server, recovery model, trạng thái bảng/index và tùy chọn import. Kiểm tra hành vi logging và constraint chính thức trước khi dựa vào nhận định phụ thuộc cấu hình.",
+      "senior_signals": [
+        "Gắn các yếu tố với throughput, tranh chấp, tài nguyên và yêu cầu tính đúng.",
+        "Thay đổi từng yếu tố liên quan và kiểm chứng cả phục hồi lẫn tốc độ."
+      ],
+      "pitfalls": [
+        "Tắt cơ chế bảo vệ hoặc đổi giả định logging chỉ để tối đa một con số throughput."
+      ],
+      "followups": [
+        "Bạn kiểm tra gì nếu tăng batch không còn cải thiện throughput nhưng làm thời gian phục hồi dài hơn?"
+      ]
+    }
+  },
+  {
+    "question_id": "S03-Q030",
+    "phase": "application",
+    "order": 30,
+    "version_sensitive": false,
+    "en": {
+      "question": "How would you validate and import a large dataset while keeping memory usage bounded?",
+      "explanation": "Design the path from input reading through validation to persistence. Explain where data waits and how much must be retained at once.",
+      "intent": "Design an import pipeline whose memory needs do not grow unchecked with the file.",
+      "scope": "State input format, validation rules, dependency latency and the allowed treatment of invalid rows. Include cancellation and failure reporting; no file or benchmark is provided.",
+      "senior_signals": [
+        "Explains bounded buffers and how a slow database affects input processing.",
+        "Identifies validation that needs cross-row context and a way to check resource limits."
+      ],
+      "pitfalls": [
+        "Reading the entire file into memory or creating unbounded parallel tasks while calling the pipeline streaming."
+      ],
+      "followups": [
+        "How would you handle a rule that detects duplicates across the whole file?"
+      ]
+    },
+    "vi": {
+      "question": "Bạn validation và import một tập dữ liệu lớn như thế nào để mức sử dụng bộ nhớ có giới hạn?",
+      "explanation": "Thiết kế luồng từ đọc đầu vào qua validation đến lưu dữ liệu. Giải thích dữ liệu chờ ở đâu và bao nhiêu dữ liệu phải được giữ cùng lúc.",
+      "intent": "Thiết kế pipeline import có nhu cầu bộ nhớ không tăng mất kiểm soát theo kích thước file.",
+      "scope": "Nêu định dạng đầu vào, quy tắc validation, độ trễ dependency và cách được phép xử lý dòng lỗi. Xét cancellation và báo thất bại; chưa có file hoặc benchmark được cung cấp.",
+      "senior_signals": [
+        "Giải thích buffer có giới hạn và tác động của cơ sở dữ liệu chậm lên việc đọc đầu vào.",
+        "Xác định validation cần bối cảnh nhiều dòng và cách kiểm tra giới hạn tài nguyên."
+      ],
+      "pitfalls": [
+        "Đọc cả file vào bộ nhớ hoặc tạo task song song không giới hạn nhưng vẫn gọi pipeline là streaming."
+      ],
+      "followups": [
+        "Bạn xử lý quy tắc phát hiện trùng trên toàn bộ file như thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S03-Q031",
+    "phase": "failure",
+    "order": 50,
+    "version_sensitive": false,
+    "en": {
+      "question": "If an import fails near the end, when would you roll back the whole import, and when would you retain valid rows and report failures?",
+      "explanation": "Define the business meaning of success before choosing recovery behavior. Explain what the user can safely do after receiving a partial result.",
+      "intent": "Choose an import failure contract and defend its recovery implications.",
+      "scope": "State whether rows are independent, which failures occurred and the retry/resume requirements. Do not silently change an all-or-nothing requirement into partial success.",
+      "senior_signals": [
+        "Connects the choice to business consistency and a clear per-job/per-row outcome.",
+        "Handles retry, reconciliation and error reporting without losing or duplicating accepted work."
+      ],
+      "pitfalls": [
+        "Choosing the faster approach without defining the resulting data state or user contract."
+      ],
+      "followups": [
+        "How would a retry know which rows have already been accepted?"
+      ]
+    },
+    "vi": {
+      "question": "Nếu import thất bại gần cuối, khi nào bạn rollback toàn bộ, và khi nào giữ các dòng hợp lệ rồi báo lỗi?",
+      "explanation": "Định nghĩa ý nghĩa thành công theo nghiệp vụ trước khi chọn hành vi phục hồi. Giải thích người dùng có thể làm gì an toàn sau khi nhận kết quả một phần.",
+      "intent": "Chọn hợp đồng thất bại của import và bảo vệ hệ quả phục hồi.",
+      "scope": "Nêu các dòng có độc lập không, lỗi nào đã xảy ra và yêu cầu retry/resume. Không âm thầm đổi yêu cầu all-or-nothing (thành công toàn bộ hoặc không giữ dòng nào) thành thành công một phần.",
+      "senior_signals": [
+        "Gắn lựa chọn với nhất quán nghiệp vụ và kết quả rõ ràng theo job/dòng.",
+        "Xử lý retry, đối soát và báo lỗi mà không mất hoặc lặp phần đã được chấp nhận."
+      ],
+      "pitfalls": [
+        "Chọn cách nhanh hơn nhưng không định nghĩa trạng thái dữ liệu thu được hoặc hợp đồng với người dùng."
+      ],
+      "followups": [
+        "Một lần retry biết những dòng nào đã được chấp nhận bằng cách nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S03-Q032",
+    "phase": "application",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "Given Department and Employee in a one-to-many relationship, write a query returning departments with more than three employees. Explain how you would check the result.",
+      "explanation": "Translate the relationship and threshold into one result row per department. The task asks for an exact count contract, not an approximate headcount.",
+      "intent": "Implement and verify grouping at the correct department identity.",
+      "scope": "Assume unique, non-null department and employee IDs and one department per employee. Count all employees; active-only and zero-count reports are added variations, not the original requirement.",
+      "senior_signals": [
+        "Explains the grouping identity, counted value and exact threshold.",
+        "Checks zero, three and four employees, duplicate department names and nullable employee names."
+      ],
+      "pitfalls": [
+        "Grouping only by a display name or interpreting 'more than three' as including three."
+      ],
+      "followups": [
+        "How would the query change if every department must be returned, including those with no employees?",
+        "What could change if another one-to-many table is joined before counting?"
+      ]
+    },
+    "vi": {
+      "question": "Cho Department và Employee có quan hệ một–nhiều, viết truy vấn trả các phòng ban có hơn ba nhân viên. Giải thích cách bạn kiểm tra kết quả.",
+      "explanation": "Chuyển quan hệ và ngưỡng thành kết quả có một dòng cho mỗi phòng ban. Bài yêu cầu hợp đồng đếm chính xác, không phải số nhân viên ước lượng.",
+      "intent": "Triển khai và kiểm chứng việc nhóm theo đúng danh tính phòng ban.",
+      "scope": "Giả định ID phòng ban và nhân viên duy nhất, không NULL, mỗi nhân viên thuộc một phòng ban. Đếm mọi nhân viên; báo cáo chỉ active và báo cáo số 0 là biến thể bổ sung, không phải yêu cầu gốc.",
+      "senior_signals": [
+        "Giải thích khóa xác định nhóm, giá trị được đếm và ngưỡng chính xác.",
+        "Kiểm tra 0, 3, 4 nhân viên, tên phòng ban trùng và tên nhân viên có thể NULL."
+      ],
+      "pitfalls": [
+        "Chỉ nhóm theo tên hiển thị hoặc hiểu 'hơn ba' là bao gồm cả ba."
+      ],
+      "followups": [
+        "Truy vấn thay đổi thế nào nếu phải trả mọi phòng ban, kể cả phòng ban chưa có nhân viên?",
+        "Điều gì có thể thay đổi nếu JOIN thêm một bảng một–nhiều trước khi đếm?"
+      ]
+    }
+  },
+  {
+    "question_id": "S03-Q033",
+    "phase": "application",
+    "order": 30,
+    "version_sensitive": false,
+    "en": {
+      "question": "Can a LEFT JOIN query be rewritten using RIGHT JOIN while preserving its result? Explain what must be compared or changed.",
+      "explanation": "Equivalence means retaining the same projected rows and values, including unmatched data. Consider the whole query rather than replacing one keyword.",
+      "intent": "Reason about outer-join equivalence from a concrete data example.",
+      "scope": "State both input tables, join predicates, filters and selected columns. Row ordering requires an explicit ORDER BY; duplicate rows remain relevant to result equivalence.",
+      "senior_signals": [
+        "Tracks which side's unmatched rows must survive and checks null-extended results.",
+        "Tests matching, unmatched and duplicate input cases against the full query."
+      ],
+      "pitfalls": [
+        "Changing LEFT to RIGHT without examining table positions, column projection or filters."
+      ],
+      "followups": [
+        "How would a filter on the unmatched side affect your equivalence check?"
+      ]
+    },
+    "vi": {
+      "question": "Có thể viết lại truy vấn LEFT JOIN bằng RIGHT JOIN mà vẫn giữ kết quả không? Giải thích những gì cần so sánh hoặc thay đổi.",
+      "explanation": "Tương đương nghĩa là giữ cùng các dòng và giá trị được chọn, kể cả dữ liệu không ghép được. Xét cả truy vấn thay vì thay một từ khóa.",
+      "intent": "Lập luận về sự tương đương của outer join từ một ví dụ dữ liệu cụ thể.",
+      "scope": "Nêu hai bảng đầu vào, điều kiện JOIN, bộ lọc và cột được chọn. Thứ tự dòng cần ORDER BY rõ ràng; dòng trùng vẫn quan trọng khi so sánh kết quả.",
+      "senior_signals": [
+        "Theo dõi dòng không ghép được của phía nào phải được giữ và kiểm tra kết quả được bổ sung NULL.",
+        "Kiểm tra trường hợp ghép được, không ghép được và đầu vào trùng với toàn bộ truy vấn."
+      ],
+      "pitfalls": [
+        "Đổi LEFT thành RIGHT mà không xét vị trí bảng, cột đầu ra hoặc bộ lọc."
+      ],
+      "followups": [
+        "Bộ lọc đặt trên phía có dòng không ghép được ảnh hưởng thế nào đến phép kiểm tra tương đương?"
+      ]
+    }
+  },
+  {
+    "question_id": "S03-Q034",
+    "phase": "foundation",
+    "order": 10,
+    "version_sensitive": true,
+    "en": {
+      "question": "Compare a primary key and a unique constraint. How would you choose them for a row identity and another business key?",
+      "explanation": "Explain the roles of identity and uniqueness in a schema. Distinguish the logical constraint from implementation details of indexes.",
+      "intent": "Design key constraints from the meaning of the data.",
+      "scope": "Specify SQL Server version, nullability and whether keys are composite. Verify documented constraint/index behavior instead of transferring assumptions from another database.",
+      "senior_signals": [
+        "Separates the chosen row identity from other uniqueness requirements.",
+        "Uses invalid insert/update examples to test the intended schema contract."
+      ],
+      "pitfalls": [
+        "Defining the difference only as clustered versus nonclustered, without discussing identity or nullability."
+      ],
+      "followups": [
+        "How would you model an optional business identifier that must be unique when provided?"
+      ]
+    },
+    "vi": {
+      "question": "So sánh primary key và unique constraint. Bạn chọn chúng như thế nào cho danh tính dòng và một khóa nghiệp vụ khác?",
+      "explanation": "Giải thích vai trò của danh tính và tính duy nhất trong schema. Phân biệt ràng buộc logic với chi tiết triển khai bằng index.",
+      "intent": "Thiết kế ràng buộc khóa từ ý nghĩa dữ liệu.",
+      "scope": "Nêu phiên bản SQL Server, khả năng NULL và khóa có nhiều cột hay không. Xác minh hành vi constraint/index được tài liệu mô tả thay vì mang giả định từ cơ sở dữ liệu khác sang.",
+      "senior_signals": [
+        "Tách danh tính dòng được chọn khỏi các yêu cầu duy nhất khác.",
+        "Dùng ví dụ insert/update không hợp lệ để kiểm tra hợp đồng schema mong muốn."
+      ],
+      "pitfalls": [
+        "Chỉ định nghĩa khác biệt là clustered hay nonclustered mà không bàn về danh tính hoặc NULL."
+      ],
+      "followups": [
+        "Bạn mô hình hóa một mã nghiệp vụ không bắt buộc nhưng phải duy nhất khi được cung cấp như thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S03-Q035",
+    "phase": "mechanism",
+    "order": 20,
+    "version_sensitive": true,
+    "en": {
+      "question": "How do nullable values interact with a uniqueness requirement in your database? Define the expected behavior before choosing a constraint or index.",
+      "explanation": "A missing value and a duplicate provided value are different business cases. Make the schema's accepted and rejected inputs explicit.",
+      "intent": "Translate an optional-value requirement into testable uniqueness semantics.",
+      "scope": "Start with SQL Server, its version, single/composite columns and the chosen constraint/index form. Consult official documentation; different database systems must not be assumed equivalent.",
+      "senior_signals": [
+        "Predicts acceptance of several NULL and repeated non-NULL examples within the declared scope.",
+        "Tests the selected database mechanism against the intended business rule."
+      ],
+      "pitfalls": [
+        "Using a blanket claim about SQL NULL uniqueness without specifying the engine or key form."
+      ],
+      "followups": [
+        "What additional cases would you test for a two-column unique key with one nullable column?"
+      ]
+    },
+    "vi": {
+      "question": "Giá trị có thể NULL tương tác thế nào với yêu cầu duy nhất trong cơ sở dữ liệu bạn dùng? Định nghĩa hành vi mong muốn trước khi chọn constraint hoặc index.",
+      "explanation": "Giá trị thiếu và giá trị đã cung cấp bị trùng là hai trường hợp nghiệp vụ khác nhau. Nêu rõ những đầu vào schema phải chấp nhận hoặc từ chối.",
+      "intent": "Chuyển yêu cầu về giá trị không bắt buộc thành quy tắc duy nhất có thể kiểm thử.",
+      "scope": "Bắt đầu với SQL Server, phiên bản, khóa một/nhiều cột và dạng constraint/index đã chọn. Đọc tài liệu chính thức; không mặc định các hệ cơ sở dữ liệu tương đương.",
+      "senior_signals": [
+        "Dự đoán việc chấp nhận nhiều giá trị NULL và giá trị khác NULL bị lặp trong phạm vi đã nêu.",
+        "Kiểm tra cơ chế cơ sở dữ liệu đã chọn với quy tắc nghiệp vụ mong muốn."
+      ],
+      "pitfalls": [
+        "Khẳng định chung về tính duy nhất của NULL trong SQL mà không nêu engine hoặc dạng khóa."
+      ],
+      "followups": [
+        "Bạn thêm trường hợp kiểm thử nào cho unique key hai cột khi một cột có thể NULL?"
+      ]
+    }
+  },
+  {
+    "question_id": "S03-Q036",
+    "phase": "failure",
+    "order": 20,
+    "version_sensitive": true,
+    "en": {
+      "question": "A SQL Server stored procedure is slow. How would you locate the expensive work and choose the next investigation using execution evidence?",
+      "explanation": "Separate the observed symptom from candidate causes inside or around the procedure. Explain the measurement that would decide between those causes.",
+      "intent": "Investigate procedure latency through falsifiable hypotheses.",
+      "scope": "State SQL Server version, representative parameters, workload and available diagnostics. Verify tooling behavior in official documentation; no execution plan or timings are supplied.",
+      "senior_signals": [
+        "Obtains the executed statements, plans, waits and reads relevant to the slow call.",
+        "Compares equivalent inputs before/after a change and checks that results remain correct."
+      ],
+      "pitfalls": [
+        "Recommending an index or recompilation before identifying the expensive statement and evidence."
+      ],
+      "followups": [
+        "How would you investigate a procedure that is slow only for some parameter values?"
+      ]
+    },
+    "vi": {
+      "question": "Một stored procedure SQL Server chạy chậm. Bạn xác định phần việc tốn kém và chọn bước điều tra tiếp theo bằng bằng chứng thực thi như thế nào?",
+      "explanation": "Tách triệu chứng quan sát được khỏi các nguyên nhân có thể nằm trong hoặc xung quanh procedure. Giải thích số đo quyết định giữa các nguyên nhân đó.",
+      "intent": "Điều tra latency của procedure bằng giả thuyết có thể bác bỏ.",
+      "scope": "Nêu phiên bản SQL Server, tham số đại diện, workload và công cụ chẩn đoán sẵn có. Xác minh hành vi công cụ qua tài liệu chính thức; chưa có plan hay số đo thời gian được cung cấp.",
+      "senior_signals": [
+        "Thu thập statement thực thi, plan, wait và số lần đọc liên quan đến lời gọi chậm.",
+        "So sánh đầu vào tương đương trước/sau thay đổi và kiểm tra kết quả vẫn đúng."
+      ],
+      "pitfalls": [
+        "Đề xuất index hoặc recompile trước khi xác định statement tốn kém và bằng chứng."
+      ],
+      "followups": [
+        "Bạn điều tra thế nào khi procedure chỉ chậm với một số giá trị tham số?"
+      ]
+    }
+  },
+  {
+    "question_id": "S03-SC001",
+    "phase": "production",
+    "order": 60,
+    "version_sensitive": true,
+    "en": {
+      "question": "A query joining several tables is slow in a large database. How would you build an evidence-led investigation and demonstrate that a change helps?",
+      "explanation": "Cover the actual generated query, execution plans, indexing and query profiling/monitoring. Examine whether only required columns and rows are retrieved, cardinality/selectivity, SARGability (whether a predicate permits an index-based search) and statistics.",
+      "intent": "Organize several diagnostic observations into a justified optimization decision.",
+      "scope": "Use SQL Server with its version, configuration and representative inputs stated; verify diagnostic capabilities in official documentation. Include logical reads and duration, comparing measurements before/after a change under equivalent conditions. All ten source angles remain part of this single scenario.",
+      "senior_signals": [
+        "Prioritizes hypotheses from observed work rather than applying every tuning technique.",
+        "Connects the chosen change to its evidence, verifies result correctness and checks workload regressions."
+      ],
+      "pitfalls": [
+        "Answering only 'add an index' or presenting a faster run with different inputs as proof."
+      ],
+      "followups": [
+        "Which observation would make you investigate row estimates before changing an index?",
+        "How would you separate database execution time from time spent transferring or consuming the result?"
+      ]
+    },
+    "vi": {
+      "question": "Một truy vấn JOIN nhiều bảng chạy chậm trên cơ sở dữ liệu lớn. Bạn tổ chức điều tra dựa trên bằng chứng và chứng minh thay đổi có ích như thế nào?",
+      "explanation": "Xét SQL thực sự được sinh ra, execution plan, index và profiling/monitoring truy vấn. Kiểm tra có lấy đúng các cột và dòng cần thiết không, cardinality/selectivity, SARGability (khả năng điều kiện cho phép tìm qua index) và statistics.",
+      "intent": "Kết nối nhiều quan sát chẩn đoán thành quyết định tối ưu có lập luận.",
+      "scope": "Dùng SQL Server với phiên bản, cấu hình và đầu vào đại diện rõ ràng; xác minh khả năng chẩn đoán qua tài liệu chính thức. Xét logical reads và thời gian chạy, so sánh trước/sau thay đổi trong điều kiện tương đương. Cả mười góc điều tra trong nguồn vẫn thuộc một scenario này.",
+      "senior_signals": [
+        "Ưu tiên giả thuyết từ công việc đã quan sát thay vì áp dụng mọi kỹ thuật tuning.",
+        "Gắn thay đổi được chọn với bằng chứng, kiểm tra kết quả đúng và regression của workload."
+      ],
+      "pitfalls": [
+        "Chỉ trả lời 'thêm index' hoặc dùng lần chạy nhanh hơn với đầu vào khác làm bằng chứng."
+      ],
+      "followups": [
+        "Quan sát nào khiến bạn điều tra số dòng ước tính trước khi thay đổi index?",
+        "Bạn tách thời gian thực thi cơ sở dữ liệu khỏi thời gian truyền hoặc xử lý kết quả như thế nào?"
+      ]
+    }
+  }
+]

@@ -8,6 +8,11 @@ profile preference; otherwise default to English. Interview model answers stay
 English by default. Language variants share one lesson ID and state record.
 User instructions take precedence.
 
+Question groups and EN/VI annotations live in `_data/question_bank/`; generated
+pages are under `questions/` and `vi/questions/`. Reuse catalog topic IDs and read
+the preserved source behind each alias. Follow docs/question-bank.md and run
+`python scripts/question_bank.py --check`; bank work never creates learner history.
+
 Select the topic autonomously when asked for a new lesson. Generated lessons are
 already delivered content, not evidence of learning. Never infer completion,
 scores, experience, or benchmark results. Reviews are separate from new lessons.

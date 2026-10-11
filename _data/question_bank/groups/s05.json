@@ -1,0 +1,266 @@
+[
+  {
+    "group_id": "azure-operations-iac",
+    "representative_question_id": "S05-Q027",
+    "en": {
+      "title": "Reproducible cloud changes across environments",
+      "goal": "Design a cloud environment change that can be reproduced, checked and operated within explicit capacity and cost limits.",
+      "competencies": [
+        "Trace an infrastructure definition from review to the resulting resources.",
+        "Promote one application artifact with controlled environment configuration.",
+        "Choose a scaling policy from workload evidence and state when it should change."
+      ],
+      "bridge": "An environment definition describes what should exist; configuration determines how the artifact uses it; scaling controls capacity as demand changes. Follow that chain to explain what is reviewed, what differs between environments and what must be observed after deployment.",
+      "scenario": "An ASP.NET Core service passes staging, but production uses a different database endpoint and its replicas keep increasing during peak traffic. Produce a change plan showing artifact identity, infrastructure and configuration ownership, scaling hypotheses, validation and a safe recovery decision. Establish the actual Azure service and policy before making provider-specific claims.",
+      "rubric": {
+        "basic": "Defines infrastructure as code, environment configuration and autoscaling, with a concrete purpose for each.",
+        "senior": "Connects definitions, artifact promotion and measured capacity into one change plan; defends limits and a representative validation path.",
+        "evidence_missing": "A checked-in template or utilization screenshot alone does not show deployed configuration, artifact identity or the effect of a scaling change."
+      }
+    },
+    "vi": {
+      "title": "Thay đổi cloud có thể tái lập qua các môi trường",
+      "goal": "Thiết kế thay đổi môi trường cloud có thể tái lập, kiểm chứng và vận hành trong giới hạn năng lực cùng chi phí rõ ràng.",
+      "competencies": [
+        "Theo dấu định nghĩa hạ tầng từ review đến các tài nguyên được tạo.",
+        "Đưa cùng một artifact ứng dụng qua môi trường với cấu hình được kiểm soát.",
+        "Chọn chính sách scaling từ bằng chứng workload và nêu khi nào cần đổi."
+      ],
+      "bridge": "Định nghĩa môi trường mô tả thứ cần tồn tại; cấu hình quyết định artifact sử dụng chúng ra sao; scaling điều chỉnh năng lực khi nhu cầu thay đổi. Đi theo chuỗi này để giải thích thứ được review, khác biệt giữa môi trường và điều phải quan sát sau triển khai.",
+      "scenario": "Service ASP.NET Core pass staging nhưng production dùng endpoint database khác, và số replica liên tục tăng vào giờ cao điểm. Lập kế hoạch thay đổi thể hiện danh tính artifact, bên sở hữu hạ tầng và cấu hình, giả thuyết scaling, kiểm chứng và quyết định phục hồi an toàn. Xác định Azure service và policy thực tế trước khi đưa nhận định riêng của nhà cung cấp.",
+      "rubric": {
+        "basic": "Định nghĩa infrastructure as code, cấu hình môi trường và autoscaling, với mục đích cụ thể cho từng phần.",
+        "senior": "Nối định nghĩa, đưa artifact qua môi trường và năng lực đo được thành một kế hoạch; bảo vệ giới hạn và đường kiểm chứng đại diện.",
+        "evidence_missing": "Chỉ có template đã commit hoặc ảnh utilization chưa thể hiện cấu hình triển khai, danh tính artifact hay tác động đổi scaling."
+      }
+    }
+  },
+  {
+    "group_id": "azure-service-selection",
+    "representative_question_id": "S05-Q018",
+    "en": {
+      "title": "Choose cloud services from the workload",
+      "goal": "Choose and defend a cloud processing path from workload, data and recipient requirements.",
+      "competencies": [
+        "Explain when function-based execution fits the work lifecycle.",
+        "Choose object or relational storage from concrete access and consistency needs.",
+        "Distinguish message recipient topology from worker count.",
+        "Trace interrupted processing and define the recovery evidence required."
+      ],
+      "bridge": "Start with what the application must do and where its data lives. Execution handles the work, storage holds the resulting state, and messaging connects independent recipients. The questions build that processing path before asking whether a failed step can recover.",
+      "scenario": "A browser uploads a document for background validation. The application must retain the original file and validation status, and reporting plus notification consumers need the result independently. Propose execution, storage and messaging boundaries; compare an alternative and describe a failed processing attempt. Specify the chosen cloud service and verify its documented limits before relying on them.",
+      "rubric": {
+        "basic": "Identifies functions, blob storage, relational storage and message distribution with plausible uses.",
+        "senior": "Defends one processing path from access, recipient and recovery requirements; states a limit that changes the choice and how to verify it.",
+        "evidence_missing": "Product names or a diagram without data ownership, failure states or a representative verification plan do not establish reliability or cost."
+      }
+    },
+    "vi": {
+      "title": "Chọn cloud service từ nhu cầu workload",
+      "goal": "Chọn và bảo vệ đường xử lý trên cloud dựa trên công việc, dữ liệu và yêu cầu bên nhận.",
+      "competencies": [
+        "Giải thích khi nào thực thi bằng functions phù hợp với vòng đời công việc.",
+        "Chọn object hoặc relational storage từ nhu cầu truy cập và nhất quán cụ thể.",
+        "Phân biệt cấu trúc bên nhận message với số worker.",
+        "Theo dấu xử lý gián đoạn và xác định bằng chứng phục hồi cần có."
+      ],
+      "bridge": "Bắt đầu từ việc ứng dụng cần làm và nơi dữ liệu được giữ. Phần thực thi xử lý công việc, lưu trữ giữ trạng thái kết quả và messaging nối các bên nhận độc lập. Các câu hỏi xây dựng đường xử lý đó trước khi xét khả năng phục hồi một bước thất bại.",
+      "scenario": "Trình duyệt tải tài liệu lên để kiểm tra nền. Ứng dụng cần giữ file gốc và trạng thái kiểm tra; consumer báo cáo và thông báo cần kết quả độc lập. Đề xuất ranh giới thực thi, lưu trữ và messaging; so sánh phương án khác và mô tả một lần xử lý thất bại. Nêu cloud service đã chọn và kiểm tra giới hạn được tài liệu xác nhận trước khi dựa vào chúng.",
+      "rubric": {
+        "basic": "Nhận diện functions, blob storage, relational storage và cách phân phối message cùng trường hợp dùng hợp lý.",
+        "senior": "Bảo vệ một đường xử lý từ yêu cầu truy cập, bên nhận và phục hồi; nêu giới hạn khiến đổi lựa chọn và cách kiểm chứng.",
+        "evidence_missing": "Tên sản phẩm hoặc sơ đồ thiếu sở hữu dữ liệu, trạng thái lỗi hay kế hoạch kiểm chứng đại diện chưa xác lập độ tin cậy hoặc chi phí."
+      }
+    }
+  },
+  {
+    "group_id": "devops-container-delivery",
+    "representative_question_id": "S05-Q035",
+    "en": {
+      "title": "Know what the deployable image guarantees",
+      "goal": "Deliver an identifiable application image while explaining its host, configuration and secret boundaries.",
+      "competencies": [
+        "Explain what packaging reproduces and which environment differences remain.",
+        "Choose container or virtual-machine isolation for the workload.",
+        "Trace layers and build stages into final-image contents.",
+        "Explain configuration and secret delivery without claiming protection from a location name alone."
+      ],
+      "bridge": "Docker addresses part of the journey from source code to a running process. Compare the host boundary, then trace the build into an image and the image into a configured application. That sequence separates what is fixed in the artifact from what deployment must provide.",
+      "scenario": "A .NET container works locally but fails in staging after a database credential changes. Inspect the image identity and contents, deployment settings and credential access. Explain how you would reproduce the failure without exposing secrets, identify the responsible boundary and verify the proposed correction. Use the related environment-configuration question when comparing promotion across environments.",
+      "rubric": {
+        "basic": "Explains images, containers, virtual machines and build stages with a clear packaging example.",
+        "senior": "Traces artifact contents and host/runtime inputs, defends isolation and secret handling, and chooses evidence that distinguishes a build error from a deployment error.",
+        "evidence_missing": "A successful local run or a small image size alone does not show isolation suitability, credential protection or production compatibility."
+      }
+    },
+    "vi": {
+      "title": "Hiểu image triển khai bảo đảm điều gì",
+      "goal": "Đưa ra image ứng dụng có danh tính rõ ràng và giải thích ranh giới host, cấu hình cùng secret.",
+      "competencies": [
+        "Giải thích đóng gói tái lập điều gì và khác biệt môi trường nào còn lại.",
+        "Chọn cô lập bằng container hoặc máy ảo cho workload.",
+        "Theo dấu layers và build stages đến nội dung image cuối.",
+        "Giải thích cấp cấu hình và secret mà không suy ra độ bảo vệ chỉ từ tên nơi lưu."
+      ],
+      "bridge": "Docker giải quyết một phần hành trình từ source code đến tiến trình chạy. So sánh ranh giới host, rồi theo dấu build thành image và image thành ứng dụng được cấu hình. Trình tự đó tách thứ cố định trong artifact khỏi thứ deployment phải cung cấp.",
+      "scenario": "Container .NET chạy ở local nhưng lỗi tại staging sau khi thông tin xác thực database đổi. Kiểm tra danh tính và nội dung image, thiết lập triển khai cùng quyền đọc thông tin xác thực. Giải thích cách tái hiện lỗi mà không lộ secret, xác định ranh giới chịu trách nhiệm và kiểm chứng cách sửa. Dùng câu hỏi cấu hình môi trường liên quan khi so sánh việc đưa artifact qua các môi trường.",
+      "rubric": {
+        "basic": "Giải thích image, container, máy ảo và build stages bằng ví dụ đóng gói rõ ràng.",
+        "senior": "Theo dấu nội dung artifact cùng đầu vào host/runtime, bảo vệ lựa chọn cô lập và xử lý secret, chọn bằng chứng phân biệt lỗi build với lỗi deployment.",
+        "evidence_missing": "Chạy local thành công hoặc image nhỏ chưa thể hiện mức cô lập phù hợp, bảo vệ thông tin xác thực hay tương thích production."
+      }
+    }
+  },
+  {
+    "group_id": "devops-safe-release",
+    "representative_question_id": "S05-Q042",
+    "en": {
+      "title": "Release and recover using evidence",
+      "goal": "Make a release proceed, stop or recover according to observable risk and compatibility boundaries.",
+      "competencies": [
+        "Define gates that address specific release risks.",
+        "Trace readiness and shutdown while work is in flight.",
+        "Explain what remains after code rollback and check version compatibility.",
+        "Compare rollout strategies using traffic exposure and recovery constraints."
+      ],
+      "bridge": "A release first needs evidence to advance. Instances must then become ready and stop safely as traffic changes. If observations are unfavorable, recovery depends on what the new version has already changed; compare rollout strategies within that lifecycle rather than as isolated names.",
+      "scenario": "A new ASP.NET Core release changes stored data while old instances still receive traffic. Some requests are long-running, and errors rise during rollout. Specify gates, instance readiness and stopping behavior, a traffic strategy, and conditions for continuing or recovering. Explain which data or external effects may outlive a code rollback and how to rehearse the decision.",
+      "rubric": {
+        "basic": "Names gates, rollout options and lifecycle checks and explains their immediate purpose.",
+        "senior": "Connects traffic, in-flight work and persistent effects into a bounded release/recovery decision; tests compatibility and defines observable stop conditions.",
+        "evidence_missing": "A green pipeline or an available old image alone does not establish safe traffic transition, data compatibility or recovery."
+      }
+    },
+    "vi": {
+      "title": "Phát hành và phục hồi dựa trên bằng chứng",
+      "goal": "Quyết định tiếp tục, dừng hoặc phục hồi bản phát hành theo rủi ro quan sát được và ranh giới tương thích.",
+      "competencies": [
+        "Định nghĩa gates xử lý các nguy cơ phát hành cụ thể.",
+        "Theo dấu readiness và shutdown trong lúc công việc đang chạy.",
+        "Giải thích thứ còn lại sau rollback code và kiểm tra tương thích phiên bản.",
+        "So sánh chiến lược rollout từ mức phơi bày traffic và ràng buộc phục hồi."
+      ],
+      "bridge": "Bản phát hành cần bằng chứng để tiến lên. Sau đó instance phải sẵn sàng và dừng an toàn khi traffic thay đổi. Nếu quan sát xấu đi, phục hồi phụ thuộc những gì bản mới đã thay đổi; so sánh rollout trong vòng đời đó thay vì xem chúng là các tên riêng lẻ.",
+      "scenario": "Bản ASP.NET Core mới thay đổi dữ liệu lưu trong khi instance cũ vẫn nhận traffic. Một số request chạy lâu và lỗi tăng khi rollout. Xác định gates, hành vi sẵn sàng và dừng instance, chiến lược traffic và điều kiện tiếp tục hoặc phục hồi. Giải thích dữ liệu hay tác động bên ngoài nào có thể tồn tại sau rollback code và cách diễn tập quyết định.",
+      "rubric": {
+        "basic": "Nêu gates, phương án rollout và kiểm tra vòng đời cùng mục đích trực tiếp của chúng.",
+        "senior": "Nối traffic, công việc đang chạy và tác động còn lưu thành quyết định phát hành/phục hồi có giới hạn; kiểm thử tương thích và định nghĩa điều kiện dừng quan sát được.",
+        "evidence_missing": "Pipeline xanh hoặc có image cũ chưa xác lập việc chuyển traffic an toàn, tương thích dữ liệu hay phục hồi."
+      }
+    }
+  },
+  {
+    "group_id": "security-browser-transport",
+    "representative_question_id": "S05-Q015",
+    "en": {
+      "title": "Separate browser and transport trust boundaries",
+      "goal": "Review a browser-to-API interaction by matching each security risk to the boundary it crosses.",
+      "competencies": [
+        "Explain transport protection and where it ends.",
+        "Trace a TLS connection setup and a failed trust check.",
+        "Distinguish cross-origin browser policy from CSRF/XSS attack scenarios using interaction and credential behavior.",
+        "Check that diagnostic paths do not expose credentials or private data."
+      ],
+      "bridge": "Follow the interaction from the network connection to browser behavior and application logs. Transport trust establishes one boundary; browser-originated actions and untrusted content introduce others. The final questions examine whether the diagnostic evidence creates a new exposure.",
+      "scenario": "An Angular application calls an API through an HTTPS-terminating proxy, sends credentials and renders user-supplied text. A support feature captures failed request details. Draw the boundaries, create separate attack or failure scenarios and propose checks for transport, browser behavior and logging. Establish the actual TLS and credential configuration before making implementation claims.",
+      "rubric": {
+        "basic": "Defines HTTP/HTTPS, TLS, CORS, CSRF and XSS, and recognizes sensitive logging information.",
+        "senior": "Explains distinct causal threats and matching controls with their limits; tests failure paths and credential exposure across the actual boundaries.",
+        "evidence_missing": "A padlock icon, CORS configuration or a statement that secrets are not logged does not prove the other boundaries are protected."
+      }
+    },
+    "vi": {
+      "title": "Tách ranh giới tin cậy của trình duyệt và đường truyền",
+      "goal": "Review tương tác trình duyệt–API bằng cách gắn mỗi nguy cơ bảo mật với ranh giới nó đi qua.",
+      "competencies": [
+        "Giải thích bảo vệ đường truyền và nơi bảo vệ đó kết thúc.",
+        "Theo dấu thiết lập kết nối TLS và một kiểm tra tin cậy thất bại.",
+        "Tách chính sách truy cập khác origin khỏi tình huống tấn công CSRF/XSS bằng tương tác và cách gửi thông tin xác thực.",
+        "Kiểm tra đường chẩn đoán không làm lộ thông tin xác thực hay dữ liệu riêng tư."
+      ],
+      "bridge": "Đi theo tương tác từ kết nối mạng đến hành vi trình duyệt và log ứng dụng. Tin cậy đường truyền xác lập một ranh giới; hành động xuất phát từ trình duyệt và nội dung không tin cậy tạo các ranh giới khác. Những câu cuối xét bằng chứng chẩn đoán có tạo nguy cơ lộ mới hay không.",
+      "scenario": "Ứng dụng Angular gọi API qua proxy kết thúc HTTPS, gửi thông tin xác thực và render văn bản do người dùng cung cấp. Tính năng hỗ trợ ghi chi tiết request thất bại. Vẽ các ranh giới, tạo tình huống tấn công hoặc lỗi riêng và đề xuất kiểm tra đường truyền, hành vi trình duyệt cùng logging. Xác định cấu hình TLS và thông tin xác thực thực tế trước khi nhận định cơ chế triển khai.",
+      "rubric": {
+        "basic": "Định nghĩa HTTP/HTTPS, TLS, CORS, CSRF, XSS và nhận ra thông tin nhạy cảm trong logging.",
+        "senior": "Giải thích mối đe dọa nhân quả riêng và biện pháp phù hợp cùng giới hạn; kiểm thử luồng lỗi và nguy cơ lộ thông tin xác thực qua các ranh giới thực tế.",
+        "evidence_missing": "Biểu tượng ổ khóa, cấu hình CORS hay câu nói không log secret chưa chứng minh các ranh giới khác được bảo vệ."
+      }
+    }
+  },
+  {
+    "group_id": "security-service-identity",
+    "representative_question_id": "S05-Q009",
+    "en": {
+      "title": "Trace identity across application boundaries",
+      "goal": "Design an identity flow in which every actor’s credentials, permissions and trust boundary are explicit.",
+      "competencies": [
+        "Distinguish OAuth 2.0 and OpenID Connect responsibilities in the selected flow.",
+        "Draw browser-to-API and service-to-service identity interactions.",
+        "Choose credential storage or managed identity from actual platform and access requirements.",
+        "Bound permissions and verify allowed and denied operations."
+      ],
+      "bridge": "Begin with the protocol’s responsibility, then follow the caller through the application. Service-to-service calls change whose authority is represented. Storage and managed identities describe how credentials are obtained; least privilege asks what that identity may actually do.",
+      "scenario": "An Angular SPA accesses an ASP.NET Core API through a gateway, and the API reads a cloud resource. Draw both identity paths and explain each decision owner, credential access and permission boundary. Include a direct-to-backend request and a denied cloud operation in the verification plan. Identify the actual hosting and identity provider before choosing provider-specific configuration.",
+      "rubric": {
+        "basic": "Identifies the actors, protocol roles and distinction between credentials and permissions.",
+        "senior": "Traces both identity paths, defends storage and delegation choices, bounds authority and verifies bypass or denial cases without assuming platform support.",
+        "evidence_missing": "A diagram or a managed-identity label alone does not show which credentials are used, who evaluates access or whether permissions are appropriately limited."
+      }
+    },
+    "vi": {
+      "title": "Theo dấu danh tính qua các ranh giới ứng dụng",
+      "goal": "Thiết kế luồng định danh thể hiện rõ thông tin xác thực, quyền và ranh giới tin cậy của mỗi bên.",
+      "competencies": [
+        "Phân biệt trách nhiệm OAuth 2.0 và OpenID Connect trong luồng đã chọn.",
+        "Vẽ tương tác định danh trình duyệt–API và service–service.",
+        "Chọn nơi lưu thông tin xác thực hoặc managed identity từ nền tảng và yêu cầu truy cập thực tế.",
+        "Giới hạn quyền và kiểm chứng thao tác được phép lẫn bị từ chối."
+      ],
+      "bridge": "Bắt đầu từ trách nhiệm giao thức, rồi theo bên gọi qua ứng dụng. Lời gọi service–service thay đổi quyền của ai được đại diện. Lưu trữ và managed identity mô tả cách lấy thông tin xác thực; least privilege hỏi danh tính đó thực sự được làm gì.",
+      "scenario": "SPA Angular truy cập API ASP.NET Core qua gateway, và API đọc tài nguyên cloud. Vẽ cả hai đường định danh, giải thích bên sở hữu từng quyết định, quyền đọc thông tin xác thực và ranh giới phân quyền. Đưa request gọi thẳng backend và thao tác cloud bị từ chối vào kế hoạch kiểm chứng. Xác định hosting và identity provider thực tế trước khi chọn cấu hình riêng của nhà cung cấp.",
+      "rubric": {
+        "basic": "Nhận diện các bên, vai trò giao thức và khác biệt giữa thông tin xác thực với quyền.",
+        "senior": "Theo dấu cả hai đường định danh, bảo vệ lựa chọn lưu trữ và ủy quyền, giới hạn quyền rồi kiểm chứng trường hợp bypass hoặc từ chối mà không mặc định nền tảng hỗ trợ.",
+        "evidence_missing": "Sơ đồ hoặc nhãn managed identity chưa thể hiện thông tin xác thực được dùng, bên đánh giá truy cập hay mức giới hạn quyền phù hợp."
+      }
+    }
+  },
+  {
+    "group_id": "security-token-lifecycle",
+    "representative_question_id": "S05-Q002",
+    "en": {
+      "title": "Decide access throughout the token lifecycle",
+      "goal": "Explain when a token-based request should be accepted, denied or recovered during its credential lifecycle.",
+      "competencies": [
+        "Separate authentication, token representation and authorization decisions.",
+        "Choose and evaluate claims from API and privacy requirements.",
+        "Trace access-token and refresh-token use, including rotation state.",
+        "Test expiry, revocation and repeated credential use with bounded expectations."
+      ],
+      "bridge": "First establish what identity and permission decisions the API needs. Token structure and claims carry information into those decisions; access and refresh contracts extend them through a session. Rotation, expiry and revocation test whether the same trust boundary still holds when credential state changes.",
+      "scenario": "A SPA makes concurrent API requests as its session approaches expiry. One tab renews credentials while another retries, and an administrator changes the caller’s permissions. Draw token and permission states, explain how the application should respond to each outcome, and define tests for renewal and refusal. Specify the issuer’s documented policy without inventing immediate global revocation guarantees.",
+      "rubric": {
+        "basic": "Explains token parts, identity versus permission and the purpose of access and refresh tokens.",
+        "senior": "Traces acceptance and renewal state across actors, defends claim and permission choices, and checks expiry, reuse and propagation boundaries with evidence.",
+        "evidence_missing": "Decoding a token, showing a login screen or successfully renewing once does not establish validation, authorization or safe concurrent renewal."
+      }
+    },
+    "vi": {
+      "title": "Quyết định quyền truy cập xuyên suốt vòng đời token",
+      "goal": "Giải thích khi nào request dùng token cần được chấp nhận, từ chối hoặc phục hồi trong vòng đời thông tin xác thực.",
+      "competencies": [
+        "Tách authentication, định dạng token và quyết định authorization.",
+        "Chọn và đánh giá claims từ nhu cầu API và yêu cầu riêng tư.",
+        "Theo dấu cách dùng access token và refresh token, gồm trạng thái rotation.",
+        "Kiểm thử hết hạn, thu hồi và dùng lại thông tin xác thực với kỳ vọng có giới hạn."
+      ],
+      "bridge": "Trước tiên xác định API cần quyết định danh tính và quyền nào. Cấu trúc token cùng claims mang thông tin vào các quyết định; hợp đồng access và refresh kéo dài chúng qua phiên. Rotation, hết hạn và thu hồi kiểm tra ranh giới tin cậy còn đúng khi trạng thái thông tin xác thực đổi hay không.",
+      "scenario": "SPA gửi nhiều API request đồng thời khi phiên gần hết hạn. Một tab gia hạn thông tin xác thực trong khi tab khác retry, và quản trị viên thay đổi quyền bên gọi. Vẽ trạng thái token và quyền, giải thích cách ứng dụng phản ứng với từng kết quả, định nghĩa kiểm thử gia hạn và từ chối. Nêu chính sách được tài liệu bên phát hành xác nhận, không bịa bảo đảm thu hồi tức thì ở mọi nơi.",
+      "rubric": {
+        "basic": "Giải thích các phần token, danh tính với quyền và mục đích access token cùng refresh token.",
+        "senior": "Theo dấu trạng thái chấp nhận và gia hạn giữa các bên, bảo vệ lựa chọn claim cùng quyền và kiểm tra ranh giới hết hạn, dùng lại cùng truyền thay đổi bằng bằng chứng.",
+        "evidence_missing": "Đọc được token, thấy màn hình đăng nhập hoặc gia hạn thành công một lần chưa xác lập validation, authorization hay gia hạn đồng thời an toàn."
+      }
+    }
+  }
+]

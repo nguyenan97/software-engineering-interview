@@ -13,6 +13,8 @@ A source-grounded progression for daily Software Engineering interview practice.
 
 ## How to choose a lesson
 
+Use the [structured question bank](../questions/index.md) to choose one small attempt by domain and group. [Question coverage](../questions/coverage.md) traces every source question and documented merge. Groups reuse catalog IDs and prerequisites; they add question interpretation rather than a second curriculum.
+
 Use the agent skill to inspect learning history before selecting a topic. Prefer an uncovered source-direct objective, check its prerequisites, rotate domains and select a manageable lab. Existing generated lessons remain available; completion and review depend on learner evidence.
 
 Foundation develops the mental model; senior applies it to failure, concurrency and evidence; architect examines system boundaries and operational consequences. Level and source ring are independent.

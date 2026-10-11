@@ -44,6 +44,8 @@ Answer the question directly, explain the mechanism with a concrete example, sta
 
 ## Browse the curriculum
 
+- [Senior question bank: domain → group → question](questions/index.md) · [Vietnamese](vi/questions/index.md)
+- [Complete source-to-question coverage](questions/coverage.md) · [Question-bank authoring contract](docs/question-bank.md)
 - [Curriculum and domain routes](curriculum/index.md)
 - [Source coverage, consolidation and gaps](curriculum/source-coverage.md)
 - [Topic taxonomy](agent/TOPIC_TAXONOMY.md)
@@ -53,11 +55,17 @@ Answer the question directly, explain the mechanism with a concrete example, sta
 
 The corpus has **234 numbered prompts**, four scenarios/request-flow sections and its answer structure, organized into **47 topics across 13 domains**. Stable `S01-Q001` IDs preserve traceability. Overlapping prompts point to canonical topics; API request identity, SQL import behavior and consumer deduplication remain distinct objectives. Foundation/senior/architect depth is independent of source-direct/adjacent/extension rings.
 
+The question bank maps all **238 source units** to **228 canonical questions** after ten documented semantic merges, using **46 existing topic IDs as group IDs**. Each group connects a representative question, one objective, prerequisites, an ordered route, source wording, clear EN/VI questions, inferred assessment criteria, added follow-ups and a combined production exercise. The remaining catalog topic is derived collection-reasoning practice, not an extra source question. Original source bodies and anchors remain unchanged.
+
+For a small daily attempt, choose one group and one question, answer before opening its guidance, trace a mechanism and test one failure or changed assumption. Then explain it in 30/90 seconds and correct one gap. For a full lesson, say **“Viết bài học hôm nay bằng tiếng Việt từ một câu hỏi trong bộ này.”** The agent still checks history, prerequisites and semantic novelty. The bank is question framing and an editorial rubric; it does not certify version-specific answers or create learning history.
+
 ## Repository layout
 
 ```text
 agent/          Daily skill, interview method, lesson and state templates
 curriculum/     Catalog, domain routes, source coverage
+questions/      Generated English question groups, daily entry and full coverage
+_data/question_bank/  Shared source inventory and bilingual question/group annotations
 sources/        Six privacy-safe source inventories with stable anchors
 lessons/        Generated lessons and public lesson index
 labs/           Runnable starters, verifiers and reference solutions
@@ -84,6 +92,7 @@ The static website does not read personal state, create lessons or save completi
 python -m pip install -r requirements.txt
 python scripts/learning.py next --date 2026-10-08
 python scripts/validate.py
+python scripts/question_bank.py --check
 python -m unittest discover -s tests -v
 python scripts/package_labs.py --check
 python labs/atomic-inbox/verify.py --solution

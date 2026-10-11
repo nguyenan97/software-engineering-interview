@@ -1,0 +1,626 @@
+[
+  {
+    "question_id": "S06-Q001",
+    "phase": "foundation",
+    "order": 10,
+    "version_sensitive": true,
+    "en": {
+      "question": "How is an Angular application organized, and how do its main parts collaborate when a user changes something on a page?",
+      "explanation": "Explain the architecture through one concrete interaction. Architecture here means responsibilities and connections, rather than a list of Angular features.",
+      "intent": "Trace responsibility boundaries from a UI interaction to the resulting application state.",
+      "scope": "State the Angular version and application setup; verify version-dependent architecture APIs in official documentation. Do not assume that every existing application uses the same bootstrapping style.",
+      "senior_signals": ["Connects components, services and application boundaries in a causal flow.", "Explains which boundary would change when the feature grows and how to check that change."],
+      "pitfalls": ["Names framework features without showing how one interaction travels between them."],
+      "followups": ["Which responsibility would you move if two screens needed the same business operation?", "How would you test that boundary without rendering the whole application?"]
+    },
+    "vi": {
+      "question": "Một ứng dụng Angular được tổ chức như thế nào, và các phần chính phối hợp ra sao khi người dùng thay đổi nội dung trên màn hình?",
+      "explanation": "Giải thích kiến trúc qua một thao tác cụ thể. Kiến trúc ở đây là trách nhiệm và cách các phần kết nối, không chỉ là danh sách tính năng Angular.",
+      "intent": "Theo dõi ranh giới trách nhiệm từ thao tác trên giao diện đến trạng thái ứng dụng sau đó.",
+      "scope": "Nêu phiên bản Angular và cách ứng dụng được thiết lập; đối chiếu API kiến trúc phụ thuộc phiên bản với tài liệu chính thức. Không mặc định mọi ứng dụng hiện có đều khởi tạo theo cùng một cách.",
+      "senior_signals": ["Nối component, service và các ranh giới ứng dụng thành một luồng có nguyên nhân và kết quả.", "Giải thích ranh giới nào cần thay đổi khi tính năng lớn lên và cách kiểm chứng thay đổi đó."],
+      "pitfalls": ["Kể tên các tính năng framework nhưng không chỉ ra một thao tác đi qua chúng thế nào."],
+      "followups": ["Bạn sẽ chuyển trách nhiệm nào nếu hai màn hình cần cùng một thao tác nghiệp vụ?", "Bạn kiểm thử ranh giới đó thế nào mà không render toàn bộ ứng dụng?"]
+    }
+  },
+  {
+    "question_id": "S06-Q002",
+    "phase": "mechanism",
+    "order": 20,
+    "version_sensitive": true,
+    "en": {
+      "question": "How does Angular resolve a component's dependencies, and what determines whether two components receive the same service instance?",
+      "explanation": "Dependency injection supplies an object's collaborators. Explain how the application resolves a requested dependency and how its registration affects the lifetime you rely on.",
+      "intent": "Reason about dependency resolution and instance ownership across component boundaries.",
+      "scope": "Name the Angular version and provider locations in your example; check official documentation for the applicable injector model and APIs.",
+      "senior_signals": ["Uses a concrete component tree and provider configuration to justify instance sharing.", "Identifies a state-isolation or testing consequence and an observable way to verify it."],
+      "pitfalls": ["Calls every service a singleton without examining its registration or injector boundary."],
+      "followups": ["How would you investigate state unexpectedly shared between two editor components?", "What changes if a test supplies a different implementation of the dependency?"]
+    },
+    "vi": {
+      "question": "Angular tìm dependency cho một component như thế nào, và điều gì quyết định hai component nhận cùng hay khác instance của một service?",
+      "explanation": "Dependency injection cung cấp những đối tượng mà một đối tượng cần để làm việc. Hãy giải thích quá trình tìm dependency được yêu cầu và cách đăng ký ảnh hưởng đến vòng đời mà bạn dựa vào.",
+      "intent": "Lập luận về cách tìm dependency và quyền sở hữu instance giữa các component.",
+      "scope": "Nêu phiên bản Angular và vị trí đăng ký provider trong ví dụ; kiểm tra mô hình injector và API tương ứng trong tài liệu chính thức.",
+      "senior_signals": ["Dùng cây component và cấu hình provider cụ thể để giải thích việc chia sẻ instance.", "Chỉ ra hệ quả đối với việc tách trạng thái hoặc kiểm thử, cùng cách quan sát để xác nhận."],
+      "pitfalls": ["Gọi mọi service là singleton mà không xét cách đăng ký hay ranh giới injector."],
+      "followups": ["Bạn điều tra thế nào khi hai component chỉnh sửa lại chia sẻ trạng thái ngoài ý muốn?", "Điều gì thay đổi nếu bài kiểm thử cung cấp một implementation khác của dependency?"]
+    }
+  },
+  {
+    "question_id": "S06-Q003",
+    "phase": "mechanism",
+    "order": 30,
+    "version_sensitive": true,
+    "en": {
+      "question": "What happens when a user navigates to an Angular route that loads code lazily, and how would you choose that loading boundary?",
+      "explanation": "Lazy loading defers loading a portion of application code until it is needed. Describe navigation and loading as one user-visible flow, including an unsuccessful load.",
+      "intent": "Explain route-to-screen execution and justify a loading boundary.",
+      "scope": "State the Angular version, route configuration and navigation scenario; confirm the relevant router APIs in official documentation. Distinguish first navigation from revisiting the route.",
+      "senior_signals": ["Traces navigation, loading and screen availability without assuming code is already present.", "Supports the chosen boundary with observable loading behavior and a failure-handling plan."],
+      "pitfalls": ["Treats lazy loading as an automatic performance improvement without considering the navigation delay."],
+      "followups": ["What should the user see if the route's code cannot be downloaded?", "What evidence would make you preload this route instead?"]
+    },
+    "vi": {
+      "question": "Điều gì xảy ra khi người dùng mở một route Angular được lazy load, và bạn chọn ranh giới tải mã đó như thế nào?",
+      "explanation": "Lazy loading trì hoãn việc tải một phần mã đến lúc cần dùng. Hãy mô tả điều hướng và tải mã thành một luồng mà người dùng cảm nhận được, kể cả khi tải thất bại.",
+      "intent": "Giải thích luồng từ route đến màn hình và bảo vệ cách chọn ranh giới tải mã.",
+      "scope": "Nêu phiên bản Angular, cấu hình route và tình huống điều hướng; kiểm tra API router liên quan trong tài liệu chính thức. Phân biệt lần mở đầu tiên với lần quay lại route.",
+      "senior_signals": ["Theo dõi điều hướng, tải mã và thời điểm màn hình sẵn sàng mà không giả định mã đã có sẵn.", "Bảo vệ ranh giới đã chọn bằng hành vi tải quan sát được và phương án xử lý lỗi."],
+      "pitfalls": ["Coi lazy loading là cách tự động tăng hiệu năng mà không xét độ trễ lúc điều hướng."],
+      "followups": ["Người dùng nên thấy gì nếu không tải được mã của route?", "Bằng chứng nào khiến bạn chọn tải trước route này?"]
+    }
+  },
+  {
+    "question_id": "S06-Q004",
+    "phase": "tradeoff",
+    "order": 30,
+    "version_sensitive": true,
+    "en": {
+      "question": "When is caching an HTTP response inside an Angular interceptor appropriate, and how would you design it for that response contract?",
+      "explanation": "An interceptor can participate in the request and response pipeline. The question asks you to establish when reusing a response is allowed before discussing implementation.",
+      "intent": "Choose a cache boundary without changing the meaning or ownership of returned data.",
+      "scope": "Specify Angular version, HTTP cache directives, user or tenant scope, and acceptable freshness. Verify interceptor APIs and HTTP behavior in official documentation.",
+      "senior_signals": ["Justifies eligibility, cache identity and invalidation from the response contract.", "Defines tests for stale data, changing identity and repeated requests."],
+      "pitfalls": ["Caches every GET by URL alone, ignoring response ownership and freshness requirements."],
+      "followups": ["What should happen to cached data after the user signs out?", "How would a successful mutation affect the cached response?"]
+    },
+    "vi": {
+      "question": "Khi nào nên cache HTTP response trong interceptor của Angular, và bạn thiết kế cache thế nào để đúng hợp đồng của response đó?",
+      "explanation": "Interceptor có thể tham gia luồng request và response. Câu hỏi yêu cầu xác định lúc nào được phép dùng lại response trước khi nói đến cách triển khai.",
+      "intent": "Chọn ranh giới cache mà không làm thay đổi ý nghĩa hay quyền sở hữu dữ liệu trả về.",
+      "scope": "Nêu phiên bản Angular, chỉ dẫn HTTP cache, phạm vi user hoặc tenant và mức độ mới của dữ liệu được chấp nhận. Kiểm tra API interceptor và hành vi HTTP trong tài liệu chính thức.",
+      "senior_signals": ["Giải thích điều kiện được cache, cách nhận diện mục cache và cách vô hiệu hóa dựa trên hợp đồng response.", "Đặt bài kiểm thử cho dữ liệu cũ, thay đổi danh tính và request lặp lại."],
+      "pitfalls": ["Cache mọi GET chỉ theo URL, bỏ qua chủ thể sở hữu response và yêu cầu về độ mới."],
+      "followups": ["Dữ liệu đã cache nên được xử lý thế nào khi người dùng đăng xuất?", "Một thao tác cập nhật thành công ảnh hưởng thế nào đến response đã cache?"]
+    }
+  },
+  {
+    "question_id": "S06-Q005",
+    "phase": "mechanism",
+    "order": 20,
+    "version_sensitive": true,
+    "en": {
+      "question": "How would you coordinate authentication headers and token refresh in an Angular HTTP interceptor when several requests fail authentication together?",
+      "explanation": "Explain one request's authentication lifecycle and how overlapping requests interact with it. Token refresh means obtaining replacement credentials under the identity provider's contract.",
+      "intent": "Reason about credential handling and concurrent request recovery without an unbounded retry loop.",
+      "scope": "State Angular version, token/provider contract, allowed destinations and retryable operations. Consult official framework and provider documentation before relying on specific refresh behavior.",
+      "senior_signals": ["Traces ordinary requests, overlapping refresh attempts and refresh failure.", "Identifies credential exposure and replay boundaries with tests that distinguish them."],
+      "pitfalls": ["Retries every authentication failure indefinitely or attaches credentials to every destination."],
+      "followups": ["What happens to waiting requests when refresh fails?", "How would you verify that a retried request cannot duplicate a business operation?"]
+    },
+    "vi": {
+      "question": "Bạn phối hợp authentication header và token refresh trong HTTP interceptor của Angular thế nào khi nhiều request cùng thất bại xác thực?",
+      "explanation": "Giải thích vòng đời xác thực của một request và cách các request đồng thời tương tác với nó. Token refresh là lấy thông tin xác thực thay thế theo hợp đồng của nhà cung cấp danh tính.",
+      "intent": "Lập luận về xử lý thông tin xác thực và khôi phục request đồng thời mà không tạo vòng lặp retry vô hạn.",
+      "scope": "Nêu phiên bản Angular, hợp đồng token/provider, các địa chỉ được phép nhận thông tin xác thực và thao tác được retry. Đọc tài liệu chính thức của framework và provider trước khi dựa vào hành vi refresh cụ thể.",
+      "senior_signals": ["Theo dõi request bình thường, các lần refresh chồng nhau và trường hợp refresh thất bại.", "Chỉ ra ranh giới lộ thông tin xác thực và gửi lại thao tác, kèm kiểm thử phân biệt từng vấn đề."],
+      "pitfalls": ["Retry mọi lỗi xác thực vô hạn hoặc gắn thông tin xác thực vào mọi địa chỉ đích."],
+      "followups": ["Những request đang chờ được xử lý thế nào khi refresh thất bại?", "Bạn kiểm chứng thế nào rằng request được gửi lại không thực hiện trùng một thao tác nghiệp vụ?"]
+    }
+  },
+  {
+    "question_id": "S06-Q006",
+    "phase": "failure",
+    "order": 60,
+    "version_sensitive": true,
+    "en": {
+      "question": "How does a state change become an updated Angular view, and how would you diagnose a screen that renders slowly or fails to update?",
+      "explanation": "Change detection is the process connecting application changes to view updates. Explain the mechanism relevant to the actual application before selecting a performance fix.",
+      "intent": "Use a causal rendering model to distinguish correctness problems from expensive work.",
+      "scope": "Specify Angular version, change-detection/reactivity configuration and reproduction steps. Check official documentation rather than assuming current defaults or a particular runtime setup.",
+      "senior_signals": ["Connects an observable state transition to the expected view update.", "Uses profiling or a minimal reproduction to distinguish competing causes and validate a repair."],
+      "pitfalls": ["Prescribes a named change-detection strategy without measuring the issue or checking the update path."],
+      "followups": ["What evidence distinguishes slow rendering from a slow network response?", "How would you show that the fix keeps the view correct under repeated updates?"]
+    },
+    "vi": {
+      "question": "Một thay đổi trạng thái dẫn đến cập nhật giao diện Angular như thế nào, và bạn chẩn đoán màn hình render chậm hoặc không cập nhật ra sao?",
+      "explanation": "Change detection là quá trình nối thay đổi trong ứng dụng với cập nhật giao diện. Hãy giải thích cơ chế của ứng dụng thực tế trước khi chọn cách sửa hiệu năng.",
+      "intent": "Dùng mô hình render có nguyên nhân và kết quả để phân biệt lỗi cập nhật với công việc xử lý tốn thời gian.",
+      "scope": "Nêu phiên bản Angular, cấu hình change detection/reactivity và các bước tái hiện. Kiểm tra tài liệu chính thức, không mặc định giá trị mặc định hiện tại hay một cách thiết lập runtime cụ thể.",
+      "senior_signals": ["Nối một thay đổi trạng thái quan sát được với cập nhật giao diện cần có.", "Dùng profiling hoặc ví dụ tái hiện tối thiểu để phân biệt các nguyên nhân và kiểm chứng bản sửa."],
+      "pitfalls": ["Đề xuất một chiến lược change detection chỉ theo tên mà không đo vấn đề hoặc kiểm tra đường cập nhật."],
+      "followups": ["Bằng chứng nào phân biệt render chậm với response mạng chậm?", "Bạn chứng minh thế nào rằng bản sửa vẫn cập nhật đúng khi trạng thái thay đổi nhiều lần?"]
+    }
+  },
+  {
+    "question_id": "S06-Q007",
+    "phase": "tradeoff",
+    "order": 50,
+    "version_sensitive": true,
+    "en": {
+      "question": "How would you organize state in a medium or large SPA so that screens can collaborate without losing clear ownership?",
+      "explanation": "State includes values a screen or the application must remember. Explain what needs to be shared, what remains local, and how changes stay understandable as features grow.",
+      "intent": "Choose state ownership and synchronization boundaries from concrete feature needs.",
+      "scope": "Describe the SPA's collaboration requirements and selected Angular/state-library versions. Verify version-specific APIs in official documentation; no particular state library is required by the source.",
+      "senior_signals": ["Justifies local versus shared state using the lifetime and consumers of the data.", "Explains how to test updates, stale responses and resets across navigation or identity changes."],
+      "pitfalls": ["Chooses a global store solely because the application is large, without identifying who owns each value."],
+      "followups": ["Which state should survive leaving a screen, and why?", "How would you prevent two screens from maintaining conflicting copies of the same value?"]
+    },
+    "vi": {
+      "question": "Bạn tổ chức state trong một SPA vừa hoặc lớn thế nào để các màn hình phối hợp được mà quyền sở hữu dữ liệu vẫn rõ ràng?",
+      "explanation": "State là những giá trị màn hình hoặc ứng dụng cần ghi nhớ. Hãy giải thích phần nào cần chia sẻ, phần nào giữ cục bộ và cách việc cập nhật vẫn dễ hiểu khi tính năng phát triển.",
+      "intent": "Chọn ranh giới sở hữu và đồng bộ state từ nhu cầu cụ thể của tính năng.",
+      "scope": "Mô tả nhu cầu phối hợp trong SPA và phiên bản Angular/thư viện state được chọn. Đối chiếu API phụ thuộc phiên bản với tài liệu chính thức; câu hỏi nguồn không bắt buộc dùng một thư viện state cụ thể.",
+      "senior_signals": ["Bảo vệ lựa chọn state cục bộ hay dùng chung dựa trên vòng đời và những nơi sử dụng dữ liệu.", "Giải thích cách kiểm thử cập nhật, response đã cũ và việc reset khi đổi màn hình hoặc danh tính."],
+      "pitfalls": ["Chọn global store chỉ vì ứng dụng lớn mà chưa xác định ai sở hữu từng giá trị."],
+      "followups": ["State nào nên được giữ sau khi rời màn hình, và vì sao?", "Bạn ngăn hai màn hình giữ các bản sao mâu thuẫn của cùng một giá trị thế nào?"]
+    }
+  },
+  {
+    "question_id": "S06-Q008",
+    "phase": "application",
+    "order": 40,
+    "version_sensitive": true,
+    "en": {
+      "question": "How would you model and validate a nontrivial Angular reactive form, including errors returned by the server?",
+      "explanation": "A reactive form represents input and validation state explicitly. Describe the path from editing a field to deciding whether submission can succeed.",
+      "intent": "Connect form state, validation and submission to a coherent user-visible outcome.",
+      "scope": "State Angular version, form structure and validation contract; verify form APIs in official documentation. Treat server errors as an added concrete context for explaining the source question.",
+      "senior_signals": ["Explains field and cross-field validation with clear ownership of error state.", "Defines tests for valid input, invalid input and a rejected or overlapping submission."],
+      "pitfalls": ["Equates client-side validation with enforcing the server's business rules."],
+      "followups": ["What should happen if the user edits a field while its asynchronous validation is pending?", "How would you display a server rejection without discarding the user's input?"]
+    },
+    "vi": {
+      "question": "Bạn mô hình hóa và kiểm tra dữ liệu của một reactive form Angular có nhiều quy tắc thế nào, kể cả lỗi do server trả về?",
+      "explanation": "Reactive form biểu diễn rõ trạng thái nhập liệu và kiểm tra hợp lệ. Hãy mô tả luồng từ sửa một field đến quyết định việc gửi dữ liệu có thể thành công hay không.",
+      "intent": "Nối state của form, validation và thao tác gửi dữ liệu thành kết quả nhất quán trên giao diện.",
+      "scope": "Nêu phiên bản Angular, cấu trúc form và hợp đồng validation; kiểm tra API form trong tài liệu chính thức. Lỗi từ server là ngữ cảnh cụ thể được bổ sung để làm rõ câu hỏi nguồn.",
+      "senior_signals": ["Giải thích validation từng field và giữa các field, với nơi sở hữu trạng thái lỗi rõ ràng.", "Đặt kiểm thử cho dữ liệu hợp lệ, không hợp lệ và việc gửi bị từ chối hoặc chồng nhau."],
+      "pitfalls": ["Đồng nhất validation phía client với việc bảo đảm quy tắc nghiệp vụ ở server."],
+      "followups": ["Điều gì nên xảy ra khi người dùng sửa field trong lúc validation bất đồng bộ còn đang chờ?", "Bạn hiển thị lỗi từ server thế nào mà không làm mất dữ liệu người dùng đã nhập?"]
+    }
+  },
+  {
+    "question_id": "S06-Q009",
+    "phase": "foundation",
+    "order": 10,
+    "version_sensitive": true,
+    "en": {
+      "question": "How do browser storage choices change the risks of keeping authentication information in a web application?",
+      "explanation": "Compare choices through who can read the credential, when it is sent and how long it remains available. The goal is a threat-based decision, not naming one universally safe storage option.",
+      "intent": "Relate credential storage to concrete browser threats and authentication boundaries.",
+      "scope": "Specify browser, authentication architecture, credential type and threat assumptions. Check official browser and identity-provider documentation for relevant storage and cookie behavior.",
+      "senior_signals": ["Separates script access, request transmission and persistence risks in the chosen scenario.", "Explains a remaining threat and a test or review that could reveal incorrect credential handling."],
+      "pitfalls": ["Declares a storage mechanism completely secure without stating which threats it addresses."],
+      "followups": ["What changes if untrusted JavaScript runs in the page?", "How would you check whether signing out removes the credential paths your application actually uses?"]
+    },
+    "vi": {
+      "question": "Các lựa chọn lưu trữ trong browser làm thay đổi rủi ro của việc giữ thông tin xác thực trong ứng dụng web như thế nào?",
+      "explanation": "So sánh dựa trên ai đọc được thông tin xác thực, lúc nào nó được gửi và nó tồn tại bao lâu. Mục tiêu là quyết định theo mối đe dọa, không tìm một nơi lưu luôn an toàn cho mọi trường hợp.",
+      "intent": "Liên hệ nơi lưu thông tin xác thực với mối đe dọa cụ thể trong browser và ranh giới xác thực.",
+      "scope": "Nêu browser, kiến trúc xác thực, loại thông tin xác thực và giả định về mối đe dọa. Kiểm tra hành vi storage và cookie liên quan trong tài liệu chính thức của browser và nhà cung cấp danh tính.",
+      "senior_signals": ["Tách rủi ro đọc bằng script, gửi theo request và lưu lâu dài trong tình huống đã chọn.", "Giải thích một mối đe dọa còn lại và cách kiểm thử hoặc review để phát hiện xử lý thông tin xác thực sai."],
+      "pitfalls": ["Khẳng định một cơ chế lưu trữ hoàn toàn an toàn mà không nêu nó xử lý mối đe dọa nào."],
+      "followups": ["Điều gì thay đổi nếu JavaScript không đáng tin chạy trong trang?", "Bạn kiểm tra thế nào rằng đăng xuất loại bỏ những đường sử dụng thông tin xác thực mà ứng dụng thực sự có?"]
+    }
+  },
+  {
+    "question_id": "S06-Q010",
+    "phase": "production",
+    "order": 70,
+    "version_sensitive": true,
+    "en": {
+      "question": "How would you use bundle or code splitting to improve a frontend's loading experience, and how would you verify the improvement?",
+      "explanation": "Code splitting separates application code into pieces that can be loaded at different times. Assess the whole loading experience, including later navigation, rather than only the first bundle's size.",
+      "intent": "Make and validate a loading-performance decision from a real usage path.",
+      "scope": "Specify framework, build-tool versions, target device and network conditions. Consult official build documentation for relevant behavior; no performance result is supplied by the source.",
+      "senior_signals": ["Connects proposed boundaries to downloaded code and the work needed before a screen is usable.", "Defines comparable before/after measurements and a later-navigation regression check."],
+      "pitfalls": ["Claims success from a smaller initial bundle without measuring user-visible timing or additional requests."],
+      "followups": ["What would make splitting a frequently used feature counterproductive?", "How would you distinguish download time from JavaScript execution cost?"]
+    },
+    "vi": {
+      "question": "Bạn dùng bundle splitting hoặc code splitting để cải thiện trải nghiệm tải frontend thế nào, và kiểm chứng cải thiện đó ra sao?",
+      "explanation": "Code splitting chia mã ứng dụng thành các phần có thể tải ở thời điểm khác nhau. Hãy xét toàn bộ trải nghiệm tải, kể cả điều hướng về sau, thay vì chỉ nhìn kích thước bundle đầu tiên.",
+      "intent": "Đưa ra và kiểm chứng quyết định về hiệu năng tải dựa trên một luồng sử dụng thực tế.",
+      "scope": "Nêu phiên bản framework, build tool, thiết bị đích và điều kiện mạng. Đọc tài liệu build chính thức cho hành vi liên quan; nguồn không cung cấp kết quả đo hiệu năng nào.",
+      "senior_signals": ["Nối ranh giới chia mã với lượng mã tải xuống và công việc cần làm trước khi màn hình dùng được.", "Đặt phép đo trước/sau có thể so sánh và kiểm tra việc điều hướng về sau có bị chậm đi không."],
+      "pitfalls": ["Kết luận thành công từ bundle ban đầu nhỏ hơn mà không đo thời gian người dùng cảm nhận hoặc số request tăng thêm."],
+      "followups": ["Điều gì có thể khiến việc tách một tính năng dùng thường xuyên phản tác dụng?", "Bạn phân biệt thời gian tải xuống với chi phí thực thi JavaScript thế nào?"]
+    }
+  },
+  {
+    "question_id": "S06-Q011",
+    "phase": "foundation",
+    "order": 20,
+    "version_sensitive": false,
+    "en": {
+      "question": "How do JavaScript's == and === comparisons differ, and how would you choose between them when comparing data from a form or API?",
+      "explanation": "Explain the comparison rule through values with different types and through objects. The form/API context asks you to apply the rule rather than recite an operator preference.",
+      "intent": "Predict equality results and justify a comparison at a data boundary.",
+      "scope": "Use ordinary JavaScript values; state the input types. Treat the form/API example as added context, not a source-provided incident.",
+      "senior_signals": ["Predicts results from explicit values and explains the relevant comparison mechanism.", "Separates input normalization from comparison and proposes a boundary test."],
+      "pitfalls": ["Repeats an operator rule without accounting for input types or object identity."],
+      "followups": ["What would you check when a numeric-looking form value fails a comparison?", "How would you compare two independently created objects with the same fields?"]
+    },
+    "vi": {
+      "question": "Phép so sánh == và === trong JavaScript khác nhau thế nào, và bạn chọn cách so sánh dữ liệu từ form hoặc API ra sao?",
+      "explanation": "Giải thích quy tắc so sánh qua các giá trị khác kiểu và qua object. Ngữ cảnh form/API yêu cầu vận dụng quy tắc thay vì chỉ nhắc lại nên dùng toán tử nào.",
+      "intent": "Dự đoán kết quả so sánh bằng nhau và bảo vệ lựa chọn tại ranh giới dữ liệu.",
+      "scope": "Dùng các giá trị JavaScript thông thường và nêu kiểu đầu vào. Ví dụ form/API là ngữ cảnh bổ sung, không phải sự cố được kể trong nguồn.",
+      "senior_signals": ["Dự đoán kết quả từ giá trị cụ thể và giải thích cơ chế so sánh liên quan.", "Tách việc chuẩn hóa đầu vào khỏi việc so sánh và đề xuất kiểm thử ở ranh giới."],
+      "pitfalls": ["Lặp lại một quy tắc chọn toán tử nhưng bỏ qua kiểu đầu vào hoặc danh tính của object."],
+      "followups": ["Bạn kiểm tra gì khi một giá trị nhìn giống số từ form lại không so sánh bằng như dự đoán?", "Bạn so sánh hai object được tạo riêng nhưng có cùng field thế nào?"]
+    }
+  },
+  {
+    "question_id": "S06-Q012",
+    "phase": "foundation",
+    "order": 30,
+    "version_sensitive": false,
+    "en": {
+      "question": "What changes when a JavaScript variable is declared with let instead of const, including when its value is an object?",
+      "explanation": "Distinguish the variable's binding, which connects a name to a value, from the contents of that value. Use a small example to explain scope and permitted changes.",
+      "intent": "Predict reassignment and mutation behavior from a declaration and its scope.",
+      "scope": "Use ordinary JavaScript block-scoped declarations; distinguish primitive and object values. No immutability library is assumed.",
+      "senior_signals": ["Explains a concrete reassignment versus object-mutation outcome.", "Relates the declaration choice to readable intent without claiming it enforces every data invariant."],
+      "pitfalls": ["Treats const as proof that an object's contents cannot change."],
+      "followups": ["What evidence would show whether an unexpected change was reassignment or mutation?", "What additional contract would you need if shared data must remain unchanged?"]
+    },
+    "vi": {
+      "question": "Khai báo biến JavaScript bằng let thay vì const làm thay đổi điều gì, kể cả khi giá trị của biến là một object?",
+      "explanation": "Phân biệt binding của biến, tức liên kết giữa tên và giá trị, với nội dung bên trong giá trị đó. Dùng ví dụ nhỏ để giải thích phạm vi và các thay đổi được phép.",
+      "intent": "Dự đoán hành vi gán lại và sửa nội dung từ cách khai báo cùng phạm vi của biến.",
+      "scope": "Dùng khai báo JavaScript có phạm vi block thông thường; phân biệt giá trị nguyên thủy với object. Không giả định có thư viện hỗ trợ bất biến.",
+      "senior_signals": ["Giải thích một kết quả cụ thể khi gán lại so với sửa nội dung object.", "Liên hệ cách khai báo với ý định dễ đọc mà không khẳng định nó bảo đảm mọi bất biến của dữ liệu."],
+      "pitfalls": ["Coi const là bằng chứng nội dung của object không thể thay đổi."],
+      "followups": ["Bằng chứng nào cho thấy thay đổi ngoài ý muốn là gán lại hay sửa nội dung?", "Bạn cần thêm hợp đồng gì nếu dữ liệu dùng chung phải giữ nguyên?"]
+    }
+  },
+  {
+    "question_id": "S06-Q013",
+    "phase": "foundation",
+    "order": 10,
+    "version_sensitive": true,
+    "en": {
+      "question": "What does TypeScript contribute to a frontend codebase, and where do its guarantees end when data arrives at runtime?",
+      "explanation": "Explain the role of static type checking during development and its boundary with executing JavaScript. Use an API payload as a concrete point where that distinction matters.",
+      "intent": "State the benefit and limit of TypeScript without confusing types with runtime validation.",
+      "scope": "Name the TypeScript version and relevant compiler configuration; verify specific compiler behavior in official documentation. Runtime input is not assumed trustworthy because it has a declared type.",
+      "senior_signals": ["Connects a type check to a defect it can reveal during development.", "Identifies a runtime boundary and explains how its data contract could be checked."],
+      "pitfalls": ["Assumes a type annotation or assertion proves that an external payload has the expected shape."],
+      "followups": ["What would you investigate if typed code receives a field with an unexpected runtime value?", "Which compiler configuration matters for the guarantee you just described?"]
+    },
+    "vi": {
+      "question": "TypeScript giúp gì cho codebase frontend, và các bảo đảm của nó dừng ở đâu khi dữ liệu xuất hiện lúc chạy?",
+      "explanation": "Giải thích vai trò kiểm tra kiểu tĩnh trong quá trình phát triển và ranh giới với JavaScript đang thực thi. Dùng payload từ API để làm rõ lúc nào sự khác biệt đó có ý nghĩa.",
+      "intent": "Nêu lợi ích và giới hạn của TypeScript mà không nhầm kiểu dữ liệu với kiểm tra dữ liệu lúc chạy.",
+      "scope": "Nêu phiên bản TypeScript và cấu hình compiler liên quan; đối chiếu hành vi compiler cụ thể với tài liệu chính thức. Không coi dữ liệu lúc chạy đáng tin chỉ vì đã có kiểu được khai báo.",
+      "senior_signals": ["Nối một phép kiểm tra kiểu với lỗi có thể phát hiện trong lúc phát triển.", "Chỉ ra ranh giới runtime và giải thích cách kiểm tra hợp đồng dữ liệu tại đó."],
+      "pitfalls": ["Cho rằng type annotation hoặc type assertion chứng minh payload bên ngoài có đúng cấu trúc."],
+      "followups": ["Bạn điều tra gì khi code đã khai báo kiểu lại nhận một field có giá trị runtime ngoài dự đoán?", "Cấu hình compiler nào ảnh hưởng đến bảo đảm bạn vừa mô tả?"]
+    }
+  },
+  {
+    "question_id": "S06-Q014",
+    "phase": "mechanism",
+    "order": 40,
+    "version_sensitive": true,
+    "en": {
+      "question": "What does structural typing mean in TypeScript, and how does it affect whether one object can be used where another type is expected?",
+      "explanation": "Structural typing concerns compatibility based on shape. Explain it using two small object types and distinguish the compiler's decision from the runtime value's actual contents.",
+      "intent": "Reason about type compatibility with an example instead of relying on type names.",
+      "scope": "State TypeScript version and compiler options; check official documentation for the compatibility rule used in your example. Do not generalize an object-literal check to every assignment context.",
+      "senior_signals": ["Predicts compatibility in a concrete example and explains the relevant shape comparison.", "Identifies a boundary of the static guarantee and a case that needs separate validation."],
+      "pitfalls": ["Assumes matching type names are required, or that compile-time compatibility proves runtime correctness."],
+      "followups": ["How would you explain a different result for an object literal and an existing variable?", "What must you still check when the object came from an external API?"]
+    },
+    "vi": {
+      "question": "Structural typing trong TypeScript nghĩa là gì, và nó ảnh hưởng thế nào đến việc dùng một object ở nơi đang yêu cầu một kiểu khác?",
+      "explanation": "Structural typing xét tính tương thích dựa trên cấu trúc. Giải thích bằng hai kiểu object nhỏ và phân biệt quyết định của compiler với nội dung thực tế của giá trị lúc chạy.",
+      "intent": "Lập luận về tính tương thích kiểu bằng ví dụ, thay vì dựa vào tên kiểu.",
+      "scope": "Nêu phiên bản TypeScript và compiler options; kiểm tra quy tắc tương thích dùng trong ví dụ ở tài liệu chính thức. Không suy rộng một phép kiểm tra object literal sang mọi ngữ cảnh gán.",
+      "senior_signals": ["Dự đoán tính tương thích của ví dụ cụ thể và giải thích cách so sánh cấu trúc liên quan.", "Chỉ ra giới hạn của bảo đảm tĩnh và một trường hợp cần kiểm tra riêng."],
+      "pitfalls": ["Cho rằng tên kiểu phải giống nhau, hoặc tương thích lúc compile chứng minh dữ liệu đúng lúc chạy."],
+      "followups": ["Bạn giải thích thế nào nếu object literal và một biến đã có sẵn cho kết quả kiểm tra khác nhau?", "Bạn vẫn cần kiểm tra gì nếu object đến từ API bên ngoài?"]
+    }
+  },
+  {
+    "question_id": "S06-Q015",
+    "phase": "mechanism",
+    "order": 50,
+    "version_sensitive": true,
+    "en": {
+      "question": "How would you explain the order of asynchronous work in a browser, and when are Promises or Observables relevant to that flow?",
+      "explanation": "Trace one interaction that starts asynchronous work and later updates the UI. Compare the abstractions only where they change how results, errors or ongoing work are handled.",
+      "intent": "Predict asynchronous outcomes and justify the abstraction used for the interaction.",
+      "scope": "Specify browser context and, if used, Observable-library version and scheduler behavior. Consult official runtime/library documentation before asserting ordering or cancellation guarantees.",
+      "senior_signals": ["Explains an execution trace rather than equating asynchronous work with parallel threads.", "Defines a stale-result or error case and a way to observe the resulting UI state."],
+      "pitfalls": ["Treats Promises and Observables as interchangeable without stating how work starts or results arrive."],
+      "followups": ["What happens if an older search request finishes after a newer one?", "What exactly does cancellation mean for the abstraction and operation you chose?"]
+    },
+    "vi": {
+      "question": "Bạn giải thích thứ tự công việc bất đồng bộ trong browser thế nào, và Promise hoặc Observable có vai trò gì trong luồng đó?",
+      "explanation": "Theo dõi một thao tác khởi động công việc bất đồng bộ rồi cập nhật UI về sau. Chỉ so sánh các abstraction ở những điểm làm thay đổi cách xử lý kết quả, lỗi hoặc công việc đang diễn ra.",
+      "intent": "Dự đoán kết quả bất đồng bộ và bảo vệ abstraction được dùng cho thao tác đó.",
+      "scope": "Nêu ngữ cảnh browser và, nếu có dùng, phiên bản thư viện Observable cùng hành vi scheduler. Đọc tài liệu runtime/thư viện chính thức trước khi khẳng định bảo đảm về thứ tự hoặc hủy công việc.",
+      "senior_signals": ["Giải thích execution trace thay vì đồng nhất bất đồng bộ với các thread chạy song song.", "Đặt trường hợp kết quả đã cũ hoặc lỗi và cách quan sát trạng thái UI sau đó."],
+      "pitfalls": ["Coi Promise và Observable thay thế được cho nhau mà không nêu công việc bắt đầu hoặc kết quả đến như thế nào."],
+      "followups": ["Điều gì xảy ra nếu request tìm kiếm cũ hoàn thành sau request mới?", "Hủy công việc có nghĩa chính xác là gì với abstraction và thao tác bạn chọn?"]
+    }
+  },
+  {
+    "question_id": "S06-Q016",
+    "phase": "foundation",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "How would you introduce your professional background in 60–90 seconds so the interviewer understands your engineering focus and the responsibility you can take?",
+      "explanation": "Select the parts of your real experience that establish a coherent professional direction. This is a short introduction, not a complete employment history.",
+      "intent": "Communicate relevant capability and ownership concisely with truthful evidence.",
+      "scope": "Use only experience you actually have; omit employer, customer and project identities or confidential details. The 60–90-second range comes from the source, not a promised optimal duration.",
+      "senior_signals": ["Connects actual responsibilities to engineering outcomes relevant to the role.", "Distinguishes personal contribution from team work and can support an important claim in follow-up."],
+      "pitfalls": ["Lists technologies or invents scale and achievements instead of showing relevant responsibility."],
+      "followups": ["Which responsibility best demonstrates the level of ownership you described?", "What is one area where you want to grow next?"]
+    },
+    "vi": {
+      "question": "Bạn giới thiệu nền tảng nghề nghiệp trong 60–90 giây thế nào để người phỏng vấn hiểu định hướng kỹ thuật và trách nhiệm bạn có thể đảm nhận?",
+      "explanation": "Chọn những phần kinh nghiệm có thật giúp thể hiện một định hướng nghề nghiệp liền mạch. Đây là phần giới thiệu ngắn, không phải kể toàn bộ lịch sử làm việc.",
+      "intent": "Truyền đạt ngắn gọn năng lực phù hợp và mức độ chịu trách nhiệm bằng bằng chứng có thật.",
+      "scope": "Chỉ dùng kinh nghiệm thực sự có; bỏ danh tính công ty, khách hàng, dự án và chi tiết mật. Khoảng 60–90 giây lấy từ câu hỏi nguồn, không phải cam kết về thời lượng tối ưu.",
+      "senior_signals": ["Nối trách nhiệm thực tế với kết quả kỹ thuật phù hợp với vị trí.", "Phân biệt đóng góp cá nhân với công việc của nhóm và bảo vệ được một nhận định quan trọng khi hỏi tiếp."],
+      "pitfalls": ["Liệt kê công nghệ hoặc bịa quy mô và thành tích thay vì thể hiện trách nhiệm phù hợp."],
+      "followups": ["Trách nhiệm nào thể hiện rõ nhất mức độ sở hữu công việc bạn vừa mô tả?", "Bạn muốn phát triển tiếp ở lĩnh vực nào?"]
+    }
+  },
+  {
+    "question_id": "S06-Q017",
+    "phase": "application",
+    "order": 30,
+    "version_sensitive": false,
+    "en": {
+      "question": "Describe a technically challenging system you genuinely worked with, explaining the difficult mechanism without exposing confidential information.",
+      "explanation": "Make the engineering challenge understandable through the system's purpose, a constraint and your contribution. Generalize identifying context without changing the technical cause or inventing a story.",
+      "intent": "Explain a real technical challenge while preserving useful detail and privacy.",
+      "scope": "Use a genuine example without names, private architecture details or confidential incidents. If no suitable experience exists, say so; label a hypothetical exercise explicitly.",
+      "senior_signals": ["Identifies the mechanism that made the problem difficult rather than relying on system size.", "Separates observed outcomes from assumptions and explains what the speaker personally contributed."],
+      "pitfalls": ["Uses private names or unverifiable complexity claims as a substitute for explaining the challenge."],
+      "followups": ["Which constraint most influenced your approach?", "What evidence supports the outcome you described?"]
+    },
+    "vi": {
+      "question": "Hãy mô tả một hệ thống có thử thách kỹ thuật mà bạn thực sự từng làm việc cùng, giải thích cơ chế khó mà không lộ thông tin mật.",
+      "explanation": "Làm rõ thử thách qua mục đích hệ thống, một ràng buộc và đóng góp của bạn. Khái quát hóa bối cảnh có thể nhận diện mà không đổi nguyên nhân kỹ thuật hoặc bịa câu chuyện.",
+      "intent": "Giải thích thử thách kỹ thuật có thật, đồng thời giữ chi tiết hữu ích và bảo vệ riêng tư.",
+      "scope": "Dùng ví dụ thật nhưng không có tên, chi tiết kiến trúc riêng hay sự cố mật. Nếu chưa có kinh nghiệm phù hợp, nói rõ; đánh dấu bài tập giả định nếu dùng.",
+      "senior_signals": ["Chỉ ra cơ chế làm vấn đề khó thay vì chỉ dựa vào quy mô hệ thống.", "Tách kết quả đã quan sát khỏi giả định và giải thích phần cá nhân thực sự đóng góp."],
+      "pitfalls": ["Dùng tên riêng hoặc nhận định khó kiểm chứng về độ phức tạp thay cho giải thích thử thách."],
+      "followups": ["Ràng buộc nào ảnh hưởng nhiều nhất đến cách tiếp cận của bạn?", "Bằng chứng nào hỗ trợ kết quả bạn vừa mô tả?"]
+    }
+  },
+  {
+    "question_id": "S06-Q018",
+    "phase": "foundation",
+    "order": 20,
+    "version_sensitive": false,
+    "en": {
+      "question": "How would you describe your engineering responsibilities through the outcomes you owned rather than through company or project names?",
+      "explanation": "Explain what you were accountable for, what actions you took and what changed. Ownership is the scope of responsibility, not a claim that you performed every task alone.",
+      "intent": "Make personal responsibility and resulting engineering impact distinguishable.",
+      "scope": "Use truthful, privacy-safe experience. Give real evidence when available; do not invent a metric to make an outcome sound measurable.",
+      "senior_signals": ["States the responsibility boundary and separates personal actions from collective work.", "Connects an action to an observed result while acknowledging other contributing factors."],
+      "pitfalls": ["Claims the team's entire result as personal impact or substitutes prestigious names for evidence."],
+      "followups": ["Which decision was yours, and which depended on someone else?", "How do you know the action contributed to the outcome?"]
+    },
+    "vi": {
+      "question": "Bạn mô tả trách nhiệm kỹ thuật qua những kết quả mình chịu trách nhiệm thế nào, thay vì dựa vào tên công ty hoặc dự án?",
+      "explanation": "Giải thích bạn chịu trách nhiệm việc gì, đã làm gì và điều gì thay đổi. Ownership là phạm vi trách nhiệm, không có nghĩa bạn tự làm mọi việc.",
+      "intent": "Làm rõ trách nhiệm cá nhân và tác động kỹ thuật tương ứng.",
+      "scope": "Dùng kinh nghiệm thật đã loại chi tiết riêng tư. Đưa bằng chứng thật nếu có; không bịa số liệu chỉ để kết quả nghe có vẻ đo lường được.",
+      "senior_signals": ["Nêu ranh giới trách nhiệm và tách hành động cá nhân khỏi công việc chung.", "Nối hành động với kết quả quan sát được, đồng thời thừa nhận các yếu tố khác cùng tác động."],
+      "pitfalls": ["Nhận toàn bộ kết quả của nhóm là tác động cá nhân hoặc dùng tên tuổi nổi bật thay cho bằng chứng."],
+      "followups": ["Quyết định nào là của bạn, và quyết định nào phụ thuộc người khác?", "Bạn biết hành động đó đóng góp vào kết quả bằng cách nào?"]
+    }
+  },
+  {
+    "question_id": "S06-Q019",
+    "phase": "tradeoff",
+    "order": 20,
+    "version_sensitive": false,
+    "en": {
+      "question": "Explain one design decision, the alternatives you considered, and why the constraints led you to choose that option.",
+      "explanation": "Show the reasoning at the time of the decision, including a cost accepted by the chosen option. An alternative is a plausible competing approach, not a deliberately weak option.",
+      "intent": "Defend an engineering choice using constraints, alternatives and a decision boundary.",
+      "scope": "State requirements and available evidence. Distinguish a genuine decision from a clearly labeled hypothetical design; omit confidential context and unsupported measurements.",
+      "senior_signals": ["Compares plausible alternatives against the same requirements.", "States what evidence or changed constraint would justify revisiting the decision."],
+      "pitfalls": ["Claims the chosen pattern is universally best or dismisses alternatives without considering their fit."],
+      "followups": ["Which cost did you knowingly accept?", "What changed condition would make an alternative preferable?"]
+    },
+    "vi": {
+      "question": "Hãy giải thích một quyết định thiết kế, các phương án đã cân nhắc và vì sao những ràng buộc dẫn bạn đến lựa chọn đó.",
+      "explanation": "Trình bày lập luận tại thời điểm quyết định, kể cả cái giá chấp nhận khi chọn phương án. Phương án thay thế phải là lựa chọn có thể dùng được, không phải lựa chọn cố tình yếu.",
+      "intent": "Bảo vệ lựa chọn kỹ thuật bằng ràng buộc, phương án thay thế và điều kiện làm thay đổi quyết định.",
+      "scope": "Nêu yêu cầu và bằng chứng có sẵn. Phân biệt quyết định có thật với thiết kế giả định được đánh dấu rõ; bỏ bối cảnh mật và số đo không có căn cứ.",
+      "senior_signals": ["So sánh các phương án khả thi theo cùng một tập yêu cầu.", "Nêu bằng chứng hoặc ràng buộc thay đổi nào khiến cần xem xét lại quyết định."],
+      "pitfalls": ["Khẳng định pattern đã chọn luôn tốt nhất hoặc bác phương án khác mà không xét mức độ phù hợp."],
+      "followups": ["Bạn chủ động chấp nhận cái giá nào?", "Điều kiện nào thay đổi sẽ khiến phương án khác phù hợp hơn?"]
+    }
+  },
+  {
+    "question_id": "S06-Q020",
+    "phase": "failure",
+    "order": 50,
+    "version_sensitive": false,
+    "en": {
+      "question": "Describe a real production problem, how you narrowed down its cause, and what evidence showed that the fix addressed it.",
+      "explanation": "Connect the symptom to your investigation and the outcome. Explain how evidence distinguished causes instead of presenting the final fix as an obvious first step.",
+      "intent": "Demonstrate evidence-based diagnosis and accountable incident response.",
+      "scope": "Use a genuine, anonymized incident and real observations. If you lack production experience, disclose that and label a lab or hypothetical example; do not claim it as an incident you handled.",
+      "senior_signals": ["Separates mitigation from root-cause investigation and explains personal actions.", "Names evidence that checked recovery and a remaining uncertainty or recurrence risk."],
+      "pitfalls": ["Invents incident metrics or treats the disappearance of a symptom as proof of the proposed cause."],
+      "followups": ["What observation ruled out a competing hypothesis?", "What would you monitor to detect the same failure again?"]
+    },
+    "vi": {
+      "question": "Hãy kể một vấn đề production có thật, cách bạn thu hẹp nguyên nhân và bằng chứng cho thấy bản sửa giải quyết đúng vấn đề.",
+      "explanation": "Nối triệu chứng với quá trình điều tra và kết quả. Giải thích bằng chứng giúp phân biệt nguyên nhân thế nào, thay vì kể bản sửa cuối cùng như bước đầu hiển nhiên.",
+      "intent": "Thể hiện chẩn đoán dựa trên bằng chứng và trách nhiệm khi xử lý sự cố.",
+      "scope": "Dùng sự cố thật đã ẩn danh và quan sát thực tế. Nếu chưa có kinh nghiệm production, nói rõ và đánh dấu ví dụ lab hoặc giả định; không nhận đó là sự cố mình từng xử lý.",
+      "senior_signals": ["Tách xử lý giảm tác động khỏi điều tra nguyên nhân gốc và giải thích hành động cá nhân.", "Nêu bằng chứng kiểm tra phục hồi cùng một điểm chưa chắc hoặc nguy cơ tái diễn."],
+      "pitfalls": ["Bịa số liệu sự cố hoặc coi triệu chứng biến mất là bằng chứng đủ cho nguyên nhân đã đề xuất."],
+      "followups": ["Quan sát nào loại được một giả thuyết cạnh tranh?", "Bạn theo dõi gì để phát hiện lỗi đó nếu nó xảy ra lại?"]
+    }
+  },
+  {
+    "question_id": "S06-Q021",
+    "phase": "tradeoff",
+    "order": 60,
+    "version_sensitive": false,
+    "en": {
+      "question": "Describe a disagreement with QA, product or engineering, and explain how evidence helped the people involved reach a decision.",
+      "explanation": "Explain the competing concerns and your actions, not just who eventually agreed. Include how the outcome was checked and what you learned from the disagreement.",
+      "intent": "Demonstrate collaborative judgment when stakeholders have different priorities.",
+      "scope": "Use a genuine, privacy-safe example and represent the other position fairly. Do not invent conflict, consensus or business results to fit a behavioral script.",
+      "senior_signals": ["Connects each position to a legitimate constraint and explains the speaker's contribution.", "Shows how evidence changed or clarified the decision, including any unresolved trade-off."],
+      "pitfalls": ["Frames the story as winning against an unreasonable colleague rather than resolving the engineering concern."],
+      "followups": ["What would you have done if the evidence supported the other position?", "What did you change in how you handle similar disagreements?"]
+    },
+    "vi": {
+      "question": "Hãy kể một bất đồng với QA, product hoặc engineering và giải thích bằng chứng giúp các bên đi đến quyết định như thế nào.",
+      "explanation": "Giải thích những mối quan tâm khác nhau và hành động của bạn, không chỉ ai cuối cùng đồng ý. Nêu cách kiểm tra kết quả và điều bạn học được từ bất đồng.",
+      "intent": "Thể hiện khả năng phối hợp và phán đoán khi các bên có ưu tiên khác nhau.",
+      "scope": "Dùng ví dụ thật đã bảo vệ riêng tư và trình bày công bằng quan điểm còn lại. Không bịa xung đột, sự đồng thuận hay kết quả kinh doanh để khớp một kịch bản behavioral.",
+      "senior_signals": ["Nối mỗi quan điểm với một ràng buộc hợp lý và giải thích đóng góp của bản thân.", "Chỉ ra bằng chứng làm thay đổi hoặc làm rõ quyết định, kể cả đánh đổi chưa giải quyết hết."],
+      "pitfalls": ["Kể câu chuyện như chiến thắng một đồng nghiệp vô lý thay vì giải quyết vấn đề kỹ thuật chung."],
+      "followups": ["Bạn sẽ làm gì nếu bằng chứng ủng hộ quan điểm của bên kia?", "Bạn đã thay đổi gì trong cách xử lý bất đồng tương tự?"]
+    }
+  },
+  {
+    "question_id": "S06-Q022",
+    "phase": "tradeoff",
+    "order": 70,
+    "version_sensitive": false,
+    "en": {
+      "question": "Why are you looking for a new role, and how does that move relate to your professional goals?",
+      "explanation": "Explain your motivation in terms of the work, responsibility or growth you seek. Keep the answer truthful and professional without criticizing a current or former employer.",
+      "intent": "Communicate a coherent career motivation and realistic expectations for the next role.",
+      "scope": "Use your actual goals; keep employer identity and private circumstances out of the public artifact. You do not need to invent a positive reason or disclose sensitive details.",
+      "senior_signals": ["Connects the desired role to specific responsibility or development goals.", "Explains how to assess that fit without making unsupported claims about either employer."],
+      "pitfalls": ["Attacks an employer or gives a polished motivation that does not reflect the speaker's real goals."],
+      "followups": ["Which responsibility would make the next role a good fit?", "What would you want to clarify before deciding to join?"]
+    },
+    "vi": {
+      "question": "Vì sao bạn đang tìm vai trò mới, và bước chuyển đó liên quan thế nào đến mục tiêu nghề nghiệp của bạn?",
+      "explanation": "Giải thích động lực qua công việc, trách nhiệm hoặc hướng phát triển bạn muốn. Trả lời thật và chuyên nghiệp, không chỉ trích công ty hiện tại hay trước đây.",
+      "intent": "Truyền đạt động lực nghề nghiệp liền mạch và kỳ vọng thực tế với vai trò tiếp theo.",
+      "scope": "Dùng mục tiêu thật; không đưa danh tính công ty hay hoàn cảnh riêng vào tài liệu công khai. Không cần bịa một lý do tích cực hoặc tiết lộ chi tiết nhạy cảm.",
+      "senior_signals": ["Nối vai trò mong muốn với trách nhiệm hoặc mục tiêu phát triển cụ thể.", "Giải thích cách đánh giá sự phù hợp mà không đưa nhận định thiếu căn cứ về công ty nào."],
+      "pitfalls": ["Công kích công ty hoặc dùng một động lực trau chuốt không phản ánh mục tiêu thật của bản thân."],
+      "followups": ["Trách nhiệm nào sẽ khiến vai trò tiếp theo phù hợp với bạn?", "Bạn muốn làm rõ điều gì trước khi quyết định gia nhập?"]
+    }
+  },
+  {
+    "question_id": "S06-Q023",
+    "phase": "application",
+    "order": 40,
+    "version_sensitive": false,
+    "en": {
+      "question": "How do you learn an unfamiliar technology well enough to use it responsibly, and what real example shows your approach?",
+      "explanation": "Describe how you turn an unknown topic into a testable learning goal, then check understanding through use. Distinguish reading about a feature from being able to apply it independently.",
+      "intent": "Demonstrate a learning process that produces inspectable understanding and acknowledges limits.",
+      "scope": "Use actual learning experience and evidence if available. Do not invent a production adoption; clearly distinguish a lab, a proposed plan and work already performed.",
+      "senior_signals": ["Selects a bounded problem, reliable references and an experiment linked to that problem.", "Explains how a failed attempt or changed example revealed a gap and informed the next step."],
+      "pitfalls": ["Lists courses or claims familiarity without describing an independent attempt or its evidence."],
+      "followups": ["How did you discover a misconception while learning?", "What would you still verify before relying on the technology in production?"]
+    },
+    "vi": {
+      "question": "Bạn học một công nghệ chưa quen đến mức có thể dùng có trách nhiệm như thế nào, và ví dụ có thật nào thể hiện cách học đó?",
+      "explanation": "Mô tả cách biến chủ đề chưa biết thành mục tiêu học có thể kiểm chứng rồi kiểm tra hiểu biết bằng vận dụng. Phân biệt đã đọc về tính năng với tự áp dụng được.",
+      "intent": "Thể hiện quy trình học tạo ra hiểu biết có thể xem xét và biết thừa nhận giới hạn.",
+      "scope": "Dùng trải nghiệm học thật và bằng chứng nếu có. Không bịa việc áp dụng production; phân biệt rõ lab, kế hoạch đề xuất và việc đã thực hiện.",
+      "senior_signals": ["Chọn vấn đề có phạm vi rõ, nguồn đáng tin và một thử nghiệm gắn với vấn đề đó.", "Giải thích lần thử thất bại hoặc ví dụ thay đổi đã bộc lộ khoảng trống và dẫn đến bước tiếp theo thế nào."],
+      "pitfalls": ["Kể các khóa học hoặc nhận mình đã quen mà không mô tả lần tự thử cùng bằng chứng."],
+      "followups": ["Bạn phát hiện một hiểu nhầm trong lúc học bằng cách nào?", "Bạn vẫn cần kiểm chứng gì trước khi dựa vào công nghệ đó trong production?"]
+    }
+  },
+  {
+    "question_id": "S06-Q024",
+    "phase": "tradeoff",
+    "order": 30,
+    "version_sensitive": false,
+    "en": {
+      "question": "How would you explain a technical trade-off to a non-specialist so they can participate in the decision?",
+      "explanation": "Translate the engineering choice into its effect on the person's goals while preserving the important mechanism and limits. A trade-off means accepting a cost to obtain a benefit under stated constraints.",
+      "intent": "Make an engineering choice understandable without removing the information needed to judge it.",
+      "scope": "State the audience, decision and available evidence. Use a real privacy-safe example or label a hypothetical one; do not invent business impact.",
+      "senior_signals": ["Explains alternatives through consequences the audience can compare.", "Checks understanding and states the uncertainty that could change the recommendation."],
+      "pitfalls": ["Replaces the explanation with jargon or an analogy that hides a decisive limitation."],
+      "followups": ["How would you check that the listener understood the cost being accepted?", "Which technical detail must remain in the explanation to avoid a misleading decision?"]
+    },
+    "vi": {
+      "question": "Bạn giải thích một trade-off kỹ thuật cho người không chuyên thế nào để họ có thể tham gia quyết định?",
+      "explanation": "Chuyển lựa chọn kỹ thuật thành tác động đến mục tiêu của người nghe nhưng vẫn giữ cơ chế và giới hạn quan trọng. Trade-off là chấp nhận một cái giá để có lợi ích trong các ràng buộc đã nêu.",
+      "intent": "Làm lựa chọn kỹ thuật dễ hiểu mà không bỏ thông tin cần để đánh giá nó.",
+      "scope": "Nêu người nghe, quyết định và bằng chứng có sẵn. Dùng ví dụ thật đã bảo vệ riêng tư hoặc đánh dấu ví dụ giả định; không bịa tác động kinh doanh.",
+      "senior_signals": ["Giải thích phương án qua những hệ quả người nghe có thể so sánh.", "Kiểm tra mức độ hiểu và nêu điểm chưa chắc có thể làm thay đổi khuyến nghị."],
+      "pitfalls": ["Thay giải thích bằng thuật ngữ hoặc phép ví von che mất một giới hạn quyết định."],
+      "followups": ["Bạn kiểm tra thế nào rằng người nghe hiểu cái giá đang chấp nhận?", "Chi tiết kỹ thuật nào phải giữ lại để lời giải thích không dẫn đến quyết định sai?"]
+    }
+  },
+  {
+    "question_id": "S06-Q025",
+    "phase": "production",
+    "order": 40,
+    "version_sensitive": false,
+    "en": {
+      "question": "When an interviewer challenges a technical claim you made, how would you answer using concrete constraints, failure modes and measurable evidence?",
+      "explanation": "Continue defending the current claim rather than changing topics. A failure mode is a specific way the mechanism can stop meeting its intended contract.",
+      "intent": "Keep a deeper technical explanation responsive, bounded and supported by evidence.",
+      "scope": "Use the actual claim and assumptions already established. Distinguish observed measurements from proposed tests; acknowledge uncertainty instead of manufacturing a result.",
+      "senior_signals": ["Answers the challenge directly and identifies the condition under which the claim holds.", "Offers evidence that distinguishes outcomes and revises the claim if a counterexample applies."],
+      "pitfalls": ["Uses a polished bridge to evade the challenge or cites a measurement never performed."],
+      "followups": ["What counterexample would invalidate your claim?", "Which observation would distinguish your explanation from an alternative one?"]
+    },
+    "vi": {
+      "question": "Khi người phỏng vấn chất vấn một nhận định kỹ thuật bạn vừa đưa ra, bạn trả lời bằng ràng buộc cụ thể, failure mode và bằng chứng đo được như thế nào?",
+      "explanation": "Tiếp tục bảo vệ nhận định đang nói thay vì chuyển chủ đề. Failure mode là một cách cụ thể khiến cơ chế không còn đáp ứng hợp đồng mong muốn.",
+      "intent": "Giữ phần giải thích sâu bám câu hỏi, có giới hạn và được hỗ trợ bằng bằng chứng.",
+      "scope": "Dùng đúng nhận định và giả định đã thiết lập. Phân biệt số đo đã quan sát với bài kiểm thử mới đề xuất; thừa nhận điểm chưa chắc thay vì tạo ra kết quả.",
+      "senior_signals": ["Trả lời chất vấn trực tiếp và chỉ ra điều kiện để nhận định đúng.", "Đưa bằng chứng phân biệt các kết quả và điều chỉnh nhận định nếu phản ví dụ phù hợp."],
+      "pitfalls": ["Dùng câu chuyển chủ đề trau chuốt để né chất vấn hoặc dẫn số đo chưa từng thực hiện."],
+      "followups": ["Phản ví dụ nào sẽ làm nhận định của bạn không còn đúng?", "Quan sát nào phân biệt cách giải thích của bạn với một cách giải thích khác?"]
+    }
+  },
+  {
+    "question_id": "S06-SC001",
+    "phase": "mechanism",
+    "order": 10,
+    "version_sensitive": true,
+    "en": {
+      "question": "Trace one request from a browser interaction through the backend and its dependencies to the HTTP response and resulting UI state.",
+      "explanation": "Connect all ten source stages: component/UI event; frontend service/client; authentication information; gateway/reverse proxy; ASP.NET Core middleware; routing and authorization; application/domain logic; EF Core/database or external dependency; telemetry; HTTP response and UI state update.",
+      "intent": "Explain a cross-stack request causally with clear responsibility and failure boundaries.",
+      "scope": "Use a generic Angular/ASP.NET Core example; mark optional components and telemetry observed across stages. State runtime versions and verify version-specific pipeline behavior in official documentation.",
+      "senior_signals": ["Preserves all ten stages while distinguishing the illustrative path from a universal physical order.", "Connects a failure or latency symptom to observable evidence and the responsible boundary."],
+      "pitfalls": ["Lists layers without following data, authorization decisions or the UI outcome."],
+      "followups": ["Where would you look if the server completed the request but the screen stayed stale?", "How would you identify which boundary consumed most of a slow request's time?"]
+    },
+    "vi": {
+      "question": "Hãy theo dõi một request từ thao tác trong browser qua backend và các dependency đến HTTP response và trạng thái UI sau đó.",
+      "explanation": "Nối đủ mười chặng trong nguồn: component/sự kiện UI; frontend service/client; thông tin xác thực; gateway/reverse proxy; middleware ASP.NET Core; routing và authorization; application/domain logic; EF Core/database hoặc dependency bên ngoài; telemetry; HTTP response và cập nhật trạng thái UI.",
+      "intent": "Giải thích request xuyên stack theo quan hệ nhân quả, với ranh giới trách nhiệm và lỗi rõ ràng.",
+      "scope": "Dùng ví dụ Angular/ASP.NET Core tổng quát; đánh dấu phần tùy chọn và telemetry quan sát xuyên các chặng. Nêu phiên bản runtime và kiểm tra hành vi pipeline phụ thuộc phiên bản trong tài liệu chính thức.",
+      "senior_signals": ["Giữ đủ mười chặng nhưng phân biệt luồng minh họa với thứ tự vật lý bắt buộc cho mọi hệ thống.", "Nối triệu chứng lỗi hoặc độ trễ với bằng chứng quan sát được và ranh giới chịu trách nhiệm."],
+      "pitfalls": ["Kể các layer mà không theo dõi dữ liệu, quyết định authorization hoặc kết quả trên UI."],
+      "followups": ["Bạn tìm ở đâu nếu server đã xử lý xong request nhưng màn hình vẫn giữ dữ liệu cũ?", "Bạn xác định ranh giới nào chiếm nhiều thời gian nhất của request chậm bằng cách nào?"]
+    }
+  }
+]

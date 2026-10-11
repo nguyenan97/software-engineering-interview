@@ -5,6 +5,8 @@ title: "Algorithms, Coding & Debugging"
 
 # Algorithms, Coding & Debugging
 
+[Practice the structured questions in this domain](../../questions/index.md#algorithms-debugging) · [Complete question-to-source mapping](../../questions/coverage.md)
+
 [Curriculum index](../index.md) · [Source coverage](../source-coverage.md) · [Taxonomy](../../agent/TOPIC_TAXONOMY.md)
 
 Each topic has one primary learning objective set. Repeated source wording points here instead of creating another lesson. Start at a suitable level; prerequisites describe useful sequencing rather than inferred learner mastery.

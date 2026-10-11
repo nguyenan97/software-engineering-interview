@@ -1,0 +1,1402 @@
+[
+  {
+    "question_id": "S02-Q001",
+    "phase": "foundation",
+    "order": 1,
+    "version_sensitive": true,
+    "en": {
+      "question": "What is middleware in ASP.NET Core, and how does one request pass through a middleware pipeline?",
+      "explanation": "Explain the pipeline as a sequence of components handling an HTTP request and response. Make the control flow visible rather than listing built-in components.",
+      "intent": "Trace responsibility and control flow through a bounded request pipeline.",
+      "scope": "Use a named ASP.NET Core version and hosting setup; consult official documentation before relying on registration conventions.",
+      "senior_signals": [
+        "Draw a normal path and a path that ends before the endpoint.",
+        "Explain which components can observe the response and propose an ordering test."
+      ],
+      "pitfalls": [
+        "Describing middleware as a list of unrelated helpers without tracing a request."
+      ],
+      "followups": [
+        "How would you demonstrate that one component stops the remaining pipeline?",
+        "What changes when a component throws before calling the next component?"
+      ]
+    },
+    "vi": {
+      "question": "Middleware trong ASP.NET Core là gì? Một request đi qua chuỗi middleware như thế nào?",
+      "explanation": "Hãy xem pipeline là chuỗi thành phần xử lý HTTP request và response. Cần làm rõ luồng điều khiển thay vì chỉ liệt kê các middleware có sẵn.",
+      "intent": "Theo dấu trách nhiệm và luồng điều khiển trong một pipeline có phạm vi cụ thể.",
+      "scope": "Nêu phiên bản ASP.NET Core và cách khởi tạo ứng dụng; tra tài liệu chính thức trước khi dựa vào quy ước đăng ký.",
+      "senior_signals": [
+        "Vẽ đường đi bình thường và đường đi kết thúc trước endpoint.",
+        "Giải thích thành phần nào quan sát được response và đề xuất cách kiểm tra thứ tự."
+      ],
+      "pitfalls": [
+        "Kể middleware như các tiện ích rời rạc, không theo dấu một request."
+      ],
+      "followups": [
+        "Bạn chứng minh một thành phần dừng phần còn lại của pipeline thế nào?",
+        "Luồng thay đổi ra sao nếu một thành phần ném lỗi trước khi gọi thành phần tiếp theo?"
+      ]
+    }
+  },
+  {
+    "question_id": "S02-Q002",
+    "phase": "application",
+    "order": 2,
+    "version_sensitive": true,
+    "en": {
+      "question": "How would you implement and register custom middleware for one clearly stated cross-cutting concern?",
+      "explanation": "Choose a small concern, such as measuring request duration, and explain its integration. A cross-cutting concern affects several endpoints rather than one business operation.",
+      "intent": "Turn a pipeline responsibility into an inspectable implementation design.",
+      "scope": "Name the ASP.NET Core version and activation model; check official documentation for dependency lifetime and registration requirements.",
+      "senior_signals": [
+        "Show the invocation boundary and intended response behavior.",
+        "Specify placement, dependency ownership and a test for a failing request."
+      ],
+      "pitfalls": [
+        "Providing a code skeleton without explaining placement or dependency lifetime."
+      ],
+      "followups": [
+        "How would you test the middleware independently of a controller?",
+        "What happens if a dependency needs request-specific state?"
+      ]
+    },
+    "vi": {
+      "question": "Bạn triển khai và đăng ký middleware riêng cho một mối quan tâm dùng chung như thế nào?",
+      "explanation": "Chọn việc nhỏ, chẳng hạn đo thời gian request, rồi giải thích cách tích hợp. Mối quan tâm dùng chung ảnh hưởng nhiều endpoint, thay vì chỉ một nghiệp vụ.",
+      "intent": "Chuyển một trách nhiệm trong pipeline thành thiết kế triển khai có thể kiểm tra.",
+      "scope": "Nêu phiên bản ASP.NET Core và cách tạo middleware; tra yêu cầu chính thức về lifetime của dependency và cách đăng ký.",
+      "senior_signals": [
+        "Chỉ ra điểm gọi và hành vi response mong muốn.",
+        "Nêu vị trí, bên quản lý dependency và cách kiểm tra request gặp lỗi."
+      ],
+      "pitfalls": [
+        "Đưa khung code nhưng không giải thích vị trí hoặc lifetime của dependency."
+      ],
+      "followups": [
+        "Bạn kiểm tra middleware độc lập với controller thế nào?",
+        "Nếu dependency cần trạng thái riêng của request thì thiết kế thay đổi ra sao?"
+      ]
+    }
+  },
+  {
+    "question_id": "S02-Q003",
+    "phase": "failure",
+    "order": 3,
+    "version_sensitive": true,
+    "en": {
+      "question": "How can middleware ordering change routing, authentication, authorization and exception handling for the same request?",
+      "explanation": "Authentication identifies a caller; authorization checks permission. Trace one request to explain why a component needs information or coverage from another component.",
+      "intent": "Diagnose pipeline-order failures through causal traces.",
+      "scope": "Specify the ASP.NET Core version, endpoint model and explicit or implicit registrations; verify ordering rules in official documentation.",
+      "senior_signals": [
+        "Compare a working order with a failing order using the same request.",
+        "Show how endpoint metadata and an exception affect the observed response."
+      ],
+      "pitfalls": [
+        "Reciting an order without explaining its dependencies or assuming all hosts register identically."
+      ],
+      "followups": [
+        "Which exception locations would your handler actually cover?",
+        "How would you isolate an authorization failure caused by ordering?"
+      ]
+    },
+    "vi": {
+      "question": "Thứ tự middleware có thể làm thay đổi routing, authentication, authorization và xử lý exception của cùng một request ra sao?",
+      "explanation": "Authentication xác định người gọi; authorization kiểm tra quyền. Theo dấu request để giải thích thành phần nào cần thông tin hoặc phạm vi xử lý của thành phần khác.",
+      "intent": "Chẩn đoán lỗi thứ tự pipeline bằng quan hệ nguyên nhân–kết quả.",
+      "scope": "Nêu phiên bản ASP.NET Core, kiểu endpoint và phần đăng ký tường minh hay tự động; kiểm tra quy tắc thứ tự trong tài liệu chính thức.",
+      "senior_signals": [
+        "So sánh thứ tự hoạt động với thứ tự lỗi trên cùng một request.",
+        "Chỉ ra metadata endpoint và exception ảnh hưởng response quan sát được thế nào."
+      ],
+      "pitfalls": [
+        "Đọc thuộc thứ tự nhưng không giải thích dependency, hoặc cho rằng mọi cách khởi tạo đều đăng ký giống nhau."
+      ],
+      "followups": [
+        "Handler của bạn thực sự bao phủ exception ở những vị trí nào?",
+        "Bạn tách lỗi authorization do thứ tự middleware bằng cách nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S02-Q004",
+    "phase": "tradeoff",
+    "order": 4,
+    "version_sensitive": true,
+    "en": {
+      "question": "For a stated cross-cutting concern, when would you choose middleware and when would you choose an MVC filter?",
+      "explanation": "Compare the information and lifecycle boundary each extension point needs. Keep the decision tied to a concrete concern instead of treating the two mechanisms as interchangeable.",
+      "intent": "Choose an extension point from required context and coverage.",
+      "scope": "Assume ASP.NET Core MVC controllers; establish the version and confirm documented boundaries before generalizing to other endpoint types.",
+      "senior_signals": [
+        "Explain the context required by the concern and where it becomes available.",
+        "Compare coverage and a failure case for each candidate."
+      ],
+      "pitfalls": [
+        "Saying one mechanism replaces the other for every endpoint and concern."
+      ],
+      "followups": [
+        "Would the same choice cover a non-MVC endpoint?",
+        "What if the concern needs both action arguments and request-wide timing?"
+      ]
+    },
+    "vi": {
+      "question": "Với một việc cần áp dụng ở nhiều endpoint, khi nào bạn chọn middleware và khi nào chọn MVC filter?",
+      "explanation": "So sánh thông tin và giai đoạn xử lý mà mỗi cách mở rộng cần. Gắn quyết định với một việc cụ thể, không xem hai cơ chế luôn thay thế cho nhau.",
+      "intent": "Chọn điểm mở rộng theo dữ liệu cần dùng và phạm vi cần bao phủ.",
+      "scope": "Giả định dùng controller của ASP.NET Core MVC; nêu phiên bản và kiểm tra ranh giới trong tài liệu trước khi khái quát sang endpoint khác.",
+      "senior_signals": [
+        "Giải thích việc đó cần context nào và context xuất hiện ở đâu.",
+        "So sánh phạm vi bao phủ và một tình huống lỗi của từng phương án."
+      ],
+      "pitfalls": [
+        "Cho rằng một cơ chế thay thế cơ chế còn lại cho mọi endpoint và nhu cầu."
+      ],
+      "followups": [
+        "Lựa chọn đó có bao phủ endpoint không dùng MVC không?",
+        "Nếu cần cả tham số action và thời gian toàn bộ request thì bạn chọn thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S02-Q005",
+    "phase": "mechanism",
+    "order": 5,
+    "version_sensitive": true,
+    "en": {
+      "question": "What is an MVC action filter, and what kind of responsibility belongs at that point in request processing?",
+      "explanation": "Explain the action boundary and the context the filter needs. Use one concern to distinguish filter behavior from business logic inside the action.",
+      "intent": "Explain an action-filter responsibility and its lifecycle boundary.",
+      "scope": "Use ASP.NET Core MVC, naming the version and synchronous or asynchronous filter API; consult official lifecycle documentation.",
+      "senior_signals": [
+        "Trace the action and filter interactions for one request.",
+        "Identify what the filter should leave to application logic and test an interrupted action."
+      ],
+      "pitfalls": [
+        "Putting unrelated business workflows into a filter because it runs around actions."
+      ],
+      "followups": [
+        "How would you prevent the filter from executing a concern twice?",
+        "What can you observe if the action never runs?"
+      ]
+    },
+    "vi": {
+      "question": "Action filter trong MVC là gì? Loại trách nhiệm nào phù hợp với giai đoạn đó của request?",
+      "explanation": "Giải thích ranh giới thực thi action và context filter cần dùng. Dùng một việc cụ thể để phân biệt xử lý của filter với nghiệp vụ trong action.",
+      "intent": "Giải thích trách nhiệm và ranh giới vòng đời của action filter.",
+      "scope": "Dùng ASP.NET Core MVC; nêu phiên bản và API filter đồng bộ hay bất đồng bộ, rồi đối chiếu tài liệu vòng đời chính thức.",
+      "senior_signals": [
+        "Theo dấu tương tác giữa action và filter trên một request.",
+        "Nêu việc nên để application logic xử lý và kiểm tra khi action bị ngắt."
+      ],
+      "pitfalls": [
+        "Đưa workflow nghiệp vụ không liên quan vào filter chỉ vì filter chạy quanh action."
+      ],
+      "followups": [
+        "Bạn tránh để filter thực hiện cùng một việc hai lần thế nào?",
+        "Nếu action không được chạy thì filter quan sát được gì?"
+      ]
+    }
+  },
+  {
+    "question_id": "S02-Q006",
+    "phase": "production",
+    "order": 6,
+    "version_sensitive": true,
+    "en": {
+      "question": "Draw one request from client through the API and application layer to a database or external dependency, then back to the client.",
+      "explanation": "Label responsibilities and the points where state or latency can change. Include one failed dependency call so the diagram explains observable behavior, not only architecture boxes.",
+      "intent": "Connect an end-to-end request trace to diagnostic evidence.",
+      "scope": "Choose one concrete operation and deployment; specify the ASP.NET Core version before relying on framework lifecycle details.",
+      "senior_signals": [
+        "Trace success and failure with ownership at each boundary.",
+        "Identify evidence that separates application delay from dependency delay."
+      ],
+      "pitfalls": [
+        "Drawing layers without data flow, response ownership or failure propagation."
+      ],
+      "followups": [
+        "Where would you correlate logs across the dependency boundary?",
+        "What would the client observe if the database commits but the response is lost?"
+      ]
+    },
+    "vi": {
+      "question": "Vẽ đường đi của một request từ client qua API và application layer đến database hoặc dịch vụ ngoài, rồi quay về client.",
+      "explanation": "Ghi trách nhiệm và điểm có thể thay đổi trạng thái hoặc độ trễ. Thêm một lần gọi dependency thất bại để sơ đồ thể hiện hành vi quan sát được, không chỉ các hộp kiến trúc.",
+      "intent": "Gắn luồng request xuyên suốt với bằng chứng chẩn đoán.",
+      "scope": "Chọn một nghiệp vụ và cách triển khai cụ thể; nêu phiên bản ASP.NET Core trước khi dựa vào chi tiết vòng đời của framework.",
+      "senior_signals": [
+        "Theo dấu thành công và thất bại, chỉ rõ bên chịu trách nhiệm tại từng ranh giới.",
+        "Nêu bằng chứng phân biệt độ trễ ứng dụng với độ trễ dependency."
+      ],
+      "pitfalls": [
+        "Vẽ các layer nhưng thiếu luồng dữ liệu, bên tạo response hoặc cách lỗi lan truyền."
+      ],
+      "followups": [
+        "Bạn liên kết log qua ranh giới dependency ở đâu?",
+        "Client quan sát gì nếu database đã commit nhưng response bị mất?"
+      ]
+    }
+  },
+  {
+    "question_id": "S02-Q007",
+    "phase": "mechanism",
+    "order": 7,
+    "version_sensitive": true,
+    "en": {
+      "question": "How does MVC routing select the endpoint or action for an incoming URL?",
+      "explanation": "Explain how a request is matched to executable behavior. Distinguish route matching from the later use of route values as action inputs.",
+      "intent": "Trace endpoint selection and diagnose an unmatched or ambiguous route.",
+      "scope": "Clarify ASP.NET Core MVC versus older ASP.NET MVC; state version, attribute or conventional routing, and check official rules.",
+      "senior_signals": [
+        "Walk through one route table and matching request.",
+        "Compare an unmatched request with an ambiguous match using observable evidence."
+      ],
+      "pitfalls": [
+        "Treating routing as string concatenation or assuming route matching validates every input."
+      ],
+      "followups": [
+        "How would you test two routes whose patterns overlap?",
+        "Which part of your explanation changes between attribute and conventional routing?"
+      ]
+    },
+    "vi": {
+      "question": "MVC routing chọn endpoint hoặc action cho một URL gửi đến như thế nào?",
+      "explanation": "Giải thích cách ghép request với hành vi sẽ chạy. Phân biệt việc chọn route với việc dùng route values làm đầu vào action sau đó.",
+      "intent": "Theo dấu việc chọn endpoint và chẩn đoán route không khớp hoặc mơ hồ.",
+      "scope": "Làm rõ ASP.NET Core MVC hay ASP.NET MVC cũ; nêu phiên bản, attribute routing hay conventional routing và tra quy tắc chính thức.",
+      "senior_signals": [
+        "Đi qua một bảng route và request cụ thể.",
+        "So sánh request không khớp với request khớp mơ hồ bằng bằng chứng quan sát được."
+      ],
+      "pitfalls": [
+        "Xem routing chỉ là ghép chuỗi hoặc nghĩ chọn route đã kiểm tra mọi dữ liệu đầu vào."
+      ],
+      "followups": [
+        "Bạn kiểm tra hai route có mẫu chồng lấn như thế nào?",
+        "Phần nào thay đổi khi chuyển giữa attribute routing và conventional routing?"
+      ]
+    }
+  },
+  {
+    "question_id": "S02-Q008",
+    "phase": "mechanism",
+    "order": 8,
+    "version_sensitive": true,
+    "en": {
+      "question": "Explain the lifecycle of one MVC request that renders a page, from route selection to the final response.",
+      "explanation": "Identify the chosen model, action and rendering responsibilities. The source wording says request/page lifecycle, so clarify the framework instead of mixing MVC with an unrelated page model.",
+      "intent": "Build a coherent lifecycle trace for a specified MVC application.",
+      "scope": "Declare ASP.NET Core MVC or older ASP.NET MVC and its version; do not assume a Web Forms or Razor Pages lifecycle. Check the applicable official lifecycle.",
+      "senior_signals": [
+        "Explain transitions using one request and the data available at each stage.",
+        "Trace what changes when validation fails or rendering throws."
+      ],
+      "pitfalls": [
+        "Combining lifecycle stages from different frameworks into one sequence."
+      ],
+      "followups": [
+        "How does the trace differ when the action returns data instead of a view?",
+        "Where would you instrument a slow render?"
+      ]
+    },
+    "vi": {
+      "question": "Giải thích vòng đời một request MVC trả trang HTML, từ lúc chọn route đến response cuối cùng.",
+      "explanation": "Nêu trách nhiệm của model, action và phần render đã chọn. Nguồn dùng cụm request/page lifecycle, nên cần xác định framework thay vì trộn với mô hình trang khác.",
+      "intent": "Dựng luồng vòng đời nhất quán cho một ứng dụng MVC đã xác định.",
+      "scope": "Nêu ASP.NET Core MVC hay ASP.NET MVC cũ và phiên bản; không mặc định vòng đời của Web Forms hoặc Razor Pages. Tra tài liệu chính thức tương ứng.",
+      "senior_signals": [
+        "Giải thích chuyển tiếp bằng một request và dữ liệu có ở từng giai đoạn.",
+        "Theo dấu sự thay đổi khi validation thất bại hoặc render ném lỗi."
+      ],
+      "pitfalls": [
+        "Ghép các giai đoạn thuộc nhiều framework thành một chuỗi."
+      ],
+      "followups": [
+        "Luồng khác thế nào nếu action trả dữ liệu thay vì view?",
+        "Bạn đặt điểm đo render chậm ở đâu?"
+      ]
+    }
+  },
+  {
+    "question_id": "S02-Q009",
+    "phase": "failure",
+    "order": 9,
+    "version_sensitive": true,
+    "en": {
+      "question": "How would you handle an unhandled API exception while preserving a useful client contract and diagnostic evidence?",
+      "explanation": "Explain who owns the error response and what operators need to investigate it. Separate unexpected failures from expected business errors without inventing a framework default.",
+      "intent": "Design consistent failure reporting with explicit response boundaries.",
+      "scope": "Specify ASP.NET Core version, environment and whether the response has started; verify official exception-handling behavior.",
+      "senior_signals": [
+        "Trace a failing dependency to its client-visible outcome and correlated log.",
+        "Explain response-started and information-disclosure limits, with a test for each."
+      ],
+      "pitfalls": [
+        "Returning every exception detail to the caller or claiming one handler covers every failure."
+      ],
+      "followups": [
+        "What would you do if part of the response is already sent?",
+        "How would you avoid logging the same exception redundantly?"
+      ]
+    },
+    "vi": {
+      "question": "Bạn xử lý exception chưa được bắt trong API thế nào để giữ hợp đồng lỗi hữu ích cho client và bằng chứng chẩn đoán?",
+      "explanation": "Giải thích bên chịu trách nhiệm tạo error response và thông tin người vận hành cần. Phân biệt lỗi bất ngờ với lỗi nghiệp vụ dự kiến, không tự giả định default của framework.",
+      "intent": "Thiết kế cách báo lỗi nhất quán với ranh giới response rõ ràng.",
+      "scope": "Nêu phiên bản ASP.NET Core, môi trường và response đã bắt đầu hay chưa; kiểm tra hành vi xử lý exception trong tài liệu chính thức.",
+      "senior_signals": [
+        "Theo dấu lỗi dependency đến kết quả client nhìn thấy và log có liên kết.",
+        "Giải thích giới hạn khi response đã bắt đầu và nguy cơ lộ thông tin, kèm cách kiểm tra."
+      ],
+      "pitfalls": [
+        "Trả mọi chi tiết exception cho client hoặc khẳng định một handler bao phủ mọi lỗi."
+      ],
+      "followups": [
+        "Bạn làm gì nếu một phần response đã được gửi?",
+        "Bạn tránh ghi log lặp lại cùng một exception thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S02-Q010",
+    "phase": "application",
+    "order": 10,
+    "version_sensitive": true,
+    "en": {
+      "question": "How would you validate an incoming API model before allowing its business operation to proceed?",
+      "explanation": "Distinguish input shape and field rules from business rules that depend on current system state. Explain the invalid-input response the caller can act on.",
+      "intent": "Place validation responsibilities and define an observable failure contract.",
+      "scope": "Name ASP.NET Core version, endpoint model and validation configuration; verify automatic behavior in official documentation.",
+      "senior_signals": [
+        "Trace malformed, structurally valid and business-invalid input separately.",
+        "Explain where state-dependent rules run and test error consistency."
+      ],
+      "pitfalls": [
+        "Assuming field annotations alone cover database races and every business invariant."
+      ],
+      "followups": [
+        "What if input passes validation but relevant data changes before persistence?",
+        "How would you keep errors consistent across several endpoints?"
+      ]
+    },
+    "vi": {
+      "question": "Bạn kiểm tra model gửi vào API thế nào trước khi cho phép nghiệp vụ tiếp tục?",
+      "explanation": "Phân biệt cấu trúc, quy tắc từng trường với quy tắc nghiệp vụ phụ thuộc trạng thái hệ thống. Giải thích response lỗi để client biết cách xử lý.",
+      "intent": "Đặt trách nhiệm validation và xác định hợp đồng lỗi có thể quan sát.",
+      "scope": "Nêu phiên bản ASP.NET Core, kiểu endpoint và cấu hình validation; tra tài liệu chính thức cho hành vi tự động.",
+      "senior_signals": [
+        "Theo dấu riêng dữ liệu sai định dạng, đúng cấu trúc và vi phạm nghiệp vụ.",
+        "Giải thích nơi kiểm tra quy tắc phụ thuộc trạng thái, rồi kiểm tra lỗi trả về nhất quán."
+      ],
+      "pitfalls": [
+        "Cho rằng annotation trên field xử lý cả race trong database và mọi bất biến nghiệp vụ."
+      ],
+      "followups": [
+        "Nếu dữ liệu vượt validation nhưng trạng thái liên quan đổi trước khi lưu thì sao?",
+        "Bạn giữ lỗi nhất quán giữa nhiều endpoint thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S02-Q011",
+    "phase": "foundation",
+    "order": 11,
+    "version_sensitive": false,
+    "en": {
+      "question": "How do a RESTful API and a server-rendered MVC application differ in responsibilities and client interaction?",
+      "explanation": "Compare two delivery styles for the same user action. REST is an architectural style, so explain the intended contract rather than reducing the distinction to a response format.",
+      "intent": "Separate API and page-rendering responsibilities without confusing architectural levels.",
+      "scope": "Assume HTTP and one business capability; an MVC application may also expose APIs. No specific framework default is implied.",
+      "senior_signals": [
+        "Trace where presentation and application responsibilities sit in each design.",
+        "Explain one client or deployment constraint that changes the choice."
+      ],
+      "pitfalls": [
+        "Equating REST with any JSON endpoint or claiming MVC and REST cannot coexist."
+      ],
+      "followups": [
+        "How would supporting a mobile client affect your design?",
+        "What changes if the same application serves pages and APIs?"
+      ]
+    },
+    "vi": {
+      "question": "RESTful API và ứng dụng MVC render phía server khác nhau về trách nhiệm và cách tương tác với client ra sao?",
+      "explanation": "So sánh hai cách cung cấp cùng một hành động người dùng. REST là phong cách kiến trúc; hãy giải thích hợp đồng thay vì chỉ nói khác định dạng response.",
+      "intent": "Tách trách nhiệm API và render trang, không nhầm các cấp độ kiến trúc.",
+      "scope": "Giả định dùng HTTP và cùng một năng lực nghiệp vụ; ứng dụng MVC cũng có thể cung cấp API. Không giả định default của framework.",
+      "senior_signals": [
+        "Theo dấu trách nhiệm trình bày và ứng dụng trong mỗi thiết kế.",
+        "Nêu một ràng buộc client hoặc triển khai khiến lựa chọn thay đổi."
+      ],
+      "pitfalls": [
+        "Đồng nhất REST với mọi endpoint JSON hoặc nói MVC và REST không thể cùng tồn tại."
+      ],
+      "followups": [
+        "Thêm mobile client ảnh hưởng thiết kế thế nào?",
+        "Điều gì thay đổi nếu một ứng dụng cung cấp cả trang và API?"
+      ]
+    }
+  },
+  {
+    "question_id": "S02-Q012",
+    "phase": "tradeoff",
+    "order": 12,
+    "version_sensitive": false,
+    "en": {
+      "question": "What advantages and trade-offs would a REST API introduce for a concrete product capability?",
+      "explanation": "Choose a caller and interaction pattern, then judge the style against their requirements. Discuss costs and limits alongside benefits instead of giving a universal recommendation.",
+      "intent": "Evaluate an API style against a stated workload and operational constraints.",
+      "scope": "Use HTTP, a specified client and a concrete read/write workflow; distinguish architectural properties from implementation promises.",
+      "senior_signals": [
+        "Tie benefits and costs to the chosen interaction pattern.",
+        "Name an alternative and the evidence or requirement that would favor it."
+      ],
+      "pitfalls": [
+        "Claiming REST is always faster or scalable merely because responses are JSON."
+      ],
+      "followups": [
+        "Would frequent server-pushed updates change your choice?",
+        "How would you validate the number and cost of client round trips?"
+      ]
+    },
+    "vi": {
+      "question": "Với một chức năng sản phẩm cụ thể, REST API mang lại lợi ích và đánh đổi gì?",
+      "explanation": "Chọn người gọi và cách tương tác, rồi đánh giá theo yêu cầu của họ. Nêu cả chi phí và giới hạn thay vì đưa khuyến nghị cho mọi trường hợp.",
+      "intent": "Đánh giá kiểu API theo workload và ràng buộc vận hành đã nêu.",
+      "scope": "Dùng HTTP, một loại client và luồng đọc/ghi cụ thể; phân biệt đặc tính kiến trúc với lời hứa về triển khai.",
+      "senior_signals": [
+        "Gắn lợi ích và chi phí với cách tương tác đã chọn.",
+        "Nêu phương án khác và bằng chứng hoặc yêu cầu khiến phương án đó phù hợp hơn."
+      ],
+      "pitfalls": [
+        "Khẳng định REST luôn nhanh hoặc dễ scale chỉ vì response là JSON."
+      ],
+      "followups": [
+        "Nếu cần server đẩy cập nhật liên tục, lựa chọn có đổi không?",
+        "Bạn kiểm chứng số lượt gọi qua mạng và chi phí của chúng thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S02-Q013",
+    "phase": "application",
+    "order": 13,
+    "version_sensitive": true,
+    "en": {
+      "question": "Which HTTP method would you choose for a file-upload operation, and which operation semantics justify it?",
+      "explanation": "Clarify whether the caller creates an upload resource or replaces a known resource. The question concerns the operation contract, not only transferring file bytes.",
+      "intent": "Choose an HTTP method from resource identity and retry semantics.",
+      "scope": "State resource ownership, overwrite behavior and retry expectations; consult official HTTP and framework documentation for the selected method and upload API.",
+      "senior_signals": [
+        "Explain the resource affected and the intended effect of repetition.",
+        "Define response semantics and test an interrupted or repeated upload."
+      ],
+      "pitfalls": [
+        "Choosing a method only because it supports a request body."
+      ],
+      "followups": [
+        "How does an existing caller-chosen resource ID affect the decision?",
+        "What should a client do after losing the upload response?"
+      ]
+    },
+    "vi": {
+      "question": "Bạn chọn HTTP method nào cho thao tác upload file, và ngữ nghĩa nào của thao tác giúp bảo vệ lựa chọn đó?",
+      "explanation": "Làm rõ client tạo tài nguyên upload mới hay thay thế tài nguyên đã xác định. Câu hỏi nói về hợp đồng thao tác, không chỉ truyền byte của file.",
+      "intent": "Chọn HTTP method theo danh tính tài nguyên và ngữ nghĩa retry.",
+      "scope": "Nêu quyền sở hữu tài nguyên, hành vi ghi đè và kỳ vọng retry; tra tài liệu HTTP cùng framework cho method và API upload đã chọn.",
+      "senior_signals": [
+        "Giải thích tài nguyên bị tác động và hiệu ứng mong muốn khi gọi lặp.",
+        "Xác định ngữ nghĩa response và kiểm tra upload bị ngắt hoặc lặp lại."
+      ],
+      "pitfalls": [
+        "Chọn method chỉ vì method đó cho phép request body."
+      ],
+      "followups": [
+        "Nếu client tự chọn ID của tài nguyên đã có thì quyết định đổi thế nào?",
+        "Client nên làm gì khi mất response của lần upload?"
+      ]
+    }
+  },
+  {
+    "question_id": "S02-Q014",
+    "phase": "tradeoff",
+    "order": 14,
+    "version_sensitive": true,
+    "en": {
+      "question": "When is session state appropriate for an HTTP application, and what constraints make it a poor fit?",
+      "explanation": "Session state associates data with interactions from a caller across requests. Clarify which data needs that lifetime and what happens if it is lost or unavailable.",
+      "intent": "Choose state ownership from consistency, lifetime and deployment needs.",
+      "scope": "Name the framework version, session provider and replica topology; verify provider persistence and concurrency behavior in official documentation.",
+      "senior_signals": [
+        "Classify the proposed data by lifetime and business criticality.",
+        "Explain an outage or replica-switch scenario and compare an alternative store."
+      ],
+      "pitfalls": [
+        "Treating session as a durable system of record without examining its guarantees."
+      ],
+      "followups": [
+        "How would two concurrent requests affect the chosen session data?",
+        "What happens if the next request reaches another replica?"
+      ]
+    },
+    "vi": {
+      "question": "Khi nào session state phù hợp với ứng dụng HTTP, và ràng buộc nào khiến nó không phù hợp?",
+      "explanation": "Session gắn dữ liệu với các lần tương tác của một người gọi qua nhiều request. Làm rõ dữ liệu cần tồn tại bao lâu và chuyện gì xảy ra nếu dữ liệu mất hoặc không truy cập được.",
+      "intent": "Chọn nơi quản lý trạng thái theo tính nhất quán, lifetime và cách triển khai.",
+      "scope": "Nêu phiên bản framework, session provider và số replica; kiểm tra cam kết lưu trữ cùng hành vi đồng thời trong tài liệu chính thức.",
+      "senior_signals": [
+        "Phân loại dữ liệu đề xuất theo lifetime và mức quan trọng với nghiệp vụ.",
+        "Giải thích khi store lỗi hoặc request đổi replica, rồi so sánh nơi lưu khác."
+      ],
+      "pitfalls": [
+        "Xem session là nơi lưu dữ liệu nghiệp vụ bền vững mà chưa xét cam kết của nó."
+      ],
+      "followups": [
+        "Hai request đồng thời ảnh hưởng dữ liệu session đã chọn ra sao?",
+        "Nếu request tiếp theo vào replica khác thì chuyện gì xảy ra?"
+      ]
+    }
+  },
+  {
+    "question_id": "S02-Q015",
+    "phase": "mechanism",
+    "order": 15,
+    "version_sensitive": true,
+    "en": {
+      "question": "Which HTTP status codes express redirection, and how do temporary and permanent redirects differ for clients?",
+      "explanation": "Compare the semantics relevant to a browser or API client, including method handling and future use of the target URL. Distinguish intended protocol semantics from client observations.",
+      "intent": "Select a redirect contract and identify client behavior to verify.",
+      "scope": "Name the original method, client and caching context; consult official HTTP specifications and the actual framework documentation before asserting behavior.",
+      "senior_signals": [
+        "Compare relevant redirect codes rather than only their numeric labels.",
+        "Propose a client test for method/body handling and cached redirects."
+      ],
+      "pitfalls": [
+        "Treating all 3xx responses as interchangeable or ignoring request-method behavior."
+      ],
+      "followups": [
+        "What would you test when redirecting a request with a body?",
+        "How would you change a redirect that a client may have cached?"
+      ]
+    },
+    "vi": {
+      "question": "Những HTTP status code nào biểu thị redirect? Redirect tạm thời và vĩnh viễn khác nhau với client thế nào?",
+      "explanation": "So sánh ngữ nghĩa với browser hoặc API client, gồm cách xử lý method và việc dùng URL đích về sau. Phân biệt ngữ nghĩa giao thức với hành vi client thực sự quan sát được.",
+      "intent": "Chọn hợp đồng redirect và xác định hành vi client cần kiểm tra.",
+      "scope": "Nêu method gốc, client và bối cảnh cache; tra đặc tả HTTP chính thức cùng tài liệu framework trước khi khẳng định hành vi.",
+      "senior_signals": [
+        "So sánh các code liên quan thay vì chỉ đọc nhãn và con số.",
+        "Đề xuất kiểm tra client về method/body và redirect đã cache."
+      ],
+      "pitfalls": [
+        "Xem mọi response 3xx như nhau hoặc bỏ qua hành vi của request method."
+      ],
+      "followups": [
+        "Bạn kiểm tra gì khi redirect một request có body?",
+        "Bạn thay đổi redirect mà client có thể đã cache như thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S02-Q016",
+    "phase": "mechanism",
+    "order": 16,
+    "version_sensitive": true,
+    "en": {
+      "question": "How do ViewData, ViewBag and TempData differ in an MVC application, and which would you use for a stated message or view value?",
+      "explanation": "Explain the data handoff and intended lifetime in a concrete render or redirect flow. Avoid treating these conveniences as interchangeable business-data stores.",
+      "intent": "Choose a view-state mechanism from access and lifetime requirements.",
+      "scope": "Specify ASP.NET Core MVC or older MVC, version and TempData provider; verify official lifetime and consumption rules.",
+      "senior_signals": [
+        "Trace where the value is written and read in the chosen flow.",
+        "Explain a missing-value case and why longer-lived data belongs elsewhere."
+      ],
+      "pitfalls": [
+        "Reciting names without showing lifetime or assuming all providers behave identically."
+      ],
+      "followups": [
+        "How would a redirect change the lifetime requirement?",
+        "How would you test a value read more than once?"
+      ]
+    },
+    "vi": {
+      "question": "ViewData, ViewBag và TempData khác nhau thế nào trong MVC? Với một thông báo hoặc giá trị cho view, bạn chọn cách nào?",
+      "explanation": "Giải thích chỗ chuyển dữ liệu và lifetime trong luồng render hoặc redirect cụ thể. Không xem các tiện ích này là nơi lưu nghiệp vụ có thể thay thế cho nhau.",
+      "intent": "Chọn cơ chế dữ liệu cho view theo cách truy cập và yêu cầu lifetime.",
+      "scope": "Nêu ASP.NET Core MVC hay MVC cũ, phiên bản và TempData provider; kiểm tra quy tắc lifetime và đọc dữ liệu trong tài liệu chính thức.",
+      "senior_signals": [
+        "Theo dấu vị trí ghi và đọc giá trị trong luồng đã chọn.",
+        "Giải thích tình huống thiếu giá trị và vì sao dữ liệu sống lâu hơn nên được lưu nơi khác."
+      ],
+      "pitfalls": [
+        "Đọc tên mà không minh họa lifetime hoặc cho rằng mọi provider đều giống nhau."
+      ],
+      "followups": [
+        "Redirect làm thay đổi yêu cầu lifetime thế nào?",
+        "Bạn kiểm tra một giá trị được đọc nhiều lần ra sao?"
+      ]
+    }
+  },
+  {
+    "question_id": "S02-Q017",
+    "phase": "application",
+    "order": 17,
+    "version_sensitive": false,
+    "en": {
+      "question": "How would you expose a long-running API operation without making the caller wait for processing to finish?",
+      "explanation": "Design the caller-facing submission and observation contract. Separate accepting work from completing work, and clarify what a client can safely conclude from each response.",
+      "intent": "Design an asynchronous operation contract with observable progress and failure.",
+      "scope": "State completion time, durability requirements and client capabilities; no particular worker or status-code default is assumed.",
+      "senior_signals": [
+        "Define submission, operation identity and status/error transitions.",
+        "Trace lost responses and worker failure to a client-visible outcome."
+      ],
+      "pitfalls": [
+        "Returning immediately without defining whether the work survives a process restart."
+      ],
+      "followups": [
+        "How should a client recover after losing the submission response?",
+        "How would cancellation differ before and after processing starts?"
+      ]
+    },
+    "vi": {
+      "question": "Bạn cung cấp thao tác API chạy lâu thế nào để người gọi không phải chờ đến khi xử lý xong?",
+      "explanation": "Thiết kế hợp đồng gửi yêu cầu và theo dõi kết quả. Tách việc nhận xử lý khỏi việc hoàn tất, rồi làm rõ client được kết luận gì từ mỗi response.",
+      "intent": "Thiết kế hợp đồng thao tác bất đồng bộ với tiến độ và lỗi quan sát được.",
+      "scope": "Nêu thời gian xử lý, yêu cầu bền vững và khả năng của client; không mặc định loại worker hoặc status code cụ thể.",
+      "senior_signals": [
+        "Xác định cách gửi, danh tính thao tác và các chuyển trạng thái/kết quả lỗi.",
+        "Theo dấu mất response và lỗi worker đến kết quả client nhìn thấy."
+      ],
+      "pitfalls": [
+        "Trả về ngay nhưng không xác định công việc có sống qua lần restart hay không."
+      ],
+      "followups": [
+        "Client phục hồi thế nào khi mất response của lần gửi?",
+        "Hủy trước và sau khi xử lý bắt đầu khác nhau thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S02-Q018",
+    "phase": "failure",
+    "order": 18,
+    "version_sensitive": false,
+    "en": {
+      "question": "How would you make an API operation idempotent when clients retry or repeatedly send the same logical request?",
+      "explanation": "Idempotency concerns the effect of repeating a logical operation. Define sameness and caller-visible behavior, including simultaneous submissions rather than only sequential retries.",
+      "intent": "Protect an operation invariant across retries and concurrent submissions.",
+      "scope": "State the business effect, identity scope, retention period and persistence boundary; deliberate request spam is included but rate limiting is a separate concern.",
+      "senior_signals": [
+        "Define identity reuse with identical and conflicting payloads.",
+        "Trace concurrent calls and a failure after persistence, and specify a distinguishing test."
+      ],
+      "pitfalls": [
+        "Using a process-local duplicate check as a guarantee across replicas or equating idempotency with abuse prevention."
+      ],
+      "followups": [
+        "What happens when one operation ID arrives with different data?",
+        "What response should a retry receive while the first attempt is still running?"
+      ]
+    },
+    "vi": {
+      "question": "Bạn làm thao tác API idempotent thế nào khi client retry hoặc gửi lặp cùng một yêu cầu logic?",
+      "explanation": "Idempotency nói về hiệu ứng khi lặp một thao tác logic. Xác định thế nào là cùng yêu cầu và hành vi client nhìn thấy, gồm cả gửi đồng thời thay vì chỉ retry tuần tự.",
+      "intent": "Bảo vệ bất biến của thao tác qua retry và các lần gửi đồng thời.",
+      "scope": "Nêu hiệu ứng nghiệp vụ, phạm vi danh tính, thời gian lưu dấu và ranh giới lưu trữ; có xét spam cùng yêu cầu nhưng rate limiting là vấn đề riêng.",
+      "senior_signals": [
+        "Xác định cách xử lý cùng danh tính với payload giống và khác nhau.",
+        "Theo dấu lời gọi đồng thời và lỗi sau khi lưu, kèm cách kiểm tra phân biệt."
+      ],
+      "pitfalls": [
+        "Dùng kiểm tra trùng trong một process để cam kết cho nhiều replica, hoặc đồng nhất idempotency với chống lạm dụng."
+      ],
+      "followups": [
+        "Cùng một operation ID nhưng dữ liệu khác nhau thì xử lý gì?",
+        "Retry nhận response nào khi lần đầu vẫn đang chạy?"
+      ]
+    }
+  },
+  {
+    "question_id": "S02-Q019",
+    "phase": "tradeoff",
+    "order": 19,
+    "version_sensitive": false,
+    "en": {
+      "question": "When should resource-intensive or long-running work move out of the synchronous request path into a background job?",
+      "explanation": "Judge the decision using caller needs, resource pressure and failure recovery. Moving work changes its ownership and contract, so identify the operational costs as well as shorter request waiting.",
+      "intent": "Choose execution ownership from latency, resource and recovery constraints.",
+      "scope": "Include CPU-, memory- or I/O-intensive work; state workload, client deadline and required durability. This merges the API and cloud-source offloading questions.",
+      "senior_signals": [
+        "Connect an observed or proposed bottleneck to a caller requirement.",
+        "Compare synchronous and background execution, including status and capacity evidence."
+      ],
+      "pitfalls": [
+        "Assuming background execution removes resource cost or makes every workload faster."
+      ],
+      "followups": [
+        "When would synchronous processing still be the simpler correct choice?",
+        "How would you detect a background backlog after offloading?"
+      ]
+    },
+    "vi": {
+      "question": "Khi nào nên chuyển công việc chạy lâu hoặc tốn tài nguyên ra khỏi request đồng bộ để xử lý bằng background job?",
+      "explanation": "Đánh giá theo nhu cầu người gọi, áp lực tài nguyên và cách phục hồi lỗi. Chuyển việc làm đổi bên quản lý và hợp đồng, nên cần xét chi phí vận hành bên cạnh giảm thời gian chờ request.",
+      "intent": "Chọn nơi thực thi theo độ trễ, tài nguyên và yêu cầu phục hồi.",
+      "scope": "Bao gồm việc tốn CPU, bộ nhớ hoặc I/O; nêu workload, deadline client và mức bền vững cần có. Câu này gộp bối cảnh offloading của nguồn API và cloud.",
+      "senior_signals": [
+        "Gắn bottleneck quan sát được hoặc giả thuyết với yêu cầu người gọi.",
+        "So sánh xử lý đồng bộ và nền, gồm bằng chứng về trạng thái và năng lực xử lý."
+      ],
+      "pitfalls": [
+        "Nghĩ chuyển sang nền làm mất chi phí tài nguyên hoặc luôn khiến workload nhanh hơn."
+      ],
+      "followups": [
+        "Khi nào xử lý đồng bộ vẫn là cách đúng và đơn giản hơn?",
+        "Bạn phát hiện backlog sau khi chuyển việc sang nền thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S02-Q020",
+    "phase": "mechanism",
+    "order": 20,
+    "version_sensitive": true,
+    "en": {
+      "question": "How would you compare IHostedService, BackgroundService, a scheduler and an external queue-based worker for one workload?",
+      "explanation": "These choices describe overlapping lifecycle, triggering and deployment responsibilities. Explain those axes before choosing rather than treating the names as mutually exclusive products.",
+      "intent": "Compare background execution choices by lifecycle and failure boundaries.",
+      "scope": "Specify .NET version, scheduler or broker and deployment topology; consult official lifecycle and delivery documentation before asserting guarantees.",
+      "senior_signals": [
+        "Separate how work is triggered from where it runs and who owns it.",
+        "Compare restart behavior, scaling and operational evidence for the workload."
+      ],
+      "pitfalls": [
+        "Listing feature names without distinguishing process lifetime from durable work ownership."
+      ],
+      "followups": [
+        "Can a hosted service consume an external queue in your design?",
+        "Which requirement would make an independently deployed worker worthwhile?"
+      ]
+    },
+    "vi": {
+      "question": "Với một workload, bạn so sánh IHostedService, BackgroundService, scheduler và worker dùng queue bên ngoài thế nào?",
+      "explanation": "Các lựa chọn này có trách nhiệm về vòng đời, cách kích hoạt và triển khai có thể chồng lấn. Tách các trục đó trước khi chọn, không xem tên gọi là các sản phẩm loại trừ nhau.",
+      "intent": "So sánh cách chạy nền theo vòng đời và ranh giới lỗi.",
+      "scope": "Nêu phiên bản .NET, scheduler hoặc broker và mô hình triển khai; tra tài liệu vòng đời và delivery chính thức trước khi khẳng định cam kết.",
+      "senior_signals": [
+        "Tách cách kích hoạt công việc khỏi nơi chạy và bên quản lý nó.",
+        "So sánh restart, scale và bằng chứng vận hành theo workload."
+      ],
+      "pitfalls": [
+        "Kể tính năng mà không phân biệt lifetime của process với quyền quản lý công việc bền vững."
+      ],
+      "followups": [
+        "Hosted service có thể đọc queue bên ngoài trong thiết kế của bạn không?",
+        "Yêu cầu nào khiến worker triển khai độc lập đáng cân nhắc?"
+      ]
+    }
+  },
+  {
+    "question_id": "S02-Q021",
+    "phase": "application",
+    "order": 21,
+    "version_sensitive": true,
+    "en": {
+      "question": "How would you schedule recurring work with an explicit policy for missed runs and overlapping executions?",
+      "explanation": "Define what recurrence means for the business and how time maps to work identity. Discuss a schedule as an operational contract rather than only a timer expression.",
+      "intent": "Translate recurring-work requirements into a testable schedule policy.",
+      "scope": "State timezone, workload duration, deployment and scheduler/version; confirm time and persistence guarantees in official documentation.",
+      "senior_signals": [
+        "Specify timing, overlap and missed-run behavior with examples.",
+        "Explain how to observe successful, delayed and skipped work."
+      ],
+      "pitfalls": [
+        "Providing a cron expression without defining downtime or overlap behavior."
+      ],
+      "followups": [
+        "What happens if one run lasts longer than the interval?",
+        "How would you test a timezone or daylight-saving transition where applicable?"
+      ]
+    },
+    "vi": {
+      "question": "Bạn lập lịch công việc định kỳ thế nào với chính sách rõ cho lần chạy bị lỡ và các lần chạy chồng nhau?",
+      "explanation": "Xác định ý nghĩa định kỳ với nghiệp vụ và cách gắn thời điểm với danh tính công việc. Xem lịch là hợp đồng vận hành, không chỉ một biểu thức timer.",
+      "intent": "Chuyển yêu cầu chạy định kỳ thành chính sách lịch có thể kiểm tra.",
+      "scope": "Nêu timezone, thời gian chạy, cách triển khai và scheduler/phiên bản; xác minh cam kết thời gian và lưu trạng thái trong tài liệu chính thức.",
+      "senior_signals": [
+        "Nêu thời điểm, cách xử lý chồng lấn và lần chạy bị lỡ bằng ví dụ.",
+        "Giải thích cách quan sát công việc thành công, trễ và bị bỏ qua."
+      ],
+      "pitfalls": [
+        "Đưa cron expression nhưng không xác định hành vi khi downtime hoặc chạy chồng."
+      ],
+      "followups": [
+        "Nếu một lần chạy dài hơn khoảng lặp thì sao?",
+        "Bạn kiểm tra thay đổi timezone hoặc giờ mùa hè khi có áp dụng thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S02-Q022",
+    "phase": "failure",
+    "order": 22,
+    "version_sensitive": true,
+    "en": {
+      "question": "How would a background worker handle retries, cancellation, graceful shutdown and possible duplicate execution?",
+      "explanation": "Trace one job through interruptions and state changes. Graceful shutdown means a controlled attempt to stop; clarify the recovery boundary if that attempt cannot finish.",
+      "intent": "Protect a job invariant under interrupted and repeated execution.",
+      "scope": "Name the worker, .NET version and persistence mechanism; verify documented cancellation and shutdown guarantees rather than assuming completion.",
+      "senior_signals": [
+        "Distinguish retryable failure, cancellation request and committed work.",
+        "Trace an abrupt termination and state how a later worker recovers safely."
+      ],
+      "pitfalls": [
+        "Assuming a cancellation signal rolls back completed effects or shutdown always finishes."
+      ],
+      "followups": [
+        "What if shutdown occurs after a side effect but before the job is marked complete?",
+        "How would you prevent retries from overwhelming a failing dependency?"
+      ]
+    },
+    "vi": {
+      "question": "Worker nền xử lý retry, cancellation, graceful shutdown và khả năng chạy trùng một công việc như thế nào?",
+      "explanation": "Theo dấu một job qua gián đoạn và thay đổi trạng thái. Graceful shutdown là nỗ lực dừng có kiểm soát; cần làm rõ ranh giới phục hồi nếu không kịp dừng xong.",
+      "intent": "Bảo vệ bất biến của job khi bị ngắt và thực thi lặp.",
+      "scope": "Nêu worker, phiên bản .NET và cơ chế lưu trạng thái; xác minh cam kết cancellation/shutdown trong tài liệu, không mặc định luôn hoàn tất.",
+      "senior_signals": [
+        "Phân biệt lỗi có thể retry, yêu cầu hủy và phần việc đã commit.",
+        "Theo dấu dừng đột ngột và cách worker sau phục hồi an toàn."
+      ],
+      "pitfalls": [
+        "Nghĩ tín hiệu hủy hoàn tác hiệu ứng đã hoàn tất hoặc shutdown luôn kịp kết thúc."
+      ],
+      "followups": [
+        "Nếu shutdown sau side effect nhưng trước khi đánh dấu job xong thì sao?",
+        "Bạn tránh retry làm dependency đang lỗi bị quá tải thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S02-Q023",
+    "phase": "production",
+    "order": 23,
+    "version_sensitive": true,
+    "en": {
+      "question": "What changes when multiple application replicas schedule or execute the same scheduled or background work?",
+      "explanation": "Explain how work identity and execution ownership span processes. Cover both who triggers a run and what happens if two replicas still begin the same logical job.",
+      "intent": "Reason about coordination and safe recovery across scheduler replicas.",
+      "scope": "Include scheduled and background processing from both sources; state topology, scheduler/version and coordination-store guarantees after checking official documentation.",
+      "senior_signals": [
+        "Trace competing replicas, lost ownership and a later retry.",
+        "Define the business invariant and a multi-replica failure test that checks it."
+      ],
+      "pitfalls": [
+        "Relying on a process-local flag or claiming a distributed lock alone makes every side effect exactly once."
+      ],
+      "followups": [
+        "What happens if execution continues after its ownership lease expires?",
+        "How would you test a replica crash during a scheduled run?"
+      ]
+    },
+    "vi": {
+      "question": "Điều gì thay đổi khi nhiều replica của ứng dụng cùng lập lịch hoặc thực thi cùng một công việc theo lịch hoặc công việc nền?",
+      "explanation": "Giải thích danh tính công việc và quyền thực thi qua nhiều process. Xét cả bên kích hoạt lần chạy và chuyện gì xảy ra nếu hai replica vẫn bắt đầu cùng một job logic.",
+      "intent": "Lập luận về phối hợp và phục hồi an toàn giữa các replica chạy lịch.",
+      "scope": "Giữ cả bối cảnh scheduled và background processing từ hai nguồn; nêu topology, scheduler/phiên bản và cam kết của store điều phối sau khi tra tài liệu chính thức.",
+      "senior_signals": [
+        "Theo dấu replica cạnh tranh, mất quyền thực thi và retry về sau.",
+        "Nêu bất biến nghiệp vụ và cách kiểm tra lỗi nhiều replica để kiểm chứng bất biến."
+      ],
+      "pitfalls": [
+        "Dựa vào cờ trong process hoặc khẳng định riêng distributed lock khiến mọi side effect chỉ xảy ra đúng một lần."
+      ],
+      "followups": [
+        "Nếu việc vẫn chạy sau khi lease quyền thực thi hết hạn thì sao?",
+        "Bạn kiểm tra replica crash giữa một lần chạy định kỳ thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S02-Q024",
+    "phase": "application",
+    "order": 24,
+    "version_sensitive": true,
+    "en": {
+      "question": "How would you choose among First, FirstOrDefault, Single and SingleOrDefault for a query with a stated cardinality contract?",
+      "explanation": "Cardinality is the expected number of matching elements. Explain zero, one and multiple matches, and connect the operator choice to the meaning of unexpected data.",
+      "intent": "Choose a terminal operator from expected result count and failure semantics.",
+      "scope": "Clarify in-memory LINQ versus an EF provider, element type and ordering; verify official API/provider behavior before claiming generated SQL or cost.",
+      "senior_signals": [
+        "Compare all four operators on zero, one and multiple matches.",
+        "Explain which data problem should be visible and how to test it."
+      ],
+      "pitfalls": [
+        "Choosing solely by shorter syntax or treating OrDefault as a guarantee that all failures disappear."
+      ],
+      "followups": [
+        "What does first mean when your query has no explicit order?",
+        "Would operator choice enforce uniqueness in the database?"
+      ]
+    },
+    "vi": {
+      "question": "Với yêu cầu rõ về số kết quả, bạn chọn First, FirstOrDefault, Single hay SingleOrDefault thế nào?",
+      "explanation": "Cardinality là số phần tử khớp dự kiến. Giải thích các trường hợp không có, có một và có nhiều kết quả, rồi gắn lựa chọn với ý nghĩa dữ liệu ngoài dự kiến.",
+      "intent": "Chọn terminal operator theo số kết quả mong đợi và ngữ nghĩa lỗi.",
+      "scope": "Làm rõ LINQ trong bộ nhớ hay EF provider, kiểu phần tử và thứ tự; tra hành vi API/provider chính thức trước khi khẳng định SQL sinh ra hoặc chi phí.",
+      "senior_signals": [
+        "So sánh cả bốn operator trên các trường hợp không có, một và nhiều kết quả.",
+        "Giải thích vấn đề dữ liệu cần được lộ ra và cách kiểm tra."
+      ],
+      "pitfalls": [
+        "Chọn vì cú pháp ngắn hơn hoặc nghĩ OrDefault bảo đảm loại bỏ mọi lỗi."
+      ],
+      "followups": [
+        "First có nghĩa gì nếu query không có thứ tự tường minh?",
+        "Lựa chọn operator có cưỡng chế uniqueness trong database không?"
+      ]
+    }
+  },
+  {
+    "question_id": "S02-Q026",
+    "phase": "mechanism",
+    "order": 26,
+    "version_sensitive": true,
+    "en": {
+      "question": "What are deferred execution and query translation, and how would you trace them in one LINQ query?",
+      "explanation": "Deferred execution concerns when work occurs; translation concerns how an expression is converted for another execution engine. Separate query construction from observing actual execution.",
+      "intent": "Trace query construction, execution and provider translation boundaries.",
+      "scope": "State LINQ source, .NET/EF Core version and provider; inspect official translation rules and real command evidence rather than assuming every expression translates.",
+      "senior_signals": [
+        "Identify an execution trigger and trace repeated enumeration.",
+        "Use a translatable and a potentially unsupported expression to explain verification."
+      ],
+      "pitfalls": [
+        "Assuming constructing a query already ran it or every C# operation becomes SQL."
+      ],
+      "followups": [
+        "What changes if the underlying data changes before enumeration?",
+        "How would you verify whether an expression ran locally or in the database?"
+      ]
+    },
+    "vi": {
+      "question": "Deferred execution và query translation là gì? Bạn theo dấu hai việc đó trong một LINQ query thế nào?",
+      "explanation": "Deferred execution nói về lúc công việc được thực hiện; translation nói về cách biểu thức được chuyển cho engine khác. Tách dựng query khỏi bằng chứng thực thi thực tế.",
+      "intent": "Theo dấu ranh giới dựng query, thực thi và chuyển đổi của provider.",
+      "scope": "Nêu nguồn LINQ, phiên bản .NET/EF Core và provider; tra quy tắc translation chính thức cùng command thực tế, không mặc định mọi biểu thức đều chuyển được.",
+      "senior_signals": [
+        "Chỉ ra điểm kích hoạt thực thi và theo dấu enumeration lặp.",
+        "Dùng một biểu thức chuyển được và một biểu thức có thể không hỗ trợ để giải thích kiểm chứng."
+      ],
+      "pitfalls": [
+        "Nghĩ dựng query là đã chạy, hoặc mọi thao tác C# đều thành SQL."
+      ],
+      "followups": [
+        "Nếu dữ liệu nền đổi trước enumeration thì chuyện gì thay đổi?",
+        "Bạn kiểm chứng biểu thức chạy cục bộ hay ở database như thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S02-Q027",
+    "phase": "mechanism",
+    "order": 27,
+    "version_sensitive": true,
+    "en": {
+      "question": "For one EF Core workload, how would you compare lazy, eager and explicit loading of related data?",
+      "explanation": "Compare when related data is requested and what the application knows beforehand. Relate the choice to the required result rather than assuming one loading style always wins.",
+      "intent": "Choose a loading strategy using access patterns and query evidence.",
+      "scope": "Name EF Core version, provider, lazy-loading configuration and relationship cardinality; check official support and inspect emitted commands.",
+      "senior_signals": [
+        "Trace the same data access under each candidate strategy.",
+        "Compare round trips, returned data and failure boundaries with a measurement plan."
+      ],
+      "pitfalls": [
+        "Ranking strategies without workload context or assuming lazy loading is enabled."
+      ],
+      "followups": [
+        "How does unpredictable navigation access affect your choice?",
+        "What would you measure when two collections are needed?"
+      ]
+    },
+    "vi": {
+      "question": "Với một workload EF Core, bạn so sánh lazy loading, eager loading và explicit loading dữ liệu liên quan thế nào?",
+      "explanation": "So sánh lúc dữ liệu liên quan được yêu cầu và những gì ứng dụng biết trước. Gắn lựa chọn với kết quả cần có, không mặc định một cách luôn tốt hơn.",
+      "intent": "Chọn cách tải dữ liệu theo mẫu truy cập và bằng chứng query.",
+      "scope": "Nêu phiên bản EF Core, provider, cấu hình lazy loading và số lượng quan hệ; tra hỗ trợ chính thức và quan sát command được gửi.",
+      "senior_signals": [
+        "Theo dấu cùng một truy cập dữ liệu dưới từng cách tải.",
+        "So sánh lượt gọi, lượng dữ liệu và ranh giới lỗi bằng kế hoạch đo."
+      ],
+      "pitfalls": [
+        "Xếp hạng cách tải mà không có workload hoặc mặc định lazy loading đã bật."
+      ],
+      "followups": [
+        "Truy cập navigation khó đoán ảnh hưởng lựa chọn thế nào?",
+        "Bạn đo gì khi cần tải hai collection?"
+      ]
+    }
+  },
+  {
+    "question_id": "S02-Q028",
+    "phase": "application",
+    "order": 28,
+    "version_sensitive": true,
+    "en": {
+      "question": "How would you configure eager loading for the relationships required by a specific EF Core query?",
+      "explanation": "Identify the object graph the caller needs and show how the query requests it. An object graph is the set of related objects needed for that response, not every relationship in the model.",
+      "intent": "Translate required related data into an inspectable query configuration.",
+      "scope": "Name EF Core version, provider and relationship shape; check official Include/ThenInclude support and any selected query-splitting behavior.",
+      "senior_signals": [
+        "Map required relationships to the configuration and verify the returned graph.",
+        "Inspect commands and data volume rather than assuming one efficient SQL statement."
+      ],
+      "pitfalls": [
+        "Including every navigation property without considering result size or actual callers."
+      ],
+      "followups": [
+        "How would you verify that a nested relationship is loaded?",
+        "When would a projection meet this response contract more directly?"
+      ]
+    },
+    "vi": {
+      "question": "Bạn cấu hình eager loading thế nào cho các quan hệ mà một EF Core query cụ thể cần?",
+      "explanation": "Xác định nhóm object liên quan người gọi cần và cách query yêu cầu chúng. Object graph là các object cần cho response đó, không phải mọi quan hệ trong model.",
+      "intent": "Chuyển yêu cầu dữ liệu liên quan thành cấu hình query có thể kiểm tra.",
+      "scope": "Nêu phiên bản EF Core, provider và dạng quan hệ; tra hỗ trợ Include/ThenInclude chính thức cùng hành vi chia query nếu chọn dùng.",
+      "senior_signals": [
+        "Gắn từng quan hệ cần có với cấu hình và kiểm tra graph trả về.",
+        "Quan sát command và lượng dữ liệu, không mặc định chỉ có một SQL hiệu quả."
+      ],
+      "pitfalls": [
+        "Include mọi navigation mà chưa xét kích thước kết quả hoặc người gọi thực tế."
+      ],
+      "followups": [
+        "Bạn kiểm chứng một quan hệ lồng đã được tải thế nào?",
+        "Khi nào projection đáp ứng hợp đồng response trực tiếp hơn?"
+      ]
+    }
+  },
+  {
+    "question_id": "S02-Q029",
+    "phase": "mechanism",
+    "order": 29,
+    "version_sensitive": true,
+    "en": {
+      "question": "What does AsNoTracking() change in an EF Core query, and when would that choice fit the unit of work?",
+      "explanation": "Explain the relationship between queried entities and the context that manages changes. Judge the option by later use of the results, not merely by calling it a performance switch.",
+      "intent": "Choose tracking behavior from entity use and persistence requirements.",
+      "scope": "State EF Core version, provider and query shape; consult official tracking and identity-resolution documentation before asserting detailed behavior.",
+      "senior_signals": [
+        "Trace reading and later editing the same result under the chosen mode.",
+        "Specify correctness checks and a measurement before claiming an improvement."
+      ],
+      "pitfalls": [
+        "Assuming no-tracking means no database locks or that every later edit is automatically persisted."
+      ],
+      "followups": [
+        "What changes if the response requires repeated references to the same entity?",
+        "How would you make a later update explicit in this design?"
+      ]
+    },
+    "vi": {
+      "question": "AsNoTracking() thay đổi điều gì trong EF Core query, và khi nào lựa chọn đó phù hợp với unit of work?",
+      "explanation": "Giải thích quan hệ giữa entity được đọc và context quản lý thay đổi. Đánh giá theo việc dùng kết quả sau đó, thay vì chỉ gọi đây là công tắc tăng tốc.",
+      "intent": "Chọn tracking theo cách dùng entity và yêu cầu lưu thay đổi.",
+      "scope": "Nêu phiên bản EF Core, provider và dạng query; tra tài liệu tracking và identity resolution chính thức trước khi khẳng định chi tiết.",
+      "senior_signals": [
+        "Theo dấu đọc rồi sửa cùng kết quả dưới chế độ đã chọn.",
+        "Nêu kiểm tra tính đúng và phép đo trước khi khẳng định cải thiện."
+      ],
+      "pitfalls": [
+        "Nghĩ no-tracking nghĩa là database không dùng lock hoặc mọi sửa đổi sau đó tự được lưu."
+      ],
+      "followups": [
+        "Nếu response cần nhiều tham chiếu đến cùng một entity thì có gì đổi?",
+        "Bạn làm rõ việc cập nhật về sau trong thiết kế này thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S02-Q030",
+    "phase": "mechanism",
+    "order": 30,
+    "version_sensitive": true,
+    "en": {
+      "question": "How would you distinguish server-side and client-side evaluation in an EF Core query?",
+      "explanation": "Explain which operations run in the database and which run in application memory. Use one expression to expose the boundary and its consequences for data transfer and correctness.",
+      "intent": "Locate an evaluation boundary using provider and command evidence.",
+      "scope": "Specify EF Core version, database provider and expression position; consult official evaluation rules because support and failure behavior are version-sensitive.",
+      "senior_signals": [
+        "Trace the expression to database commands and local processing.",
+        "Test an unsupported expression and explain the effect of moving the boundary."
+      ],
+      "pitfalls": [
+        "Assuming any C# expression translates or describing historical provider behavior as a current default."
+      ],
+      "followups": [
+        "How would an earlier materialization change the amount of data transferred?",
+        "What evidence shows where the filter actually ran?"
+      ]
+    },
+    "vi": {
+      "question": "Bạn phân biệt server-side evaluation và client-side evaluation trong EF Core query như thế nào?",
+      "explanation": "Giải thích thao tác nào chạy ở database, thao tác nào chạy trong bộ nhớ ứng dụng. Dùng một biểu thức để làm rõ ranh giới và ảnh hưởng đến lượng dữ liệu cùng tính đúng.",
+      "intent": "Xác định ranh giới evaluation bằng bằng chứng provider và command.",
+      "scope": "Nêu phiên bản EF Core, database provider và vị trí biểu thức; tra quy tắc evaluation chính thức vì hỗ trợ và hành vi lỗi phụ thuộc phiên bản.",
+      "senior_signals": [
+        "Theo dấu biểu thức đến command database và phần xử lý cục bộ.",
+        "Kiểm tra biểu thức không hỗ trợ và giải thích hiệu ứng khi chuyển ranh giới."
+      ],
+      "pitfalls": [
+        "Mặc định mọi biểu thức C# đều chuyển được hoặc lấy hành vi provider cũ làm default hiện tại."
+      ],
+      "followups": [
+        "Materialize sớm hơn làm đổi lượng dữ liệu truyền thế nào?",
+        "Bằng chứng nào cho thấy filter thực sự chạy ở đâu?"
+      ]
+    }
+  },
+  {
+    "question_id": "S02-Q031",
+    "phase": "production",
+    "order": 31,
+    "version_sensitive": true,
+    "en": {
+      "question": "How can projection and generated SQL affect an EF Core query, and how would you verify a proposed improvement?",
+      "explanation": "Projection selects the shape of the returned data. Connect that shape to the response contract and actual database work instead of assuming fewer lines of LINQ imply less work.",
+      "intent": "Validate a query-shape change with equivalent results and workload evidence.",
+      "scope": "State EF Core version, provider, representative data and response fields; use official tooling documentation for command inspection.",
+      "senior_signals": [
+        "Compare result equivalence, selected data and emitted commands before and after.",
+        "Propose measurements that separate database work, transfer and application allocation."
+      ],
+      "pitfalls": [
+        "Promising a speedup from shorter LINQ without inspecting SQL or checking correctness."
+      ],
+      "followups": [
+        "What if the projection introduces an extra related-data query?",
+        "How would you choose representative data for the comparison?"
+      ]
+    },
+    "vi": {
+      "question": "Projection và SQL do EF Core sinh ra ảnh hưởng query thế nào? Bạn kiểm chứng một cải tiến đề xuất ra sao?",
+      "explanation": "Projection chọn hình dạng dữ liệu trả về. Gắn hình dạng đó với hợp đồng response và công việc thực tế ở database, không mặc định LINQ ít dòng hơn là ít việc hơn.",
+      "intent": "Kiểm chứng thay đổi query shape bằng kết quả tương đương và bằng chứng workload.",
+      "scope": "Nêu phiên bản EF Core, provider, dữ liệu đại diện và các field response; dùng tài liệu công cụ chính thức để quan sát command.",
+      "senior_signals": [
+        "So sánh tính tương đương kết quả, dữ liệu được chọn và command trước/sau.",
+        "Đề xuất phép đo tách việc ở database, dữ liệu truyền và cấp phát trong ứng dụng."
+      ],
+      "pitfalls": [
+        "Hứa tăng tốc vì LINQ ngắn hơn mà chưa xem SQL hoặc kiểm tra tính đúng."
+      ],
+      "followups": [
+        "Nếu projection tạo thêm một query dữ liệu liên quan thì sao?",
+        "Bạn chọn dữ liệu đại diện để so sánh thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S02-Q032",
+    "phase": "failure",
+    "order": 32,
+    "version_sensitive": true,
+    "en": {
+      "question": "What causes an N+1 query pattern in EF Core, and how would you prove that it occurs in one endpoint?",
+      "explanation": "N+1 describes an initial query followed by additional queries associated with individual results. Connect the pattern to the access path and evidence, not only to a loading-strategy label.",
+      "intent": "Diagnose repeated database calls and verify a targeted correction.",
+      "scope": "Name EF Core version, provider and loading configuration; inspect command evidence with realistic result counts before asserting a cause.",
+      "senior_signals": [
+        "Trace which access triggers repeated commands and compare query counts as results grow.",
+        "Verify a changed loading or projection strategy preserves results and improves the measured symptom."
+      ],
+      "pitfalls": [
+        "Declaring N+1 from slow response alone or assuming every loading problem has the same fix."
+      ],
+      "followups": [
+        "How would you distinguish N+1 from one expensive database query?",
+        "What other cost could increase after reducing the round trips?"
+      ]
+    },
+    "vi": {
+      "question": "Điều gì gây mẫu N+1 query trong EF Core? Bạn chứng minh một endpoint gặp vấn đề đó như thế nào?",
+      "explanation": "N+1 mô tả một query ban đầu rồi các query bổ sung gắn với từng kết quả. Gắn mẫu này với đường truy cập và bằng chứng, không chỉ tên cách tải dữ liệu.",
+      "intent": "Chẩn đoán lời gọi database lặp và kiểm chứng sửa đổi đúng chỗ.",
+      "scope": "Nêu phiên bản EF Core, provider và cấu hình loading; quan sát command với số kết quả thực tế trước khi khẳng định nguyên nhân.",
+      "senior_signals": [
+        "Theo dấu truy cập kích hoạt command lặp và so sánh số query khi số kết quả tăng.",
+        "Kiểm tra loading hoặc projection mới giữ đúng kết quả và cải thiện triệu chứng đã đo."
+      ],
+      "pitfalls": [
+        "Kết luận N+1 chỉ vì response chậm hoặc cho rằng mọi lỗi loading có cùng cách sửa."
+      ],
+      "followups": [
+        "Bạn phân biệt N+1 với một query database tốn thời gian thế nào?",
+        "Chi phí nào khác có thể tăng sau khi giảm số lượt gọi?"
+      ]
+    }
+  },
+  {
+    "question_id": "S02-Q033",
+    "phase": "failure",
+    "order": 33,
+    "version_sensitive": true,
+    "en": {
+      "question": "How would optimistic concurrency detect conflicting updates, and what role could a row-version token play?",
+      "explanation": "Optimistic concurrency detects whether assumptions from an earlier read still hold at write time. Explain how the application should interpret and resolve a conflict, not just name a token.",
+      "intent": "Protect a business update by detecting and handling stale-write conflicts.",
+      "scope": "State EF Core version, provider and token configuration; distinguish SQL Server rowversion from a generic application token and check official semantics.",
+      "senior_signals": [
+        "Trace two readers and competing writes, identifying the conflict boundary.",
+        "Define a business-appropriate resolution policy and a concurrent-update test."
+      ],
+      "pitfalls": [
+        "Calling rowversion a wall-clock timestamp or retrying a business conflict without re-evaluating the data."
+      ],
+      "followups": [
+        "Which updates could you merge, and which require the caller to decide?",
+        "How would you preserve the original user intent after reloading current data?"
+      ]
+    },
+    "vi": {
+      "question": "Optimistic concurrency phát hiện hai lần cập nhật xung đột thế nào? Token row-version có thể đóng vai trò gì?",
+      "explanation": "Optimistic concurrency kiểm tra giả định từ lần đọc trước còn đúng khi ghi hay không. Giải thích ứng dụng nhận biết và xử lý xung đột, không chỉ nêu tên token.",
+      "intent": "Bảo vệ cập nhật nghiệp vụ bằng phát hiện và xử lý dữ liệu ghi đã cũ.",
+      "scope": "Nêu phiên bản EF Core, provider và cấu hình token; phân biệt rowversion của SQL Server với token do ứng dụng quản lý, rồi tra ngữ nghĩa chính thức.",
+      "senior_signals": [
+        "Theo dấu hai lần đọc và các lần ghi cạnh tranh, chỉ ra ranh giới phát hiện xung đột.",
+        "Xác định chính sách giải quyết phù hợp nghiệp vụ và cách kiểm tra cập nhật đồng thời."
+      ],
+      "pitfalls": [
+        "Gọi rowversion là thời điểm đồng hồ hoặc retry xung đột nghiệp vụ mà không đánh giá lại dữ liệu."
+      ],
+      "followups": [
+        "Cập nhật nào có thể merge, cập nhật nào cần người gọi quyết định?",
+        "Bạn giữ ý định ban đầu của người dùng sau khi tải lại dữ liệu hiện tại thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S02-Q034",
+    "phase": "mechanism",
+    "order": 34,
+    "version_sensitive": true,
+    "en": {
+      "question": "How would you manage DbContext lifetime for a web application and its units of work?",
+      "explanation": "A unit of work is the boundary of related data operations intended to be managed together. Explain ownership, disposal and concurrent use in a concrete request or background operation.",
+      "intent": "Align context ownership with work boundaries and concurrency requirements.",
+      "scope": "State EF Core version, DI registration and any pooling or factory use; consult official lifetime and concurrency documentation before asserting guarantees.",
+      "senior_signals": [
+        "Trace who creates, uses and disposes the context in one operation.",
+        "Explain a concurrent-use or long-running-work risk and how to test the chosen boundary."
+      ],
+      "pitfalls": [
+        "Treating a single shared context as a universal cache or assuming request scope automatically fits every job."
+      ],
+      "followups": [
+        "What changes for work that continues after the request finishes?",
+        "How would parallel data operations affect your context ownership?"
+      ]
+    },
+    "vi": {
+      "question": "Bạn quản lý lifetime của DbContext theo các unit of work trong ứng dụng web như thế nào?",
+      "explanation": "Unit of work là ranh giới các thao tác dữ liệu liên quan cần được quản lý cùng nhau. Giải thích bên sở hữu, việc giải phóng và dùng đồng thời trong request hoặc công việc nền cụ thể.",
+      "intent": "Gắn quyền quản lý context với ranh giới công việc và yêu cầu đồng thời.",
+      "scope": "Nêu phiên bản EF Core, đăng ký DI và việc dùng pooling/factory nếu có; tra tài liệu lifetime và concurrency chính thức trước khi khẳng định cam kết.",
+      "senior_signals": [
+        "Theo dấu bên tạo, dùng và giải phóng context trong một thao tác.",
+        "Giải thích rủi ro dùng đồng thời hoặc chạy lâu và cách kiểm tra ranh giới đã chọn."
+      ],
+      "pitfalls": [
+        "Xem một context dùng chung là cache cho mọi trường hợp hoặc mặc định request scope phù hợp mọi job."
+      ],
+      "followups": [
+        "Công việc tiếp tục sau khi request kết thúc làm thay đổi gì?",
+        "Các thao tác dữ liệu song song ảnh hưởng quyền quản lý context thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S02-Q035",
+    "phase": "tradeoff",
+    "order": 35,
+    "version_sensitive": true,
+    "en": {
+      "question": "When would raw SQL or a stored procedure be justified instead of LINQ for one data operation?",
+      "explanation": "Choose from a concrete capability or measured limitation, then account for the resulting maintenance and correctness obligations. Compare alternatives without assuming handwritten SQL is inherently faster.",
+      "intent": "Justify a data-access boundary with requirements and verifiable trade-offs.",
+      "scope": "Name EF Core version, provider and operation; check official parameterization, result mapping and tracking behavior for the chosen API.",
+      "senior_signals": [
+        "Show the requirement or evidence that LINQ does not meet well.",
+        "Compare parameter safety, transaction ownership, mapping and regression checks."
+      ],
+      "pitfalls": [
+        "Choosing raw SQL solely for a presumed speed advantage or concatenating untrusted input into SQL text."
+      ],
+      "followups": [
+        "What evidence would let you return to a LINQ implementation?",
+        "How would you test schema changes against the chosen result mapping?"
+      ]
+    },
+    "vi": {
+      "question": "Khi nào raw SQL hoặc stored procedure đáng chọn thay cho LINQ trong một thao tác dữ liệu?",
+      "explanation": "Chọn theo nhu cầu cụ thể hoặc giới hạn đã đo, rồi xét trách nhiệm bảo trì và tính đúng phát sinh. Không mặc định SQL viết tay vốn luôn nhanh hơn.",
+      "intent": "Bảo vệ lựa chọn ranh giới truy cập dữ liệu bằng yêu cầu và đánh đổi có thể kiểm chứng.",
+      "scope": "Nêu phiên bản EF Core, provider và thao tác; tra hành vi parameterization, ánh xạ kết quả và tracking của API được chọn.",
+      "senior_signals": [
+        "Nêu yêu cầu hoặc bằng chứng cho thấy LINQ chưa đáp ứng tốt.",
+        "So sánh an toàn tham số, quyền quản lý transaction, mapping và kiểm tra hồi quy."
+      ],
+      "pitfalls": [
+        "Chọn raw SQL chỉ vì nghĩ nhanh hơn hoặc ghép đầu vào không tin cậy vào câu SQL."
+      ],
+      "followups": [
+        "Bằng chứng nào cho phép bạn quay lại cách viết LINQ?",
+        "Bạn kiểm tra thay đổi schema với mapping kết quả đã chọn thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S02-SC001",
+    "phase": "production",
+    "order": 100,
+    "version_sensitive": true,
+    "en": {
+      "question": "Design a flow for importing a file containing tens of thousands of records, from submission to an observable final outcome.",
+      "explanation": "Keep file submission, job execution and record-level correctness distinct. Explain one coherent design that meets every source constraint and exposes its failure boundaries.",
+      "intent": "Integrate import correctness, asynchronous processing and recovery into one defensible design.",
+      "scope": "All ten source constraints apply: do not hold HTTP open until processing finishes; stream/chunk where appropriate; validate format and business rules; choose all-or-nothing or partial success; perform efficient bulk writes; produce a validation/error report; prevent repeat-file duplicate jobs; prevent duplicate records within the file and against stored data; expose status; make retries safe. Queues, jobs, SqlBulkCopy, EF bulk operations, unique constraints and idempotency are options, not prescribed answers; specify versions/providers and verify any chosen guarantees.",
+      "senior_signals": [
+        "Map every constraint to an owned state transition and explicit failure policy.",
+        "Trace concurrent resubmission, invalid rows and a crash near persistence; propose evidence for correctness and throughput."
+      ],
+      "pitfalls": [
+        "Solving only upload latency while ignoring row duplicates, partial failure or retry behavior."
+      ],
+      "followups": [
+        "How would the report identify rows already committed under partial success?",
+        "What happens if the same file arrives again while the first import is running?"
+      ]
+    },
+    "vi": {
+      "question": "Thiết kế luồng import file có hàng chục nghìn bản ghi, từ khi gửi file đến kết quả cuối cùng mà người gọi theo dõi được.",
+      "explanation": "Tách việc nhận file, thực thi job và tính đúng ở từng bản ghi. Giải thích một thiết kế nhất quán đáp ứng mọi ràng buộc nguồn và làm rõ các ranh giới lỗi.",
+      "intent": "Kết hợp tính đúng của import, xử lý bất đồng bộ và phục hồi thành thiết kế có thể bảo vệ.",
+      "scope": "Áp dụng đủ mười ràng buộc nguồn: không giữ HTTP mở đến khi xử lý xong; stream/chunk khi phù hợp; kiểm tra định dạng và quy tắc nghiệp vụ; chọn tất cả-hoặc-không hay thành công từng phần; ghi bulk hiệu quả; tạo báo cáo validation/lỗi; tránh job trùng khi gửi lại cùng file; tránh bản ghi trùng trong file và với dữ liệu đã lưu; cho phép theo dõi trạng thái; retry an toàn. Queue, job, SqlBulkCopy, EF bulk operations, unique constraint và idempotency là lựa chọn, không phải đáp án bắt buộc; nêu phiên bản/provider và xác minh cam kết của phương án chọn.",
+      "senior_signals": [
+        "Gắn từng ràng buộc với chuyển trạng thái có bên quản lý và chính sách lỗi rõ ràng.",
+        "Theo dấu gửi lại đồng thời, dòng không hợp lệ và crash gần lúc lưu; đề xuất bằng chứng về tính đúng và throughput."
+      ],
+      "pitfalls": [
+        "Chỉ giải quyết thời gian upload mà bỏ qua bản ghi trùng, lỗi từng phần hoặc retry."
+      ],
+      "followups": [
+        "Báo cáo nhận diện dòng đã commit trong chế độ thành công từng phần thế nào?",
+        "Nếu cùng file được gửi lại khi import đầu vẫn đang chạy thì sao?"
+      ]
+    }
+  }
+]

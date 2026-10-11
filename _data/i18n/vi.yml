@@ -9,6 +9,7 @@ missing_translation: Trang này hiện chỉ có bản English. Liên kết mở
 nav:
   home: Học hôm nay
   lessons: Bài học
+  questions: Câu hỏi
   curriculum: Lộ trình
   workflow: Cách sử dụng
 footer:
@@ -80,6 +81,7 @@ home:
     đọc chỉ được lưu trong trình duyệt này. Agent trong repo ghi bài làm, hoàn thành và lịch ôn.
   library: Các bài đã xuất bản
   curriculum: Xem lộ trình →
+  questions: Luyện một câu hỏi nguồn →
   empty: Chưa có bài được xuất bản. Gửi prompt hằng ngày cho agent đang mở repo.
   fallback: Bản English; chưa có bản Tiếng Việt.
 prompts:

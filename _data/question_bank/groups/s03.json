@@ -1,0 +1,254 @@
+[
+  {
+    "group_id": "algorithms-department-headcount",
+    "representative_question_id": "S03-Q032",
+    "en": {
+      "title": "Department headcount: define the row before counting",
+      "goal": "Write and verify a department headcount query against an exact reporting contract.",
+      "competencies": [
+        "Choose the department identity that each output row represents.",
+        "Justify the counted expression, threshold and preservation of empty departments.",
+        "Detect incorrect results with boundary data and an added one-to-many join."
+      ],
+      "bridge": "Begin with the source task: return departments with more than three employees. A query can run successfully and still count the wrong thing; follow the joined rows into groups, then check the report's boundary cases. Zero-count reports are a changed contract, not a hidden requirement of the original task.",
+      "scenario": "Design a headcount endpoint for departments that may share names and employees whose names may be missing. First implement the source threshold report, then an added report including empty departments. A later change joins employee skills, with several skills per person: show how you would detect a headcount regression using explicit expected rows.",
+      "rubric": {
+        "basic": "Produces a query for ordinary data and explains the more-than-three threshold.",
+        "senior": "Defends grouping and counting against duplicate names, NULLs and join multiplication; compares results for each declared report contract.",
+        "evidence_missing": "No query, expected boundary rows or observed output is supplied; a fluent explanation alone does not establish correctness."
+      }
+    },
+    "vi": {
+      "title": "Đếm nhân viên theo phòng ban: xác định dòng trước khi đếm",
+      "goal": "Viết và kiểm chứng truy vấn headcount phòng ban theo một hợp đồng báo cáo chính xác.",
+      "competencies": [
+        "Chọn danh tính phòng ban mà mỗi dòng đầu ra đại diện.",
+        "Bảo vệ biểu thức đếm, ngưỡng và cách giữ phòng ban rỗng.",
+        "Phát hiện kết quả sai bằng dữ liệu biên và một JOIN một–nhiều được thêm vào."
+      ],
+      "bridge": "Bắt đầu với bài trong nguồn: trả phòng ban có hơn ba nhân viên. Truy vấn có thể chạy thành công nhưng vẫn đếm sai; lần theo các dòng đã JOIN vào nhóm rồi kiểm tra các biên của báo cáo. Báo cáo số 0 là hợp đồng đã đổi, không phải yêu cầu ngầm của bài gốc.",
+      "scenario": "Thiết kế endpoint headcount cho các phòng ban có thể trùng tên và nhân viên có thể thiếu tên. Trước hết triển khai báo cáo vượt ngưỡng trong nguồn, rồi báo cáo bổ sung giữ phòng ban rỗng. Một thay đổi sau đó JOIN kỹ năng nhân viên, mỗi người có thể có nhiều kỹ năng: chỉ ra cách phát hiện regression headcount bằng các dòng kỳ vọng rõ ràng.",
+      "rubric": {
+        "basic": "Viết được truy vấn với dữ liệu thông thường và giải thích ngưỡng hơn ba.",
+        "senior": "Bảo vệ cách nhóm, đếm trước tên trùng, NULL và JOIN làm nhân dòng; đối chiếu kết quả cho từng hợp đồng báo cáo đã nêu.",
+        "evidence_missing": "Chưa có truy vấn, dòng kỳ vọng ở các biên hoặc output quan sát được; giải thích trôi chảy chưa chứng minh tính đúng."
+      }
+    }
+  },
+  {
+    "group_id": "algorithms-sql-relations",
+    "representative_question_id": "S03-Q033",
+    "en": {
+      "title": "Relational contracts: identity, NULL and outer-join equivalence",
+      "goal": "Verify that a schema or join rewrite preserves the declared relational data contract.",
+      "competencies": [
+        "Distinguish row identity from additional uniqueness requirements.",
+        "Specify accepted and rejected nullable-key inputs for the actual database.",
+        "Compare the full result of outer-join rewrites, including unmatched and duplicate rows."
+      ],
+      "bridge": "Can a LEFT JOIN report be rewritten with RIGHT JOIN without changing its output? Before comparing results, establish the identities and uniqueness assumptions of the input data. Keys describe permitted data; NULL and unmatched rows expose the boundaries that a rewrite must preserve. The headcount exercise now has its own focused group.",
+      "scenario": "Review a data-access refactor that adds uniqueness to an optional customer business code and rewrites an order report from LEFT JOIN to RIGHT JOIN. For the deployed SQL Server version, define allowed insert/update examples and compare projected report rows using customers without orders and duplicate join inputs. State which source assumptions the refactor relies on.",
+      "rubric": {
+        "basic": "Distinguishes primary/unique roles and compares a simple outer-join example.",
+        "senior": "States engine and key scope, tests nullable uniqueness, and proves query equivalence with predicates, projection and row multiplicity retained.",
+        "evidence_missing": "No declared database behavior or boundary inputs/results are supplied; constraints and equivalent-looking SQL have not been verified."
+      }
+    },
+    "vi": {
+      "title": "Hợp đồng dữ liệu quan hệ: danh tính, NULL và outer join tương đương",
+      "goal": "Kiểm chứng việc thay schema hoặc viết lại JOIN vẫn giữ hợp đồng dữ liệu quan hệ đã nêu.",
+      "competencies": [
+        "Phân biệt danh tính dòng với những yêu cầu duy nhất khác.",
+        "Nêu đầu vào khóa có thể NULL được chấp nhận và bị từ chối trong cơ sở dữ liệu thực dùng.",
+        "So sánh toàn bộ kết quả khi viết lại outer join, kể cả dòng không ghép được và dòng trùng."
+      ],
+      "bridge": "Có thể viết lại báo cáo LEFT JOIN bằng RIGHT JOIN mà không đổi đầu ra không? Trước khi so sánh, xác định danh tính và giả định về tính duy nhất của đầu vào. Khóa mô tả dữ liệu được phép; NULL và dòng không ghép được làm lộ các biên cần giữ khi viết lại. Bài headcount hiện nằm trong group riêng có phạm vi hẹp.",
+      "scenario": "Review một refactor truy cập dữ liệu: thêm yêu cầu duy nhất cho mã nghiệp vụ khách hàng không bắt buộc và đổi báo cáo đơn hàng từ LEFT JOIN sang RIGHT JOIN. Với phiên bản SQL Server đang triển khai, định nghĩa ví dụ insert/update được phép và so sánh dòng báo cáo bằng khách hàng chưa có đơn cùng đầu vào JOIN trùng. Nêu giả định nào từ nguồn mà refactor dựa vào.",
+      "rubric": {
+        "basic": "Phân biệt vai trò primary/unique và so sánh một ví dụ outer join đơn giản.",
+        "senior": "Nêu engine và phạm vi khóa, kiểm thử uniqueness với NULL, chứng minh truy vấn tương đương khi giữ điều kiện, cột đầu ra và số lần xuất hiện của dòng.",
+        "evidence_missing": "Chưa có hành vi cơ sở dữ liệu được xác định hoặc đầu vào/kết quả biên; constraint và SQL nhìn có vẻ tương đương chưa được kiểm chứng."
+      }
+    }
+  },
+  {
+    "group_id": "sql-bulk-import",
+    "representative_question_id": "S03-Q027",
+    "en": {
+      "title": "Bulk import: throughput with an explicit recovery contract",
+      "goal": "Design a resource-bounded import whose insertion and recovery behavior match the business contract.",
+      "competencies": [
+        "Compare row inserts, batching and bulk copy using equivalent input and transaction conditions.",
+        "Trace validation, buffering and database work to identify resource limits.",
+        "Choose all-or-nothing or partial-success semantics and explain safe retries."
+      ],
+      "bridge": "How would you insert 10,000 or more records efficiently? First compare the data paths, then define what happens to valid and invalid rows. Buffering, transaction size and database maintenance interact; a faster happy path is insufficient when a late failure leaves an unclear result.",
+      "scenario": "Design a .NET worker importing a large CSV into SQL Server while normal API traffic continues. Memory is limited and malformed rows may appear near the end. Declare whether the job is atomic or allows partial success, choose an insertion approach, then define cancellation, retry/resume, result reporting and the measurements needed to compare it with a baseline.",
+      "rubric": {
+        "basic": "Names a viable insertion approach and a clear treatment of invalid rows.",
+        "senior": "Traces bounded data flow, validates provider options, and defends failure/retry semantics alongside workload-level resource and throughput checks.",
+        "evidence_missing": "No pipeline/design artifact, failure-state examples or comparable measurements are supplied; efficiency and safe recovery remain proposals."
+      }
+    },
+    "vi": {
+      "title": "Bulk import: throughput đi cùng hợp đồng phục hồi rõ ràng",
+      "goal": "Thiết kế import giới hạn tài nguyên, có hành vi insert và phục hồi đúng hợp đồng nghiệp vụ.",
+      "competencies": [
+        "So sánh insert từng dòng, theo batch và bulk copy với đầu vào, điều kiện transaction tương đương.",
+        "Lần theo validation, buffer và công việc cơ sở dữ liệu để xác định giới hạn tài nguyên.",
+        "Chọn hợp đồng all-or-nothing hoặc thành công một phần và giải thích cách retry an toàn."
+      ],
+      "bridge": "Bạn insert từ 10.000 bản ghi trở lên bản ghi hiệu quả như thế nào? Trước hết so sánh các luồng dữ liệu, rồi định nghĩa điều xảy ra với dòng hợp lệ và không hợp lệ. Buffer, kích thước transaction và công việc bảo trì dữ liệu tương tác với nhau; luồng thành công nhanh hơn chưa đủ nếu lỗi cuối job để lại kết quả không rõ ràng.",
+      "scenario": "Thiết kế worker .NET import CSV lớn vào SQL Server trong khi API vẫn phục vụ lưu lượng thường. Bộ nhớ có giới hạn và dòng sai định dạng có thể xuất hiện gần cuối. Nêu job phải nguyên tử hay được thành công một phần, chọn cách insert rồi định nghĩa cancellation, retry/resume, báo kết quả và số đo để so sánh với baseline.",
+      "rubric": {
+        "basic": "Nêu cách insert khả thi và cách xử lý dòng không hợp lệ rõ ràng.",
+        "senior": "Lần theo luồng dữ liệu có giới hạn, xác minh tùy chọn provider và bảo vệ hành vi thất bại/retry cùng kiểm tra tài nguyên, throughput của workload.",
+        "evidence_missing": "Chưa có code hoặc bản thiết kế pipeline, ví dụ trạng thái khi lỗi hay số đo so sánh; hiệu quả và phục hồi an toàn vẫn là đề xuất."
+      }
+    }
+  },
+  {
+    "group_id": "sql-index-design",
+    "representative_question_id": "S03-Q011",
+    "en": {
+      "title": "Index design: an access path that earns its cost",
+      "goal": "Choose and validate an index from a concrete workload's access needs and maintenance costs.",
+      "competencies": [
+        "Trace rowstore access and distinguish the roles of index structures.",
+        "Justify composite key order and coverage for declared predicates and output.",
+        "Interpret plan/read evidence and evaluate write regressions before retaining a change."
+      ],
+      "bridge": "When should an index be created? Build the decision from how indexed keys locate data, then examine the query's access requirements. Seek, scan and lookup observations connect that model to evidence; read gains must still justify the workload's storage and write costs.",
+      "scenario": "An ASP.NET Core order endpoint filters by tenant and time range while background workers insert new orders. Propose candidate indexes for a declared query and SQL Server deployment, compare representative distributions and explain how to test read benefits, write impact and the condition for rolling back the change. No benchmark result is supplied.",
+      "rubric": {
+        "basic": "Explains index roles and proposes a plausible index for the query.",
+        "senior": "Defends key order and coverage from access needs, interprets actual evidence, and accepts or rejects the change based on both read and write requirements.",
+        "evidence_missing": "No query, data distribution, plan or workload measurements are supplied; the candidate is not yet a demonstrated improvement."
+      }
+    },
+    "vi": {
+      "title": "Thiết kế index: đường truy cập phải xứng đáng với chi phí",
+      "goal": "Chọn và kiểm chứng index từ nhu cầu truy cập cùng chi phí bảo trì của workload cụ thể.",
+      "competencies": [
+        "Lần theo truy cập rowstore và phân biệt vai trò các cấu trúc index.",
+        "Bảo vệ thứ tự khóa composite và độ bao phủ theo điều kiện lọc, đầu ra đã nêu.",
+        "Diễn giải bằng chứng plan/số lần đọc và đánh giá regression ghi trước khi giữ thay đổi."
+      ],
+      "bridge": "Khi nào nên tạo index? Xây dựng quyết định từ cách khóa index tìm dữ liệu, rồi xét nhu cầu truy cập của truy vấn. Quan sát seek, scan và lookup nối mô hình đó với bằng chứng; lợi ích đọc vẫn phải xứng đáng với chi phí lưu trữ và ghi của workload.",
+      "scenario": "Một endpoint đơn hàng ASP.NET Core lọc theo tenant và khoảng thời gian, trong khi worker nền insert đơn mới. Đề xuất các index ứng viên cho truy vấn và môi trường SQL Server đã nêu, so sánh những phân bố dữ liệu đại diện, giải thích cách kiểm tra lợi ích đọc, tác động ghi và điều kiện rollback thay đổi. Chưa có kết quả benchmark được cung cấp.",
+      "rubric": {
+        "basic": "Giải thích vai trò index và đề xuất index hợp lý cho truy vấn.",
+        "senior": "Bảo vệ thứ tự khóa và độ bao phủ theo nhu cầu truy cập, diễn giải bằng chứng thực tế, chấp nhận hoặc bác bỏ thay đổi từ cả yêu cầu đọc và ghi.",
+        "evidence_missing": "Chưa có truy vấn, phân bố dữ liệu, plan hoặc số đo workload; index ứng viên chưa được chứng minh là cải thiện."
+      }
+    }
+  },
+  {
+    "group_id": "sql-objects-boundaries",
+    "representative_question_id": "S03-Q004",
+    "en": {
+      "title": "SQL objects: contracts and ownership of logic",
+      "goal": "Choose a database object or application boundary from the operation's contract and ownership needs.",
+      "competencies": [
+        "Compare procedure, function and view contracts through concrete callers.",
+        "Trace parameter and trigger behavior within a declared SQL Server scope.",
+        "Defend placement of logic using transaction, testing and deployment constraints."
+      ],
+      "bridge": "When should logic live in a stored procedure rather than application code? Begin with what the different SQL objects expose to callers. Explicit procedure calls and event-driven triggers introduce different dependencies; understanding those contracts makes the eventual ownership decision concrete.",
+      "scenario": "Two .NET applications share an inventory operation and a reporting interface in SQL Server. Decide which database objects, if any, own each responsibility and how callers pass data. Explain how a change is tested and deployed while old callers remain active; if proposing a trigger, state its event, multi-row behavior to verify and troubleshooting plan.",
+      "rubric": {
+        "basic": "Distinguishes object contracts and chooses a location for the example logic.",
+        "senior": "Defends ownership and transaction boundaries, verifies capability limits and explains test/deployment consequences for each caller.",
+        "evidence_missing": "No caller contract, concrete operation or change-validation plan is supplied; object names alone do not establish a sound boundary."
+      }
+    },
+    "vi": {
+      "title": "Đối tượng SQL: hợp đồng và trách nhiệm quản lý logic",
+      "goal": "Chọn đối tượng cơ sở dữ liệu hoặc ranh giới ứng dụng từ hợp đồng thao tác và nhu cầu quản lý.",
+      "competencies": [
+        "So sánh hợp đồng procedure, function và view qua phần gọi cụ thể.",
+        "Lần theo hành vi tham số và trigger trong phạm vi SQL Server đã nêu.",
+        "Bảo vệ nơi đặt logic bằng ràng buộc transaction, kiểm thử và triển khai."
+      ],
+      "bridge": "Khi nào logic nên nằm trong stored procedure thay vì code ứng dụng? Bắt đầu từ những gì các đối tượng SQL cung cấp cho bên gọi. Lời gọi procedure tường minh và trigger được kích hoạt bởi sự kiện tạo những phụ thuộc khác nhau; hiểu hợp đồng giúp quyết định trách nhiệm quản lý trở nên cụ thể.",
+      "scenario": "Hai ứng dụng .NET dùng chung thao tác tồn kho và giao diện báo cáo trong SQL Server. Quyết định đối tượng cơ sở dữ liệu nào, nếu cần, chịu trách nhiệm mỗi phần và cách bên gọi truyền dữ liệu. Giải thích cách kiểm thử, triển khai thay đổi khi bên gọi cũ vẫn hoạt động; nếu đề xuất trigger, nêu sự kiện, hành vi nhiều dòng cần xác minh và cách chẩn đoán.",
+      "rubric": {
+        "basic": "Phân biệt hợp đồng các đối tượng và chọn nơi đặt logic của ví dụ.",
+        "senior": "Bảo vệ trách nhiệm quản lý, ranh giới transaction, xác minh giới hạn khả năng và giải thích hệ quả kiểm thử/triển khai cho từng phần gọi.",
+        "evidence_missing": "Chưa có hợp đồng bên gọi, thao tác cụ thể hoặc kế hoạch kiểm chứng thay đổi; tên đối tượng chưa chứng minh ranh giới hợp lý."
+      }
+    }
+  },
+  {
+    "group_id": "sql-query-investigation",
+    "representative_question_id": "S03-SC001",
+    "en": {
+      "title": "Slow SQL: hypotheses, execution evidence and verification",
+      "goal": "Build a falsifiable investigation of slow SQL and demonstrate whether a targeted change helps.",
+      "competencies": [
+        "Locate executed SQL and separate observations from candidate causes.",
+        "Relate plan, row estimates, predicates, statistics and access paths to observed work.",
+        "Compare correctness, logical reads and duration before/after under equivalent conditions."
+      ],
+      "bridge": "A multi-table query is slow: what evidence decides the next step? The source scenario covers a broad query investigation, while the stored-procedure prompt narrows the entry point to a call. Both require following observed work into a hypothesis, then checking a change instead of starting with a preferred fix.",
+      "scenario": "An API's generated SQL joins orders, items and customers; only some parameter ranges produce slow calls. For the deployed SQL Server version, outline a diagnostic artifact containing the actual query, required rows/columns, plans and relevant measurements. Rank hypotheses about estimates, predicates, indexing or waiting; choose one discriminating check and define a valid before/after comparison.",
+      "rubric": {
+        "basic": "Names relevant diagnostics and one plausible cause of the slow query.",
+        "senior": "Prioritizes hypotheses using observations, verifies the exact inputs and result contract, and tests a targeted change with workload regressions considered.",
+        "evidence_missing": "No captured SQL, plan or comparable measurements are supplied; a proposed optimization cannot be called verified."
+      }
+    },
+    "vi": {
+      "title": "SQL chậm: giả thuyết, bằng chứng thực thi và kiểm chứng",
+      "goal": "Tổ chức điều tra SQL chậm bằng giả thuyết có thể bác bỏ và chứng minh thay đổi có mục tiêu có ích hay không.",
+      "competencies": [
+        "Xác định SQL được thực thi và tách quan sát khỏi nguyên nhân nghi ngờ.",
+        "Gắn plan, số dòng ước tính, điều kiện lọc, statistics và đường truy cập với công việc quan sát được.",
+        "So sánh tính đúng, logical reads và thời gian chạy trước/sau trong điều kiện tương đương."
+      ],
+      "bridge": "Truy vấn nhiều bảng chạy chậm: bằng chứng nào quyết định bước tiếp theo? Scenario trong nguồn xét điều tra truy vấn rộng, còn câu hỏi stored procedure thu hẹp điểm bắt đầu vào một lời gọi. Cả hai cần đi từ công việc quan sát được đến giả thuyết rồi kiểm tra thay đổi, thay vì bắt đầu bằng cách sửa ưa thích.",
+      "scenario": "SQL do API sinh ra JOIN đơn hàng, dòng hàng và khách hàng; chỉ một số khoảng tham số làm lời gọi chậm. Với phiên bản SQL Server đang triển khai, phác thảo tài liệu chẩn đoán gồm truy vấn thực tế, dòng/cột cần lấy, plan và số đo liên quan. Xếp ưu tiên giả thuyết về ước tính, điều kiện lọc, index hoặc thời gian chờ; chọn một phép kiểm tra phân biệt và định nghĩa so sánh trước/sau hợp lệ.",
+      "rubric": {
+        "basic": "Nêu công cụ chẩn đoán liên quan và một nguyên nhân có thể khiến truy vấn chậm.",
+        "senior": "Ưu tiên giả thuyết bằng quan sát, xác nhận đầu vào cùng hợp đồng kết quả, thử thay đổi có mục tiêu và xét regression của workload.",
+        "evidence_missing": "Chưa có SQL thu thập được, plan hoặc số đo so sánh; tối ưu được đề xuất chưa thể gọi là đã xác minh."
+      }
+    }
+  },
+  {
+    "group_id": "sql-transactions-concurrency",
+    "representative_question_id": "S03-Q019",
+    "en": {
+      "title": "Concurrent transactions: protect an invariant and recover safely",
+      "goal": "Defend a concurrency-control choice and its recovery behavior for a shared-data invariant.",
+      "competencies": [
+        "Trace commit/rollback and conflicting interleavings against an explicit invariant.",
+        "Compare locking, optimistic control and versioned isolation within the actual database configuration.",
+        "Reconstruct a deadlock cycle and justify prevention plus bounded application recovery."
+      ],
+      "bridge": "Would optimistic concurrency or pessimistic locking fit two competing updates? Begin with the state changes that the business permits, then examine what overlapping readers and writers may observe. Deadlock questions extend that model from normal contention to a wait cycle, diagnosis and safe recovery; transaction presence alone does not answer the concurrency requirement.",
+      "scenario": "Two .NET worker replicas allocate the last available stock while another request reads availability. Define the invariant, choose a control strategy and a SQL Server isolation/configuration scope to verify. Describe two-session tests, then a deadlock involving two stock records; specify diagnostic evidence, a targeted reduction and a bounded retry/reporting contract, including any external effects.",
+      "rubric": {
+        "basic": "Explains transaction outcomes and recognizes a conflicting update or deadlock cycle.",
+        "senior": "Defends guarantees from an execution trace, verifies configuration, diagnoses the actual cycle and preserves the invariant through retries and failure reporting.",
+        "evidence_missing": "No interleaving, database configuration, test output or diagnostic artifact is supplied; the claimed concurrency guarantee remains unproven."
+      }
+    },
+    "vi": {
+      "title": "Transaction đồng thời: bảo vệ bất biến và phục hồi an toàn",
+      "goal": "Bảo vệ lựa chọn kiểm soát concurrency và hành vi phục hồi cho một bất biến của dữ liệu dùng chung.",
+      "competencies": [
+        "Lần theo commit/rollback và các thứ tự xen kẽ xung đột với bất biến rõ ràng.",
+        "So sánh khóa, optimistic control và isolation dùng phiên bản dữ liệu trong cấu hình cơ sở dữ liệu thực tế.",
+        "Dựng lại vòng deadlock, bảo vệ cách giảm lỗi và phục hồi ứng dụng có giới hạn."
+      ],
+      "bridge": "Optimistic concurrency hay pessimistic locking phù hợp với hai cập nhật cạnh tranh? Bắt đầu từ thay đổi trạng thái mà nghiệp vụ cho phép, rồi xét bên đọc và ghi chồng lấn có thể thấy gì. Các câu hỏi deadlock mở rộng mô hình từ tranh chấp thường đến vòng chờ, chẩn đoán và phục hồi; chỉ có transaction chưa trả lời được yêu cầu concurrency.",
+      "scenario": "Hai replica worker .NET cùng phân bổ lượng tồn kho cuối trong khi request khác đọc số lượng có sẵn. Định nghĩa bất biến, chọn cách kiểm soát và phạm vi isolation/cấu hình SQL Server cần xác minh. Mô tả phép thử hai session, rồi một deadlock trên hai bản ghi tồn kho; nêu bằng chứng chẩn đoán, cách giảm có mục tiêu và hợp đồng retry/báo lỗi có giới hạn, kể cả hiệu ứng bên ngoài.",
+      "rubric": {
+        "basic": "Giải thích kết quả transaction và nhận ra cập nhật xung đột hoặc vòng deadlock.",
+        "senior": "Bảo vệ bảo đảm từ chuỗi thực thi, xác minh cấu hình, chẩn đoán vòng chờ thực tế và giữ bất biến qua retry cùng báo thất bại.",
+        "evidence_missing": "Chưa có thứ tự xen kẽ, cấu hình cơ sở dữ liệu, output kiểm thử hoặc tài liệu chẩn đoán; bảo đảm concurrency được nêu vẫn chưa có bằng chứng."
+      }
+    }
+  }
+]

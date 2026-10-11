@@ -1,0 +1,196 @@
+{
+  "domains": {
+    "dotnet-runtime": {
+      "en": "C# & .NET Runtime",
+      "vi": "C# và .NET Runtime"
+    },
+    "aspnet-api": {
+      "en": "ASP.NET Core & API Engineering",
+      "vi": "ASP.NET Core và thiết kế API"
+    },
+    "ef-linq": {
+      "en": "EF Core & LINQ",
+      "vi": "EF Core và LINQ"
+    },
+    "sql-data": {
+      "en": "SQL Server & Data Engineering",
+      "vi": "SQL Server và xử lý dữ liệu"
+    },
+    "messaging-event-driven": {
+      "en": "Messaging & Event-Driven Systems",
+      "vi": "Message và hệ thống hướng sự kiện"
+    },
+    "architecture-distributed": {
+      "en": "Architecture & Distributed Systems",
+      "vi": "Kiến trúc và hệ thống phân tán"
+    },
+    "azure-cloud": {
+      "en": "Azure & Cloud Architecture",
+      "vi": "Azure và kiến trúc cloud"
+    },
+    "security-identity": {
+      "en": "Security & Identity",
+      "vi": "Bảo mật và danh tính"
+    },
+    "observability-reliability": {
+      "en": "Observability, Performance & Reliability",
+      "vi": "Quan sát, hiệu năng và độ tin cậy"
+    },
+    "devops-delivery": {
+      "en": "DevOps, Containers & Delivery",
+      "vi": "DevOps, container và triển khai"
+    },
+    "frontend-typescript": {
+      "en": "Angular, TypeScript & Frontend Architecture",
+      "vi": "Angular, TypeScript và kiến trúc frontend"
+    },
+    "algorithms-debugging": {
+      "en": "Algorithms, Coding & Debugging",
+      "vi": "Thuật toán, lập trình và debug"
+    },
+    "engineering-communication": {
+      "en": "Engineering Process & Communication",
+      "vi": "Quy trình kỹ thuật và giao tiếp"
+    }
+  },
+  "en": {
+    "back": "← All question groups",
+    "level": "Catalog level",
+    "boundary": "Questions come from the preserved source notes. Reframing, assessment intent, senior signals and rubrics are editorial interpretations, not verified model answers or universal interviewer expectations. Follow-ups and the combined production exercise are agent additions. Reading this bank creates no learning record, score, completion or review schedule.",
+    "representative": "Start with one representative question",
+    "goal": "One group objective and observable capabilities",
+    "prerequisites": "Prerequisites",
+    "no_prerequisites": "No catalog prerequisite. Establish the terms and scenario assumptions in the foundation questions before progressing; a published lesson is not evidence that you know them.",
+    "sequence": "Question route",
+    "sequence_note": "Read this route as foundation → mechanism → application → failure → trade-offs → production decision. A group contains only phases supported by its source prompts; do not invent extra source questions to fill a stage. Deeper follow-ups extend the same question after a direct answer.",
+    "phases": {
+      "foundation": "Foundation",
+      "mechanism": "Mechanism",
+      "application": "Application",
+      "failure": "Failure cases",
+      "tradeoff": "Trade-offs",
+      "production": "Production decision"
+    },
+    "source": "Source",
+    "scenario_id": "This editorial scenario ID identifies an existing unnumbered source scenario. Its steps and constraints are not separate source questions.",
+    "version_note": "Version-sensitive scope: state the actual runtime/framework/provider and check official documentation before making technical claims. This question bank does not certify current behavior, product defaults or performance results.",
+    "original": "Original source wording and provenance",
+    "original_scenario": "Open the source link for the complete original constraints. The scenario remains one source unit; its original Markdown is also preserved in the shared inventory.",
+    "merge": "Why these source prompts share a canonical question",
+    "guidance": "What the question asks and how to assess an attempt",
+    "explanation": "What to clarify",
+    "intent": "Inferred assessment intent",
+    "scope": "Scope and important assumptions",
+    "senior_signals": "Observable signs of a strong senior answer",
+    "pitfalls": "Misconceptions and shallow answers to watch for",
+    "followups": "Related follow-ups — agent-added",
+    "scenario": "Combined production exercise — agent-added",
+    "rubric": "Short rubric — use only with an actual attempt",
+    "basic": "Basic answer",
+    "senior": "Senior answer",
+    "evidence_missing": "Still needs evidence",
+    "related": "Source, curriculum and related lessons",
+    "curriculum": "Curriculum",
+    "lesson": "Published lesson",
+    "no_lesson": "No directly linked lesson yet. Ask the repo agent for one focused objective; it checks prerequisites and all delivered lessons before selection.",
+    "coverage": "Question coverage and source mapping",
+    "index_title": "Senior Interview Question Bank",
+    "intro": "Choose one domain, one group and one question. The question stays visible; open its guidance after your own attempt. English is canonical and Vietnamese preserves the same IDs, assumptions, source references and assessment meaning.",
+    "counts": "{numbered_source_questions} numbered source prompts + {source_scenarios} source scenarios = {source_units} source units. {merge_sets} duplicate pairs consolidate into {canonical_questions} canonical questions across {groups} existing catalog groups and {domains} domains. Unprocessed source units: {unprocessed}.",
+    "daily_title": "A small daily practice session",
+    "daily": [
+      "Pick one question whose prerequisite you can explain. Predict or draft an answer without opening the guidance.",
+      "Explain one causal mechanism using a small code trace, diagram or truthful example. Test a failure or changed assumption with evidence.",
+      "Open the guidance, identify one specific gap and try again. Give a direct 30-second answer, then defend it in 90 seconds and one follow-up.",
+      "For a full 30–45-minute lesson, send the prompt below to your repo agent. Only an actual attempt can support feedback or durable completion; this page does not schedule reviews."
+    ],
+    "prompt": "Write today’s focused lesson in English using one question from this bank. Follow agent/SKILL.md, check prerequisites and all delivered objectives, and preserve the source question ID. Do not infer completion from generated content.",
+    "domains_title": "Browse domains",
+    "questions_count": "canonical questions",
+    "audit_date": "Source audit date",
+    "coverage_intro": "This report joins the preserved sources to the existing catalog and the canonical question bank. Numbered prompts, unnumbered scenarios, source advice, generated lesson questions, lab examples and template prompts have different roles. The six source files were read in full; headings and summaries were not substituted for their bodies.",
+    "coverage_limits": "Scenario steps are constraints, not additional questions. The seven-step answer-structure section in S06 is retained as advice, not counted as a question. The catalog has {catalog_topics} topics; algorithms-collection-reasoning is derived Ring B practice and has no canonical source-question home. S03-Q032 uses the existing focused department-headcount topic; its older broad source-topic anchor remains unchanged. Counts below assign merged questions to the lowest stable source ID, not to every file in which an alias appears. No version-specific model answers or benchmark results are asserted here.",
+    "numbered": "Numbered prompts",
+    "source_scenarios": "Source scenarios",
+    "canonical_home": "Canonical homes",
+    "merge_title": "Documented semantic merges ({merge_sets})",
+    "mapping_title": "Every source unit → canonical question → group",
+    "alias_note": "Each source ID maps exactly once. Merged source IDs remain usable anchors on the canonical group in both languages. Source IDs and URLs were not renamed. Scenario IDs ending in SC001 were added only for inventory identity; the original scenario has no numbered question ID.",
+    "canonical": "Canonical question",
+    "group": "Existing group ID",
+    "scan_title": "Pre-edit document inventory",
+    "scan_note": "The {document_count}-document snapshot records each Markdown file’s role and SHA-256 in _data/question_bank/inventory.json. Generated lessons and shared answer examples remain derived teaching material, not extra interview-source questions. Links below open public documents; internal instructions, learner-state documentation and build includes are listed as repository paths. The immutable source hashes are checked on every validation run. Changed guidance pages retain their pre-edit hashes as audit history, not as a requirement to undo this integration.",
+    "document": "Document",
+    "role": "Role"
+  },
+  "vi": {
+    "back": "← Tất cả nhóm câu hỏi",
+    "level": "Mức trong curriculum",
+    "boundary": "Câu hỏi lấy từ tài liệu nguồn được giữ nguyên. Cách diễn giải, mục tiêu đánh giá, dấu hiệu senior và rubric là suy luận biên tập; chưa phải lời giải kỹ thuật đã xác minh hay tiêu chí chung của mọi interviewer. Follow-up và bài tập production tổng hợp do agent bổ sung. Đọc bộ câu hỏi không tạo learning record, điểm, completion hoặc lịch ôn.",
+    "representative": "Bắt đầu bằng một câu hỏi tiêu biểu",
+    "goal": "Một mục tiêu chính và năng lực có thể quan sát",
+    "prerequisites": "Kiến thức cần trước",
+    "no_prerequisites": "Catalog không đặt prerequisite. Hãy làm rõ thuật ngữ và giả định trong các câu nền tảng trước khi đi tiếp; có bài học đã xuất bản không chứng minh bạn đã nắm chúng.",
+    "sequence": "Mạch câu hỏi",
+    "sequence_note": "Đi theo mạch nền tảng → cơ chế → vận dụng → failure case → trade-off → quyết định production. Mỗi group chỉ có những bước được câu hỏi nguồn hỗ trợ; không thêm câu hỏi nguồn giả để lấp đủ bước. Follow-up đào sâu cùng vấn đề sau khi đã trả lời trực tiếp.",
+    "phases": {
+      "foundation": "Nền tảng",
+      "mechanism": "Cơ chế",
+      "application": "Vận dụng",
+      "failure": "Failure case",
+      "tradeoff": "Trade-off",
+      "production": "Quyết định production"
+    },
+    "source": "Nguồn",
+    "scenario_id": "ID scenario này được thêm để nhận diện một tình huống có sẵn nhưng chưa được đánh số trong nguồn. Các bước và ràng buộc của nó không được đếm thành câu hỏi riêng.",
+    "version_note": "Phạm vi phụ thuộc phiên bản: xác định runtime/framework/provider thực tế và kiểm tra tài liệu chính thức trước khi đưa ra nhận định kỹ thuật. Bộ câu hỏi chưa xác nhận hành vi hiện tại, cấu hình mặc định hoặc kết quả hiệu năng của sản phẩm.",
+    "original": "Nguyên văn nguồn và cách truy ngược",
+    "original_scenario": "Mở liên kết nguồn để đọc đầy đủ ràng buộc gốc. Scenario được giữ là một đơn vị nguồn; Markdown nguyên văn cũng được lưu trong inventory dùng chung.",
+    "merge": "Lý do các câu nguồn dùng chung câu hỏi canonical",
+    "guidance": "Câu hỏi yêu cầu gì và cách đối chiếu bài làm",
+    "explanation": "Điều cần làm rõ",
+    "intent": "Mục tiêu đánh giá được suy luận",
+    "scope": "Phạm vi và giả định quan trọng",
+    "senior_signals": "Dấu hiệu quan sát được của câu trả lời senior tốt",
+    "pitfalls": "Hiểu nhầm và câu trả lời hời hợt cần tránh",
+    "followups": "Follow-up liên quan — agent bổ sung",
+    "scenario": "Bài tập production tổng hợp — agent bổ sung",
+    "rubric": "Rubric ngắn — chỉ dùng khi có bài làm",
+    "basic": "Câu trả lời cơ bản",
+    "senior": "Câu trả lời đạt senior",
+    "evidence_missing": "Phần vẫn cần bằng chứng",
+    "related": "Nguồn, curriculum và bài học liên quan",
+    "curriculum": "Lộ trình",
+    "lesson": "Bài đã xuất bản",
+    "no_lesson": "Chưa có bài liên quan trực tiếp. Hãy yêu cầu agent một mục tiêu nhỏ; agent kiểm tra prerequisite và tất cả bài đã tạo trước khi chọn.",
+    "coverage": "Coverage và mapping về nguồn",
+    "index_title": "Bộ câu hỏi phỏng vấn Senior",
+    "intro": "Chọn một domain, một group rồi một câu hỏi. Câu hỏi luôn hiện; tự thử trước khi mở hướng dẫn. English là bản canonical; bản tiếng Việt giữ cùng IDs, giả định, nguồn và ý nghĩa đánh giá.",
+    "counts": "{numbered_source_questions} câu hỏi nguồn được đánh số + {source_scenarios} scenario nguồn = {source_units} đơn vị nguồn. Gộp {merge_sets} cặp trùng ý thành {canonical_questions} câu hỏi canonical, thuộc {groups} group có sẵn trong catalog và {domains} domain. Số đơn vị nguồn chưa xử lý: {unprocessed}.",
+    "daily_title": "Một phiên luyện tập nhỏ mỗi ngày",
+    "daily": [
+      "Chọn một câu mà bạn giải thích được prerequisite. Dự đoán hoặc viết câu trả lời trước khi mở hướng dẫn.",
+      "Giải thích một cơ chế nguyên nhân–kết quả bằng đoạn code trace, sơ đồ hoặc ví dụ thật. Kiểm tra một failure case hoặc giả định thay đổi bằng bằng chứng.",
+      "Mở hướng dẫn, xác định một điểm còn thiếu rồi thử lại. Trả lời trực tiếp trong 30 giây; sau đó bảo vệ lập luận trong 90 giây và một follow-up.",
+      "Muốn học bài đầy đủ 30–45 phút, gửi prompt bên dưới cho agent đang mở repo. Feedback và completion bền vững cần bài làm thật; trang này không tự lập lịch ôn."
+    ],
+    "prompt": "Viết bài học hôm nay bằng tiếng Việt từ một câu hỏi trong bộ này. Theo agent/SKILL.md, kiểm tra prerequisite và mục tiêu của tất cả bài đã tạo, giữ ID câu hỏi nguồn. Không coi bài generated là đã học xong.",
+    "domains_title": "Chọn domain",
+    "questions_count": "câu hỏi canonical",
+    "audit_date": "Ngày audit nguồn",
+    "coverage_intro": "Báo cáo nối nguồn được giữ nguyên với catalog hiện có và bộ câu hỏi canonical. Câu hỏi đánh số, scenario chưa đánh số, lời khuyên trong nguồn, câu hỏi trong bài đã tạo, ví dụ lab và prompt template có vai trò khác nhau. Sáu file nguồn đã được đọc đầy đủ; mục lục và tóm tắt không thay thế nội dung.",
+    "coverage_limits": "Các bước scenario là ràng buộc, không phải câu hỏi bổ sung. Phần cấu trúc trả lời bảy bước ở S06 được giữ như lời khuyên và không tính là câu hỏi. Catalog có {catalog_topics} topic; algorithms-collection-reasoning là thực hành Ring B mở rộng nên không có câu nguồn canonical riêng. S03-Q032 dùng topic department-headcount tập trung đã có; anchor topic rộng hơn trong nguồn vẫn giữ nguyên. Số canonical bên dưới được tính theo ID nguồn nhỏ nhất sau gộp, không đếm lại theo mọi file có alias. Báo cáo không đưa ra lời giải phụ thuộc phiên bản hay kết quả benchmark.",
+    "numbered": "Câu đánh số",
+    "source_scenarios": "Scenario nguồn",
+    "canonical_home": "Câu canonical chính",
+    "merge_title": "Các cặp gộp ý có giải thích ({merge_sets})",
+    "mapping_title": "Từng đơn vị nguồn → câu canonical → group",
+    "alias_note": "Mỗi ID nguồn được mapping đúng một lần. ID nguồn đã gộp vẫn là anchor dùng được trong group canonical ở cả hai ngôn ngữ. IDs và URLs nguồn không đổi. ID kết thúc bằng SC001 chỉ được thêm để inventory nhận diện; scenario gốc chưa có ID câu hỏi đánh số.",
+    "canonical": "Câu canonical",
+    "group": "Group ID có sẵn",
+    "scan_title": "Inventory tài liệu trước khi chỉnh sửa",
+    "scan_note": "Snapshot {document_count} tài liệu ghi vai trò và SHA-256 của từng file Markdown trong _data/question_bank/inventory.json. Câu hỏi ở bài học đã tạo và ví dụ trả lời dùng chung vẫn là nội dung dạy học phát triển thêm, không tăng số câu hỏi nguồn phỏng vấn. Liên kết bên dưới mở tài liệu công khai; hướng dẫn nội bộ, tài liệu learning state và build includes được ghi dưới dạng đường dẫn trong repo. Hash nguồn bất biến được kiểm tra mỗi lần validate. Hash cũ của trang hướng dẫn đã chỉnh sửa được giữ như lịch sử audit, không phải yêu cầu hủy phần tích hợp này.",
+    "document": "Tài liệu",
+    "role": "Vai trò"
+  }
+}

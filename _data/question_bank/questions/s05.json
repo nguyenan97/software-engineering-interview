@@ -1,0 +1,1598 @@
+[
+  {
+    "question_id": "S05-Q001",
+    "phase": "foundation",
+    "order": 20,
+    "version_sensitive": false,
+    "en": {
+      "question": "What are the parts of a JWT, and what does each part let an API know about the token?",
+      "explanation": "Explain the token format before discussing whether a backend should accept it. Keep reading the representation separate from establishing trust.",
+      "intent": "Describe a token with clear boundaries between representation, identity information and trust.",
+      "scope": "Use a signed JWT as the starting example; state separately if discussing encrypted JWTs.",
+      "senior_signals": [
+        "Names each part and explains its role using one token example.",
+        "Identifies which claims require validation rather than treating readable contents as trusted."
+      ],
+      "pitfalls": [
+        "Reciting the three part names without explaining what an API can safely infer."
+      ],
+      "followups": [
+        "If someone edits a visible claim, what must the API check before using it?"
+      ]
+    },
+    "vi": {
+      "question": "JWT gồm những phần nào, và mỗi phần cho API biết điều gì về token?",
+      "explanation": "Giải thích định dạng token trước khi bàn việc backend có nên chấp nhận token đó. Phân biệt đọc được nội dung với xác lập độ tin cậy.",
+      "intent": "Mô tả token và ranh giới giữa định dạng, thông tin định danh và độ tin cậy.",
+      "scope": "Bắt đầu với JWT có chữ ký; nếu bàn JWT được mã hóa, hãy nêu riêng phạm vi đó.",
+      "senior_signals": [
+        "Nêu từng phần và giải thích vai trò bằng một token cụ thể.",
+        "Chỉ ra claim nào cần kiểm tra, thay vì coi nội dung đọc được là đáng tin."
+      ],
+      "pitfalls": [
+        "Chỉ kể tên ba phần mà không giải thích API có thể suy ra điều gì một cách an toàn."
+      ],
+      "followups": [
+        "Nếu ai đó sửa một claim đọc được, API phải kiểm tra điều gì trước khi sử dụng?"
+      ]
+    }
+  },
+  {
+    "question_id": "S05-Q002",
+    "phase": "mechanism",
+    "order": 10,
+    "version_sensitive": true,
+    "en": {
+      "question": "Which checks must an API perform before accepting a token, and how would you test rejection?",
+      "explanation": "Walk through acceptance checks and the decision that follows them. Explain what “valid” means for this API rather than using it as an unexplained label.",
+      "intent": "Turn a trust requirement into explicit checks and rejection cases.",
+      "scope": "Identify the token type, issuing authority, intended API and validation configuration; authorization remains a separate decision. Establish the deployed version/provider and consult official documentation before answering.",
+      "senior_signals": [
+        "Explains why each acceptance check belongs to the API trust boundary.",
+        "Provides a negative test that distinguishes a readable token from an acceptable token."
+      ],
+      "pitfalls": [
+        "Accepting a token because it decodes successfully or contains a familiar user ID."
+      ],
+      "followups": [
+        "How would you test a token issued for a different API?"
+      ]
+    },
+    "vi": {
+      "question": "API cần kiểm tra gì trước khi chấp nhận token, và bạn kiểm thử trường hợp từ chối ra sao?",
+      "explanation": "Trình bày các kiểm tra trước khi chấp nhận và quyết định sau đó. Giải thích “hợp lệ” nghĩa là gì với API này, thay vì chỉ dùng một nhãn chung.",
+      "intent": "Chuyển yêu cầu về độ tin cậy thành các kiểm tra và trường hợp từ chối cụ thể.",
+      "scope": "Xác định loại token, bên phát hành, API đích và cấu hình kiểm tra; quyết định quyền truy cập vẫn là bước riêng. Xác định phiên bản hoặc nhà cung cấp đang dùng và đối chiếu tài liệu chính thức trước khi trả lời.",
+      "senior_signals": [
+        "Giải thích vì sao mỗi kiểm tra nằm trong ranh giới tin cậy của API.",
+        "Đưa ra kiểm thử âm để phân biệt token đọc được với token có thể chấp nhận."
+      ],
+      "pitfalls": [
+        "Chấp nhận token chỉ vì giải mã nội dung được hoặc thấy user ID quen thuộc."
+      ],
+      "followups": [
+        "Bạn kiểm thử token được phát hành cho API khác như thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S05-Q003",
+    "phase": "application",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "What information would you put in token claims for an application, and how would you decide what to leave out?",
+      "explanation": "A claim is an assertion carried by the token. Discuss the information its consumers need and the consequences of including unnecessary or changing data.",
+      "intent": "Choose an identity contract from consumer needs and privacy constraints.",
+      "scope": "Assume several APIs consume the token; clarify audience, data sensitivity and how often permissions change.",
+      "senior_signals": [
+        "Connects each proposed claim to a consumer requirement.",
+        "Explains how privacy and stale information affect the design and its verification."
+      ],
+      "pitfalls": [
+        "Treating a token as a convenient container for the entire user profile."
+      ],
+      "followups": [
+        "What happens when a permission changes while an existing token is still usable?"
+      ]
+    },
+    "vi": {
+      "question": "Bạn sẽ đưa thông tin nào vào claims của token, và quyết định bỏ thông tin nào ra sao?",
+      "explanation": "Claim là một khẳng định được token mang theo. Bàn về thông tin bên sử dụng cần và hệ quả khi đưa vào dữ liệu không cần thiết hoặc hay thay đổi.",
+      "intent": "Thiết kế hợp đồng thông tin định danh dựa trên nhu cầu sử dụng và yêu cầu riêng tư.",
+      "scope": "Giả sử nhiều API dùng token; làm rõ bên nhận, độ nhạy cảm của dữ liệu và tần suất thay đổi quyền.",
+      "senior_signals": [
+        "Gắn mỗi claim đề xuất với một nhu cầu của bên sử dụng.",
+        "Giải thích dữ liệu cũ và yêu cầu riêng tư ảnh hưởng thiết kế và kiểm chứng thế nào."
+      ],
+      "pitfalls": [
+        "Coi token là nơi tiện lợi để chứa toàn bộ hồ sơ người dùng."
+      ],
+      "followups": [
+        "Điều gì xảy ra nếu quyền thay đổi trong lúc token cũ vẫn còn dùng được?"
+      ]
+    }
+  },
+  {
+    "question_id": "S05-Q004",
+    "phase": "foundation",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "How do authentication and authorization differ when a client calls a protected API?",
+      "explanation": "Use one request to explain the two questions a system must answer. Show which decision establishes the caller and which decides whether the requested action is permitted.",
+      "intent": "Separate identity verification from permission decisions in a request flow.",
+      "scope": "Use a protected ASP.NET Core API as context; detailed middleware configuration is outside this question.",
+      "senior_signals": [
+        "Explains both decisions with the same caller and operation.",
+        "Describes a case where the identity is accepted but the operation is refused."
+      ],
+      "pitfalls": [
+        "Using “logged in” as a sufficient reason to allow every protected action."
+      ],
+      "followups": [
+        "How would you explain an authenticated caller being denied access to one resource?"
+      ]
+    },
+    "vi": {
+      "question": "Authentication và authorization khác nhau thế nào khi client gọi một API được bảo vệ?",
+      "explanation": "Dùng một request để giải thích hai câu hỏi hệ thống phải trả lời. Chỉ rõ quyết định nào xác định bên gọi và quyết định nào cho phép thao tác.",
+      "intent": "Tách kiểm tra danh tính khỏi quyết định quyền trong luồng request.",
+      "scope": "Dùng API ASP.NET Core được bảo vệ làm bối cảnh; cấu hình middleware chi tiết nằm ngoài câu hỏi này.",
+      "senior_signals": [
+        "Giải thích hai quyết định với cùng một bên gọi và thao tác.",
+        "Mô tả trường hợp danh tính được chấp nhận nhưng thao tác bị từ chối."
+      ],
+      "pitfalls": [
+        "Lấy việc “đã đăng nhập” làm lý do đủ để cho phép mọi thao tác được bảo vệ."
+      ],
+      "followups": [
+        "Bạn giải thích thế nào khi một bên gọi đã được xác thực vẫn bị từ chối truy cập tài nguyên?"
+      ]
+    }
+  },
+  {
+    "question_id": "S05-Q005",
+    "phase": "application",
+    "order": 20,
+    "version_sensitive": false,
+    "en": {
+      "question": "When would you use roles, permissions or authorization policies to control API access?",
+      "explanation": "Compare ways to express who may perform an operation. Use a concrete access rule rather than debating the labels in isolation.",
+      "intent": "Choose an authorization model and defend how it handles a changing access rule.",
+      "scope": "Clarify tenant or resource ownership if it matters; a policy here means an explicit rule for deciding access.",
+      "senior_signals": [
+        "Shows how the chosen model represents one real rule and its exceptions.",
+        "Explains what evidence would reveal overly broad or inconsistent access."
+      ],
+      "pitfalls": [
+        "Listing role names without addressing resource ownership or changing requirements."
+      ],
+      "followups": [
+        "How would you test that a user cannot access another tenant’s resource?"
+      ]
+    },
+    "vi": {
+      "question": "Khi nào bạn dùng role, permission hoặc policy để kiểm soát quyền gọi API?",
+      "explanation": "So sánh các cách biểu diễn ai được thực hiện thao tác. Dùng một quy tắc truy cập cụ thể, thay vì chỉ tranh luận tên gọi.",
+      "intent": "Chọn mô hình phân quyền và bảo vệ cách mô hình xử lý quy tắc thay đổi.",
+      "scope": "Làm rõ tenant hoặc quyền sở hữu tài nguyên nếu có liên quan; policy ở đây là quy tắc quyết định truy cập được viết rõ.",
+      "senior_signals": [
+        "Thể hiện cách mô hình đã chọn biểu diễn một quy tắc thực tế và các ngoại lệ.",
+        "Giải thích bằng chứng nào phát hiện quyền quá rộng hoặc thiếu nhất quán."
+      ],
+      "pitfalls": [
+        "Chỉ liệt kê tên role mà không xét quyền sở hữu tài nguyên hay yêu cầu thay đổi."
+      ],
+      "followups": [
+        "Bạn kiểm thử việc người dùng không truy cập được tài nguyên của tenant khác ra sao?"
+      ]
+    }
+  },
+  {
+    "question_id": "S05-Q006",
+    "phase": "mechanism",
+    "order": 30,
+    "version_sensitive": false,
+    "en": {
+      "question": "How do access tokens and refresh tokens differ in purpose and use during a login session?",
+      "explanation": "Trace which party presents each token, to whom, and for what decision. The question is about their contracts, not merely comparing expiry durations.",
+      "intent": "Explain the token lifecycle using distinct actors and trust boundaries.",
+      "scope": "Assume an application uses both token types; token format and lifetime are issuer-specific choices.",
+      "senior_signals": [
+        "Traces each token through the API and identity-provider interactions.",
+        "Explains the impact of losing each token and how the design limits that impact."
+      ],
+      "pitfalls": [
+        "Describing the two tokens only as short-lived and long-lived copies of one another."
+      ],
+      "followups": [
+        "What should the application do when renewal fails?"
+      ]
+    },
+    "vi": {
+      "question": "Access token và refresh token khác nhau về mục đích và cách dùng trong một phiên đăng nhập như thế nào?",
+      "explanation": "Trình bày ai gửi từng token, gửi cho bên nào và phục vụ quyết định gì. Câu hỏi tập trung vào hợp đồng sử dụng, không chỉ so sánh thời gian hết hạn.",
+      "intent": "Giải thích vòng đời token với các bên tham gia và ranh giới tin cậy rõ ràng.",
+      "scope": "Giả sử ứng dụng dùng cả hai loại; định dạng và thời hạn là lựa chọn phụ thuộc bên phát hành.",
+      "senior_signals": [
+        "Theo dấu từng token trong các tương tác với API và identity provider.",
+        "Giải thích tác động khi mất từng token và cách thiết kế giới hạn tác động đó."
+      ],
+      "pitfalls": [
+        "Chỉ mô tả hai loại là bản ngắn hạn và dài hạn của cùng một token."
+      ],
+      "followups": [
+        "Ứng dụng nên làm gì khi việc gia hạn thất bại?"
+      ]
+    }
+  },
+  {
+    "question_id": "S05-Q007",
+    "phase": "mechanism",
+    "order": 40,
+    "version_sensitive": true,
+    "en": {
+      "question": "Explain refresh-token rotation from one successful renewal to the next, including the state the issuer must track.",
+      "explanation": "Rotation means changing the refresh credential during renewal. Focus on the sequence and concurrent or repeated uses, not just the phrase “issue a new token.”",
+      "intent": "Reason about credential state transitions and a race at renewal time.",
+      "scope": "State the issuer’s rotation and reuse policy; clients may have multiple simultaneous requests. Establish the deployed version/provider and consult official documentation before answering.",
+      "senior_signals": [
+        "Traces old and new credentials and the resulting server-side state.",
+        "Identifies a concurrent-renewal case and a test that checks its expected outcome."
+      ],
+      "pitfalls": [
+        "Assuming replacing the client’s stored token alone defines a safe rotation protocol."
+      ],
+      "followups": [
+        "What should happen if two tabs renew with the same credential?"
+      ]
+    },
+    "vi": {
+      "question": "Hãy giải thích refresh-token rotation từ một lần gia hạn thành công đến lần tiếp theo, gồm trạng thái bên phát hành cần theo dõi.",
+      "explanation": "Rotation là việc thay đổi thông tin xác thực dùng để gia hạn. Tập trung vào trình tự và các lần dùng đồng thời hoặc lặp lại, không chỉ nói “phát token mới”.",
+      "intent": "Lập luận về chuyển trạng thái của thông tin xác thực và race khi gia hạn.",
+      "scope": "Nêu chính sách rotation và xử lý dùng lại của bên phát hành; client có thể gửi nhiều request đồng thời. Xác định phiên bản hoặc nhà cung cấp đang dùng và đối chiếu tài liệu chính thức trước khi trả lời.",
+      "senior_signals": [
+        "Theo dấu token cũ, token mới và trạng thái phía server sau mỗi bước.",
+        "Chỉ ra trường hợp gia hạn đồng thời và kiểm thử kết quả mong đợi."
+      ],
+      "pitfalls": [
+        "Cho rằng chỉ thay token đang lưu ở client là đã có giao thức rotation an toàn."
+      ],
+      "followups": [
+        "Điều gì nên xảy ra khi hai tab cùng gia hạn bằng một thông tin xác thực?"
+      ]
+    }
+  },
+  {
+    "question_id": "S05-Q008",
+    "phase": "failure",
+    "order": 10,
+    "version_sensitive": true,
+    "en": {
+      "question": "How would you handle token expiry, revocation and unexpected token reuse without confusing the three events?",
+      "explanation": "Explain what stops a credential from being accepted, how that decision reaches consumers, and what the client should do next.",
+      "intent": "Design failure and recovery behavior across the token lifecycle.",
+      "scope": "Separate access-token and refresh-token handling; establish logout, compromise-response and propagation requirements. Establish the deployed version/provider and consult official documentation before answering.",
+      "senior_signals": [
+        "Distinguishes normal expiry from deliberate revocation and suspected credential reuse.",
+        "States a propagation boundary and tests the period before every consumer sees the change."
+      ],
+      "pitfalls": [
+        "Promising immediate invalidation everywhere without explaining consumer state or issuer guarantees."
+      ],
+      "followups": [
+        "How would you verify that a revoked session cannot renew access?"
+      ]
+    },
+    "vi": {
+      "question": "Bạn xử lý token hết hạn, bị thu hồi và bị dùng lại bất thường thế nào mà không nhầm lẫn ba sự kiện này?",
+      "explanation": "Giải thích điều gì khiến token không còn được chấp nhận, quyết định đó đến bên sử dụng ra sao và client cần làm gì tiếp.",
+      "intent": "Thiết kế hành vi khi lỗi và phục hồi trong vòng đời token.",
+      "scope": "Tách xử lý access token và refresh token; xác định yêu cầu đăng xuất, phản ứng khi lộ thông tin xác thực và truyền thay đổi. Xác định phiên bản hoặc nhà cung cấp đang dùng và đối chiếu tài liệu chính thức trước khi trả lời.",
+      "senior_signals": [
+        "Phân biệt hết hạn bình thường, thu hồi có chủ đích và nghi ngờ dùng lại thông tin xác thực.",
+        "Nêu ranh giới truyền thay đổi và kiểm thử khoảng thời gian trước khi mọi bên sử dụng nhận được thay đổi."
+      ],
+      "pitfalls": [
+        "Hứa vô hiệu hóa tức thì ở mọi nơi mà không giải thích trạng thái bên sử dụng hay bảo đảm của bên phát hành."
+      ],
+      "followups": [
+        "Bạn kiểm chứng một phiên đã bị thu hồi không thể gia hạn quyền truy cập như thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S05-Q009",
+    "phase": "application",
+    "order": 10,
+    "version_sensitive": true,
+    "en": {
+      "question": "Draw the authentication and authorization flow from a SPA through a gateway and identity provider to backend APIs.",
+      "explanation": "A SPA is a browser application that updates its interface without full-page navigation for each interaction. Show actors, request directions and the decision owned by each actor.",
+      "intent": "Explain an identity flow as explicit trust boundaries rather than a collection of products.",
+      "scope": "Clarify the selected protocol flow, browser credential handling and gateway responsibilities; do not assume the gateway replaces API checks. Establish the deployed version/provider and consult official documentation before answering.",
+      "senior_signals": [
+        "Labels where credentials are obtained, presented and evaluated.",
+        "Explains a rejected request and how to verify the responsible boundary."
+      ],
+      "pitfalls": [
+        "Drawing boxes without explaining who trusts whom or where access is decided."
+      ],
+      "followups": [
+        "What changes if a client reaches a backend API without going through the gateway?"
+      ]
+    },
+    "vi": {
+      "question": "Vẽ luồng authentication và authorization từ SPA qua gateway và identity provider đến các API backend.",
+      "explanation": "SPA là ứng dụng trình duyệt cập nhật giao diện mà không tải lại toàn bộ trang cho mỗi tương tác. Thể hiện các bên, chiều request và quyết định mỗi bên sở hữu.",
+      "intent": "Giải thích luồng định danh bằng ranh giới tin cậy cụ thể, thay vì một tập tên sản phẩm.",
+      "scope": "Làm rõ luồng giao thức đã chọn, cách trình duyệt xử lý thông tin xác thực và trách nhiệm gateway; không mặc định gateway thay thế kiểm tra ở API. Xác định phiên bản hoặc nhà cung cấp đang dùng và đối chiếu tài liệu chính thức trước khi trả lời.",
+      "senior_signals": [
+        "Ghi rõ nơi lấy, gửi và đánh giá thông tin xác thực.",
+        "Giải thích một request bị từ chối và cách kiểm chứng ranh giới chịu trách nhiệm."
+      ],
+      "pitfalls": [
+        "Vẽ các hộp mà không giải thích bên nào tin bên nào hoặc nơi quyết định quyền truy cập."
+      ],
+      "followups": [
+        "Điều gì thay đổi nếu client gọi thẳng API backend mà không đi qua gateway?"
+      ]
+    }
+  },
+  {
+    "question_id": "S05-Q010",
+    "phase": "tradeoff",
+    "order": 10,
+    "version_sensitive": true,
+    "en": {
+      "question": "Where would you store application secrets, signing keys and tokens, and what access boundaries should protect each?",
+      "explanation": "Compare the needs of a browser, backend process and deployment system. Explain why different credentials may require different handling.",
+      "intent": "Choose credential storage from threat, access and rotation requirements.",
+      "scope": "Distinguish secret material from public verification keys; identify storage provider, runtime and who needs access. Establish the deployed version/provider and consult official documentation before answering.",
+      "senior_signals": [
+        "Connects each storage choice to a specific actor and exposure risk.",
+        "Explains rotation or recovery verification without revealing real credentials."
+      ],
+      "pitfalls": [
+        "Recommending one storage location for every credential without considering its consumers."
+      ],
+      "followups": [
+        "How would you rotate a signing key while requests continue?"
+      ]
+    },
+    "vi": {
+      "question": "Bạn sẽ lưu application secret, khóa ký và token ở đâu, và bảo vệ từng loại bằng ranh giới truy cập nào?",
+      "explanation": "So sánh nhu cầu của trình duyệt, tiến trình backend và hệ thống triển khai. Giải thích vì sao các loại thông tin xác thực có thể cần cách xử lý khác nhau.",
+      "intent": "Chọn nơi lưu thông tin xác thực dựa trên mối đe dọa, quyền truy cập và yêu cầu thay khóa.",
+      "scope": "Phân biệt dữ liệu bí mật với khóa công khai dùng để kiểm tra; xác định nhà cung cấp, runtime và bên cần quyền đọc. Xác định phiên bản hoặc nhà cung cấp đang dùng và đối chiếu tài liệu chính thức trước khi trả lời.",
+      "senior_signals": [
+        "Gắn từng lựa chọn lưu trữ với một bên sử dụng và nguy cơ lộ cụ thể.",
+        "Giải thích cách kiểm chứng thay khóa hoặc phục hồi mà không tiết lộ thông tin xác thực thật."
+      ],
+      "pitfalls": [
+        "Đề xuất một chỗ lưu cho mọi loại mà không xét ai sẽ sử dụng."
+      ],
+      "followups": [
+        "Bạn thay khóa ký khi request vẫn đang chạy như thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S05-Q011",
+    "phase": "foundation",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "What responsibilities do OAuth 2.0 and OpenID Connect have in an application’s identity architecture?",
+      "explanation": "Explain the actors and intended use of each protocol, then connect them to a login and API-access scenario. Avoid an exhaustive list of grant types.",
+      "intent": "Separate protocol responsibilities and apply them to one identity flow.",
+      "scope": "Discuss application architecture; name any chosen flow and verify its current official guidance before implementing it.",
+      "senior_signals": [
+        "Draws actor interactions and distinguishes identity information from API-access decisions.",
+        "States what must be checked at a consumer boundary rather than trusting a protocol name."
+      ],
+      "pitfalls": [
+        "Treating OAuth 2.0 and OpenID Connect as interchangeable names for login."
+      ],
+      "followups": [
+        "What questions would you ask before choosing a flow for a browser application?"
+      ]
+    },
+    "vi": {
+      "question": "OAuth 2.0 và OpenID Connect đảm nhận trách nhiệm gì trong kiến trúc định danh của ứng dụng?",
+      "explanation": "Giải thích các bên và mục đích của từng giao thức, rồi gắn với tình huống đăng nhập và truy cập API. Không cần liệt kê toàn bộ grant types.",
+      "intent": "Phân biệt trách nhiệm giao thức và áp dụng vào một luồng định danh.",
+      "scope": "Bàn ở mức kiến trúc ứng dụng; nêu luồng được chọn và kiểm tra hướng dẫn chính thức hiện hành trước khi triển khai.",
+      "senior_signals": [
+        "Vẽ tương tác giữa các bên và phân biệt thông tin định danh với quyết định truy cập API.",
+        "Nêu điều cần kiểm tra ở bên sử dụng, thay vì tin cậy chỉ vì tên giao thức."
+      ],
+      "pitfalls": [
+        "Coi OAuth 2.0 và OpenID Connect là hai tên có thể dùng thay nhau cho đăng nhập."
+      ],
+      "followups": [
+        "Bạn cần hỏi gì trước khi chọn luồng cho ứng dụng trình duyệt?"
+      ]
+    }
+  },
+  {
+    "question_id": "S05-Q012",
+    "phase": "mechanism",
+    "order": 10,
+    "version_sensitive": true,
+    "en": {
+      "question": "What changes when one backend service authenticates to another without a user actively logging in?",
+      "explanation": "Identify whose identity is being represented and how the receiving service decides whether to allow the operation.",
+      "intent": "Explain machine identity and permission boundaries separately from interactive user login.",
+      "scope": "Clarify whether the call uses the service’s own identity or delegated user authority, and identify the deployment platform. Establish the deployed version/provider and consult official documentation before answering.",
+      "senior_signals": [
+        "Traces credential acquisition, presentation and permission evaluation for the chosen caller.",
+        "Explains how credential compromise or excess permissions would be detected and contained."
+      ],
+      "pitfalls": [
+        "Copying a browser login flow without identifying the machine caller or delegation contract."
+      ],
+      "followups": [
+        "How would the design change if the downstream action must retain the user’s authority?"
+      ]
+    },
+    "vi": {
+      "question": "Điều gì thay đổi khi một backend service xác thực với service khác mà không có người dùng đang đăng nhập?",
+      "explanation": "Xác định danh tính của bên nào đang được đại diện và service nhận quyết định cho phép thao tác ra sao.",
+      "intent": "Giải thích danh tính máy và ranh giới quyền, tách khỏi đăng nhập tương tác của người dùng.",
+      "scope": "Làm rõ lời gọi dùng danh tính riêng của service hay quyền được người dùng ủy quyền, và xác định nền tảng triển khai. Xác định phiên bản hoặc nhà cung cấp đang dùng và đối chiếu tài liệu chính thức trước khi trả lời.",
+      "senior_signals": [
+        "Theo dấu việc lấy, gửi thông tin xác thực và đánh giá quyền cho bên gọi đã chọn.",
+        "Giải thích cách phát hiện và giới hạn tác động khi lộ thông tin xác thực hoặc cấp quyền quá rộng."
+      ],
+      "pitfalls": [
+        "Sao chép luồng đăng nhập trình duyệt mà không xác định bên gọi máy hay hợp đồng ủy quyền."
+      ],
+      "followups": [
+        "Thiết kế thay đổi thế nào nếu thao tác downstream phải giữ quyền của người dùng?"
+      ]
+    }
+  },
+  {
+    "question_id": "S05-Q013",
+    "phase": "foundation",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "How do HTTP and HTTPS differ technically, and what protection does that difference provide to an API client?",
+      "explanation": "Explain the communication boundary being protected. Keep transport protection separate from application permissions and trusted endpoint behavior.",
+      "intent": "Describe a transport guarantee together with its limits.",
+      "scope": "Use a client-to-server connection; identify any intermediary where transport protection ends.",
+      "senior_signals": [
+        "Explains what changes on the network path in a concrete request.",
+        "Identifies a security risk that remains and how its control would be checked."
+      ],
+      "pitfalls": [
+        "Claiming HTTPS makes every application action safe without discussing endpoint or access risks."
+      ],
+      "followups": [
+        "What must you examine when HTTPS terminates at a reverse proxy?"
+      ]
+    },
+    "vi": {
+      "question": "HTTP và HTTPS khác nhau về kỹ thuật thế nào, và khác biệt đó bảo vệ API client ở điểm nào?",
+      "explanation": "Giải thích ranh giới giao tiếp được bảo vệ. Tách bảo vệ đường truyền khỏi quyền ứng dụng và hành vi của endpoint được tin cậy.",
+      "intent": "Mô tả bảo đảm trên đường truyền cùng giới hạn của bảo đảm đó.",
+      "scope": "Dùng kết nối client–server; chỉ rõ trung gian nào là nơi kết thúc bảo vệ đường truyền nếu có.",
+      "senior_signals": [
+        "Giải thích điều thay đổi trên đường truyền của một request cụ thể.",
+        "Nêu nguy cơ bảo mật còn tồn tại và cách kiểm tra biện pháp xử lý."
+      ],
+      "pitfalls": [
+        "Khẳng định HTTPS làm mọi thao tác ứng dụng an toàn mà không xét endpoint hay quyền truy cập."
+      ],
+      "followups": [
+        "Bạn phải xem xét gì khi HTTPS kết thúc ở reverse proxy?"
+      ]
+    }
+  },
+  {
+    "question_id": "S05-Q014",
+    "phase": "mechanism",
+    "order": 10,
+    "version_sensitive": true,
+    "en": {
+      "question": "What is the TLS handshake trying to establish before application data is exchanged?",
+      "explanation": "Give a high-level causal sequence: the parties involved, what they must agree on, and the point at which the client can proceed or reject the connection.",
+      "intent": "Explain a connection setup mechanism and one failure boundary.",
+      "scope": "Name the TLS version and whether client authentication is required; message details vary by version. Establish the deployed version/provider and consult official documentation before answering.",
+      "senior_signals": [
+        "Connects handshake steps to trust and protected communication rather than listing packet names.",
+        "Explains a failed trust check and how to observe the resulting connection behavior."
+      ],
+      "pitfalls": [
+        "Memorizing one message sequence and presenting it as identical across TLS versions."
+      ],
+      "followups": [
+        "How would you investigate a client rejecting the server certificate?"
+      ]
+    },
+    "vi": {
+      "question": "TLS handshake cần xác lập điều gì trước khi hai bên trao đổi dữ liệu ứng dụng?",
+      "explanation": "Trình bày trình tự nhân quả ở mức khái quát: các bên tham gia, điều cần thống nhất và thời điểm client có thể tiếp tục hoặc từ chối kết nối.",
+      "intent": "Giải thích cơ chế thiết lập kết nối và một ranh giới thất bại.",
+      "scope": "Nêu phiên bản TLS và có yêu cầu xác thực client hay không; chi tiết message thay đổi theo phiên bản. Xác định phiên bản hoặc nhà cung cấp đang dùng và đối chiếu tài liệu chính thức trước khi trả lời.",
+      "senior_signals": [
+        "Gắn các bước handshake với độ tin cậy và giao tiếp được bảo vệ, thay vì chỉ kể tên packet.",
+        "Giải thích một kiểm tra tin cậy thất bại và cách quan sát hành vi kết nối."
+      ],
+      "pitfalls": [
+        "Học thuộc một chuỗi message rồi coi mọi phiên bản TLS đều giống hệt."
+      ],
+      "followups": [
+        "Bạn điều tra việc client từ chối chứng thư server như thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S05-Q015",
+    "phase": "application",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "How would you distinguish CORS, CSRF and XSS when reviewing a browser application’s security?",
+      "explanation": "Distinguish the cross-origin browser access policy from CSRF and XSS attack scenarios. For each, describe the legitimate or hostile interaction, credential behavior and boundary to inspect; expand abbreviations when introducing them.",
+      "intent": "Distinguish a browser access policy from attack scenarios and justify relevant controls with their limits.",
+      "scope": "Clarify origins, credential handling and whether untrusted content is rendered; use separate examples rather than one universal defense.",
+      "senior_signals": [
+        "Explains a distinct causal scenario for each concern.",
+        "Proposes a check that tests the chosen protection and states a remaining boundary."
+      ],
+      "pitfalls": [
+        "Treating a CORS setting as proof that all browser-originated attacks are prevented."
+      ],
+      "followups": [
+        "How would changing from explicit credentials to automatically sent cookies affect your threat analysis?"
+      ]
+    },
+    "vi": {
+      "question": "Khi review bảo mật ứng dụng trình duyệt, bạn phân biệt CORS, CSRF và XSS như thế nào?",
+      "explanation": "Tách chính sách truy cập khác origin của trình duyệt khỏi các tình huống tấn công CSRF và XSS. Với từng vấn đề, mô tả tương tác hợp lệ hoặc độc hại, cách gửi thông tin xác thực và ranh giới cần xem xét; giải thích tên đầy đủ khi đưa thuật ngữ vào.",
+      "intent": "Phân biệt chính sách truy cập trình duyệt với tình huống tấn công, bảo vệ lựa chọn biện pháp và nêu giới hạn.",
+      "scope": "Làm rõ origin, cách gửi thông tin xác thực và việc render nội dung không tin cậy; dùng ví dụ riêng, tránh một biện pháp cho mọi vấn đề.",
+      "senior_signals": [
+        "Giải thích một tình huống nhân quả khác nhau cho từng vấn đề.",
+        "Đề xuất kiểm tra biện pháp đã chọn và nêu ranh giới còn lại."
+      ],
+      "pitfalls": [
+        "Coi cấu hình CORS là bằng chứng đã ngăn mọi tấn công bắt nguồn từ trình duyệt."
+      ],
+      "followups": [
+        "Phân tích mối đe dọa thay đổi thế nào nếu chuyển từ gửi thông tin xác thực chủ động sang cookie được gửi tự động?"
+      ]
+    }
+  },
+  {
+    "question_id": "S05-Q016",
+    "phase": "production",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "How would you apply least privilege to an API caller and to the application’s cloud identity?",
+      "explanation": "Least privilege means granting only the authority needed for a defined task. Explain whose permissions you are designing and how you would verify the boundary.",
+      "intent": "Translate a required operation into bounded permissions and evidence.",
+      "scope": "Use one API operation and one cloud-resource operation; distinguish caller permissions from deployment or runtime permissions.",
+      "senior_signals": [
+        "Maps authority to the exact resource and operation required.",
+        "Includes a denied-operation test and a process for reviewing permissions as requirements change."
+      ],
+      "pitfalls": [
+        "Granting an administrator role for convenience without defending the exposure or review plan."
+      ],
+      "followups": [
+        "What evidence would show that a service has permissions it never needs?"
+      ]
+    },
+    "vi": {
+      "question": "Bạn áp dụng least privilege cho bên gọi API và danh tính cloud của ứng dụng như thế nào?",
+      "explanation": "Least privilege là chỉ cấp quyền cần cho một nhiệm vụ đã xác định. Giải thích bạn đang thiết kế quyền của bên nào và kiểm chứng ranh giới ra sao.",
+      "intent": "Chuyển thao tác cần thực hiện thành quyền có giới hạn và bằng chứng kiểm tra.",
+      "scope": "Dùng một thao tác API và một thao tác tài nguyên cloud; phân biệt quyền bên gọi với quyền triển khai hoặc runtime.",
+      "senior_signals": [
+        "Gắn quyền với đúng tài nguyên và thao tác cần thiết.",
+        "Có kiểm thử thao tác bị từ chối và quy trình rà soát quyền khi yêu cầu thay đổi."
+      ],
+      "pitfalls": [
+        "Cấp role quản trị cho tiện mà không bảo vệ lý do, mức phơi bày hay kế hoạch rà soát."
+      ],
+      "followups": [
+        "Bằng chứng nào cho thấy một service đang có quyền mà nó không bao giờ cần?"
+      ]
+    }
+  },
+  {
+    "question_id": "S05-Q017",
+    "phase": "production",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "What security-sensitive information should application logs exclude, and how would you keep those logs useful for diagnosis?",
+      "explanation": "Review a hypothetical request and error log. Identify information that exposes credentials or private data, then explain the diagnostic need that remains.",
+      "intent": "Balance diagnostic evidence with credential and privacy protection.",
+      "scope": "Consider request headers, bodies, exceptions and telemetry destinations; use fictional examples without actual sensitive data.",
+      "senior_signals": [
+        "Names concrete exposure paths and explains the risk of each.",
+        "Proposes a way to test logging behavior in success and error paths."
+      ],
+      "pitfalls": [
+        "Saying “do not log secrets” while leaving headers or exception payloads unexamined."
+      ],
+      "followups": [
+        "How would you detect a credential accidentally included in an exception log?"
+      ]
+    },
+    "vi": {
+      "question": "Log ứng dụng cần loại bỏ thông tin nhạy cảm nào, và bạn giữ log hữu ích cho chẩn đoán ra sao?",
+      "explanation": "Review một request và error log giả định. Chỉ ra thông tin làm lộ thông tin xác thực hoặc dữ liệu riêng tư, rồi giải thích nhu cầu chẩn đoán còn lại.",
+      "intent": "Cân bằng bằng chứng chẩn đoán với bảo vệ thông tin xác thực và quyền riêng tư.",
+      "scope": "Xem xét headers, bodies, exceptions và nơi nhận telemetry; chỉ dùng ví dụ giả định, không chứa dữ liệu nhạy cảm thật.",
+      "senior_signals": [
+        "Nêu đường làm lộ dữ liệu cụ thể và giải thích nguy cơ của từng đường.",
+        "Đề xuất cách kiểm thử hành vi logging ở cả luồng thành công và luồng lỗi."
+      ],
+      "pitfalls": [
+        "Chỉ nói “không log secret” nhưng bỏ qua headers hoặc dữ liệu trong exception."
+      ],
+      "followups": [
+        "Bạn phát hiện thông tin xác thực vô tình xuất hiện trong exception log như thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S05-Q018",
+    "phase": "foundation",
+    "order": 10,
+    "version_sensitive": true,
+    "en": {
+      "question": "When would you choose serverless functions for a workload, and what requirement could make that choice unsuitable?",
+      "explanation": "Functions are a managed execution option for application work. Compare the workload’s lifecycle and operating needs rather than treating “serverless” as a universal advantage.",
+      "intent": "Choose an execution model from workload constraints and a measurable decision boundary.",
+      "scope": "Clarify invocation pattern, execution duration, latency needs and state; Azure is a possible context, not a specified service plan. Establish the deployed version/provider and consult official documentation before answering.",
+      "senior_signals": [
+        "Connects the choice to one concrete workload and the constraint it addresses.",
+        "Proposes a representative test and explains what result would change the choice."
+      ],
+      "pitfalls": [
+        "Equating serverless with no operational work or guaranteed lower cost."
+      ],
+      "followups": [
+        "How would you evaluate the same workload if predictable response latency becomes critical?"
+      ]
+    },
+    "vi": {
+      "question": "Khi nào bạn chọn serverless functions cho một workload, và yêu cầu nào có thể khiến lựa chọn đó không phù hợp?",
+      "explanation": "Functions là một phương án thực thi được nền tảng quản lý. So sánh vòng đời công việc và nhu cầu vận hành, thay vì coi “serverless” luôn có lợi.",
+      "intent": "Chọn mô hình thực thi từ ràng buộc workload và điều kiện đổi quyết định có thể đo được.",
+      "scope": "Làm rõ cách kích hoạt, thời gian chạy, yêu cầu latency và trạng thái; Azure là bối cảnh có thể dùng, chưa xác định service plan. Xác định phiên bản hoặc nhà cung cấp đang dùng và đối chiếu tài liệu chính thức trước khi trả lời.",
+      "senior_signals": [
+        "Gắn lựa chọn với một workload cụ thể và ràng buộc cần giải quyết.",
+        "Đề xuất kiểm thử đại diện và giải thích kết quả nào sẽ khiến đổi lựa chọn."
+      ],
+      "pitfalls": [
+        "Đồng nhất serverless với không phải vận hành hoặc chắc chắn giảm chi phí."
+      ],
+      "followups": [
+        "Bạn đánh giá lại workload thế nào nếu độ ổn định của thời gian phản hồi trở thành yêu cầu quan trọng?"
+      ]
+    }
+  },
+  {
+    "question_id": "S05-Q019",
+    "phase": "production",
+    "order": 10,
+    "version_sensitive": true,
+    "en": {
+      "question": "How would you make processing reliable when using cloud queues or topics with subscriptions?",
+      "explanation": "Explain the path from publication to a completed business effect and what happens when a step fails. Reliability here concerns recovery, not just successful message delivery.",
+      "intent": "Design a messaging contract that accounts for interrupted or repeated processing.",
+      "scope": "Clarify recipient needs, acknowledgment behavior, broker guarantees and failure-recovery ownership; no broker or tier is specified. Establish the deployed version/provider and consult official documentation before answering.",
+      "senior_signals": [
+        "Traces one failed processing attempt and the resulting message and business states.",
+        "Defines observable recovery evidence and the boundary of the proposed guarantee."
+      ],
+      "pitfalls": [
+        "Assuming a managed broker alone makes the business effect reliable in every failure case."
+      ],
+      "followups": [
+        "How would you verify recovery if a consumer stops immediately after the database commits?"
+      ]
+    },
+    "vi": {
+      "question": "Bạn bảo đảm xử lý đáng tin cậy thế nào khi dùng cloud queues hoặc topics với subscriptions?",
+      "explanation": "Giải thích đường đi từ phát message đến hiệu ứng nghiệp vụ hoàn tất và điều xảy ra khi một bước lỗi. Độ tin cậy ở đây bao gồm phục hồi, không chỉ gửi message thành công.",
+      "intent": "Thiết kế hợp đồng messaging có xét việc xử lý bị gián đoạn hoặc lặp lại.",
+      "scope": "Làm rõ bên nhận, hành vi acknowledgment, bảo đảm của broker và bên chịu trách nhiệm phục hồi; chưa xác định broker hay tier. Xác định phiên bản hoặc nhà cung cấp đang dùng và đối chiếu tài liệu chính thức trước khi trả lời.",
+      "senior_signals": [
+        "Theo dấu một lần xử lý thất bại cùng trạng thái message và nghiệp vụ sau đó.",
+        "Xác định bằng chứng phục hồi quan sát được và ranh giới bảo đảm đã đề xuất."
+      ],
+      "pitfalls": [
+        "Cho rằng chỉ cần managed broker là hiệu ứng nghiệp vụ đã đáng tin cậy trong mọi lỗi."
+      ],
+      "followups": [
+        "Bạn kiểm chứng phục hồi thế nào nếu consumer dừng ngay sau khi database commit?"
+      ]
+    }
+  },
+  {
+    "question_id": "S05-Q020",
+    "phase": "mechanism",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "How would you choose between one-to-one and one-to-many messaging for a business event or work item?",
+      "explanation": "Identify how many independent recipients must receive the logical information. Distinguish recipient topology from the number of worker replicas.",
+      "intent": "Choose message distribution from recipient requirements and consumer ownership.",
+      "scope": "Compare delivery to one recipient with delivery to several independent recipients; define what “one” means in the proposed design.",
+      "senior_signals": [
+        "Maps a specific business requirement to who must receive each logical message.",
+        "Explains how to test distribution when recipients or worker replicas change."
+      ],
+      "pitfalls": [
+        "Counting running consumers instead of clarifying which recipients need their own copy."
+      ],
+      "followups": [
+        "What changes if a new reporting consumer must receive the same events independently?"
+      ]
+    },
+    "vi": {
+      "question": "Bạn chọn messaging một–một hay một–nhiều cho business event hoặc work item như thế nào?",
+      "explanation": "Xác định bao nhiêu bên nhận độc lập cần thông tin logic đó. Phân biệt cấu trúc bên nhận với số replica của worker.",
+      "intent": "Chọn cách phân phối message theo yêu cầu bên nhận và quyền sở hữu consumer.",
+      "scope": "So sánh gửi cho một bên nhận với gửi cho nhiều bên nhận độc lập; làm rõ “một” nghĩa là gì trong thiết kế.",
+      "senior_signals": [
+        "Gắn một yêu cầu nghiệp vụ cụ thể với các bên phải nhận từng message logic.",
+        "Giải thích cách kiểm thử phân phối khi bên nhận hoặc số replica thay đổi."
+      ],
+      "pitfalls": [
+        "Chỉ đếm consumer đang chạy mà không làm rõ bên nào cần bản message riêng."
+      ],
+      "followups": [
+        "Điều gì thay đổi nếu thêm consumer báo cáo cần nhận cùng các event một cách độc lập?"
+      ]
+    }
+  },
+  {
+    "question_id": "S05-Q021",
+    "phase": "foundation",
+    "order": 20,
+    "version_sensitive": false,
+    "en": {
+      "question": "Which application workloads fit object or blob storage, and what access requirements would you clarify before choosing it?",
+      "explanation": "Discuss how the application stores and retrieves objects such as files. Focus on data access and lifecycle rather than reciting product names.",
+      "intent": "Match a storage model to an application’s data and access patterns.",
+      "scope": "Clarify object size, access permissions, update behavior and retention; named-service guarantees require separate verification.",
+      "senior_signals": [
+        "Connects a concrete storage use case to its read and write pattern.",
+        "Explains a requirement that could favor another storage model and how to validate it."
+      ],
+      "pitfalls": [
+        "Choosing blob storage solely because the data can be serialized as a file."
+      ],
+      "followups": [
+        "How would you test access control and lifecycle behavior for uploaded files?"
+      ]
+    },
+    "vi": {
+      "question": "Workload nào phù hợp với object hoặc blob storage, và bạn cần làm rõ yêu cầu truy cập nào trước khi chọn?",
+      "explanation": "Bàn cách ứng dụng lưu và lấy các object như file. Tập trung vào truy cập và vòng đời dữ liệu, thay vì kể tên sản phẩm.",
+      "intent": "Gắn mô hình lưu trữ với dữ liệu và cách truy cập của ứng dụng.",
+      "scope": "Làm rõ kích thước object, quyền truy cập, cách cập nhật và thời gian giữ; bảo đảm của service cụ thể cần kiểm tra riêng.",
+      "senior_signals": [
+        "Gắn một trường hợp lưu trữ cụ thể với cách đọc và ghi.",
+        "Giải thích yêu cầu nào khiến mô hình khác phù hợp hơn và cách kiểm chứng."
+      ],
+      "pitfalls": [
+        "Chọn blob storage chỉ vì dữ liệu có thể được ghi thành file."
+      ],
+      "followups": [
+        "Bạn kiểm thử quyền truy cập và vòng đời file người dùng tải lên như thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S05-Q022",
+    "phase": "foundation",
+    "order": 30,
+    "version_sensitive": false,
+    "en": {
+      "question": "When would you choose a managed relational database, and which responsibilities would still belong to the application team?",
+      "explanation": "Explain the workload’s relationship, query and consistency needs, then discuss what “managed” means for the operating contract.",
+      "intent": "Select a database model while retaining clear operational ownership.",
+      "scope": "Use a relational business workload; define availability, recovery and access needs without assuming a particular service tier.",
+      "senior_signals": [
+        "Connects relational requirements to a specific data and query example.",
+        "Separates provider responsibilities from application verification and states how to test recovery."
+      ],
+      "pitfalls": [
+        "Assuming a managed service removes the need to design queries, permissions or recovery checks."
+      ],
+      "followups": [
+        "What evidence would you require before relying on the service’s restore capability?"
+      ]
+    },
+    "vi": {
+      "question": "Khi nào bạn chọn managed relational database, và trách nhiệm nào vẫn thuộc nhóm ứng dụng?",
+      "explanation": "Giải thích nhu cầu quan hệ dữ liệu, truy vấn và nhất quán của workload, rồi bàn ý nghĩa của “managed” trong hợp đồng vận hành.",
+      "intent": "Chọn mô hình database đồng thời giữ rõ quyền sở hữu vận hành.",
+      "scope": "Dùng workload nghiệp vụ quan hệ; xác định yêu cầu sẵn sàng, phục hồi và truy cập, không mặc định một service tier cụ thể.",
+      "senior_signals": [
+        "Gắn yêu cầu quan hệ với ví dụ dữ liệu và truy vấn cụ thể.",
+        "Tách trách nhiệm nhà cung cấp khỏi kiểm chứng phía ứng dụng và nêu cách kiểm thử phục hồi."
+      ],
+      "pitfalls": [
+        "Cho rằng managed service loại bỏ việc thiết kế truy vấn, phân quyền hoặc kiểm tra phục hồi."
+      ],
+      "followups": [
+        "Bạn cần bằng chứng gì trước khi dựa vào khả năng restore của service?"
+      ]
+    }
+  },
+  {
+    "question_id": "S05-Q023",
+    "phase": "application",
+    "order": 20,
+    "version_sensitive": true,
+    "en": {
+      "question": "How would an application authenticate to a cloud resource using a managed identity instead of an application-managed secret?",
+      "explanation": "A managed identity is a workload identity supported by the deployment platform. Trace how it is used and which permissions the target resource must recognize.",
+      "intent": "Explain secretless credential acquisition without overlooking authorization and platform boundaries.",
+      "scope": "Use Azure as context; establish hosting support, identity type and target resource rather than assuming universal compatibility. Establish the deployed version/provider and consult official documentation before answering.",
+      "senior_signals": [
+        "Traces identity selection, credential acquisition and resource access for the chosen environment.",
+        "Explains how to test denied access and handle an unsupported or local-development environment."
+      ],
+      "pitfalls": [
+        "Claiming managed identity automatically grants access to every cloud resource."
+      ],
+      "followups": [
+        "How would you diagnose authentication succeeding while resource access is denied?"
+      ]
+    },
+    "vi": {
+      "question": "Ứng dụng xác thực với tài nguyên cloud bằng managed identity, thay cho secret do ứng dụng quản lý, như thế nào?",
+      "explanation": "Managed identity là danh tính workload được nền tảng triển khai hỗ trợ. Theo dấu cách dùng danh tính đó và quyền tài nguyên đích cần nhận biết.",
+      "intent": "Giải thích việc lấy thông tin xác thực không dùng secret do ứng dụng quản lý, đồng thời xét phân quyền và ranh giới nền tảng.",
+      "scope": "Dùng Azure làm bối cảnh; xác định hỗ trợ từ hosting, loại identity và tài nguyên đích, không mặc định tương thích ở mọi nơi. Xác định phiên bản hoặc nhà cung cấp đang dùng và đối chiếu tài liệu chính thức trước khi trả lời.",
+      "senior_signals": [
+        "Theo dấu lựa chọn identity, lấy thông tin xác thực và truy cập tài nguyên trong môi trường đã chọn.",
+        "Giải thích cách kiểm thử bị từ chối quyền và xử lý môi trường local hoặc chưa được hỗ trợ."
+      ],
+      "pitfalls": [
+        "Khẳng định managed identity tự động có quyền với mọi tài nguyên cloud."
+      ],
+      "followups": [
+        "Bạn chẩn đoán thế nào khi xác thực thành công nhưng truy cập tài nguyên bị từ chối?"
+      ]
+    }
+  },
+  {
+    "question_id": "S05-Q025",
+    "phase": "tradeoff",
+    "order": 10,
+    "version_sensitive": true,
+    "en": {
+      "question": "How would you choose an autoscaling policy while balancing reliability, response time and cost?",
+      "explanation": "Autoscaling changes capacity according to a policy. Explain the workload signal, the intended outcome and the limit that could make more capacity ineffective.",
+      "intent": "Make a capacity decision with explicit budgets and a verification plan.",
+      "scope": "Clarify load shape, bottleneck, startup time and service limits; identify the cloud service and deployment model. Establish the deployed version/provider and consult official documentation before answering.",
+      "senior_signals": [
+        "Connects a scaling trigger and limit to the workload’s observable behavior.",
+        "Designs a load or failure check and states which evidence would justify changing the policy."
+      ],
+      "pitfalls": [
+        "Assuming adding replicas fixes every bottleneck or that one utilization threshold fits every workload."
+      ],
+      "followups": [
+        "What would you check if replicas increase but tail latency does not improve?"
+      ]
+    },
+    "vi": {
+      "question": "Bạn chọn chính sách autoscaling thế nào để cân bằng độ tin cậy, thời gian phản hồi và chi phí?",
+      "explanation": "Autoscaling thay đổi năng lực xử lý theo một chính sách. Giải thích tín hiệu workload, kết quả muốn đạt và giới hạn có thể khiến tăng năng lực không hiệu quả.",
+      "intent": "Ra quyết định về năng lực với ngân sách rõ ràng và kế hoạch kiểm chứng.",
+      "scope": "Làm rõ dạng tải, bottleneck, thời gian khởi động và giới hạn service; xác định cloud service và mô hình triển khai. Xác định phiên bản hoặc nhà cung cấp đang dùng và đối chiếu tài liệu chính thức trước khi trả lời.",
+      "senior_signals": [
+        "Gắn điều kiện tăng giảm và giới hạn với hành vi workload quan sát được.",
+        "Thiết kế kiểm tra tải hoặc lỗi và nêu bằng chứng cần để điều chỉnh chính sách."
+      ],
+      "pitfalls": [
+        "Cho rằng thêm replica sửa mọi bottleneck hoặc một ngưỡng utilization phù hợp mọi workload."
+      ],
+      "followups": [
+        "Bạn kiểm tra gì nếu số replica tăng nhưng tail latency không cải thiện?"
+      ]
+    }
+  },
+  {
+    "question_id": "S05-Q026",
+    "phase": "mechanism",
+    "order": 10,
+    "version_sensitive": true,
+    "en": {
+      "question": "What does infrastructure as code change about provisioning and updating an environment?",
+      "explanation": "Infrastructure as code represents infrastructure changes in reviewable definitions. Explain how a deployment template moves from a proposed change to observable infrastructure.",
+      "intent": "Describe infrastructure change as a controlled and verifiable lifecycle.",
+      "scope": "Name the tooling and cloud provider; distinguish infrastructure definitions, environment parameters and application releases. Establish the deployed version/provider and consult official documentation before answering.",
+      "senior_signals": [
+        "Traces review, planned changes and verification for a concrete resource update.",
+        "Explains how unexpected environment differences would be detected and investigated."
+      ],
+      "pitfalls": [
+        "Equating a checked-in template with proof that the deployed environment matches it."
+      ],
+      "followups": [
+        "How would you handle a manual resource change that is absent from the definitions?"
+      ]
+    },
+    "vi": {
+      "question": "Infrastructure as code thay đổi việc tạo và cập nhật môi trường như thế nào?",
+      "explanation": "Infrastructure as code biểu diễn thay đổi hạ tầng bằng định nghĩa có thể review. Giải thích một deployment template đi từ đề xuất đến hạ tầng quan sát được ra sao.",
+      "intent": "Mô tả thay đổi hạ tầng như một vòng đời được kiểm soát và kiểm chứng.",
+      "scope": "Nêu công cụ và cloud provider; phân biệt định nghĩa hạ tầng, tham số môi trường và bản phát hành ứng dụng. Xác định phiên bản hoặc nhà cung cấp đang dùng và đối chiếu tài liệu chính thức trước khi trả lời.",
+      "senior_signals": [
+        "Theo dấu review, thay đổi dự kiến và kiểm chứng một cập nhật tài nguyên cụ thể.",
+        "Giải thích cách phát hiện và điều tra khác biệt môi trường ngoài dự kiến."
+      ],
+      "pitfalls": [
+        "Coi template đã commit là bằng chứng môi trường triển khai đang khớp với nó."
+      ],
+      "followups": [
+        "Bạn xử lý thay đổi tài nguyên bằng tay nhưng chưa có trong định nghĩa như thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S05-Q027",
+    "phase": "application",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "How would you manage configuration across development, staging and production while promoting the same application artifact without rebuilding its code?",
+      "explanation": "Cover both cloud deployment parameters and the configuration used by a container or other application artifact. Explain ownership and verification of the environment differences.",
+      "intent": "Design a configuration contract that preserves artifact identity across environments.",
+      "scope": "Distinguish build inputs, runtime settings and secrets; clarify whether changes require a restart or may be applied during execution.",
+      "senior_signals": [
+        "Maps each environment difference to a controlled configuration owner and delivery point.",
+        "Checks artifact identity and detects a missing or incorrectly targeted setting."
+      ],
+      "pitfalls": [
+        "Rebuilding environment-specific application code while claiming to test and promote the same artifact."
+      ],
+      "followups": [
+        "How would you diagnose staging passing while production uses a different database endpoint?"
+      ]
+    },
+    "vi": {
+      "question": "Bạn quản lý cấu hình development, staging và production thế nào khi đưa cùng một application artifact qua các môi trường mà không build lại code?",
+      "explanation": "Bao gồm tham số triển khai cloud và cấu hình container hoặc artifact ứng dụng khác. Giải thích bên sở hữu và cách kiểm chứng những khác biệt giữa môi trường.",
+      "intent": "Thiết kế hợp đồng cấu hình giữ nguyên danh tính artifact giữa các môi trường.",
+      "scope": "Phân biệt đầu vào build, thiết lập runtime và secret; làm rõ đổi cấu hình cần restart hay có thể áp dụng khi đang chạy.",
+      "senior_signals": [
+        "Gắn mỗi khác biệt môi trường với bên kiểm soát cấu hình và điểm cấp cấu hình.",
+        "Kiểm tra danh tính artifact và phát hiện thiết lập bị thiếu hoặc nhắm sai môi trường."
+      ],
+      "pitfalls": [
+        "Build lại code cho từng môi trường nhưng vẫn nói mình kiểm thử và đưa cùng một artifact lên production."
+      ],
+      "followups": [
+        "Bạn chẩn đoán thế nào khi staging pass nhưng production dùng endpoint database khác?"
+      ]
+    }
+  },
+  {
+    "question_id": "S05-Q028",
+    "phase": "foundation",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "How do logs, metrics and traces answer different questions when diagnosing an application?",
+      "explanation": "Use one request or incident to compare the information each type provides. Explain the evidence you need, not just three definitions.",
+      "intent": "Choose an evidence type from a specific diagnostic question.",
+      "scope": "Use a distributed ASP.NET Core application as context; collection products and configuration are not prescribed.",
+      "senior_signals": [
+        "Connects each evidence type to an observable symptom or causal question.",
+        "Explains one blind spot and how another evidence type helps test the hypothesis."
+      ],
+      "pitfalls": [
+        "Treating a large volume of logs as sufficient visibility into every request and system trend."
+      ],
+      "followups": [
+        "What would you collect first if a latency metric worsens but existing logs show no error?"
+      ]
+    },
+    "vi": {
+      "question": "Logs, metrics và traces trả lời các câu hỏi khác nhau ra sao khi chẩn đoán ứng dụng?",
+      "explanation": "Dùng một request hoặc incident để so sánh thông tin từng loại cung cấp. Giải thích bằng chứng cần có, không chỉ đưa ra ba định nghĩa.",
+      "intent": "Chọn loại bằng chứng từ một câu hỏi chẩn đoán cụ thể.",
+      "scope": "Dùng ứng dụng ASP.NET Core phân tán làm bối cảnh; không chỉ định sản phẩm hay cấu hình thu thập.",
+      "senior_signals": [
+        "Gắn từng loại bằng chứng với triệu chứng quan sát được hoặc câu hỏi về nguyên nhân.",
+        "Giải thích một điểm mù và cách loại bằng chứng khác giúp kiểm tra giả thuyết."
+      ],
+      "pitfalls": [
+        "Coi lượng log lớn là đã nhìn rõ mọi request và mọi xu hướng hệ thống."
+      ],
+      "followups": [
+        "Bạn thu thập gì trước nếu latency metric xấu đi nhưng log hiện tại không có lỗi?"
+      ]
+    }
+  },
+  {
+    "question_id": "S05-Q029",
+    "phase": "application",
+    "order": 20,
+    "version_sensitive": false,
+    "en": {
+      "question": "How would you trace one request across the frontend, gateway, multiple backend services and database calls?",
+      "explanation": "Show how observations at each hop can be connected to the same request and how you would localize missing time or missing evidence.",
+      "intent": "Design an end-to-end observation path across service ownership boundaries.",
+      "scope": "Include every named hop; clarify synchronous and asynchronous boundaries and telemetry access without assuming an existing tracing setup.",
+      "senior_signals": [
+        "Traces evidence propagation across the complete request path.",
+        "Tests a deliberately broken propagation boundary and explains what remains observable."
+      ],
+      "pitfalls": [
+        "Drawing a request path while omitting how observations from different services are connected."
+      ],
+      "followups": [
+        "How would you investigate a database call that appears in logs but is missing from the request trace?"
+      ]
+    },
+    "vi": {
+      "question": "Bạn theo dấu một request qua frontend, gateway, nhiều backend service và các lời gọi database như thế nào?",
+      "explanation": "Chỉ rõ cách nối quan sát ở mỗi chặng với cùng request, và cách khoanh vùng thời gian hoặc bằng chứng bị thiếu.",
+      "intent": "Thiết kế đường quan sát đầu cuối qua các ranh giới sở hữu service.",
+      "scope": "Bao gồm mọi chặng đã nêu; làm rõ ranh giới đồng bộ, bất đồng bộ và quyền đọc telemetry, không mặc định đã có tracing setup.",
+      "senior_signals": [
+        "Theo dấu truyền bằng chứng qua toàn bộ đường request.",
+        "Kiểm thử một điểm cố ý làm đứt truyền context và giải thích phần còn quan sát được."
+      ],
+      "pitfalls": [
+        "Vẽ đường request nhưng bỏ qua cách nối quan sát từ các service khác nhau."
+      ],
+      "followups": [
+        "Bạn điều tra lời gọi database có trong log nhưng thiếu trong request trace như thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S05-Q030",
+    "phase": "mechanism",
+    "order": 10,
+    "version_sensitive": true,
+    "en": {
+      "question": "How do correlation IDs and distributed trace context help connect observations across a request?",
+      "explanation": "Define what each identifier refers to and how it crosses a boundary. A trace context is information used to connect parts of distributed execution.",
+      "intent": "Explain observation identity and propagation without confusing it with business identity.",
+      "scope": "Name the propagation format and instrumentation stack; distinguish a request, a trace, an operation and a business message when applicable. Establish the deployed version/provider and consult official documentation before answering.",
+      "senior_signals": [
+        "Uses a concrete multi-hop example to explain identifier scope and propagation.",
+        "Describes a check for missing or incorrectly reused context across independent operations."
+      ],
+      "pitfalls": [
+        "Assuming any shared string automatically supplies a correct distributed trace."
+      ],
+      "followups": [
+        "How would you handle context when one operation creates several independent downstream tasks?"
+      ]
+    },
+    "vi": {
+      "question": "Correlation ID và distributed trace context giúp nối các quan sát trong một request như thế nào?",
+      "explanation": "Định nghĩa mỗi định danh tham chiếu điều gì và đi qua ranh giới ra sao. Trace context là thông tin dùng để nối các phần của quá trình thực thi phân tán.",
+      "intent": "Giải thích định danh và cách truyền thông tin quan sát mà không nhầm với định danh nghiệp vụ.",
+      "scope": "Nêu định dạng truyền và bộ công cụ đo; phân biệt request, trace, operation và business message khi phù hợp. Xác định phiên bản hoặc nhà cung cấp đang dùng và đối chiếu tài liệu chính thức trước khi trả lời.",
+      "senior_signals": [
+        "Dùng ví dụ nhiều chặng để giải thích phạm vi định danh và cách truyền.",
+        "Mô tả kiểm tra context bị thiếu hoặc bị dùng lại sai giữa các thao tác độc lập."
+      ],
+      "pitfalls": [
+        "Cho rằng bất kỳ chuỗi dùng chung nào cũng tự tạo thành distributed trace đúng."
+      ],
+      "followups": [
+        "Bạn xử lý context thế nào khi một operation tạo nhiều tác vụ downstream độc lập?"
+      ]
+    }
+  },
+  {
+    "question_id": "S05-Q031",
+    "phase": "failure",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "How would you investigate a slow API before choosing an optimization?",
+      "explanation": "Begin with a measurable symptom, then explain which observations distinguish competing causes. Keep diagnosis separate from proposing a familiar fix.",
+      "intent": "Build a falsifiable investigation and verify the effect of a change.",
+      "scope": "Clarify endpoint, affected traffic, time window and what “slow” means; separate client-observed time from backend measurements.",
+      "senior_signals": [
+        "Prioritizes hypotheses and selects evidence that can rule them out.",
+        "Compares a proposed change against a representative baseline and important error boundaries."
+      ],
+      "pitfalls": [
+        "Adding caching, indexes or replicas before locating the time spent or defining the symptom."
+      ],
+      "followups": [
+        "What would you check if the API is slow only during peak traffic?"
+      ]
+    },
+    "vi": {
+      "question": "Bạn điều tra một API chậm như thế nào trước khi chọn cách tối ưu?",
+      "explanation": "Bắt đầu từ triệu chứng đo được, rồi giải thích quan sát nào phân biệt các nguyên nhân. Tách chẩn đoán khỏi việc đề xuất một cách sửa quen thuộc.",
+      "intent": "Xây dựng điều tra có thể bác bỏ giả thuyết và kiểm chứng tác động thay đổi.",
+      "scope": "Làm rõ endpoint, traffic bị ảnh hưởng, khoảng thời gian và nghĩa của “chậm”; tách thời gian client thấy khỏi số đo backend.",
+      "senior_signals": [
+        "Ưu tiên giả thuyết và chọn bằng chứng có thể loại trừ chúng.",
+        "So sánh thay đổi đề xuất với baseline đại diện và các ranh giới lỗi quan trọng."
+      ],
+      "pitfalls": [
+        "Thêm cache, index hoặc replica trước khi biết thời gian nằm ở đâu hay xác định triệu chứng."
+      ],
+      "followups": [
+        "Bạn kiểm tra gì nếu API chỉ chậm vào giờ cao điểm?"
+      ]
+    }
+  },
+  {
+    "question_id": "S05-Q032",
+    "phase": "application",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "Which telemetry would you collect to understand latency, errors, dependency behavior and resource pressure?",
+      "explanation": "Connect each observation to a decision or hypothesis. Resource pressure means demand approaching a resource’s practical capacity, not one unexplained high-utilization number.",
+      "intent": "Design a telemetry set that supports diagnosis rather than collecting data without a purpose.",
+      "scope": "Use a service with a database and external dependency; clarify sampling, labels, retention and privacy constraints.",
+      "senior_signals": [
+        "Maps each signal to a distinct failure or performance question.",
+        "Explains how to test visibility while controlling collection overhead and unnecessary data."
+      ],
+      "pitfalls": [
+        "Listing metric names without stating which symptom or decision each supports."
+      ],
+      "followups": [
+        "How would you verify that telemetry remains useful during a dependency outage?"
+      ]
+    },
+    "vi": {
+      "question": "Bạn thu thập telemetry nào để hiểu latency, lỗi, hành vi dependency và áp lực tài nguyên?",
+      "explanation": "Gắn từng quan sát với một quyết định hoặc giả thuyết. Áp lực tài nguyên là nhu cầu gần năng lực xử lý thực tế, không chỉ một con số utilization cao chưa được giải thích.",
+      "intent": "Thiết kế tập telemetry hỗ trợ chẩn đoán, thay vì thu dữ liệu không có mục đích.",
+      "scope": "Dùng service có database và dependency bên ngoài; làm rõ sampling, labels, thời gian giữ và ràng buộc riêng tư.",
+      "senior_signals": [
+        "Gắn từng tín hiệu với một câu hỏi về lỗi hoặc hiệu năng khác nhau.",
+        "Giải thích cách kiểm tra khả năng quan sát đồng thời kiểm soát chi phí thu thập và dữ liệu dư."
+      ],
+      "pitfalls": [
+        "Liệt kê tên metric mà không nêu triệu chứng hoặc quyết định từng metric hỗ trợ."
+      ],
+      "followups": [
+        "Bạn kiểm chứng telemetry vẫn hữu ích khi dependency ngừng hoạt động như thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S05-Q033",
+    "phase": "failure",
+    "order": 20,
+    "version_sensitive": true,
+    "en": {
+      "question": "How would you distinguish and investigate memory growth and ThreadPool starvation in a production .NET service?",
+      "explanation": "Treat the two symptoms as potentially different mechanisms. ThreadPool starvation concerns work waiting for available worker capacity; establish observations before choosing a remedy.",
+      "intent": "Select diagnostic evidence that differentiates resource symptoms and validates a hypothesis.",
+      "scope": "Identify the .NET runtime, hosting limits and available diagnostic access; avoid assuming every memory increase is a leak. Establish the deployed version/provider and consult official documentation before answering.",
+      "senior_signals": [
+        "Builds separate hypotheses for the two symptoms and selects discriminating observations.",
+        "Explains a low-risk capture or comparison that can confirm the suspected mechanism."
+      ],
+      "pitfalls": [
+        "Recommending more memory or threads based only on one utilization graph."
+      ],
+      "followups": [
+        "What would make you reject the hypothesis that increased memory usage is a managed-object leak?"
+      ]
+    },
+    "vi": {
+      "question": "Bạn phân biệt và điều tra memory tăng với ThreadPool starvation trong service .NET production như thế nào?",
+      "explanation": "Coi hai triệu chứng là các cơ chế có thể khác nhau. ThreadPool starvation liên quan công việc phải chờ năng lực worker; xác lập quan sát trước khi chọn cách sửa.",
+      "intent": "Chọn bằng chứng chẩn đoán phân biệt triệu chứng tài nguyên và kiểm chứng giả thuyết.",
+      "scope": "Xác định .NET runtime, giới hạn hosting và quyền dùng công cụ chẩn đoán; không mặc định mọi lần memory tăng đều là leak. Xác định phiên bản hoặc nhà cung cấp đang dùng và đối chiếu tài liệu chính thức trước khi trả lời.",
+      "senior_signals": [
+        "Xây dựng giả thuyết riêng cho hai triệu chứng và chọn quan sát giúp phân biệt.",
+        "Giải thích một lần thu dữ liệu hoặc so sánh ít rủi ro để xác nhận cơ chế nghi ngờ."
+      ],
+      "pitfalls": [
+        "Đề nghị tăng memory hoặc threads chỉ dựa trên một đồ thị utilization."
+      ],
+      "followups": [
+        "Điều gì khiến bạn bác bỏ giả thuyết memory tăng do managed-object leak?"
+      ]
+    }
+  },
+  {
+    "question_id": "S05-Q034",
+    "phase": "mechanism",
+    "order": 20,
+    "version_sensitive": false,
+    "en": {
+      "question": "Why can p95 and p99 latency reveal a production problem that an average hides, and when can those percentiles mislead you?",
+      "explanation": "A percentile describes a position in a distribution. Explain it with a small set of request times and connect the interpretation to affected users.",
+      "intent": "Interpret latency distributions and state the limits of the measurement.",
+      "scope": "Establish the request population, time window, sample size and aggregation method; do not assume every workload needs the same metric.",
+      "senior_signals": [
+        "Explains average and tail measurements using the same concrete dataset.",
+        "Checks how sampling or aggregation could change the apparent conclusion."
+      ],
+      "pitfalls": [
+        "Treating a percentile as the latency of every request or as automatically meaningful for a tiny sample."
+      ],
+      "followups": [
+        "What would you verify before comparing p99 values from two differently sampled services?"
+      ]
+    },
+    "vi": {
+      "question": "Vì sao p95 và p99 có thể bộc lộ vấn đề production mà giá trị trung bình che khuất, và khi nào chúng có thể gây hiểu nhầm?",
+      "explanation": "Percentile mô tả một vị trí trong phân bố. Giải thích bằng tập thời gian request nhỏ và gắn cách hiểu với người dùng bị ảnh hưởng.",
+      "intent": "Diễn giải phân bố latency và nêu giới hạn phép đo.",
+      "scope": "Xác định tập request, khoảng thời gian, kích thước mẫu và cách tổng hợp; không mặc định mọi workload cần cùng metric.",
+      "senior_signals": [
+        "Giải thích giá trị trung bình và tail bằng cùng một bộ dữ liệu cụ thể.",
+        "Kiểm tra sampling hoặc cách tổng hợp có thể làm thay đổi kết luận ra sao."
+      ],
+      "pitfalls": [
+        "Coi percentile là latency của mọi request hoặc tự động có ý nghĩa khi mẫu quá nhỏ."
+      ],
+      "followups": [
+        "Bạn xác minh gì trước khi so sánh p99 của hai service dùng sampling khác nhau?"
+      ]
+    }
+  },
+  {
+    "question_id": "S05-Q035",
+    "phase": "foundation",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "What application-delivery problem does Docker address, and which deployment problems remain outside that boundary?",
+      "explanation": "Use the journey from a developer’s environment to a running deployment. Explain what is packaged and reproduced rather than describing Docker only as a command-line tool.",
+      "intent": "Describe a packaging and runtime boundary with a concrete operational limit.",
+      "scope": "Use an ASP.NET Core application as context; distinguish its image from host, network, data and external services.",
+      "senior_signals": [
+        "Connects a reproducibility problem to what a container image captures.",
+        "Identifies a deployment difference still requiring configuration or verification."
+      ],
+      "pitfalls": [
+        "Claiming that a working local container guarantees the application will behave correctly in production."
+      ],
+      "followups": [
+        "What would you inspect if the same image works locally but fails after deployment?"
+      ]
+    },
+    "vi": {
+      "question": "Docker giải quyết vấn đề gì trong việc đưa ứng dụng đến môi trường chạy, và vấn đề triển khai nào vẫn ngoài ranh giới đó?",
+      "explanation": "Dùng hành trình từ môi trường developer đến deployment đang chạy. Giải thích thứ được đóng gói và tái lập, thay vì chỉ mô tả Docker như công cụ dòng lệnh.",
+      "intent": "Mô tả ranh giới đóng gói và runtime cùng một giới hạn vận hành cụ thể.",
+      "scope": "Dùng ứng dụng ASP.NET Core làm bối cảnh; phân biệt image với host, network, dữ liệu và service bên ngoài.",
+      "senior_signals": [
+        "Gắn vấn đề tái lập môi trường với những gì container image chứa.",
+        "Chỉ ra khác biệt triển khai vẫn cần cấu hình hoặc kiểm chứng."
+      ],
+      "pitfalls": [
+        "Cho rằng container chạy được ở local bảo đảm ứng dụng đúng trong production."
+      ],
+      "followups": [
+        "Bạn xem xét gì nếu cùng image chạy được ở local nhưng lỗi sau khi triển khai?"
+      ]
+    }
+  },
+  {
+    "question_id": "S05-Q036",
+    "phase": "foundation",
+    "order": 20,
+    "version_sensitive": false,
+    "en": {
+      "question": "How would you compare containers and virtual machines when choosing a deployment boundary?",
+      "explanation": "Discuss what each unit contains, where isolation is provided and what the workload requires. Avoid choosing from a simple “lighter versus heavier” slogan.",
+      "intent": "Choose an isolation model from workload and operating constraints.",
+      "scope": "Clarify host platform, trust level, resource needs and management requirements; platform-specific guarantees need separate verification.",
+      "senior_signals": [
+        "Explains the relevant boundaries using one application and its host.",
+        "States an isolation or compatibility requirement that would change the choice."
+      ],
+      "pitfalls": [
+        "Comparing only startup speed without explaining isolation, host dependency or evidence."
+      ],
+      "followups": [
+        "What would you verify before running workloads with different trust levels on the same host?"
+      ]
+    },
+    "vi": {
+      "question": "Bạn so sánh container và máy ảo thế nào khi chọn ranh giới triển khai?",
+      "explanation": "Bàn mỗi đơn vị chứa gì, sự cô lập nằm ở đâu và workload cần gì. Tránh quyết định chỉ từ khẩu hiệu “nhẹ hơn hay nặng hơn”.",
+      "intent": "Chọn mô hình cô lập dựa trên workload và ràng buộc vận hành.",
+      "scope": "Làm rõ nền tảng host, mức tin cậy, nhu cầu tài nguyên và quản lý; bảo đảm riêng của nền tảng cần kiểm tra riêng.",
+      "senior_signals": [
+        "Giải thích ranh giới liên quan bằng một ứng dụng và host của nó.",
+        "Nêu yêu cầu cô lập hoặc tương thích khiến bạn đổi lựa chọn."
+      ],
+      "pitfalls": [
+        "Chỉ so sánh tốc độ khởi động mà không giải thích cô lập, phụ thuộc host hay bằng chứng."
+      ],
+      "followups": [
+        "Bạn xác minh gì trước khi chạy workload có mức tin cậy khác nhau trên cùng host?"
+      ]
+    }
+  },
+  {
+    "question_id": "S05-Q037",
+    "phase": "mechanism",
+    "order": 10,
+    "version_sensitive": true,
+    "en": {
+      "question": "How do image layers and multi-stage builds shape the build process and the final application image?",
+      "explanation": "Trace a source change through build stages to the deployable artifact. Explain the purpose of each stage and what should be inspected in the result.",
+      "intent": "Reason about build inputs, intermediate artifacts and final-image contents.",
+      "scope": "Use a Docker build for a .NET application; identify builder, base-image and SDK/runtime versions. Establish the deployed version/provider and consult official documentation before answering.",
+      "senior_signals": [
+        "Explains layer or stage responsibilities with a concrete build change.",
+        "Verifies final-image contents and identifies a change that affects rebuild behavior."
+      ],
+      "pitfalls": [
+        "Repeating “smaller image” without showing which files or build dependencies the final artifact contains."
+      ],
+      "followups": [
+        "How would you check whether a credential used during the build appears in the image?"
+      ]
+    },
+    "vi": {
+      "question": "Image layers và multi-stage builds định hình quy trình build và image ứng dụng cuối như thế nào?",
+      "explanation": "Theo dấu một thay đổi source qua các build stage đến artifact triển khai. Giải thích mục đích từng stage và điều cần kiểm tra trong kết quả.",
+      "intent": "Lập luận về đầu vào build, artifact trung gian và nội dung image cuối.",
+      "scope": "Dùng Docker build ứng dụng .NET; xác định builder, base image và phiên bản SDK/runtime. Xác định phiên bản hoặc nhà cung cấp đang dùng và đối chiếu tài liệu chính thức trước khi trả lời.",
+      "senior_signals": [
+        "Giải thích trách nhiệm layer hoặc stage bằng một thay đổi build cụ thể.",
+        "Kiểm chứng nội dung image cuối và chỉ ra thay đổi ảnh hưởng hành vi build lại."
+      ],
+      "pitfalls": [
+        "Chỉ nói “image nhỏ hơn” mà không chỉ rõ file hay build dependency nằm trong artifact cuối."
+      ],
+      "followups": [
+        "Bạn kiểm tra thông tin xác thực dùng lúc build có xuất hiện trong image hay không như thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S05-Q039",
+    "phase": "application",
+    "order": 10,
+    "version_sensitive": true,
+    "en": {
+      "question": "Which configuration would you supply through environment variables, and which would you manage through a secret store?",
+      "explanation": "Compare access, exposure and update needs for ordinary settings and secret material. The delivery mechanism and the location that owns a secret need separate consideration.",
+      "intent": "Choose configuration delivery while accounting for credential exposure and lifecycle.",
+      "scope": "Name the hosting platform and secret provider; consider process access, logging, rotation and how the application obtains values. Establish the deployed version/provider and consult official documentation before answering.",
+      "senior_signals": [
+        "Explains who can access each value and how it reaches the process.",
+        "Proposes a rotation or exposure test that checks the claimed protection."
+      ],
+      "pitfalls": [
+        "Assuming an environment variable is automatically a secure secret store."
+      ],
+      "followups": [
+        "How would you change a database credential without putting it into a build artifact?"
+      ]
+    },
+    "vi": {
+      "question": "Cấu hình nào bạn cấp qua environment variables, và cấu hình nào quản lý bằng secret store?",
+      "explanation": "So sánh nhu cầu truy cập, nguy cơ lộ và cập nhật của thiết lập thường với dữ liệu bí mật. Cần xét riêng cơ chế cấp giá trị và nơi quản lý secret.",
+      "intent": "Chọn cách cấp cấu hình có xét nguy cơ lộ và vòng đời thông tin xác thực.",
+      "scope": "Nêu hosting platform và secret provider; xét quyền đọc tiến trình, logging, thay secret và cách ứng dụng lấy giá trị. Xác định phiên bản hoặc nhà cung cấp đang dùng và đối chiếu tài liệu chính thức trước khi trả lời.",
+      "senior_signals": [
+        "Giải thích ai đọc được từng giá trị và giá trị đến tiến trình ra sao.",
+        "Đề xuất kiểm thử thay secret hoặc nguy cơ lộ để kiểm tra mức bảo vệ đã nêu."
+      ],
+      "pitfalls": [
+        "Cho rằng environment variable tự động là nơi lưu secret an toàn."
+      ],
+      "followups": [
+        "Bạn đổi thông tin xác thực database mà không đưa nó vào build artifact như thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S05-Q040",
+    "phase": "foundation",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "What should a CI/CD gate decide before an application change advances toward production?",
+      "explanation": "A gate is a condition that permits or stops promotion. Connect each proposed check to a release risk and the evidence needed for a decision.",
+      "intent": "Define a release decision from relevant evidence rather than a generic checklist.",
+      "scope": "Use a backend release as context; distinguish artifact checks, environment checks and approval policy.",
+      "senior_signals": [
+        "Maps each gate to a concrete failure it can detect.",
+        "Explains who responds to a failed or inconclusive check and how the decision is recorded."
+      ],
+      "pitfalls": [
+        "Treating a green pipeline as proof of every production behavior without stating coverage."
+      ],
+      "followups": [
+        "How would you handle a flaky test that blocks a release?"
+      ]
+    },
+    "vi": {
+      "question": "CI/CD gate nên quyết định điều gì trước khi một thay đổi ứng dụng tiến gần hơn đến production?",
+      "explanation": "Gate là điều kiện cho phép hoặc dừng việc đưa bản phát hành lên bước tiếp. Gắn từng kiểm tra với nguy cơ phát hành và bằng chứng cần để quyết định.",
+      "intent": "Định nghĩa quyết định phát hành từ bằng chứng liên quan, thay vì checklist chung.",
+      "scope": "Dùng bản phát hành backend làm bối cảnh; phân biệt kiểm tra artifact, kiểm tra môi trường và chính sách phê duyệt.",
+      "senior_signals": [
+        "Gắn mỗi gate với một lỗi cụ thể có thể phát hiện.",
+        "Giải thích ai xử lý kiểm tra thất bại hoặc chưa đủ kết luận và cách ghi lại quyết định."
+      ],
+      "pitfalls": [
+        "Coi pipeline xanh là bằng chứng mọi hành vi production đều đúng mà không nêu phạm vi kiểm tra."
+      ],
+      "followups": [
+        "Bạn xử lý test lúc pass lúc fail đang chặn bản phát hành như thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S05-Q041",
+    "phase": "tradeoff",
+    "order": 10,
+    "version_sensitive": true,
+    "en": {
+      "question": "How would you choose among blue/green, canary and deployment-slot rollout strategies for a release?",
+      "explanation": "Compare how traffic reaches old and new versions, how risk is observed and what allows the rollout to continue or stop.",
+      "intent": "Choose a rollout strategy from exposure, compatibility and operating constraints.",
+      "scope": "Clarify traffic control, shared data, capacity budget and the platform’s slot behavior; a slot is a provider-defined deployment environment. Establish the deployed version/provider and consult official documentation before answering.",
+      "senior_signals": [
+        "Explains the traffic transition and observation window for the chosen strategy.",
+        "States a measurable stop condition and checks version and data compatibility."
+      ],
+      "pitfalls": [
+        "Treating the strategy names as interchangeable or assuming a traffic switch reverses every effect."
+      ],
+      "followups": [
+        "How would you evaluate a canary when the new code writes data used by the old version?"
+      ]
+    },
+    "vi": {
+      "question": "Bạn chọn blue/green, canary hay deployment slots cho một bản phát hành như thế nào?",
+      "explanation": "So sánh traffic đi vào phiên bản cũ và mới, cách quan sát rủi ro và điều kiện tiếp tục hoặc dừng rollout.",
+      "intent": "Chọn chiến lược rollout dựa trên mức phơi bày, tương thích và ràng buộc vận hành.",
+      "scope": "Làm rõ điều khiển traffic, dữ liệu dùng chung, ngân sách năng lực và hành vi slot của nền tảng; slot là môi trường triển khai do nhà cung cấp định nghĩa. Xác định phiên bản hoặc nhà cung cấp đang dùng và đối chiếu tài liệu chính thức trước khi trả lời.",
+      "senior_signals": [
+        "Giải thích chuyển traffic và khoảng quan sát của chiến lược đã chọn.",
+        "Nêu điều kiện dừng đo được và kiểm tra tương thích phiên bản cùng dữ liệu."
+      ],
+      "pitfalls": [
+        "Coi các tên chiến lược thay thế nhau hoặc nghĩ chuyển traffic sẽ đảo ngược mọi tác động."
+      ],
+      "followups": [
+        "Bạn đánh giá canary thế nào khi code mới ghi dữ liệu mà phiên bản cũ cũng sử dụng?"
+      ]
+    }
+  },
+  {
+    "question_id": "S05-Q042",
+    "phase": "failure",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "What must be true for rolling back an application release to be safe?",
+      "explanation": "Explain what the previous version will encounter after the new version has already run. Cover compatibility and completed side effects, not only redeploying an old binary.",
+      "intent": "Reason about recovery across application, data and external-effect boundaries.",
+      "scope": "Assume some requests have completed under the new release; identify schema, message and state changes relevant to the chosen example.",
+      "senior_signals": [
+        "Traces what persists when code is rolled back and which contracts must still hold.",
+        "Defines a representative rollback rehearsal and evidence that recovery meets the intended boundary."
+      ],
+      "pitfalls": [
+        "Calling an old image available for deployment a complete rollback plan."
+      ],
+      "followups": [
+        "What would you do if the old version cannot read data written by the new version?"
+      ]
+    },
+    "vi": {
+      "question": "Điều kiện nào phải đúng để rollback một bản phát hành ứng dụng an toàn?",
+      "explanation": "Giải thích phiên bản cũ sẽ gặp gì sau khi phiên bản mới đã chạy. Bao gồm tương thích và tác động đã hoàn tất, không chỉ triển khai lại binary cũ.",
+      "intent": "Lập luận về phục hồi qua ranh giới ứng dụng, dữ liệu và tác động bên ngoài.",
+      "scope": "Giả sử một số request đã hoàn tất ở bản mới; xác định thay đổi schema, message và trạng thái liên quan ví dụ đã chọn.",
+      "senior_signals": [
+        "Theo dấu những gì vẫn tồn tại khi rollback code và các hợp đồng phải tiếp tục đúng.",
+        "Định nghĩa diễn tập rollback đại diện và bằng chứng phục hồi đạt ranh giới mong muốn."
+      ],
+      "pitfalls": [
+        "Coi việc có image cũ để triển khai là toàn bộ kế hoạch rollback."
+      ],
+      "followups": [
+        "Bạn làm gì nếu phiên bản cũ không đọc được dữ liệu do phiên bản mới ghi?"
+      ]
+    }
+  },
+  {
+    "question_id": "S05-Q043",
+    "phase": "mechanism",
+    "order": 10,
+    "version_sensitive": true,
+    "en": {
+      "question": "How should health checks, readiness decisions and graceful shutdown work together during a deployment?",
+      "explanation": "Explain when an instance may receive new work and how existing work is handled while it stops. Keep process health separate from readiness to serve the intended operation.",
+      "intent": "Trace an instance lifecycle and protect in-flight work within explicit limits.",
+      "scope": "Name the hosting platform, probe semantics and shutdown deadlines; include dependency and background-work behavior where relevant. Establish the deployed version/provider and consult official documentation before answering.",
+      "senior_signals": [
+        "Traces startup, serving and stopping with explicit traffic decisions.",
+        "Tests an interruption during active work and states what completion or recovery evidence is expected."
+      ],
+      "pitfalls": [
+        "Using one unconditional “healthy” endpoint as the whole startup and shutdown design."
+      ],
+      "followups": [
+        "What should happen if work is still running when the shutdown deadline expires?"
+      ]
+    },
+    "vi": {
+      "question": "Health checks, quyết định readiness và graceful shutdown cần phối hợp thế nào khi triển khai?",
+      "explanation": "Giải thích lúc instance được nhận việc mới và cách xử lý việc đang chạy khi dừng. Tách sức khỏe tiến trình khỏi mức sẵn sàng phục vụ thao tác cần thiết.",
+      "intent": "Theo dấu vòng đời instance và bảo vệ việc đang chạy trong giới hạn rõ ràng.",
+      "scope": "Nêu hosting platform, ý nghĩa probes và thời hạn shutdown; bao gồm dependency và background work nếu liên quan. Xác định phiên bản hoặc nhà cung cấp đang dùng và đối chiếu tài liệu chính thức trước khi trả lời.",
+      "senior_signals": [
+        "Theo dấu khởi động, phục vụ và dừng với quyết định traffic rõ ràng.",
+        "Kiểm thử gián đoạn lúc đang có việc và nêu bằng chứng hoàn tất hoặc phục hồi mong đợi."
+      ],
+      "pitfalls": [
+        "Dùng một endpoint luôn trả “healthy” làm toàn bộ thiết kế khởi động và shutdown."
+      ],
+      "followups": [
+        "Điều gì nên xảy ra nếu công việc vẫn chạy khi hết thời hạn shutdown?"
+      ]
+    }
+  },
+  {
+    "question_id": "S05-Q048",
+    "phase": "production",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "How would you turn monitoring signals into an alert that helps someone resolve a real incident?",
+      "explanation": "Connect the technical symptom to user or business impact, then explain what the responder should know and do. An alert must support a decision, not merely report activity.",
+      "intent": "Design actionable incident detection with a defined response and validation.",
+      "scope": "Clarify affected service, time window, ownership and response urgency; use a hypothetical incident rather than an invented personal history.",
+      "senior_signals": [
+        "Explains the impact, evidence and intended next check in one alert scenario.",
+        "Tests detection and recovery behavior while accounting for noise and missing signals."
+      ],
+      "pitfalls": [
+        "Choosing a threshold without defining impact, owner or response action."
+      ],
+      "followups": [
+        "How would you verify that the alert detects a dependency outage without firing during every normal traffic spike?"
+      ]
+    },
+    "vi": {
+      "question": "Bạn chuyển tín hiệu monitoring thành alert giúp một người xử lý incident thực sự như thế nào?",
+      "explanation": "Gắn triệu chứng kỹ thuật với tác động tới người dùng hoặc nghiệp vụ, rồi giải thích người xử lý cần biết và làm gì. Alert phải hỗ trợ quyết định, không chỉ báo có hoạt động.",
+      "intent": "Thiết kế phát hiện incident có hành động rõ ràng và cách kiểm chứng.",
+      "scope": "Làm rõ service bị ảnh hưởng, khoảng thời gian, bên chịu trách nhiệm và mức khẩn cấp; dùng incident giả định, không bịa kinh nghiệm cá nhân.",
+      "senior_signals": [
+        "Giải thích tác động, bằng chứng và kiểm tra tiếp theo trong một tình huống alert.",
+        "Kiểm thử phát hiện và phục hồi, đồng thời xét nhiễu và tín hiệu bị thiếu."
+      ],
+      "pitfalls": [
+        "Chọn ngưỡng mà không định nghĩa tác động, bên nhận hay hành động xử lý."
+      ],
+      "followups": [
+        "Bạn kiểm chứng alert phát hiện dependency outage mà không báo động ở mọi lần traffic tăng bình thường như thế nào?"
+      ]
+    }
+  }
+]

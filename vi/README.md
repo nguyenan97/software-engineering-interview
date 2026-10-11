@@ -47,6 +47,13 @@ Website tĩnh không tạo bài, đọc state cá nhân hay ghi completion lên 
 
 ## Nội dung và cấu trúc
 
+- [Bộ câu hỏi Senior: domain → group → question](questions/index.md) · [coverage đầy đủ](questions/coverage.md).
+- [Cấu trúc dữ liệu và cách cập nhật](docs/question-bank.md).
+
+Toàn bộ **238 đơn vị nguồn** (234 câu đánh số và bốn scenario) được mapping thành **228 câu canonical** sau mười cặp gộp có giải thích, thuộc **46 group dùng lại topic IDs** và 13 domain. Topic thứ 47 là collection-reasoning mở rộng, không được đếm thành câu nguồn. Nguồn gốc, IDs và anchors được giữ nguyên; hai ngôn ngữ dùng chung mapping.
+
+Mỗi ngày chọn một group và một câu, tự trả lời trước khi mở hướng dẫn. Giải thích một cơ chế, kiểm tra một failure case hoặc giả định đổi, rồi nói lại trong 30/90 giây và sửa một điểm còn thiếu. Muốn bài đầy đủ, gửi **“Viết bài học hôm nay bằng tiếng Việt từ một câu hỏi trong bộ này.”** Agent vẫn kiểm tra history, prerequisite và mục tiêu chưa lặp. Rubric là suy luận để đối chiếu bài làm, chưa phải lời giải phụ thuộc phiên bản đã xác minh; duyệt câu hỏi không tạo completion hoặc lịch ôn.
+
 Corpus có 234 numbered prompts, bốn scenario/request-flow sections, tổ chức thành 47 topics thuộc 13 domains. Stable source IDs giữ traceability; những contract khác nhau không bị gộp chỉ vì dùng cùng thuật ngữ.
 
 - [Lộ trình](curriculum/index.md), [taxonomy English](../agent/TOPIC_TAXONOMY.md), [source coverage English](../curriculum/source-coverage.md).
@@ -63,6 +70,7 @@ Bài mẫu vẫn generated ngày gốc 2026-10-08, chưa có score/completion. S
 python -m pip install -r requirements.txt
 python scripts/learning.py next --date 2026-10-09 --language vi
 python scripts/validate.py
+python scripts/question_bank.py --check
 python -m unittest discover -s tests -v
 python scripts/package_labs.py --check
 python scripts/render_lesson_code.py --check

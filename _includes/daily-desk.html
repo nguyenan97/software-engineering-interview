@@ -18,4 +18,5 @@
 <p class="resume-text" data-resume-status>{{ t.home.no_bookmark | escape }}</p>
 {% include prompt-box.html kind='new' id='new-session' %}
 <p class="scope-note">{{ t.home.scope | escape }}</p>
+<p><a href="{% include localized-url.html key='question-bank' locale=locale %}">{{ t.home.questions | escape }}</a></p>
 <section aria-labelledby="library-title"><div class="section-heading"><h2 id="library-title">{{ t.home.library | escape }}</h2><a href="{% include localized-url.html key='curriculum' locale=locale %}">{{ t.home.curriculum | escape }}</a></div><ul>{% for logical in logical_lessons reversed %}{% assign variant = site.pages | where: 'translation_key', logical.translation_key | where: 'locale', locale | first %}{% assign variant = variant | default: logical %}<li data-logical-lesson="{{ logical.lesson_id }}"><a href="{{ variant.url | relative_url }}" data-public-lesson>{{ variant.title | escape }}</a> <span class="muted">· {{ logical.created_at }}</span>{% if variant.locale != locale %} <span class="translation-fallback">{{ t.home.fallback | escape }}</span>{% endif %}</li>{% endfor %}</ul></section>
