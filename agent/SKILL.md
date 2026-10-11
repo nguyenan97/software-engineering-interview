@@ -24,6 +24,7 @@ Resolve repository-relative paths from its root. Read:
 3. `learning/state.json`, `learning/state.schema.json`, and `learning/README.md` (see the [public workflow guide](../docs/workflow.md)).
 4. [Interview and learning method](INTERVIEW_METHOD.md).
 5. Source sections referenced by candidate topics and any related curriculum notes.
+   Read the matching [question-bank group](../questions/index.md), shared `_data/question_bank/inventory.json` mapping and EN/VI annotation when present. Group IDs reuse catalog topic IDs. Read every original prompt behind a merged question; editorial intent, signals, follow-ups and rubrics are question interpretation, not version-verified answers. Preserve source IDs in the lesson card and select one focused objective rather than teaching an entire group in one session. Organizing or browsing the bank never creates a lesson record, score, completion or review date.
 6. Previously delivered lesson files relevant to possible overlap and the matching session note for any unfinished Interactive/Mock session.
 
 Use [the lesson template](LESSON_TEMPLATE.md) to construct the final lesson. A navigation/catalog entry is an index, not proof of a technical claim. Do not claim to have read a file or verified a source unless you actually did.
@@ -221,6 +222,7 @@ If filesystem access or mutation is unavailable, deliver the lesson plus the exa
 - [ ] At least one failure mode and alternative decision are explained.
 - [ ] Interview answers are direct, concise, defensible, and honest about boundaries/experience.
 - [ ] Both locale versions preserve the same technical contract; requested teaching language is respected and interview-language defaults are explicit.
+- [ ] After saving a new public lesson, run `python scripts/question_bank.py` to refresh related-lesson links, then `python scripts/validate.py`; this renders bank pages only and never registers progress.
 - [ ] Expected results are separated from checks actually run.
 - [ ] Scores, completion dates, and review events are supported by learner evidence.
 - [ ] Lesson metadata matches durable state; persistence succeeded or the unsaved patch is explicit.

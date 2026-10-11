@@ -5,6 +5,8 @@ title: Source Coverage and Gaps
 
 # Source Coverage and Gaps
 
+[Structured senior question bank](../questions/index.md) · [Every question, alias and semantic merge](../questions/coverage.md)
+
 [Curriculum index](index.md) · [Taxonomy](../agent/TOPIC_TAXONOMY.md)
 
 ## Corpus audit

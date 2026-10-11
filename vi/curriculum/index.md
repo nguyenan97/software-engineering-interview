@@ -13,6 +13,8 @@ Lộ trình dựa trên nguồn phỏng vấn Software Engineering. Catalog là 
 
 ## Chọn bài phù hợp
 
+Mở [bộ câu hỏi có cấu trúc](../questions/index.md) để chọn một câu nhỏ theo domain và group. [Coverage câu hỏi](../questions/coverage.md) nối từng câu nguồn với nơi giữ hoặc gộp. Group dùng lại IDs/prerequisite trong catalog; phần diễn giải không tạo curriculum thứ hai.
+
 Agent đọc history trước khi chọn: ưu tiên mục tiêu chưa học có câu hỏi trong nguồn, kiểm tra prerequisite, luân phiên domain khi hợp lý và chọn lab đủ nhỏ. Bài đã tạo vẫn có thể đọc; completion/review chỉ dựa trên evidence. Bản dịch không là một topic mới.
 
 Foundation xây mental model; senior áp dụng vào failure, concurrency và evidence; architect xét system boundaries và vận hành. Level độc lập với source ring:

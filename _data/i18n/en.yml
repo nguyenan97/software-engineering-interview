@@ -9,6 +9,7 @@ missing_translation: This page is available in English only. The link opens the 
 nav:
   home: Daily desk
   lessons: Lessons
+  questions: Questions
   curriculum: Curriculum
   workflow: How it works
 footer:
@@ -79,6 +80,7 @@ home:
     and bookmarks stay in this browser. Your repo agent records attempts, completion and due reviews.
   library: Your lesson library
   curriculum: Explore the curriculum →
+  questions: Practice one source question →
   empty: No lesson has been published yet. Use the daily prompt with your repo agent.
   fallback: English version; Vietnamese translation not available.
 prompts:

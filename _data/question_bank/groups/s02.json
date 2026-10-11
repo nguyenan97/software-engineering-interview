@@ -1,0 +1,192 @@
+[
+  {
+    "group_id": "aspnet-request-pipeline",
+    "representative_question_id": "S02-Q001",
+    "en": {
+      "title": "Request pipeline, middleware and filters",
+      "goal": "Trace an HTTP request through the chosen ASP.NET Core/MVC pipeline and defend where a shared concern belongs.",
+      "competencies": [
+        "Explain request and response control flow, including early termination.",
+        "Connect routing, identity, permissions and error handling to their required context.",
+        "Choose middleware or an MVC filter from lifecycle coverage.",
+        "Use a trace or focused test to investigate a misplaced component."
+      ],
+      "bridge": "Start with middleware as a request-processing boundary. Routing and MVC lifecycle questions identify where endpoint and action context become available; implementation and ordering questions use that context to explain behavior. Failure questions test the boundary, then the middleware/filter comparison and end-to-end trace turn it into a defensible production choice. Clarify the MVC family and version before using lifecycle details.",
+      "scenario": "Agent-added production exercise: an API contains MVC controllers and one non-MVC endpoint. Add a shared duration log and investigate a controller request that unexpectedly receives an authorization error while another endpoint throws before responding. Draw success and failure traces, choose the extension points, and propose tests distinguishing a placement problem from a genuine permission denial. State the framework/version and verify its documented lifecycle.",
+      "rubric": {
+        "basic": "Explains middleware, routing and filters and draws a plausible normal MVC request.",
+        "senior": "Defends component placement using available context; traces termination and exception boundaries; proposes discriminating tests and states framework limits.",
+        "evidence_missing": "An asserted order or diagram alone does not establish coverage. Need a relevant trace, focused tests, or an explicit documentation-backed verification plan."
+      }
+    },
+    "vi": {
+      "title": "Request pipeline, middleware và filter",
+      "goal": "Theo dấu HTTP request qua pipeline ASP.NET Core/MVC đã chọn và bảo vệ vị trí xử lý một việc dùng chung.",
+      "competencies": [
+        "Giải thích luồng điều khiển của request và response, gồm kết thúc sớm.",
+        "Gắn routing, danh tính, quyền và xử lý lỗi với context mà chúng cần.",
+        "Chọn middleware hoặc MVC filter theo phạm vi vòng đời.",
+        "Dùng trace hoặc kiểm tra tập trung để tìm thành phần đặt sai vị trí."
+      ],
+      "bridge": "Bắt đầu với middleware như một ranh giới xử lý request. Câu routing và vòng đời MVC xác định lúc có context endpoint/action; câu triển khai và thứ tự dùng context đó để giải thích hành vi. Câu lỗi kiểm tra ranh giới; sau đó so sánh middleware/filter và trace xuyên suốt giúp bảo vệ lựa chọn production. Xác định dòng MVC và phiên bản trước khi dùng chi tiết vòng đời.",
+      "scenario": "Bài tập production do agent bổ sung: API có controller MVC và một endpoint không dùng MVC. Thêm log thời gian chung; điều tra một request controller bất ngờ bị lỗi quyền trong khi endpoint khác ném lỗi trước khi trả response. Vẽ luồng thành công và lỗi, chọn điểm mở rộng, rồi đề xuất kiểm tra phân biệt lỗi vị trí với trường hợp thực sự thiếu quyền. Nêu framework/phiên bản và xác minh vòng đời được tài liệu mô tả.",
+      "rubric": {
+        "basic": "Giải thích middleware, routing và filter; vẽ được đường đi bình thường hợp lý của request MVC.",
+        "senior": "Bảo vệ vị trí theo context sẵn có; theo dấu kết thúc sớm và ranh giới exception; đề xuất kiểm tra phân biệt và nêu giới hạn framework.",
+        "evidence_missing": "Một thứ tự hoặc sơ đồ được khẳng định chưa chứng minh phạm vi bao phủ. Cần trace, kiểm tra phù hợp hoặc kế hoạch xác minh cụ thể dựa trên tài liệu."
+      }
+    }
+  },
+  {
+    "group_id": "aspnet-http-contracts",
+    "representative_question_id": "S02-Q013",
+    "en": {
+      "title": "HTTP contracts, validation and MVC state",
+      "goal": "Define an HTTP interaction contract whose method, response and state choices match one caller workflow.",
+      "competencies": [
+        "Separate API and page-rendering responsibilities for a client.",
+        "Choose an HTTP method and redirect contract from intended operation semantics.",
+        "Place validation and define actionable invalid-input responses.",
+        "Choose state lifetime and ownership, accounting for concurrent calls and replicas."
+      ],
+      "bridge": "First separate API and page-delivery responsibilities. Redirect and MVC state questions then expose how a client continues an interaction; upload and validation questions apply those contracts to input. REST and session trade-offs ask whether the contract remains suitable as caller and deployment constraints change. These questions share one decision: what a caller can rely on across requests, rather than which framework feature is fashionable.",
+      "scenario": "Agent-added production exercise: a web workflow uploads a document, shows validation errors or a success message, and can continue on another application replica. Define the upload method, invalid-input response and any redirect; identify each value that must survive another request and who owns it. Compare browser and API-client behavior, then propose tests for a repeated upload, concurrent requests and a replica switch. Check official HTTP/framework/provider semantics before claiming them.",
+      "rubric": {
+        "basic": "Names plausible methods and status codes, distinguishes pages from APIs, and explains basic validation and transient state.",
+        "senior": "Connects every choice to resource identity and caller behavior; accounts for redirects, repeat calls, invalid input and state loss; defends an alternative under changed requirements.",
+        "evidence_missing": "A list of status codes or state APIs is insufficient. Need a coherent request/response trace, client tests or a documented validation plan for the chosen provider."
+      }
+    },
+    "vi": {
+      "title": "Hợp đồng HTTP, validation và trạng thái MVC",
+      "goal": "Xác định hợp đồng tương tác HTTP có method, response và lựa chọn trạng thái phù hợp một workflow của người gọi.",
+      "competencies": [
+        "Tách trách nhiệm API và render trang cho một client.",
+        "Chọn HTTP method và hợp đồng redirect theo ngữ nghĩa thao tác mong muốn.",
+        "Đặt validation và xác định response lỗi đầu vào giúp client xử lý được.",
+        "Chọn lifetime và nơi quản lý trạng thái, có xét request đồng thời và replica."
+      ],
+      "bridge": "Trước hết tách trách nhiệm cung cấp API và trang. Câu redirect và trạng thái MVC làm rõ client tiếp tục tương tác thế nào; câu upload và validation áp dụng hợp đồng đó cho đầu vào. Đánh đổi REST và session đặt lại câu hỏi khi client hoặc triển khai đổi. Mạch chung là người gọi được dựa vào điều gì qua nhiều request, thay vì chọn tính năng framework theo thói quen.",
+      "scenario": "Bài tập production do agent bổ sung: một workflow web upload tài liệu, hiển thị lỗi validation hoặc thông báo thành công và có thể tiếp tục trên replica khác. Xác định method upload, response đầu vào sai và redirect nếu dùng; chỉ ra từng giá trị phải sống qua request sau cùng nơi quản lý nó. So sánh browser và API client; đề xuất kiểm tra upload lặp, request đồng thời và đổi replica. Tra ngữ nghĩa HTTP/framework/provider chính thức trước khi khẳng định.",
+      "rubric": {
+        "basic": "Nêu method và status code hợp lý, phân biệt trang với API, giải thích validation cơ bản và trạng thái tạm.",
+        "senior": "Gắn mọi lựa chọn với danh tính tài nguyên và hành vi người gọi; xét redirect, lời gọi lặp, đầu vào sai và mất trạng thái; bảo vệ phương án khác khi yêu cầu đổi.",
+        "evidence_missing": "Danh sách status code hoặc API trạng thái chưa đủ. Cần trace request/response nhất quán, kiểm tra client hoặc kế hoạch xác minh có tài liệu cho provider đã chọn."
+      }
+    }
+  },
+  {
+    "group_id": "aspnet-background-jobs",
+    "representative_question_id": "S02-Q017",
+    "en": {
+      "title": "Background processing across replicas",
+      "goal": "Give long-running work an explicit execution owner and recovery contract across process and replica failures.",
+      "competencies": [
+        "Separate accepting work from completing it and expose caller-visible status.",
+        "Compare execution lifecycle, triggering and durable ownership.",
+        "Specify recurring-work timing, overlap and missed-run policies.",
+        "Trace retries, cancellation, shutdown and competing replicas to a business invariant."
+      ],
+      "bridge": "Hosted-service and worker questions establish who runs the work. Submission and recurrence questions define how work starts and how a caller observes it. Failure questions test interruption and repetition; offloading trade-offs check whether changing the request path is justified. Multi-replica scheduling brings these decisions together: a job can outlive a process, so its identity and recovery policy must not remain implicit.",
+      "scenario": "Agent-added production exercise: an API submits a CPU-intensive report, and a recurring task also produces reports; three replicas serve requests. Define submission/status behavior and missed-run/overlap policy. Trace a crash during generation and a deployment shutdown while two replicas compete for the same run. Specify ownership, recoverable state and tests of the business invariant, then choose a hosted, scheduled or queue-based execution model without assuming a product guarantee.",
+      "rubric": {
+        "basic": "Distinguishes request execution from background work and names the main hosting and scheduling choices.",
+        "senior": "Defines ownership and observable states; defends execution placement; handles interrupted, repeated and concurrent runs with explicit recovery and a validation plan.",
+        "evidence_missing": "A worker diagram or claimed lock is not proof of safe execution. Need state-transition traces, interruption tests, or documentation-backed tests of the selected scheduler/store."
+      }
+    },
+    "vi": {
+      "title": "Xử lý nền qua nhiều replica",
+      "goal": "Giao công việc chạy lâu cho bên quản lý thực thi rõ ràng, với hợp đồng phục hồi qua lỗi process và replica.",
+      "competencies": [
+        "Tách nhận việc khỏi hoàn tất và cho người gọi theo dõi trạng thái.",
+        "So sánh vòng đời thực thi, cách kích hoạt và quyền quản lý bền vững.",
+        "Xác định chính sách thời điểm, chồng lấn và lần chạy định kỳ bị lỡ.",
+        "Theo dấu retry, hủy, shutdown và replica cạnh tranh đến một bất biến nghiệp vụ."
+      ],
+      "bridge": "Câu hosted service và worker xác định ai chạy việc. Câu gửi yêu cầu và định kỳ xác định cách việc bắt đầu, cùng cách người gọi quan sát. Câu lỗi kiểm tra gián đoạn và lặp; đánh đổi offloading kiểm tra lý do thay đổi request path. Lập lịch nhiều replica kết hợp các quyết định: job có thể sống lâu hơn process, nên danh tính và chính sách phục hồi phải được làm rõ.",
+      "scenario": "Bài tập production do agent bổ sung: API nhận yêu cầu tạo báo cáo tốn CPU, một tác vụ định kỳ cũng tạo báo cáo; ba replica phục vụ request. Xác định hợp đồng gửi/theo dõi và chính sách lỡ lịch/chồng lấn. Theo dấu crash khi tạo báo cáo và shutdown lúc triển khai khi hai replica cạnh tranh cùng lần chạy. Nêu quyền quản lý, trạng thái phục hồi và kiểm tra bất biến, rồi chọn hosted, scheduled hoặc queue-based model mà không mặc định cam kết sản phẩm.",
+      "rubric": {
+        "basic": "Phân biệt xử lý trong request với công việc nền và nêu các lựa chọn hosting/lập lịch chính.",
+        "senior": "Xác định bên quản lý và trạng thái quan sát được; bảo vệ vị trí thực thi; xử lý chạy bị ngắt, lặp và đồng thời bằng phục hồi rõ cùng kế hoạch xác minh.",
+        "evidence_missing": "Sơ đồ worker hoặc lời khẳng định có lock chưa chứng minh an toàn. Cần trace chuyển trạng thái, kiểm tra gián đoạn hoặc kiểm tra dựa trên tài liệu scheduler/store đã chọn."
+      }
+    }
+  },
+  {
+    "group_id": "aspnet-idempotent-operations",
+    "representative_question_id": "S02-Q018",
+    "en": {
+      "title": "Idempotent APIs and large-file submission",
+      "goal": "Preserve the intended import or API effect when the same logical operation is submitted or executed again.",
+      "competencies": [
+        "Define operation identity, repeated-submission responses and conflicting payload handling.",
+        "Separate job deduplication from duplicates within the input and stored records.",
+        "Choose atomic or partial-success import semantics and expose status and row errors.",
+        "Trace concurrent resubmission and crash/retry boundaries with a verification plan."
+      ],
+      "bridge": "The idempotent API question first asks what counts as the same operation and what repetition means. The source import scenario applies that boundary to a complete flow: submission, validation, writing and reporting. A job can be unique while its records still conflict, and a retry can cross a persistence boundary. Keep those separate so the import design can satisfy all ten source constraints without treating any named technology as the answer.",
+      "scenario": "Agent-added production exercise: two replicas receive the same import while its first attempt is running. Some rows duplicate one another and others conflict with existing data; a worker crashes near a committed write, and the caller retries after losing a response. Using the source scenario’s ten constraints, define operation and record identities, choose atomic or partial success, draw job/status/report transitions, and propose tests for conflicting payloads and recovery. Add throughput measurements as a plan, not an observed result.",
+      "rubric": {
+        "basic": "Defines idempotency and distinguishes submitting a file from writing its records.",
+        "senior": "Protects stated business effects under concurrent and repeated execution; separates job and record correctness; explains transaction/reporting choices and checks all source constraints.",
+        "evidence_missing": "A unique operation ID alone does not establish a safe import. Need concurrency and crash traces, row-level outcome examples, and tests of the actual persistence boundaries."
+      }
+    },
+    "vi": {
+      "title": "API idempotent và gửi file lớn",
+      "goal": "Giữ đúng hiệu ứng import hoặc API khi cùng thao tác logic được gửi hay thực thi lại.",
+      "competencies": [
+        "Xác định danh tính thao tác, response khi gửi lại và cách xử lý payload xung đột.",
+        "Tách chống job trùng khỏi bản ghi trùng trong đầu vào và dữ liệu đã lưu.",
+        "Chọn import nguyên tử hay thành công từng phần, cung cấp trạng thái và lỗi từng dòng.",
+        "Theo dấu gửi lại đồng thời và ranh giới crash/retry với kế hoạch kiểm chứng."
+      ],
+      "bridge": "Câu API idempotent trước hết hỏi thế nào là cùng thao tác và ý nghĩa của lặp lại. Scenario import trong nguồn áp dụng ranh giới đó vào luồng gửi, validation, ghi và báo cáo. Job không trùng nhưng bản ghi vẫn có thể xung đột; retry có thể đi qua ranh giới đã lưu. Tách các vấn đề để đáp ứng đủ mười ràng buộc nguồn, không xem một công nghệ được nêu tên là đáp án.",
+      "scenario": "Bài tập production do agent bổ sung: hai replica nhận cùng file import khi lần đầu đang chạy. Một số dòng trùng nhau, số khác xung đột dữ liệu đã có; worker crash gần một lần ghi đã commit, client mất response rồi retry. Dùng đủ mười ràng buộc scenario nguồn, xác định danh tính thao tác/bản ghi, chọn nguyên tử hay thành công từng phần, vẽ chuyển trạng thái job/status/report và đề xuất kiểm tra payload xung đột cùng phục hồi. Nêu phép đo throughput dưới dạng kế hoạch, không phải kết quả đã chạy.",
+      "rubric": {
+        "basic": "Định nghĩa idempotency và phân biệt gửi file với ghi các bản ghi của nó.",
+        "senior": "Bảo vệ hiệu ứng nghiệp vụ đã nêu khi chạy đồng thời và lặp; tách tính đúng của job và bản ghi; giải thích lựa chọn transaction/báo cáo và đối chiếu đủ ràng buộc nguồn.",
+        "evidence_missing": "Một operation ID duy nhất chưa chứng minh import an toàn. Cần trace đồng thời/crash, ví dụ kết quả từng dòng và kiểm tra các ranh giới lưu trữ thực tế."
+      }
+    }
+  },
+  {
+    "group_id": "ef-loading-performance",
+    "representative_question_id": "S02-Q032",
+    "en": {
+      "title": "EF loading, tracking and query shape",
+      "goal": "Choose and verify an EF Core query shape that returns the required data without unexamined database work.",
+      "competencies": [
+        "Explain related-data loading and entity-tracking boundaries.",
+        "Locate database versus application evaluation using command evidence.",
+        "Diagnose N+1 from access traces and query counts.",
+        "Compare alternatives with equivalent results and representative measurements."
+      ],
+      "bridge": "Tracking and evaluation questions clarify what the context and database are responsible for. Eager-loading configuration applies those boundaries to related data. N+1 diagnosis then tests what actually ran; strategy comparisons choose a response to that evidence. Projection and generated SQL bring the group to production validation: neither a familiar API nor fewer LINQ lines proves a suitable query.",
+      "scenario": "Agent-added production exercise: an endpoint returns a page of departments and their employee summaries; latency rises as the page grows. Capture its commands, returned data and application work. Determine whether repeated related-data calls or one expensive query explains the symptom, propose a loading/projection/tracking change, and test equivalent results and boundary cases. Name EF Core/provider versions, verify documented behavior, and compare representative before/after measurements without inventing a speedup.",
+      "rubric": {
+        "basic": "Explains the loading options, tracking purpose and meaning of N+1.",
+        "senior": "Locates the evaluation and access boundaries; diagnoses using command evidence; defends a query-shape change and verifies correctness plus workload costs.",
+        "evidence_missing": "Naming Include or AsNoTracking is not evidence of an improvement. Need emitted commands, equivalent-result checks and actual measurements, or a clearly stated plan to obtain them."
+      }
+    },
+    "vi": {
+      "title": "EF: loading, tracking và query shape",
+      "goal": "Chọn và kiểm chứng query shape EF Core trả đúng dữ liệu cần có, không bỏ qua công việc thực tế ở database.",
+      "competencies": [
+        "Giải thích ranh giới tải dữ liệu liên quan và tracking entity.",
+        "Xác định phần evaluation ở database và ứng dụng bằng bằng chứng command.",
+        "Chẩn đoán N+1 từ trace truy cập và số query.",
+        "So sánh phương án bằng kết quả tương đương và phép đo đại diện."
+      ],
+      "bridge": "Câu tracking và evaluation làm rõ trách nhiệm context và database. Cấu hình eager loading áp dụng các ranh giới đó cho dữ liệu liên quan. Chẩn đoán N+1 kiểm tra việc thực sự chạy; so sánh cách tải giúp chọn phản ứng theo bằng chứng. Projection và SQL sinh ra đưa nhóm đến kiểm chứng production: API quen thuộc hoặc LINQ ít dòng chưa chứng minh query phù hợp.",
+      "scenario": "Bài tập production do agent bổ sung: endpoint trả một trang phòng ban cùng tóm tắt nhân viên; độ trễ tăng khi trang lớn hơn. Thu command, lượng dữ liệu và công việc trong ứng dụng. Phân biệt lời gọi dữ liệu liên quan lặp với một query tốn thời gian; đề xuất đổi loading/projection/tracking, kiểm tra kết quả tương đương và các biên. Nêu phiên bản EF Core/provider, xác minh hành vi theo tài liệu và so sánh phép đo trước/sau đại diện, không bịa mức tăng tốc.",
+      "rubric": {
+        "basic": "Giải thích các cách loading, mục đích tracking và ý nghĩa N+1.",
+        "senior": "Xác định ranh giới evaluation/truy cập; chẩn đoán bằng command; bảo vệ thay đổi query shape và kiểm chứng tính đúng cùng chi phí workload.",
+        "evidence_missing": "Nêu Include hoặc AsNoTracking chưa phải bằng chứng cải thiện. Cần command thực tế, kiểm tra kết quả tương đương và phép đo, hoặc kế hoạch rõ để thu chúng."
+      }
+    }
+  }
+]

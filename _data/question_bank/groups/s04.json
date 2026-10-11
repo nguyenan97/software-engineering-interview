@@ -1,0 +1,326 @@
+[
+  {
+    "group_id": "architecture-api-gateway",
+    "representative_question_id": "S04-Q015",
+    "en": {
+      "title": "Gateway responsibility and safe routing changes",
+      "goal": "Define and verify a gateway boundary that supports routing changes without taking over domain ownership.",
+      "competencies": [
+        "Assign gateway, reverse-proxy and API-management concerns to explicit owners.",
+        "Trace a request from route matching to the intended destination.",
+        "Design validation and recovery for configuration changes across replicas."
+      ],
+      "bridge": "Begin with who owns request handling. Follow one route to understand the configuration contract, then change that route safely and challenge whether a proposed policy belongs in the gateway or the domain service.",
+      "scenario": "An ASP.NET Core API has two backend versions behind a gateway. Design a routing change for one endpoint while other endpoints remain available. Define validation, replica consistency and rollback observations; explain who should enforce a business eligibility rule when internal calls can bypass the gateway.",
+      "rubric": {
+        "basic": "Names gateway functions and can trace a simple route.",
+        "senior": "Defends policy ownership and explains safe change, inconsistent replicas and recovery with concrete checks.",
+        "evidence_missing": "Feature lists without a request trace or an observable configuration-change test do not establish the proposed boundary."
+      }
+    },
+    "vi": {
+      "title": "Trách nhiệm gateway và thay đổi routing an toàn",
+      "goal": "Xác định và kiểm chứng ranh giới gateway cho phép đổi routing mà không lấy quyền sở hữu nghiệp vụ.",
+      "competencies": [
+        "Phân công rõ bên sở hữu các vấn đề gateway, reverse proxy và API management.",
+        "Lần theo request từ điều kiện khớp route đến đúng đích.",
+        "Thiết kế xác nhận và phục hồi thay đổi cấu hình qua nhiều replica."
+      ],
+      "bridge": "Bắt đầu từ bên chịu trách nhiệm xử lý request. Lần theo một route để hiểu hợp đồng cấu hình, đổi route an toàn, rồi xét policy đề xuất thuộc gateway hay service nghiệp vụ.",
+      "scenario": "Một API ASP.NET Core có hai phiên bản backend sau gateway. Thiết kế đổi routing cho một endpoint trong khi các endpoint khác vẫn khả dụng. Nêu cách xác nhận, quan sát cấu hình giữa replica và rollback; giải thích bên nào thực thi quy tắc đủ điều kiện nghiệp vụ khi lời gọi nội bộ có thể bỏ qua gateway.",
+      "rubric": {
+        "basic": "Nêu chức năng gateway và lần theo được route đơn giản.",
+        "senior": "Bảo vệ quyền sở hữu policy; giải thích thay đổi an toàn, replica không đồng nhất và phục hồi bằng kiểm tra cụ thể.",
+        "evidence_missing": "Danh sách tính năng không kèm trace request hoặc thử thay đổi cấu hình quan sát được chưa chứng minh ranh giới đề xuất."
+      }
+    }
+  },
+  {
+    "group_id": "architecture-communication",
+    "representative_question_id": "S04-Q011",
+    "en": {
+      "title": "Service interactions under latency and load constraints",
+      "goal": "Choose a service interaction whose response and overload behavior meet an explicit user contract.",
+      "competencies": [
+        "Trace waiting, completion and failure across a synchronous or asynchronous interaction.",
+        "Locate the resource that limits useful horizontal scaling.",
+        "Compare communication choices using latency, overload and recovery requirements."
+      ],
+      "bridge": "First follow how work enters a system, is distributed and reaches a constrained dependency. Then compare communication styles against that flow: the caller's waiting contract and the system's ability to absorb or reject work must be considered together.",
+      "scenario": "A checkout API calls an inventory service while a SQL Server dependency is saturated. Compare a synchronous interaction with an asynchronous alternative. Define the caller-visible outcome, capacity hypothesis, overload behavior and measurements that would validate the choice without assuming more replicas solve the shared bottleneck.",
+      "rubric": {
+        "basic": "Distinguishes waiting for a result from receiving a result later and recognizes a bottleneck.",
+        "senior": "Connects interaction choice to business completion, failure propagation and measured overload behavior.",
+        "evidence_missing": "A preferred protocol without a response contract, failure trace or capacity measurement is not yet a defended design."
+      }
+    },
+    "vi": {
+      "title": "Giao tiếp service dưới ràng buộc latency và tải",
+      "goal": "Chọn tương tác service có hành vi trả kết quả và quá tải đáp ứng hợp đồng người dùng rõ ràng.",
+      "competencies": [
+        "Lần theo chờ, hoàn thành và lỗi trong tương tác đồng bộ hoặc bất đồng bộ.",
+        "Khoanh vùng tài nguyên giới hạn lợi ích của scale ngang.",
+        "So sánh cách giao tiếp theo yêu cầu latency, quá tải và phục hồi."
+      ],
+      "bridge": "Trước tiên theo dõi công việc vào hệ thống, được phân phối và đến dependency bị giới hạn. Sau đó so sánh cách giao tiếp với luồng đó: hợp đồng chờ của bên gọi phải đi cùng khả năng tiếp nhận hoặc từ chối công việc của hệ thống.",
+      "scenario": "API checkout gọi service tồn kho khi dependency SQL Server đã bão hòa. So sánh tương tác đồng bộ với phương án bất đồng bộ. Xác định kết quả bên gọi thấy, giả thuyết năng lực, hành vi quá tải và phép đo kiểm chứng lựa chọn, không mặc định thêm replica giải quyết điểm nghẽn dùng chung.",
+      "rubric": {
+        "basic": "Phân biệt chờ kết quả với nhận kết quả sau và nhận ra điểm nghẽn.",
+        "senior": "Gắn cách tương tác với hoàn thành nghiệp vụ, lan truyền lỗi và hành vi quá tải được đo.",
+        "evidence_missing": "Giao thức được ưa thích nhưng thiếu hợp đồng kết quả, trace lỗi hoặc phép đo năng lực chưa tạo thành thiết kế có thể bảo vệ."
+      }
+    }
+  },
+  {
+    "group_id": "architecture-ddd-cqrs",
+    "representative_question_id": "S04-Q034",
+    "en": {
+      "title": "Domain models that protect rules and serve useful reads",
+      "goal": "Derive a domain model and read/write responsibilities from business meaning and invariants.",
+      "competencies": [
+        "Use shared terminology while making context-specific meaning explicit.",
+        "Trace a business invariant through an aggregate change and its event contract.",
+        "Justify separate read/write models or defend a simpler alternative."
+      ],
+      "bridge": "Start with the business problem and the language used to describe it. Identify where that meaning applies, then examine how a change preserves a rule and becomes an event. With those responsibilities clear, assess whether separate read and write models solve a real mismatch.",
+      "scenario": "For a reservation service, a customer requests several seats while availability is also read by a dashboard. Define the business terms, the rule governing concurrent reservations and the model boundary. Describe the event meaning and decide whether a separate dashboard model is warranted, including its freshness contract and a simpler alternative.",
+      "rubric": {
+        "basic": "Defines the main concepts and gives a consistent business example.",
+        "senior": "Connects context, invariant and event meaning to implementation boundaries and a justified read/write choice.",
+        "evidence_missing": "Pattern vocabulary without a state-change trace, competing-change test or read freshness contract does not show model validity."
+      }
+    },
+    "vi": {
+      "title": "Mô hình domain bảo vệ quy tắc và phục vụ nhu cầu đọc",
+      "goal": "Suy ra mô hình domain và trách nhiệm đọc/ghi từ ý nghĩa nghiệp vụ cùng các bất biến.",
+      "competencies": [
+        "Dùng thuật ngữ thống nhất và làm rõ ý nghĩa riêng của từng context.",
+        "Lần theo bất biến nghiệp vụ qua thay đổi aggregate và hợp đồng event.",
+        "Bảo vệ mô hình đọc/ghi riêng hoặc phương án đơn giản hơn."
+      ],
+      "bridge": "Bắt đầu từ vấn đề nghiệp vụ và ngôn ngữ mô tả nó. Xác định phạm vi ý nghĩa, rồi xét cách thay đổi giữ quy tắc và trở thành event. Khi trách nhiệm đã rõ, đánh giá mô hình đọc/ghi riêng có giải quyết điểm lệch thực sự không.",
+      "scenario": "Ở service đặt chỗ, khách yêu cầu nhiều ghế trong khi dashboard cũng đọc số chỗ còn lại. Định nghĩa thuật ngữ, quy tắc đặt chỗ đồng thời và ranh giới mô hình. Mô tả ý nghĩa event, quyết định có cần mô hình dashboard riêng không, gồm hợp đồng độ mới dữ liệu và phương án đơn giản hơn.",
+      "rubric": {
+        "basic": "Định nghĩa các khái niệm chính và đưa ví dụ nghiệp vụ nhất quán.",
+        "senior": "Gắn context, bất biến và ý nghĩa event với ranh giới triển khai và lựa chọn đọc/ghi có cơ sở.",
+        "evidence_missing": "Tên pattern thiếu trace thay đổi trạng thái, test thay đổi cạnh tranh hoặc hợp đồng độ mới dữ liệu đọc chưa chứng minh mô hình hợp lệ."
+      }
+    }
+  },
+  {
+    "group_id": "architecture-saga-compensation",
+    "representative_question_id": "S04-Q043",
+    "en": {
+      "title": "Recovering business progress after partial failure",
+      "goal": "Design observable recovery for a workflow whose services commit independently.",
+      "competencies": [
+        "Explain the boundary of each local transaction and the intended convergence state.",
+        "Distinguish compensation from rollback for a visible business effect.",
+        "Choose workflow coordination and trace repeated or failed recovery."
+      ],
+      "bridge": "Define what users may observe before all records agree. Establish where transaction protection ends, then examine compensation as a business action. Use a partial failure to test the recovery path before comparing who should coordinate and own the workflow.",
+      "scenario": "An order service has committed an order and a stock service has reserved inventory, but a payment call times out. Design the states and decisions for an unknown payment outcome, including who owns investigation, what recovery can repeat safely and how the user sees progress. Do not assume payment failed merely because the call timed out.",
+      "rubric": {
+        "basic": "Recognizes partial success and distinguishes local rollback from a later recovery action.",
+        "senior": "Defends valid recovery states, handles unknown outcomes and repeated recovery, and assigns observable workflow ownership.",
+        "evidence_missing": "A Saga diagram without a failure matrix, recovery state transitions or stuck-work detection leaves the guarantee unestablished."
+      }
+    },
+    "vi": {
+      "title": "Phục hồi tiến độ nghiệp vụ sau thất bại một phần",
+      "goal": "Thiết kế phục hồi quan sát được cho quy trình có các service commit độc lập.",
+      "competencies": [
+        "Giải thích ranh giới từng transaction cục bộ và trạng thái hội tụ dự định.",
+        "Phân biệt compensation với rollback cho tác động nghiệp vụ đã nhìn thấy.",
+        "Chọn cách phối hợp và lần theo phục hồi lặp lại hoặc lỗi."
+      ],
+      "bridge": "Xác định người dùng có thể thấy gì trước khi dữ liệu thống nhất. Chốt phạm vi bảo vệ transaction, rồi xét compensation như hành động nghiệp vụ. Dùng thất bại một phần để kiểm tra đường phục hồi trước khi so sánh bên phối hợp và sở hữu quy trình.",
+      "scenario": "Service đơn hàng đã commit đơn và service tồn kho đã giữ hàng, nhưng lời gọi thanh toán timeout. Thiết kế trạng thái và quyết định khi chưa biết kết quả thanh toán, gồm bên điều tra, phần phục hồi có thể lặp an toàn và cách người dùng thấy tiến độ. Không mặc định thanh toán lỗi chỉ vì lời gọi timeout.",
+      "rubric": {
+        "basic": "Nhận ra thành công một phần và phân biệt rollback cục bộ với hành động phục hồi sau đó.",
+        "senior": "Bảo vệ trạng thái phục hồi hợp lệ, xử lý kết quả chưa biết và phục hồi lặp lại, phân công rõ trách nhiệm theo dõi quy trình.",
+        "evidence_missing": "Sơ đồ Saga thiếu ma trận lỗi, chuyển đổi trạng thái phục hồi hoặc phát hiện công việc kẹt chưa xác lập được bảo đảm."
+      }
+    }
+  },
+  {
+    "group_id": "communication-system-explanation",
+    "representative_question_id": "S04-Q001",
+    "en": {
+      "title": "Explain a system through requests, decisions and evidence",
+      "goal": "Give a direct architecture explanation whose choices can be defended in follow-up.",
+      "competencies": [
+        "Trace one browser request through UI, identity, gateway, backend, data and telemetry.",
+        "Explain one design choice and its rejected alternative using consequential constraints.",
+        "Adapt a trade-off explanation to the audience while preserving its technical limits."
+      ],
+      "bridge": "Use a request to establish the system flow before explaining why its boundaries and technologies were chosen. Compare alternatives, translate the consequence for a non-specialist and use follow-ups to test each claim against failure and evidence.",
+      "scenario": "A non-specialist stakeholder asks why an Angular screen waits after submitting work to an ASP.NET Core API. Explain the request path and one design decision in plain language, then answer an engineer's question about a delayed database call. Show what telemetry you would use and distinguish a proposed diagnosis from an observed result.",
+      "rubric": {
+        "basic": "Explains the components and one choice in an understandable sequence.",
+        "senior": "Answers directly, preserves causal detail across audiences and defends limits, alternatives and a specific verification plan.",
+        "evidence_missing": "Fluent narration or invented metrics without a trace, relevant artifact or honest evidence plan do not support the technical claim."
+      }
+    },
+    "vi": {
+      "title": "Giải thích hệ thống qua request, quyết định và bằng chứng",
+      "goal": "Trình bày kiến trúc trực tiếp và bảo vệ được các lựa chọn khi có câu hỏi sâu hơn.",
+      "competencies": [
+        "Lần theo request từ browser qua UI, identity, gateway, backend, dữ liệu và telemetry.",
+        "Giải thích một quyết định cùng phương án bị loại bằng ràng buộc có ảnh hưởng thực sự.",
+        "Điều chỉnh cách nói trade-off theo người nghe nhưng giữ giới hạn kỹ thuật."
+      ],
+      "bridge": "Dùng request để chốt luồng hệ thống trước khi giải thích lý do chọn ranh giới và công nghệ. So sánh phương án, chuyển hệ quả sang ngôn ngữ người không chuyên, rồi dùng follow-up kiểm tra từng nhận định bằng lỗi và bằng chứng.",
+      "scenario": "Stakeholder không chuyên hỏi vì sao màn hình Angular phải chờ sau khi gửi việc đến API ASP.NET Core. Giải thích đường request và một quyết định bằng lời dễ hiểu, rồi trả lời câu hỏi của engineer về lời gọi database bị chậm. Nêu telemetry sẽ dùng và phân biệt chẩn đoán đề xuất với kết quả đã quan sát.",
+      "rubric": {
+        "basic": "Giải thích các thành phần và một lựa chọn theo trình tự dễ hiểu.",
+        "senior": "Trả lời trực tiếp, giữ quan hệ nhân quả với từng nhóm người nghe, bảo vệ giới hạn, phương án khác và cách kiểm chứng cụ thể.",
+        "evidence_missing": "Kể trôi chảy hoặc bịa số liệu mà thiếu trace, artifact liên quan hoặc kế hoạch lấy bằng chứng trung thực không hỗ trợ nhận định kỹ thuật."
+      }
+    }
+  },
+  {
+    "group_id": "messaging-delivery-recovery",
+    "representative_question_id": "S04-Q019",
+    "en": {
+      "title": "Delivery contracts and recovery ownership",
+      "goal": "Choose a recipient model and define what happens to work when processing cannot finish.",
+      "competencies": [
+        "Choose queue or topic/subscription behavior from recipient requirements.",
+        "Trace broker decoupling, competing workers and a failed processing attempt.",
+        "Specify bounded retry, quarantine and accountable safe replay."
+      ],
+      "bridge": "Begin with who must receive the work. Explain how a broker separates producer and consumer timing, then distribute attempts across workers. A failed attempt challenges that contract and leads to decisions about another attempt, quarantine and recovery ownership.",
+      "scenario": "An import producer sends work that one worker should process while two independent services need completion notifications. Choose the recipient models. A malformed item repeatedly fails and a worker stops during another item: describe delivery observations, retry limits, investigation ownership and safe replay checks for the selected broker.",
+      "rubric": {
+        "basic": "Distinguishes recipient models and recognizes that failed work needs an explicit next action.",
+        "senior": "Traces failure and redelivery, checks provider guarantees and defines recoverable retry/quarantine behavior with owners and tests.",
+        "evidence_missing": "Queue names and retry counts without failure observations, provider scope or a replay procedure leave recovery unverified."
+      }
+    },
+    "vi": {
+      "title": "Hợp đồng delivery và trách nhiệm phục hồi",
+      "goal": "Chọn mô hình người nhận và xác định số phận công việc khi không xử lý xong.",
+      "competencies": [
+        "Chọn queue hoặc topic/subscription từ yêu cầu người nhận.",
+        "Lần theo cách broker giảm phụ thuộc, worker cạnh tranh và lần xử lý lỗi.",
+        "Xác định retry có giới hạn, tách công việc lỗi và replay an toàn có người chịu trách nhiệm."
+      ],
+      "bridge": "Bắt đầu từ bên phải nhận việc. Giải thích broker tách thời điểm producer và consumer, rồi phân phối các lần xử lý cho worker. Lần thử lỗi thử thách hợp đồng đó và dẫn đến quyết định thử tiếp, tách công việc ra và phân công phục hồi.",
+      "scenario": "Producer import gửi việc cần một worker xử lý, còn hai service độc lập cần thông báo hoàn thành. Chọn mô hình người nhận. Một item sai định dạng lỗi liên tục, worker dừng khi đang xử lý item khác: mô tả quan sát delivery, giới hạn retry, trách nhiệm điều tra và kiểm tra replay an toàn cho broker đã chọn.",
+      "rubric": {
+        "basic": "Phân biệt mô hình người nhận và nhận ra công việc lỗi cần hành động tiếp theo rõ ràng.",
+        "senior": "Lần theo lỗi và redelivery, kiểm tra bảo đảm provider, nêu retry/cách ly có thể phục hồi cùng bên chịu trách nhiệm và test.",
+        "evidence_missing": "Tên queue và số retry thiếu quan sát lỗi, phạm vi provider hoặc quy trình replay chưa kiểm chứng được phục hồi."
+      }
+    }
+  },
+  {
+    "group_id": "messaging-idempotent-consumer",
+    "representative_question_id": "S04-Q024",
+    "en": {
+      "title": "Protect one intended effect across repeated attempts",
+      "goal": "Design and verify a consumer that preserves the intended database effect across retries and concurrent deliveries.",
+      "competencies": [
+        "Define stable operation identity and the business invariant it protects.",
+        "Trace uniqueness, business changes and commit/acknowledgment boundaries under concurrency.",
+        "Test repetition, partial failure and conflicting identities without assuming every timeout proves failure."
+      ],
+      "bridge": "Inspect how database identity restrictions interact with business changes before designing the full consumer. Then trace repeated and concurrent attempts. The source import scenario combines that effect guarantee with submission behavior, recovery, observability and scaling.",
+      "scenario": "Two ASP.NET Core worker replicas receive the same account-credit operation. Design the state transitions and test cases for simultaneous delivery, a crash around commit, an acknowledgment loss and the same identity with different credit data. State which database effect is protected and how an external notification changes the boundary.",
+      "rubric": {
+        "basic": "Identifies a repeated operation and explains the intended single business effect.",
+        "senior": "Defends the concurrency and transaction boundary, traces ambiguous outcomes and supplies failure tests with explicit limits.",
+        "evidence_missing": "A happy-path duplicate check without concurrent and interrupted-attempt evidence cannot establish the claimed effect guarantee."
+      }
+    },
+    "vi": {
+      "title": "Giữ một tác động dự định qua nhiều lần xử lý",
+      "goal": "Thiết kế và kiểm chứng consumer giữ tác động database dự định khi retry hoặc delivery đồng thời.",
+      "competencies": [
+        "Xác định danh tính thao tác ổn định và bất biến nghiệp vụ được bảo vệ.",
+        "Lần theo uniqueness, thay đổi nghiệp vụ và ranh giới commit/acknowledgment khi đồng thời.",
+        "Kiểm tra lặp lại, thất bại một phần và danh tính xung đột mà không mặc định mọi timeout là thất bại."
+      ],
+      "bridge": "Xem hạn chế danh tính trong database tương tác với thay đổi nghiệp vụ thế nào trước khi thiết kế consumer đầy đủ. Sau đó lần theo các lần xử lý lặp và đồng thời. Tình huống import trong nguồn kết hợp bảo đảm tác động với tiếp nhận, phục hồi, quan sát và scale.",
+      "scenario": "Hai worker replica ASP.NET Core nhận cùng thao tác cộng tiền vào tài khoản. Thiết kế chuyển đổi trạng thái và test cho delivery đồng thời, crash quanh commit, mất acknowledgment và cùng ID nhưng dữ liệu cộng tiền khác. Nêu tác động database được bảo vệ và việc gửi thông báo ngoài hệ thống đổi ranh giới thế nào.",
+      "rubric": {
+        "basic": "Nhận diện thao tác lặp và giải thích tác động nghiệp vụ duy nhất dự định.",
+        "senior": "Bảo vệ ranh giới đồng thời và transaction, lần theo kết quả chưa rõ, đưa test lỗi cùng giới hạn cụ thể.",
+        "evidence_missing": "Kiểm tra duplicate ở happy path thiếu bằng chứng đồng thời và gián đoạn chưa xác lập được bảo đảm tác động đã nêu."
+      }
+    }
+  },
+  {
+    "group_id": "messaging-ordering-correlation",
+    "representative_question_id": "S04-Q028",
+    "en": {
+      "title": "Order related work and make later results discoverable",
+      "goal": "Define how related asynchronous operations are ordered and how a caller can determine their outcomes.",
+      "competencies": [
+        "Distinguish message identity, correlation and direct causation.",
+        "Design caller-visible acceptance, progress and completion contracts.",
+        "Choose an ordering boundary while explaining slow-item and throughput consequences."
+      ],
+      "bridge": "First identify how work is related and what caused it. Use that identity model to connect a submission to its result, then decide which operations really need a sequence. Ordering is useful only when it serves the business contract rather than obscuring unrelated parallel work.",
+      "scenario": "A customer submits two updates for the same import job while another customer submits an unrelated job. Define the required ordering, identifiers and result-access contract. Trace a delayed first update, a disconnected client and an out-of-sequence completion; explain the trade-off for parallel workers and what you would observe.",
+      "rubric": {
+        "basic": "Distinguishes identifier purposes and provides a way to find an asynchronous result.",
+        "senior": "Defines the exact ordering observation, protects related work and explains recovery and throughput limits with tests.",
+        "evidence_missing": "A global-order claim or a result notification without sequence tests and lost-notification recovery does not establish the contract."
+      }
+    },
+    "vi": {
+      "title": "Giữ thứ tự việc liên quan và tìm được kết quả trả sau",
+      "goal": "Xác định thứ tự thao tác bất đồng bộ liên quan và cách bên gọi biết kết quả.",
+      "competencies": [
+        "Phân biệt danh tính message, correlation và nguyên nhân trực tiếp.",
+        "Thiết kế hợp đồng tiếp nhận, tiến độ và hoàn thành mà bên gọi quan sát được.",
+        "Chọn phạm vi thứ tự và giải thích hệ quả của việc chậm cùng throughput."
+      ],
+      "bridge": "Trước hết xác định các việc liên quan thế nào và việc gì kích hoạt chúng. Dùng mô hình danh tính để nối lần gửi với kết quả, rồi chọn thao tác thực sự cần trình tự. Thứ tự chỉ có ích khi phục vụ hợp đồng nghiệp vụ, không che mất khả năng song song của việc không liên quan.",
+      "scenario": "Một khách gửi hai cập nhật cho cùng job import, khách khác gửi job độc lập. Xác định thứ tự cần giữ, các ID và hợp đồng truy cập kết quả. Lần theo cập nhật đầu bị chậm, client ngắt kết nối và hoàn thành khác thứ tự; giải thích trade-off với worker song song và điều cần quan sát.",
+      "rubric": {
+        "basic": "Phân biệt mục đích ID và đưa cách tìm kết quả bất đồng bộ.",
+        "senior": "Định nghĩa chính xác thứ tự quan sát, bảo vệ việc liên quan, giải thích phục hồi và giới hạn throughput bằng test.",
+        "evidence_missing": "Khẳng định thứ tự toàn cục hoặc chỉ thông báo kết quả mà thiếu test trình tự và phục hồi thông báo mất chưa xác lập được hợp đồng."
+      }
+    }
+  },
+  {
+    "group_id": "messaging-outbox",
+    "representative_question_id": "S04-Q030",
+    "en": {
+      "title": "Coordinate durable changes with outgoing and incoming events",
+      "goal": "Explain and verify the local transaction guarantee while exposing the remaining remote-effect failure boundary.",
+      "competencies": [
+        "Trace business state and outgoing-event records around local commit.",
+        "Explain dispatcher retry and repeated publication or delivery.",
+        "Identify receiver or external-effect recovery responsibilities."
+      ],
+      "bridge": "The sender and receiver solve related coordination problems at separate local boundaries. Follow the sender's durable change through dispatch to the receiver, then introduce a failure between those stages. That trace distinguishes protected local state from remote effects still needing their own strategy.",
+      "scenario": "An ASP.NET Core service changes order state in SQL Server and publishes a notification event. The publisher loses the broker response, and the consumer also calls an external email API. Draw the records and states, identify each uncertain outcome and propose evidence for safe recovery without promising one transaction across all participants.",
+      "rubric": {
+        "basic": "Explains the purpose of outbox/inbox and names the local transaction scope.",
+        "senior": "Traces commit, dispatch and receiver failures, qualifies the guarantee and defines validation for remote effects.",
+        "evidence_missing": "A pattern diagram without interruption tests or a separate external-effect contract does not support an end-to-end guarantee."
+      }
+    },
+    "vi": {
+      "title": "Phối hợp thay đổi bền vững với event gửi và nhận",
+      "goal": "Giải thích và kiểm chứng bảo đảm transaction cục bộ, đồng thời làm rõ ranh giới lỗi của tác động từ xa còn lại.",
+      "competencies": [
+        "Lần theo trạng thái nghiệp vụ và record event gửi đi quanh commit cục bộ.",
+        "Giải thích retry ở dispatcher và publish hoặc delivery lặp lại.",
+        "Xác định trách nhiệm phục hồi ở bên nhận hoặc tác động bên ngoài."
+      ],
+      "bridge": "Bên gửi và nhận giải quyết vấn đề phối hợp liên quan tại các ranh giới cục bộ riêng. Theo dõi thay đổi bền vững bên gửi qua dispatch đến bên nhận, rồi đặt lỗi giữa các bước. Trace này phân biệt trạng thái cục bộ được bảo vệ với tác động từ xa vẫn cần chiến lược riêng.",
+      "scenario": "Service ASP.NET Core đổi trạng thái đơn hàng trong SQL Server rồi publish event thông báo. Publisher mất response của broker, consumer còn gọi API email bên ngoài. Vẽ record và trạng thái, chỉ ra từng kết quả chưa biết và đề xuất bằng chứng phục hồi an toàn mà không hứa có một transaction qua mọi bên.",
+      "rubric": {
+        "basic": "Giải thích mục đích outbox/inbox và nêu phạm vi transaction cục bộ.",
+        "senior": "Lần theo lỗi commit, dispatch và bên nhận, giới hạn bảo đảm và xác định kiểm chứng tác động từ xa.",
+        "evidence_missing": "Sơ đồ pattern thiếu test gián đoạn hoặc hợp đồng riêng cho tác động bên ngoài chưa hỗ trợ bảo đảm xuyên suốt."
+      }
+    }
+  }
+]

@@ -20,6 +20,7 @@
       <nav aria-label="{{ t.nav.home | escape }}">
         <a href="{% include localized-url.html key='home' locale=locale %}" {% if page.translation_key == 'home' %}aria-current="page"{% endif %}>{{ t.nav.home | escape }}</a>
         <a href="{% include localized-url.html key='lesson-index' locale=locale %}">{{ t.nav.lessons | escape }}</a>
+        <a href="{% include localized-url.html key='question-bank' locale=locale %}" {% if page.translation_key == 'question-bank' or page.group_id %}aria-current="page"{% endif %}>{{ t.nav.questions | escape }}</a>
         <a href="{% include localized-url.html key='curriculum' locale=locale %}">{{ t.nav.curriculum | escape }}</a>
         <a href="{% include localized-url.html key='workflow' locale=locale %}">{{ t.nav.workflow | escape }}</a>
       </nav>

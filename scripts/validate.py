@@ -10,6 +10,7 @@ import yaml
 
 from learning import ROOT, load_json, metadata, validate_state
 from localization import validate_localization
+from question_bank import write_or_check
 
 DOMAINS = {
     "architecture-distributed", "dotnet-runtime", "aspnet-api", "ef-linq", "sql-data",
@@ -47,6 +48,7 @@ def check_ref(ref, relative_to):
 
 
 def main():
+    bank_report = write_or_check(ROOT, check=True)
     locale_report = validate_localization(ROOT)
     catalog = load_json(ROOT / "curriculum/catalog.json")
     assert catalog["schema_version"] == 1
@@ -121,7 +123,7 @@ def main():
                 check_ref(ref.strip("<>"), path.parent)
     for path in ROOT.glob(".github/workflows/*.yml"):
         yaml.safe_load(path.read_text(encoding="utf-8"))
-    print(f"Validated {len(topics)} topics, {len(documents)} Markdown documents, {len(state['lessons'])} logical lesson record(s), state schema, links and prerequisite graph; localization: {locale_report}.")
+    print(f"Validated {len(topics)} topics, {len(documents)} Markdown documents, {len(state['lessons'])} logical lesson record(s), state schema, links and prerequisite graph; localization: {locale_report}; question bank: {bank_report}.")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,5547 @@
+{
+  "schema_version": 1,
+  "audited_at": "2026-10-11",
+  "source_units": [
+    {
+      "source_id": "S01-Q001",
+      "source_ref": "sources/01-csharp-dotnet.md#q001",
+      "kind": "numbered",
+      "original": "What is the difference between `static readonly` and `const`?",
+      "group_id": "dotnet-members-inheritance",
+      "original_group_id": "dotnet-members-inheritance",
+      "canonical_id": "S01-Q001"
+    },
+    {
+      "source_id": "S01-Q002",
+      "source_ref": "sources/01-csharp-dotnet.md#q002",
+      "kind": "numbered",
+      "original": "What is the difference between an empty string literal and `String.Empty`?",
+      "group_id": "dotnet-collections-delegates",
+      "original_group_id": "dotnet-collections-delegates",
+      "canonical_id": "S01-Q002"
+    },
+    {
+      "source_id": "S01-Q003",
+      "source_ref": "sources/01-csharp-dotnet.md#q003",
+      "kind": "numbered",
+      "original": "What is the difference between a property and a field?",
+      "group_id": "dotnet-members-inheritance",
+      "original_group_id": "dotnet-members-inheritance",
+      "canonical_id": "S01-Q003"
+    },
+    {
+      "source_id": "S01-Q004",
+      "source_ref": "sources/01-csharp-dotnet.md#q004",
+      "kind": "numbered",
+      "original": "Explain boxing and unboxing.",
+      "group_id": "dotnet-type-semantics",
+      "original_group_id": "dotnet-type-semantics",
+      "canonical_id": "S01-Q004"
+    },
+    {
+      "source_id": "S01-Q005",
+      "source_ref": "sources/01-csharp-dotnet.md#q005",
+      "kind": "numbered",
+      "original": "What is the difference between `==` and `Equals()`?",
+      "group_id": "dotnet-type-semantics",
+      "original_group_id": "dotnet-type-semantics",
+      "canonical_id": "S01-Q005"
+    },
+    {
+      "source_id": "S01-Q006",
+      "source_ref": "sources/01-csharp-dotnet.md#q006",
+      "kind": "numbered",
+      "original": "Compare an abstract class and an interface.",
+      "group_id": "dotnet-members-inheritance",
+      "original_group_id": "dotnet-members-inheritance",
+      "canonical_id": "S01-Q006"
+    },
+    {
+      "source_id": "S01-Q007",
+      "source_ref": "sources/01-csharp-dotnet.md#q007",
+      "kind": "numbered",
+      "original": "Compare virtual methods and abstract methods.",
+      "group_id": "dotnet-members-inheritance",
+      "original_group_id": "dotnet-members-inheritance",
+      "canonical_id": "S01-Q007"
+    },
+    {
+      "source_id": "S01-Q008",
+      "source_ref": "sources/01-csharp-dotnet.md#q008",
+      "kind": "numbered",
+      "original": "Explain the `is` and `as` operators.",
+      "group_id": "dotnet-type-semantics",
+      "original_group_id": "dotnet-type-semantics",
+      "canonical_id": "S01-Q008"
+    },
+    {
+      "source_id": "S01-Q009",
+      "source_ref": "sources/01-csharp-dotnet.md#q009",
+      "kind": "numbered",
+      "original": "Compare `IEnumerable`, arrays, `IList`, and `List`.",
+      "group_id": "dotnet-collections-delegates",
+      "original_group_id": "dotnet-collections-delegates",
+      "canonical_id": "S01-Q009"
+    },
+    {
+      "source_id": "S01-Q010",
+      "source_ref": "sources/01-csharp-dotnet.md#q010",
+      "kind": "numbered",
+      "original": "Compare `IEnumerable` and `IQueryable`.",
+      "group_id": "ef-query-execution",
+      "original_group_id": "ef-query-execution",
+      "canonical_id": "S01-Q010"
+    },
+    {
+      "source_id": "S01-Q011",
+      "source_ref": "sources/01-csharp-dotnet.md#q011",
+      "kind": "numbered",
+      "original": "Explain value types and reference types.",
+      "group_id": "dotnet-type-semantics",
+      "original_group_id": "dotnet-type-semantics",
+      "canonical_id": "S01-Q011"
+    },
+    {
+      "source_id": "S01-Q012",
+      "source_ref": "sources/01-csharp-dotnet.md#q012",
+      "kind": "numbered",
+      "original": "What class types are available in C# and how do they differ?",
+      "group_id": "dotnet-members-inheritance",
+      "original_group_id": "dotnet-members-inheritance",
+      "canonical_id": "S01-Q012"
+    },
+    {
+      "source_id": "S01-Q013",
+      "source_ref": "sources/01-csharp-dotnet.md#q013",
+      "kind": "numbered",
+      "original": "Explain `internal` accessibility.",
+      "group_id": "dotnet-members-inheritance",
+      "original_group_id": "dotnet-members-inheritance",
+      "canonical_id": "S01-Q013"
+    },
+    {
+      "source_id": "S01-Q014",
+      "source_ref": "sources/01-csharp-dotnet.md#q014",
+      "kind": "numbered",
+      "original": "Explain accessibility rules for interface members.",
+      "group_id": "dotnet-members-inheritance",
+      "original_group_id": "dotnet-members-inheritance",
+      "canonical_id": "S01-Q014"
+    },
+    {
+      "source_id": "S01-Q015",
+      "source_ref": "sources/01-csharp-dotnet.md#q015",
+      "kind": "numbered",
+      "original": "What is a static constructor used for?",
+      "group_id": "dotnet-members-inheritance",
+      "original_group_id": "dotnet-members-inheritance",
+      "canonical_id": "S01-Q015"
+    },
+    {
+      "source_id": "S01-Q016",
+      "source_ref": "sources/01-csharp-dotnet.md#q016",
+      "kind": "numbered",
+      "original": "Compare an abstract class with a regular class.",
+      "group_id": "dotnet-members-inheritance",
+      "original_group_id": "dotnet-members-inheritance",
+      "canonical_id": "S01-Q016"
+    },
+    {
+      "source_id": "S01-Q017",
+      "source_ref": "sources/01-csharp-dotnet.md#q017",
+      "kind": "numbered",
+      "original": "Explain restrictions involving `abstract`, `sealed`, and `static` classes.",
+      "group_id": "dotnet-members-inheritance",
+      "original_group_id": "dotnet-members-inheritance",
+      "canonical_id": "S01-Q017"
+    },
+    {
+      "source_id": "S01-Q018",
+      "source_ref": "sources/01-csharp-dotnet.md#q018",
+      "kind": "numbered",
+      "original": "Compare overriding and overloading.",
+      "group_id": "dotnet-members-inheritance",
+      "original_group_id": "dotnet-members-inheritance",
+      "canonical_id": "S01-Q018"
+    },
+    {
+      "source_id": "S01-Q019",
+      "source_ref": "sources/01-csharp-dotnet.md#q019",
+      "kind": "numbered",
+      "original": "Compare `string` and `StringBuilder`.",
+      "group_id": "dotnet-collections-delegates",
+      "original_group_id": "dotnet-collections-delegates",
+      "canonical_id": "S01-Q019"
+    },
+    {
+      "source_id": "S01-Q020",
+      "source_ref": "sources/01-csharp-dotnet.md#q020",
+      "kind": "numbered",
+      "original": "Explain equality semantics for value and reference types.",
+      "group_id": "dotnet-type-semantics",
+      "original_group_id": "dotnet-type-semantics",
+      "canonical_id": "S01-Q020"
+    },
+    {
+      "source_id": "S01-Q021",
+      "source_ref": "sources/01-csharp-dotnet.md#q021",
+      "kind": "numbered",
+      "original": "What collections do you commonly use and why?",
+      "group_id": "dotnet-collections-delegates",
+      "original_group_id": "dotnet-collections-delegates",
+      "canonical_id": "S01-Q021"
+    },
+    {
+      "source_id": "S01-Q022",
+      "source_ref": "sources/01-csharp-dotnet.md#q022",
+      "kind": "numbered",
+      "original": "When would you choose `Dictionary` or `HashSet`?",
+      "group_id": "dotnet-collections-delegates",
+      "original_group_id": "dotnet-collections-delegates",
+      "canonical_id": "S01-Q022"
+    },
+    {
+      "source_id": "S01-Q023",
+      "source_ref": "sources/01-csharp-dotnet.md#q023",
+      "kind": "numbered",
+      "original": "Explain delegates, `Action`, `Func`, and `Predicate`.",
+      "group_id": "dotnet-collections-delegates",
+      "original_group_id": "dotnet-collections-delegates",
+      "canonical_id": "S01-Q023"
+    },
+    {
+      "source_id": "S01-Q024",
+      "source_ref": "sources/01-csharp-dotnet.md#q024",
+      "kind": "numbered",
+      "original": "How does `async`/`await` work?",
+      "group_id": "dotnet-async-io",
+      "original_group_id": "dotnet-async-io",
+      "canonical_id": "S01-Q024"
+    },
+    {
+      "source_id": "S01-Q025",
+      "source_ref": "sources/01-csharp-dotnet.md#q025",
+      "kind": "numbered",
+      "original": "Compare `Task` and `Thread`.",
+      "group_id": "dotnet-async-io",
+      "original_group_id": "dotnet-async-io",
+      "canonical_id": "S01-Q025"
+    },
+    {
+      "source_id": "S01-Q026",
+      "source_ref": "sources/01-csharp-dotnet.md#q026",
+      "kind": "numbered",
+      "original": "How does asynchronous I/O differ from traditional threading?",
+      "group_id": "dotnet-async-io",
+      "original_group_id": "dotnet-async-io",
+      "canonical_id": "S01-Q026"
+    },
+    {
+      "source_id": "S01-Q030",
+      "source_ref": "sources/01-csharp-dotnet.md#q030",
+      "kind": "numbered",
+      "original": "How do exceptions propagate through asynchronous code?",
+      "group_id": "dotnet-async-io",
+      "original_group_id": "dotnet-async-io",
+      "canonical_id": "S01-Q030"
+    },
+    {
+      "source_id": "S01-Q031",
+      "source_ref": "sources/01-csharp-dotnet.md#q031",
+      "kind": "numbered",
+      "original": "When should CPU-bound work use parallelism rather than asynchronous I/O?",
+      "group_id": "dotnet-async-io",
+      "original_group_id": "dotnet-async-io",
+      "canonical_id": "S01-Q031"
+    },
+    {
+      "source_id": "S01-Q027",
+      "source_ref": "sources/01-csharp-dotnet.md#q027",
+      "kind": "numbered",
+      "original": "When can blocking asynchronous code cause deadlocks or ThreadPool starvation?",
+      "group_id": "dotnet-threadpool-starvation",
+      "original_group_id": "dotnet-threadpool-starvation",
+      "canonical_id": "S01-Q027"
+    },
+    {
+      "source_id": "S01-Q028",
+      "source_ref": "sources/01-csharp-dotnet.md#q028",
+      "kind": "numbered",
+      "original": "How would you diagnose a memory leak in a .NET application?",
+      "group_id": "dotnet-memory-lifetime",
+      "original_group_id": "dotnet-memory-lifetime",
+      "canonical_id": "S01-Q028"
+    },
+    {
+      "source_id": "S01-Q029",
+      "source_ref": "sources/01-csharp-dotnet.md#q029",
+      "kind": "numbered",
+      "original": "What roles do Garbage Collector, `IDisposable`, and deterministic cleanup play?",
+      "group_id": "dotnet-memory-lifetime",
+      "original_group_id": "dotnet-memory-lifetime",
+      "canonical_id": "S01-Q029"
+    },
+    {
+      "source_id": "S01-Q032",
+      "source_ref": "sources/01-csharp-dotnet.md#q032",
+      "kind": "numbered",
+      "original": "Compare Dependency Inversion, Inversion of Control, and Dependency Injection.",
+      "group_id": "dotnet-di-solid",
+      "original_group_id": "dotnet-di-solid",
+      "canonical_id": "S01-Q032"
+    },
+    {
+      "source_id": "S01-Q033",
+      "source_ref": "sources/01-csharp-dotnet.md#q033",
+      "kind": "numbered",
+      "original": "Explain `Transient`, `Scoped`, and `Singleton` lifetimes.",
+      "group_id": "dotnet-di-solid",
+      "original_group_id": "dotnet-di-solid",
+      "canonical_id": "S01-Q033"
+    },
+    {
+      "source_id": "S01-Q034",
+      "source_ref": "sources/01-csharp-dotnet.md#q034",
+      "kind": "numbered",
+      "original": "What problems occur when a longer-lived service captures a shorter-lived dependency?",
+      "group_id": "dotnet-di-solid",
+      "original_group_id": "dotnet-di-solid",
+      "canonical_id": "S01-Q034"
+    },
+    {
+      "source_id": "S01-Q035",
+      "source_ref": "sources/01-csharp-dotnet.md#q035",
+      "kind": "numbered",
+      "original": "Explain the SOLID principles with production examples.",
+      "group_id": "dotnet-di-solid",
+      "original_group_id": "dotnet-di-solid",
+      "canonical_id": "S01-Q035"
+    },
+    {
+      "source_id": "S01-Q036",
+      "source_ref": "sources/01-csharp-dotnet.md#q036",
+      "kind": "numbered",
+      "original": "Compare Liskov Substitution and Interface Segregation.",
+      "group_id": "dotnet-di-solid",
+      "original_group_id": "dotnet-di-solid",
+      "canonical_id": "S01-Q036"
+    },
+    {
+      "source_id": "S01-Q037",
+      "source_ref": "sources/01-csharp-dotnet.md#q037",
+      "kind": "numbered",
+      "original": "Explain Dependency Inversion versus Dependency Injection.",
+      "group_id": "dotnet-di-solid",
+      "original_group_id": "dotnet-di-solid",
+      "canonical_id": "S01-Q032"
+    },
+    {
+      "source_id": "S01-Q038",
+      "source_ref": "sources/01-csharp-dotnet.md#q038",
+      "kind": "numbered",
+      "original": "Give an example of violating Open/Closed Principle and how you would refactor it.",
+      "group_id": "dotnet-di-solid",
+      "original_group_id": "dotnet-di-solid",
+      "canonical_id": "S01-Q038"
+    },
+    {
+      "source_id": "S01-Q039",
+      "source_ref": "sources/01-csharp-dotnet.md#q039",
+      "kind": "numbered",
+      "original": "Explain Repository Pattern, Generic Repository Pattern, and Unit of Work.",
+      "group_id": "ef-context-concurrency",
+      "original_group_id": "ef-context-concurrency",
+      "canonical_id": "S01-Q039"
+    },
+    {
+      "source_id": "S01-Q040",
+      "source_ref": "sources/01-csharp-dotnet.md#q040",
+      "kind": "numbered",
+      "original": "EF Core already implements repository/unit-of-work-like behavior. When does an additional repository abstraction help, and when does it add unnecessary complexity?",
+      "group_id": "ef-context-concurrency",
+      "original_group_id": "ef-context-concurrency",
+      "canonical_id": "S01-Q040"
+    },
+    {
+      "source_id": "S01-Q041",
+      "source_ref": "sources/01-csharp-dotnet.md#q041",
+      "kind": "numbered",
+      "original": "When would you use Factory, Strategy, or Template Method?",
+      "group_id": "dotnet-behavioral-patterns",
+      "original_group_id": "dotnet-behavioral-patterns",
+      "canonical_id": "S01-Q041"
+    },
+    {
+      "source_id": "S01-Q042",
+      "source_ref": "sources/01-csharp-dotnet.md#q042",
+      "kind": "numbered",
+      "original": "Explain Clean Architecture and dependency direction.",
+      "group_id": "architecture-boundaries",
+      "original_group_id": "architecture-boundaries",
+      "canonical_id": "S01-Q042"
+    },
+    {
+      "source_id": "S01-Q043",
+      "source_ref": "sources/01-csharp-dotnet.md#q043",
+      "kind": "numbered",
+      "original": "What caching approaches are available in .NET applications?",
+      "group_id": "architecture-cache-replicas",
+      "original_group_id": "architecture-cache-replicas",
+      "canonical_id": "S01-Q043"
+    },
+    {
+      "source_id": "S01-Q044",
+      "source_ref": "sources/01-csharp-dotnet.md#q044",
+      "kind": "numbered",
+      "original": "Compare in-memory cache and distributed cache.",
+      "group_id": "architecture-cache-replicas",
+      "original_group_id": "architecture-cache-replicas",
+      "canonical_id": "S01-Q044"
+    },
+    {
+      "source_id": "S01-Q045",
+      "source_ref": "sources/01-csharp-dotnet.md#q045",
+      "kind": "numbered",
+      "original": "What changes when the application runs on multiple replicas?",
+      "group_id": "architecture-cache-replicas",
+      "original_group_id": "architecture-cache-replicas",
+      "canonical_id": "S01-Q045"
+    },
+    {
+      "source_id": "S01-Q046",
+      "source_ref": "sources/01-csharp-dotnet.md#q046",
+      "kind": "numbered",
+      "original": "How would you identify a bottleneck under a large number of concurrent requests?",
+      "group_id": "observability-request-diagnosis",
+      "original_group_id": "observability-request-diagnosis",
+      "canonical_id": "S01-Q046"
+    },
+    {
+      "source_id": "S01-Q047",
+      "source_ref": "sources/01-csharp-dotnet.md#q047",
+      "kind": "numbered",
+      "original": "Discuss load balancing, caching, queues, backpressure, and horizontal scaling as different responses to load.",
+      "group_id": "reliability-dependency-failures",
+      "original_group_id": "reliability-dependency-failures",
+      "canonical_id": "S01-Q047"
+    },
+    {
+      "source_id": "S02-Q001",
+      "source_ref": "sources/02-aspnet-api-ef.md#q001",
+      "kind": "numbered",
+      "original": "What is middleware and how does the middleware pipeline work?",
+      "group_id": "aspnet-request-pipeline",
+      "original_group_id": "aspnet-request-pipeline",
+      "canonical_id": "S02-Q001"
+    },
+    {
+      "source_id": "S02-Q002",
+      "source_ref": "sources/02-aspnet-api-ef.md#q002",
+      "kind": "numbered",
+      "original": "How do you implement custom middleware?",
+      "group_id": "aspnet-request-pipeline",
+      "original_group_id": "aspnet-request-pipeline",
+      "canonical_id": "S02-Q002"
+    },
+    {
+      "source_id": "S02-Q003",
+      "source_ref": "sources/02-aspnet-api-ef.md#q003",
+      "kind": "numbered",
+      "original": "How does middleware ordering affect routing, authentication, authorization and exception handling?",
+      "group_id": "aspnet-request-pipeline",
+      "original_group_id": "aspnet-request-pipeline",
+      "canonical_id": "S02-Q003"
+    },
+    {
+      "source_id": "S02-Q004",
+      "source_ref": "sources/02-aspnet-api-ef.md#q004",
+      "kind": "numbered",
+      "original": "Compare middleware and MVC filters.",
+      "group_id": "aspnet-request-pipeline",
+      "original_group_id": "aspnet-request-pipeline",
+      "canonical_id": "S02-Q004"
+    },
+    {
+      "source_id": "S02-Q005",
+      "source_ref": "sources/02-aspnet-api-ef.md#q005",
+      "kind": "numbered",
+      "original": "What are action filters and when should they be used?",
+      "group_id": "aspnet-request-pipeline",
+      "original_group_id": "aspnet-request-pipeline",
+      "canonical_id": "S02-Q005"
+    },
+    {
+      "source_id": "S02-Q006",
+      "source_ref": "sources/02-aspnet-api-ef.md#q006",
+      "kind": "numbered",
+      "original": "Draw the end-to-end lifecycle of a request from client to API, application layer, database/external dependency and response.",
+      "group_id": "aspnet-request-pipeline",
+      "original_group_id": "aspnet-request-pipeline",
+      "canonical_id": "S02-Q006"
+    },
+    {
+      "source_id": "S02-Q007",
+      "source_ref": "sources/02-aspnet-api-ef.md#q007",
+      "kind": "numbered",
+      "original": "Explain MVC routing.",
+      "group_id": "aspnet-request-pipeline",
+      "original_group_id": "aspnet-request-pipeline",
+      "canonical_id": "S02-Q007"
+    },
+    {
+      "source_id": "S02-Q008",
+      "source_ref": "sources/02-aspnet-api-ef.md#q008",
+      "kind": "numbered",
+      "original": "Explain the MVC request/page lifecycle.",
+      "group_id": "aspnet-request-pipeline",
+      "original_group_id": "aspnet-request-pipeline",
+      "canonical_id": "S02-Q008"
+    },
+    {
+      "source_id": "S02-Q009",
+      "source_ref": "sources/02-aspnet-api-ef.md#q009",
+      "kind": "numbered",
+      "original": "How do you handle unhandled exceptions in an API?",
+      "group_id": "aspnet-request-pipeline",
+      "original_group_id": "aspnet-request-pipeline",
+      "canonical_id": "S02-Q009"
+    },
+    {
+      "source_id": "S02-Q010",
+      "source_ref": "sources/02-aspnet-api-ef.md#q010",
+      "kind": "numbered",
+      "original": "How should validation be implemented for incoming models?",
+      "group_id": "aspnet-http-contracts",
+      "original_group_id": "aspnet-http-contracts",
+      "canonical_id": "S02-Q010"
+    },
+    {
+      "source_id": "S02-Q011",
+      "source_ref": "sources/02-aspnet-api-ef.md#q011",
+      "kind": "numbered",
+      "original": "What is the difference between RESTful APIs and server-rendered MVC?",
+      "group_id": "aspnet-http-contracts",
+      "original_group_id": "aspnet-http-contracts",
+      "canonical_id": "S02-Q011"
+    },
+    {
+      "source_id": "S02-Q012",
+      "source_ref": "sources/02-aspnet-api-ef.md#q012",
+      "kind": "numbered",
+      "original": "What are the advantages and trade-offs of REST APIs?",
+      "group_id": "aspnet-http-contracts",
+      "original_group_id": "aspnet-http-contracts",
+      "canonical_id": "S02-Q012"
+    },
+    {
+      "source_id": "S02-Q013",
+      "source_ref": "sources/02-aspnet-api-ef.md#q013",
+      "kind": "numbered",
+      "original": "Which HTTP method should be used for file upload and why?",
+      "group_id": "aspnet-http-contracts",
+      "original_group_id": "aspnet-http-contracts",
+      "canonical_id": "S02-Q013"
+    },
+    {
+      "source_id": "S02-Q014",
+      "source_ref": "sources/02-aspnet-api-ef.md#q014",
+      "kind": "numbered",
+      "original": "When is session state appropriate?",
+      "group_id": "aspnet-http-contracts",
+      "original_group_id": "aspnet-http-contracts",
+      "canonical_id": "S02-Q014"
+    },
+    {
+      "source_id": "S02-Q015",
+      "source_ref": "sources/02-aspnet-api-ef.md#q015",
+      "kind": "numbered",
+      "original": "Which HTTP status codes represent redirects and how do temporary and permanent redirects differ?",
+      "group_id": "aspnet-http-contracts",
+      "original_group_id": "aspnet-http-contracts",
+      "canonical_id": "S02-Q015"
+    },
+    {
+      "source_id": "S02-Q016",
+      "source_ref": "sources/02-aspnet-api-ef.md#q016",
+      "kind": "numbered",
+      "original": "Explain `ViewData`, `ViewBag`, and `TempData` in MVC-style applications.",
+      "group_id": "aspnet-http-contracts",
+      "original_group_id": "aspnet-http-contracts",
+      "canonical_id": "S02-Q016"
+    },
+    {
+      "source_id": "S02-Q017",
+      "source_ref": "sources/02-aspnet-api-ef.md#q017",
+      "kind": "numbered",
+      "original": "How would you design a long-running API operation so the caller does not wait for processing to complete?",
+      "group_id": "aspnet-background-jobs",
+      "original_group_id": "aspnet-background-jobs",
+      "canonical_id": "S02-Q017"
+    },
+    {
+      "source_id": "S02-Q018",
+      "source_ref": "sources/02-aspnet-api-ef.md#q018",
+      "kind": "numbered",
+      "original": "How do you make an API operation idempotent when clients can retry or spam the same request?",
+      "group_id": "aspnet-idempotent-operations",
+      "original_group_id": "aspnet-idempotent-operations",
+      "canonical_id": "S02-Q018"
+    },
+    {
+      "source_id": "S02-Q019",
+      "source_ref": "sources/02-aspnet-api-ef.md#q019",
+      "kind": "numbered",
+      "original": "When should work move from the request path to a background job?",
+      "group_id": "aspnet-background-jobs",
+      "original_group_id": "aspnet-background-jobs",
+      "canonical_id": "S02-Q019"
+    },
+    {
+      "source_id": "S02-Q020",
+      "source_ref": "sources/02-aspnet-api-ef.md#q020",
+      "kind": "numbered",
+      "original": "Compare `IHostedService`, `BackgroundService`, scheduled jobs and external queue-based workers.",
+      "group_id": "aspnet-background-jobs",
+      "original_group_id": "aspnet-background-jobs",
+      "canonical_id": "S02-Q020"
+    },
+    {
+      "source_id": "S02-Q021",
+      "source_ref": "sources/02-aspnet-api-ef.md#q021",
+      "kind": "numbered",
+      "original": "How would you schedule recurring work?",
+      "group_id": "aspnet-background-jobs",
+      "original_group_id": "aspnet-background-jobs",
+      "canonical_id": "S02-Q021"
+    },
+    {
+      "source_id": "S02-Q022",
+      "source_ref": "sources/02-aspnet-api-ef.md#q022",
+      "kind": "numbered",
+      "original": "How do you handle retries, cancellation, graceful shutdown and duplicate execution?",
+      "group_id": "aspnet-background-jobs",
+      "original_group_id": "aspnet-background-jobs",
+      "canonical_id": "S02-Q022"
+    },
+    {
+      "source_id": "S02-Q023",
+      "source_ref": "sources/02-aspnet-api-ef.md#q023",
+      "kind": "numbered",
+      "original": "What changes when multiple application instances run the same scheduler?",
+      "group_id": "aspnet-background-jobs",
+      "original_group_id": "aspnet-background-jobs",
+      "canonical_id": "S02-Q023"
+    },
+    {
+      "source_id": "S02-Q024",
+      "source_ref": "sources/02-aspnet-api-ef.md#q024",
+      "kind": "numbered",
+      "original": "Compare `First`, `FirstOrDefault`, `Single`, and `SingleOrDefault`.",
+      "group_id": "ef-query-execution",
+      "original_group_id": "ef-query-execution",
+      "canonical_id": "S02-Q024"
+    },
+    {
+      "source_id": "S02-Q025",
+      "source_ref": "sources/02-aspnet-api-ef.md#q025",
+      "kind": "numbered",
+      "original": "Compare `IEnumerable` and `IQueryable` from an execution perspective.",
+      "group_id": "ef-query-execution",
+      "original_group_id": "ef-query-execution",
+      "canonical_id": "S01-Q010"
+    },
+    {
+      "source_id": "S02-Q026",
+      "source_ref": "sources/02-aspnet-api-ef.md#q026",
+      "kind": "numbered",
+      "original": "Explain deferred execution and query translation.",
+      "group_id": "ef-query-execution",
+      "original_group_id": "ef-query-execution",
+      "canonical_id": "S02-Q026"
+    },
+    {
+      "source_id": "S02-Q027",
+      "source_ref": "sources/02-aspnet-api-ef.md#q027",
+      "kind": "numbered",
+      "original": "Compare Lazy Loading, Eager Loading, and Explicit Loading.",
+      "group_id": "ef-loading-performance",
+      "original_group_id": "ef-loading-performance",
+      "canonical_id": "S02-Q027"
+    },
+    {
+      "source_id": "S02-Q028",
+      "source_ref": "sources/02-aspnet-api-ef.md#q028",
+      "kind": "numbered",
+      "original": "How do you configure Eager Loading?",
+      "group_id": "ef-loading-performance",
+      "original_group_id": "ef-loading-performance",
+      "canonical_id": "S02-Q028"
+    },
+    {
+      "source_id": "S02-Q029",
+      "source_ref": "sources/02-aspnet-api-ef.md#q029",
+      "kind": "numbered",
+      "original": "What does `AsNoTracking()` do and when should it be used?",
+      "group_id": "ef-loading-performance",
+      "original_group_id": "ef-loading-performance",
+      "canonical_id": "S02-Q029"
+    },
+    {
+      "source_id": "S02-Q030",
+      "source_ref": "sources/02-aspnet-api-ef.md#q030",
+      "kind": "numbered",
+      "original": "Explain server-side versus client-side evaluation.",
+      "group_id": "ef-loading-performance",
+      "original_group_id": "ef-loading-performance",
+      "canonical_id": "S02-Q030"
+    },
+    {
+      "source_id": "S02-Q031",
+      "source_ref": "sources/02-aspnet-api-ef.md#q031",
+      "kind": "numbered",
+      "original": "How do projection and generated SQL affect performance?",
+      "group_id": "ef-loading-performance",
+      "original_group_id": "ef-loading-performance",
+      "canonical_id": "S02-Q031"
+    },
+    {
+      "source_id": "S02-Q032",
+      "source_ref": "sources/02-aspnet-api-ef.md#q032",
+      "kind": "numbered",
+      "original": "What causes N+1 queries and how do you detect them?",
+      "group_id": "ef-loading-performance",
+      "original_group_id": "ef-loading-performance",
+      "canonical_id": "S02-Q032"
+    },
+    {
+      "source_id": "S02-Q033",
+      "source_ref": "sources/02-aspnet-api-ef.md#q033",
+      "kind": "numbered",
+      "original": "Explain optimistic concurrency and row-version based conflict detection.",
+      "group_id": "ef-context-concurrency",
+      "original_group_id": "ef-context-concurrency",
+      "canonical_id": "S02-Q033"
+    },
+    {
+      "source_id": "S02-Q034",
+      "source_ref": "sources/02-aspnet-api-ef.md#q034",
+      "kind": "numbered",
+      "original": "How should `DbContext` lifetime be managed in a web application?",
+      "group_id": "ef-context-concurrency",
+      "original_group_id": "ef-context-concurrency",
+      "canonical_id": "S02-Q034"
+    },
+    {
+      "source_id": "S02-Q035",
+      "source_ref": "sources/02-aspnet-api-ef.md#q035",
+      "kind": "numbered",
+      "original": "When is raw SQL or a stored procedure justified instead of LINQ?",
+      "group_id": "ef-context-concurrency",
+      "original_group_id": "ef-context-concurrency",
+      "canonical_id": "S02-Q035"
+    },
+    {
+      "source_id": "S03-Q001",
+      "source_ref": "sources/03-sql-data-performance.md#q001",
+      "kind": "numbered",
+      "original": "Compare stored procedures, functions and views.",
+      "group_id": "sql-objects-boundaries",
+      "original_group_id": "sql-objects-boundaries",
+      "canonical_id": "S03-Q001"
+    },
+    {
+      "source_id": "S03-Q002",
+      "source_ref": "sources/03-sql-data-performance.md#q002",
+      "kind": "numbered",
+      "original": "Why would you use a stored procedure?",
+      "group_id": "sql-objects-boundaries",
+      "original_group_id": "sql-objects-boundaries",
+      "canonical_id": "S03-Q002"
+    },
+    {
+      "source_id": "S03-Q003",
+      "source_ref": "sources/03-sql-data-performance.md#q003",
+      "kind": "numbered",
+      "original": "Why would you use a view?",
+      "group_id": "sql-objects-boundaries",
+      "original_group_id": "sql-objects-boundaries",
+      "canonical_id": "S03-Q003"
+    },
+    {
+      "source_id": "S03-Q004",
+      "source_ref": "sources/03-sql-data-performance.md#q004",
+      "kind": "numbered",
+      "original": "When should logic live in a stored procedure versus application code?",
+      "group_id": "sql-objects-boundaries",
+      "original_group_id": "sql-objects-boundaries",
+      "canonical_id": "S03-Q004"
+    },
+    {
+      "source_id": "S03-Q005",
+      "source_ref": "sources/03-sql-data-performance.md#q005",
+      "kind": "numbered",
+      "original": "How are parameters passed to stored procedures?",
+      "group_id": "sql-objects-boundaries",
+      "original_group_id": "sql-objects-boundaries",
+      "canonical_id": "S03-Q005"
+    },
+    {
+      "source_id": "S03-Q006",
+      "source_ref": "sources/03-sql-data-performance.md#q006",
+      "kind": "numbered",
+      "original": "What are database triggers, what types exist, and when are they appropriate?",
+      "group_id": "sql-objects-boundaries",
+      "original_group_id": "sql-objects-boundaries",
+      "canonical_id": "S03-Q006"
+    },
+    {
+      "source_id": "S03-Q007",
+      "source_ref": "sources/03-sql-data-performance.md#q007",
+      "kind": "numbered",
+      "original": "What index types are commonly used in SQL Server?",
+      "group_id": "sql-index-design",
+      "original_group_id": "sql-index-design",
+      "canonical_id": "S03-Q007"
+    },
+    {
+      "source_id": "S03-Q008",
+      "source_ref": "sources/03-sql-data-performance.md#q008",
+      "kind": "numbered",
+      "original": "Compare clustered and nonclustered indexes.",
+      "group_id": "sql-index-design",
+      "original_group_id": "sql-index-design",
+      "canonical_id": "S03-Q008"
+    },
+    {
+      "source_id": "S03-Q009",
+      "source_ref": "sources/03-sql-data-performance.md#q009",
+      "kind": "numbered",
+      "original": "What are the advantages and costs of indexes?",
+      "group_id": "sql-index-design",
+      "original_group_id": "sql-index-design",
+      "canonical_id": "S03-Q009"
+    },
+    {
+      "source_id": "S03-Q010",
+      "source_ref": "sources/03-sql-data-performance.md#q010",
+      "kind": "numbered",
+      "original": "How does an index work conceptually?",
+      "group_id": "sql-index-design",
+      "original_group_id": "sql-index-design",
+      "canonical_id": "S03-Q010"
+    },
+    {
+      "source_id": "S03-Q011",
+      "source_ref": "sources/03-sql-data-performance.md#q011",
+      "kind": "numbered",
+      "original": "When should you create an index?",
+      "group_id": "sql-index-design",
+      "original_group_id": "sql-index-design",
+      "canonical_id": "S03-Q011"
+    },
+    {
+      "source_id": "S03-Q012",
+      "source_ref": "sources/03-sql-data-performance.md#q012",
+      "kind": "numbered",
+      "original": "When can an index make the system slower?",
+      "group_id": "sql-index-design",
+      "original_group_id": "sql-index-design",
+      "canonical_id": "S03-Q012"
+    },
+    {
+      "source_id": "S03-Q013",
+      "source_ref": "sources/03-sql-data-performance.md#q013",
+      "kind": "numbered",
+      "original": "How do composite index key order and selectivity affect a query?",
+      "group_id": "sql-index-design",
+      "original_group_id": "sql-index-design",
+      "canonical_id": "S03-Q013"
+    },
+    {
+      "source_id": "S03-Q014",
+      "source_ref": "sources/03-sql-data-performance.md#q014",
+      "kind": "numbered",
+      "original": "What is a covering index and when is `INCLUDE` useful?",
+      "group_id": "sql-index-design",
+      "original_group_id": "sql-index-design",
+      "canonical_id": "S03-Q014"
+    },
+    {
+      "source_id": "S03-Q015",
+      "source_ref": "sources/03-sql-data-performance.md#q015",
+      "kind": "numbered",
+      "original": "Explain index seek, scan and key lookup.",
+      "group_id": "sql-index-design",
+      "original_group_id": "sql-index-design",
+      "canonical_id": "S03-Q015"
+    },
+    {
+      "source_id": "S03-Q016",
+      "source_ref": "sources/03-sql-data-performance.md#q016",
+      "kind": "numbered",
+      "original": "How do write-heavy workloads change your indexing strategy?",
+      "group_id": "sql-index-design",
+      "original_group_id": "sql-index-design",
+      "canonical_id": "S03-Q016"
+    },
+    {
+      "source_id": "S03-Q017",
+      "source_ref": "sources/03-sql-data-performance.md#q017",
+      "kind": "numbered",
+      "original": "Explain transactions and commit/rollback behavior.",
+      "group_id": "sql-transactions-concurrency",
+      "original_group_id": "sql-transactions-concurrency",
+      "canonical_id": "S03-Q017"
+    },
+    {
+      "source_id": "S03-Q018",
+      "source_ref": "sources/03-sql-data-performance.md#q018",
+      "kind": "numbered",
+      "original": "Explain database concurrency.",
+      "group_id": "sql-transactions-concurrency",
+      "original_group_id": "sql-transactions-concurrency",
+      "canonical_id": "S03-Q018"
+    },
+    {
+      "source_id": "S03-Q019",
+      "source_ref": "sources/03-sql-data-performance.md#q019",
+      "kind": "numbered",
+      "original": "Compare optimistic concurrency and pessimistic locking.",
+      "group_id": "sql-transactions-concurrency",
+      "original_group_id": "sql-transactions-concurrency",
+      "canonical_id": "S03-Q019"
+    },
+    {
+      "source_id": "S03-Q020",
+      "source_ref": "sources/03-sql-data-performance.md#q020",
+      "kind": "numbered",
+      "original": "Explain row versioning.",
+      "group_id": "sql-transactions-concurrency",
+      "original_group_id": "sql-transactions-concurrency",
+      "canonical_id": "S03-Q020"
+    },
+    {
+      "source_id": "S03-Q021",
+      "source_ref": "sources/03-sql-data-performance.md#q021",
+      "kind": "numbered",
+      "original": "Explain common transaction isolation levels and their trade-offs.",
+      "group_id": "sql-transactions-concurrency",
+      "original_group_id": "sql-transactions-concurrency",
+      "canonical_id": "S03-Q021"
+    },
+    {
+      "source_id": "S03-Q022",
+      "source_ref": "sources/03-sql-data-performance.md#q022",
+      "kind": "numbered",
+      "original": "How do higher isolation levels affect blocking and throughput?",
+      "group_id": "sql-transactions-concurrency",
+      "original_group_id": "sql-transactions-concurrency",
+      "canonical_id": "S03-Q022"
+    },
+    {
+      "source_id": "S03-Q023",
+      "source_ref": "sources/03-sql-data-performance.md#q023",
+      "kind": "numbered",
+      "original": "What is a deadlock?",
+      "group_id": "sql-transactions-concurrency",
+      "original_group_id": "sql-transactions-concurrency",
+      "canonical_id": "S03-Q023"
+    },
+    {
+      "source_id": "S03-Q024",
+      "source_ref": "sources/03-sql-data-performance.md#q024",
+      "kind": "numbered",
+      "original": "How would you diagnose the root cause of a deadlock?",
+      "group_id": "sql-transactions-concurrency",
+      "original_group_id": "sql-transactions-concurrency",
+      "canonical_id": "S03-Q024"
+    },
+    {
+      "source_id": "S03-Q025",
+      "source_ref": "sources/03-sql-data-performance.md#q025",
+      "kind": "numbered",
+      "original": "How would you reduce deadlock probability?",
+      "group_id": "sql-transactions-concurrency",
+      "original_group_id": "sql-transactions-concurrency",
+      "canonical_id": "S03-Q025"
+    },
+    {
+      "source_id": "S03-Q026",
+      "source_ref": "sources/03-sql-data-performance.md#q026",
+      "kind": "numbered",
+      "original": "How should applications respond when SQL Server selects a deadlock victim?",
+      "group_id": "sql-transactions-concurrency",
+      "original_group_id": "sql-transactions-concurrency",
+      "canonical_id": "S03-Q026"
+    },
+    {
+      "source_id": "S03-Q027",
+      "source_ref": "sources/03-sql-data-performance.md#q027",
+      "kind": "numbered",
+      "original": "How would you insert 10,000+ records efficiently?",
+      "group_id": "sql-bulk-import",
+      "original_group_id": "sql-bulk-import",
+      "canonical_id": "S03-Q027"
+    },
+    {
+      "source_id": "S03-Q028",
+      "source_ref": "sources/03-sql-data-performance.md#q028",
+      "kind": "numbered",
+      "original": "Compare row-by-row insert, batching and bulk copy approaches.",
+      "group_id": "sql-bulk-import",
+      "original_group_id": "sql-bulk-import",
+      "canonical_id": "S03-Q028"
+    },
+    {
+      "source_id": "S03-Q029",
+      "source_ref": "sources/03-sql-data-performance.md#q029",
+      "kind": "numbered",
+      "original": "How do transaction size, logging, indexes and constraints affect bulk-write performance?",
+      "group_id": "sql-bulk-import",
+      "original_group_id": "sql-bulk-import",
+      "canonical_id": "S03-Q029"
+    },
+    {
+      "source_id": "S03-Q030",
+      "source_ref": "sources/03-sql-data-performance.md#q030",
+      "kind": "numbered",
+      "original": "How would you validate and import a large dataset without excessive memory usage?",
+      "group_id": "sql-bulk-import",
+      "original_group_id": "sql-bulk-import",
+      "canonical_id": "S03-Q030"
+    },
+    {
+      "source_id": "S03-Q031",
+      "source_ref": "sources/03-sql-data-performance.md#q031",
+      "kind": "numbered",
+      "original": "If processing fails late in the import, when should you rollback everything versus retain valid rows and report failures?",
+      "group_id": "sql-bulk-import",
+      "original_group_id": "sql-bulk-import",
+      "canonical_id": "S03-Q031"
+    },
+    {
+      "source_id": "S03-Q032",
+      "source_ref": "sources/03-sql-data-performance.md#q032",
+      "kind": "numbered",
+      "original": "Given `Department` and `Employee` in a one-to-many relationship, return departments having more than three employees.",
+      "group_id": "algorithms-department-headcount",
+      "original_group_id": "algorithms-sql-relations",
+      "canonical_id": "S03-Q032"
+    },
+    {
+      "source_id": "S03-Q033",
+      "source_ref": "sources/03-sql-data-performance.md#q033",
+      "kind": "numbered",
+      "original": "Explain whether a `LEFT JOIN` can be rewritten as a `RIGHT JOIN` and what must change for the result set to remain equivalent.",
+      "group_id": "algorithms-sql-relations",
+      "original_group_id": "algorithms-sql-relations",
+      "canonical_id": "S03-Q033"
+    },
+    {
+      "source_id": "S03-Q034",
+      "source_ref": "sources/03-sql-data-performance.md#q034",
+      "kind": "numbered",
+      "original": "Compare primary key and unique constraints.",
+      "group_id": "algorithms-sql-relations",
+      "original_group_id": "algorithms-sql-relations",
+      "canonical_id": "S03-Q034"
+    },
+    {
+      "source_id": "S03-Q035",
+      "source_ref": "sources/03-sql-data-performance.md#q035",
+      "kind": "numbered",
+      "original": "Discuss nullable values and uniqueness semantics.",
+      "group_id": "algorithms-sql-relations",
+      "original_group_id": "algorithms-sql-relations",
+      "canonical_id": "S03-Q035"
+    },
+    {
+      "source_id": "S03-Q036",
+      "source_ref": "sources/03-sql-data-performance.md#q036",
+      "kind": "numbered",
+      "original": "Diagnose a slow stored procedure using execution evidence rather than guesswork.",
+      "group_id": "sql-query-investigation",
+      "original_group_id": "sql-query-investigation",
+      "canonical_id": "S03-Q036"
+    },
+    {
+      "source_id": "S04-Q001",
+      "source_ref": "sources/04-architecture-distributed-systems.md#q001",
+      "kind": "numbered",
+      "original": "Draw a system architecture and trace a request end-to-end.",
+      "group_id": "communication-system-explanation",
+      "original_group_id": "communication-system-explanation",
+      "canonical_id": "S04-Q001"
+    },
+    {
+      "source_id": "S04-Q002",
+      "source_ref": "sources/04-architecture-distributed-systems.md#q002",
+      "kind": "numbered",
+      "original": "Explain the technology choices and why the boundaries were selected.",
+      "group_id": "communication-system-explanation",
+      "original_group_id": "communication-system-explanation",
+      "canonical_id": "S04-Q002"
+    },
+    {
+      "source_id": "S04-Q003",
+      "source_ref": "sources/04-architecture-distributed-systems.md#q003",
+      "kind": "numbered",
+      "original": "Explain Clean Architecture and dependency direction.",
+      "group_id": "architecture-boundaries",
+      "original_group_id": "architecture-boundaries",
+      "canonical_id": "S01-Q042"
+    },
+    {
+      "source_id": "S04-Q004",
+      "source_ref": "sources/04-architecture-distributed-systems.md#q004",
+      "kind": "numbered",
+      "original": "Compare layered architecture, Clean/Onion/Hexagonal approaches and a modular monolith.",
+      "group_id": "architecture-boundaries",
+      "original_group_id": "architecture-boundaries",
+      "canonical_id": "S04-Q004"
+    },
+    {
+      "source_id": "S04-Q005",
+      "source_ref": "sources/04-architecture-distributed-systems.md#q005",
+      "kind": "numbered",
+      "original": "When should a system remain a modular monolith rather than become microservices?",
+      "group_id": "architecture-boundaries",
+      "original_group_id": "architecture-boundaries",
+      "canonical_id": "S04-Q005"
+    },
+    {
+      "source_id": "S04-Q006",
+      "source_ref": "sources/04-architecture-distributed-systems.md#q006",
+      "kind": "numbered",
+      "original": "How do you identify service boundaries?",
+      "group_id": "architecture-boundaries",
+      "original_group_id": "architecture-boundaries",
+      "canonical_id": "S04-Q006"
+    },
+    {
+      "source_id": "S04-Q007",
+      "source_ref": "sources/04-architecture-distributed-systems.md#q007",
+      "kind": "numbered",
+      "original": "Explain data ownership when services are independently deployable.",
+      "group_id": "architecture-boundaries",
+      "original_group_id": "architecture-boundaries",
+      "canonical_id": "S04-Q007"
+    },
+    {
+      "source_id": "S04-Q008",
+      "source_ref": "sources/04-architecture-distributed-systems.md#q008",
+      "kind": "numbered",
+      "original": "Define microservices beyond “small services”.",
+      "group_id": "architecture-boundaries",
+      "original_group_id": "architecture-boundaries",
+      "canonical_id": "S04-Q008"
+    },
+    {
+      "source_id": "S04-Q009",
+      "source_ref": "sources/04-architecture-distributed-systems.md#q009",
+      "kind": "numbered",
+      "original": "What benefits justify the operational complexity?",
+      "group_id": "architecture-boundaries",
+      "original_group_id": "architecture-boundaries",
+      "canonical_id": "S04-Q009"
+    },
+    {
+      "source_id": "S04-Q010",
+      "source_ref": "sources/04-architecture-distributed-systems.md#q010",
+      "kind": "numbered",
+      "original": "What common failure modes appear after splitting a monolith?",
+      "group_id": "architecture-boundaries",
+      "original_group_id": "architecture-boundaries",
+      "canonical_id": "S04-Q010"
+    },
+    {
+      "source_id": "S04-Q011",
+      "source_ref": "sources/04-architecture-distributed-systems.md#q011",
+      "kind": "numbered",
+      "original": "Compare synchronous REST/gRPC communication with asynchronous messaging.",
+      "group_id": "architecture-communication",
+      "original_group_id": "architecture-communication",
+      "canonical_id": "S04-Q011"
+    },
+    {
+      "source_id": "S04-Q012",
+      "source_ref": "sources/04-architecture-distributed-systems.md#q012",
+      "kind": "numbered",
+      "original": "How should a service behave when a downstream dependency is unavailable?",
+      "group_id": "reliability-dependency-failures",
+      "original_group_id": "reliability-dependency-failures",
+      "canonical_id": "S04-Q012"
+    },
+    {
+      "source_id": "S04-Q013",
+      "source_ref": "sources/04-architecture-distributed-systems.md#q013",
+      "kind": "numbered",
+      "original": "Discuss timeout, retry, exponential backoff, circuit breaker and retry storms.",
+      "group_id": "reliability-dependency-failures",
+      "original_group_id": "reliability-dependency-failures",
+      "canonical_id": "S04-Q013"
+    },
+    {
+      "source_id": "S04-Q014",
+      "source_ref": "sources/04-architecture-distributed-systems.md#q014",
+      "kind": "numbered",
+      "original": "Explain horizontal scaling, load balancing, backpressure and load shedding.",
+      "group_id": "architecture-communication",
+      "original_group_id": "architecture-communication",
+      "canonical_id": "S04-Q014"
+    },
+    {
+      "source_id": "S04-Q015",
+      "source_ref": "sources/04-architecture-distributed-systems.md#q015",
+      "kind": "numbered",
+      "original": "What responsibilities belong in an API Gateway or reverse proxy?",
+      "group_id": "architecture-api-gateway",
+      "original_group_id": "architecture-api-gateway",
+      "canonical_id": "S04-Q015"
+    },
+    {
+      "source_id": "S04-Q016",
+      "source_ref": "sources/04-architecture-distributed-systems.md#q016",
+      "kind": "numbered",
+      "original": "What configuration is typically required to route requests to downstream services?",
+      "group_id": "architecture-api-gateway",
+      "original_group_id": "architecture-api-gateway",
+      "canonical_id": "S04-Q016"
+    },
+    {
+      "source_id": "S04-Q017",
+      "source_ref": "sources/04-architecture-distributed-systems.md#q017",
+      "kind": "numbered",
+      "original": "How can routing/configuration change without tightly coupling every change to a gateway redeployment?",
+      "group_id": "architecture-api-gateway",
+      "original_group_id": "architecture-api-gateway",
+      "canonical_id": "S04-Q017"
+    },
+    {
+      "source_id": "S04-Q018",
+      "source_ref": "sources/04-architecture-distributed-systems.md#q018",
+      "kind": "numbered",
+      "original": "Which concerns should not become business logic inside the gateway?",
+      "group_id": "architecture-api-gateway",
+      "original_group_id": "architecture-api-gateway",
+      "canonical_id": "S04-Q018"
+    },
+    {
+      "source_id": "S04-Q019",
+      "source_ref": "sources/04-architecture-distributed-systems.md#q019",
+      "kind": "numbered",
+      "original": "Explain queue versus topic/subscription models.",
+      "group_id": "messaging-delivery-recovery",
+      "original_group_id": "messaging-delivery-recovery",
+      "canonical_id": "S04-Q019"
+    },
+    {
+      "source_id": "S04-Q020",
+      "source_ref": "sources/04-architecture-distributed-systems.md#q020",
+      "kind": "numbered",
+      "original": "Explain competing consumers.",
+      "group_id": "messaging-delivery-recovery",
+      "original_group_id": "messaging-delivery-recovery",
+      "canonical_id": "S04-Q020"
+    },
+    {
+      "source_id": "S04-Q021",
+      "source_ref": "sources/04-architecture-distributed-systems.md#q021",
+      "kind": "numbered",
+      "original": "How do message brokers decouple producers and consumers?",
+      "group_id": "messaging-delivery-recovery",
+      "original_group_id": "messaging-delivery-recovery",
+      "canonical_id": "S04-Q021"
+    },
+    {
+      "source_id": "S04-Q022",
+      "source_ref": "sources/04-architecture-distributed-systems.md#q022",
+      "kind": "numbered",
+      "original": "What happens when a message processing attempt fails?",
+      "group_id": "messaging-delivery-recovery",
+      "original_group_id": "messaging-delivery-recovery",
+      "canonical_id": "S04-Q022"
+    },
+    {
+      "source_id": "S04-Q023",
+      "source_ref": "sources/04-architecture-distributed-systems.md#q023",
+      "kind": "numbered",
+      "original": "Explain retry and dead-letter/poison-message handling.",
+      "group_id": "messaging-delivery-recovery",
+      "original_group_id": "messaging-delivery-recovery",
+      "canonical_id": "S04-Q023"
+    },
+    {
+      "source_id": "S04-Q024",
+      "source_ref": "sources/04-architecture-distributed-systems.md#q024",
+      "kind": "numbered",
+      "original": "How do you prevent duplicate processing when delivery is at-least-once?",
+      "group_id": "messaging-idempotent-consumer",
+      "original_group_id": "messaging-idempotent-consumer",
+      "canonical_id": "S04-Q024"
+    },
+    {
+      "source_id": "S04-Q025",
+      "source_ref": "sources/04-architecture-distributed-systems.md#q025",
+      "kind": "numbered",
+      "original": "How do you design an idempotent consumer?",
+      "group_id": "messaging-idempotent-consumer",
+      "original_group_id": "messaging-idempotent-consumer",
+      "canonical_id": "S04-Q024"
+    },
+    {
+      "source_id": "S04-Q026",
+      "source_ref": "sources/04-architecture-distributed-systems.md#q026",
+      "kind": "numbered",
+      "original": "How do database unique constraints help deduplication?",
+      "group_id": "messaging-idempotent-consumer",
+      "original_group_id": "messaging-idempotent-consumer",
+      "canonical_id": "S04-Q026"
+    },
+    {
+      "source_id": "S04-Q027",
+      "source_ref": "sources/04-architecture-distributed-systems.md#q027",
+      "kind": "numbered",
+      "original": "What trade-off exists between ordering and throughput?",
+      "group_id": "messaging-ordering-correlation",
+      "original_group_id": "messaging-ordering-correlation",
+      "canonical_id": "S04-Q027"
+    },
+    {
+      "source_id": "S04-Q028",
+      "source_ref": "sources/04-architecture-distributed-systems.md#q028",
+      "kind": "numbered",
+      "original": "How would you return a result when communication is asynchronous?",
+      "group_id": "messaging-ordering-correlation",
+      "original_group_id": "messaging-ordering-correlation",
+      "canonical_id": "S04-Q028"
+    },
+    {
+      "source_id": "S04-Q029",
+      "source_ref": "sources/04-architecture-distributed-systems.md#q029",
+      "kind": "numbered",
+      "original": "Explain correlation and causation identifiers.",
+      "group_id": "messaging-ordering-correlation",
+      "original_group_id": "messaging-ordering-correlation",
+      "canonical_id": "S04-Q029"
+    },
+    {
+      "source_id": "S04-Q030",
+      "source_ref": "sources/04-architecture-distributed-systems.md#q030",
+      "kind": "numbered",
+      "original": "Explain transactional outbox/inbox patterns.",
+      "group_id": "messaging-outbox",
+      "original_group_id": "messaging-outbox",
+      "canonical_id": "S04-Q030"
+    },
+    {
+      "source_id": "S04-Q031",
+      "source_ref": "sources/04-architecture-distributed-systems.md#q031",
+      "kind": "numbered",
+      "original": "What problem does Domain-Driven Design attempt to solve?",
+      "group_id": "architecture-ddd-cqrs",
+      "original_group_id": "architecture-ddd-cqrs",
+      "canonical_id": "S04-Q031"
+    },
+    {
+      "source_id": "S04-Q032",
+      "source_ref": "sources/04-architecture-distributed-systems.md#q032",
+      "kind": "numbered",
+      "original": "Explain Ubiquitous Language.",
+      "group_id": "architecture-ddd-cqrs",
+      "original_group_id": "architecture-ddd-cqrs",
+      "canonical_id": "S04-Q032"
+    },
+    {
+      "source_id": "S04-Q033",
+      "source_ref": "sources/04-architecture-distributed-systems.md#q033",
+      "kind": "numbered",
+      "original": "Explain Bounded Context.",
+      "group_id": "architecture-ddd-cqrs",
+      "original_group_id": "architecture-ddd-cqrs",
+      "canonical_id": "S04-Q033"
+    },
+    {
+      "source_id": "S04-Q034",
+      "source_ref": "sources/04-architecture-distributed-systems.md#q034",
+      "kind": "numbered",
+      "original": "Explain Aggregate and Aggregate Root.",
+      "group_id": "architecture-ddd-cqrs",
+      "original_group_id": "architecture-ddd-cqrs",
+      "canonical_id": "S04-Q034"
+    },
+    {
+      "source_id": "S04-Q035",
+      "source_ref": "sources/04-architecture-distributed-systems.md#q035",
+      "kind": "numbered",
+      "original": "Explain Domain Events.",
+      "group_id": "architecture-ddd-cqrs",
+      "original_group_id": "architecture-ddd-cqrs",
+      "canonical_id": "S04-Q035"
+    },
+    {
+      "source_id": "S04-Q036",
+      "source_ref": "sources/04-architecture-distributed-systems.md#q036",
+      "kind": "numbered",
+      "original": "What is CQRS?",
+      "group_id": "architecture-ddd-cqrs",
+      "original_group_id": "architecture-ddd-cqrs",
+      "canonical_id": "S04-Q036"
+    },
+    {
+      "source_id": "S04-Q037",
+      "source_ref": "sources/04-architecture-distributed-systems.md#q037",
+      "kind": "numbered",
+      "original": "When does separating read and write models help?",
+      "group_id": "architecture-ddd-cqrs",
+      "original_group_id": "architecture-ddd-cqrs",
+      "canonical_id": "S04-Q037"
+    },
+    {
+      "source_id": "S04-Q038",
+      "source_ref": "sources/04-architecture-distributed-systems.md#q038",
+      "kind": "numbered",
+      "original": "When is CQRS unnecessary complexity?",
+      "group_id": "architecture-ddd-cqrs",
+      "original_group_id": "architecture-ddd-cqrs",
+      "canonical_id": "S04-Q038"
+    },
+    {
+      "source_id": "S04-Q039",
+      "source_ref": "sources/04-architecture-distributed-systems.md#q039",
+      "kind": "numbered",
+      "original": "Why is a single ACID transaction usually unavailable across independently owned service databases?",
+      "group_id": "architecture-saga-compensation",
+      "original_group_id": "architecture-saga-compensation",
+      "canonical_id": "S04-Q039"
+    },
+    {
+      "source_id": "S04-Q040",
+      "source_ref": "sources/04-architecture-distributed-systems.md#q040",
+      "kind": "numbered",
+      "original": "Explain eventual consistency.",
+      "group_id": "architecture-saga-compensation",
+      "original_group_id": "architecture-saga-compensation",
+      "canonical_id": "S04-Q040"
+    },
+    {
+      "source_id": "S04-Q041",
+      "source_ref": "sources/04-architecture-distributed-systems.md#q041",
+      "kind": "numbered",
+      "original": "Compare Saga orchestration and choreography.",
+      "group_id": "architecture-saga-compensation",
+      "original_group_id": "architecture-saga-compensation",
+      "canonical_id": "S04-Q041"
+    },
+    {
+      "source_id": "S04-Q042",
+      "source_ref": "sources/04-architecture-distributed-systems.md#q042",
+      "kind": "numbered",
+      "original": "What is compensation and why is it not the same as database rollback?",
+      "group_id": "architecture-saga-compensation",
+      "original_group_id": "architecture-saga-compensation",
+      "canonical_id": "S04-Q042"
+    },
+    {
+      "source_id": "S04-Q043",
+      "source_ref": "sources/04-architecture-distributed-systems.md#q043",
+      "kind": "numbered",
+      "original": "How would you handle a partial failure after one service commits successfully?",
+      "group_id": "architecture-saga-compensation",
+      "original_group_id": "architecture-saga-compensation",
+      "canonical_id": "S04-Q043"
+    },
+    {
+      "source_id": "S05-Q001",
+      "source_ref": "sources/05-security-cloud-devops.md#q001",
+      "kind": "numbered",
+      "original": "What are the parts of a JWT?",
+      "group_id": "security-token-lifecycle",
+      "original_group_id": "security-token-lifecycle",
+      "canonical_id": "S05-Q001"
+    },
+    {
+      "source_id": "S05-Q002",
+      "source_ref": "sources/05-security-cloud-devops.md#q002",
+      "kind": "numbered",
+      "original": "What makes a token valid?",
+      "group_id": "security-token-lifecycle",
+      "original_group_id": "security-token-lifecycle",
+      "canonical_id": "S05-Q002"
+    },
+    {
+      "source_id": "S05-Q003",
+      "source_ref": "sources/05-security-cloud-devops.md#q003",
+      "kind": "numbered",
+      "original": "What information belongs in claims?",
+      "group_id": "security-token-lifecycle",
+      "original_group_id": "security-token-lifecycle",
+      "canonical_id": "S05-Q003"
+    },
+    {
+      "source_id": "S05-Q004",
+      "source_ref": "sources/05-security-cloud-devops.md#q004",
+      "kind": "numbered",
+      "original": "Explain authentication versus authorization.",
+      "group_id": "security-token-lifecycle",
+      "original_group_id": "security-token-lifecycle",
+      "canonical_id": "S05-Q004"
+    },
+    {
+      "source_id": "S05-Q005",
+      "source_ref": "sources/05-security-cloud-devops.md#q005",
+      "kind": "numbered",
+      "original": "Explain role-based and policy/permission-based authorization.",
+      "group_id": "security-token-lifecycle",
+      "original_group_id": "security-token-lifecycle",
+      "canonical_id": "S05-Q005"
+    },
+    {
+      "source_id": "S05-Q006",
+      "source_ref": "sources/05-security-cloud-devops.md#q006",
+      "kind": "numbered",
+      "original": "Explain access tokens versus refresh tokens.",
+      "group_id": "security-token-lifecycle",
+      "original_group_id": "security-token-lifecycle",
+      "canonical_id": "S05-Q006"
+    },
+    {
+      "source_id": "S05-Q007",
+      "source_ref": "sources/05-security-cloud-devops.md#q007",
+      "kind": "numbered",
+      "original": "How does refresh-token rotation work?",
+      "group_id": "security-token-lifecycle",
+      "original_group_id": "security-token-lifecycle",
+      "canonical_id": "S05-Q007"
+    },
+    {
+      "source_id": "S05-Q008",
+      "source_ref": "sources/05-security-cloud-devops.md#q008",
+      "kind": "numbered",
+      "original": "How should token expiry, revocation and reuse be handled?",
+      "group_id": "security-token-lifecycle",
+      "original_group_id": "security-token-lifecycle",
+      "canonical_id": "S05-Q008"
+    },
+    {
+      "source_id": "S05-Q009",
+      "source_ref": "sources/05-security-cloud-devops.md#q009",
+      "kind": "numbered",
+      "original": "Draw an authentication/authorization flow from SPA to gateway/identity provider to backend APIs.",
+      "group_id": "security-service-identity",
+      "original_group_id": "security-service-identity",
+      "canonical_id": "S05-Q009"
+    },
+    {
+      "source_id": "S05-Q010",
+      "source_ref": "sources/05-security-cloud-devops.md#q010",
+      "kind": "numbered",
+      "original": "Where should secrets, signing keys and tokens be stored?",
+      "group_id": "security-service-identity",
+      "original_group_id": "security-service-identity",
+      "canonical_id": "S05-Q010"
+    },
+    {
+      "source_id": "S05-Q011",
+      "source_ref": "sources/05-security-cloud-devops.md#q011",
+      "kind": "numbered",
+      "original": "Explain OAuth 2.0 and OpenID Connect at the level expected for application architecture.",
+      "group_id": "security-service-identity",
+      "original_group_id": "security-service-identity",
+      "canonical_id": "S05-Q011"
+    },
+    {
+      "source_id": "S05-Q012",
+      "source_ref": "sources/05-security-cloud-devops.md#q012",
+      "kind": "numbered",
+      "original": "What changes for service-to-service authentication?",
+      "group_id": "security-service-identity",
+      "original_group_id": "security-service-identity",
+      "canonical_id": "S05-Q012"
+    },
+    {
+      "source_id": "S05-Q013",
+      "source_ref": "sources/05-security-cloud-devops.md#q013",
+      "kind": "numbered",
+      "original": "Compare HTTP and HTTPS technically.",
+      "group_id": "security-browser-transport",
+      "original_group_id": "security-browser-transport",
+      "canonical_id": "S05-Q013"
+    },
+    {
+      "source_id": "S05-Q014",
+      "source_ref": "sources/05-security-cloud-devops.md#q014",
+      "kind": "numbered",
+      "original": "Explain the purpose of the TLS handshake at a high level.",
+      "group_id": "security-browser-transport",
+      "original_group_id": "security-browser-transport",
+      "canonical_id": "S05-Q014"
+    },
+    {
+      "source_id": "S05-Q015",
+      "source_ref": "sources/05-security-cloud-devops.md#q015",
+      "kind": "numbered",
+      "original": "Explain CORS, CSRF and XSS as distinct concerns.",
+      "group_id": "security-browser-transport",
+      "original_group_id": "security-browser-transport",
+      "canonical_id": "S05-Q015"
+    },
+    {
+      "source_id": "S05-Q017",
+      "source_ref": "sources/05-security-cloud-devops.md#q017",
+      "kind": "numbered",
+      "original": "What security-sensitive information must not be written to logs?",
+      "group_id": "security-browser-transport",
+      "original_group_id": "security-browser-transport",
+      "canonical_id": "S05-Q017"
+    },
+    {
+      "source_id": "S05-Q016",
+      "source_ref": "sources/05-security-cloud-devops.md#q016",
+      "kind": "numbered",
+      "original": "Apply least privilege to APIs and cloud identities.",
+      "group_id": "security-service-identity",
+      "original_group_id": "security-service-identity",
+      "canonical_id": "S05-Q016"
+    },
+    {
+      "source_id": "S05-Q018",
+      "source_ref": "sources/05-security-cloud-devops.md#q018",
+      "kind": "numbered",
+      "original": "Explain when serverless functions are appropriate.",
+      "group_id": "azure-service-selection",
+      "original_group_id": "azure-service-selection",
+      "canonical_id": "S05-Q018"
+    },
+    {
+      "source_id": "S05-Q019",
+      "source_ref": "sources/05-security-cloud-devops.md#q019",
+      "kind": "numbered",
+      "original": "Explain reliable messaging with queues, topics and subscriptions.",
+      "group_id": "azure-service-selection",
+      "original_group_id": "azure-service-selection",
+      "canonical_id": "S05-Q019"
+    },
+    {
+      "source_id": "S05-Q020",
+      "source_ref": "sources/05-security-cloud-devops.md#q020",
+      "kind": "numbered",
+      "original": "Compare one-to-one and one-to-many messaging patterns.",
+      "group_id": "azure-service-selection",
+      "original_group_id": "azure-service-selection",
+      "canonical_id": "S05-Q020"
+    },
+    {
+      "source_id": "S05-Q021",
+      "source_ref": "sources/05-security-cloud-devops.md#q021",
+      "kind": "numbered",
+      "original": "Explain object/blob storage use cases.",
+      "group_id": "azure-service-selection",
+      "original_group_id": "azure-service-selection",
+      "canonical_id": "S05-Q021"
+    },
+    {
+      "source_id": "S05-Q022",
+      "source_ref": "sources/05-security-cloud-devops.md#q022",
+      "kind": "numbered",
+      "original": "Explain managed relational database use cases.",
+      "group_id": "azure-service-selection",
+      "original_group_id": "azure-service-selection",
+      "canonical_id": "S05-Q022"
+    },
+    {
+      "source_id": "S05-Q024",
+      "source_ref": "sources/05-security-cloud-devops.md#q024",
+      "kind": "numbered",
+      "original": "Explain API management/gateway responsibilities.",
+      "group_id": "architecture-api-gateway",
+      "original_group_id": "architecture-api-gateway",
+      "canonical_id": "S04-Q015"
+    },
+    {
+      "source_id": "S05-Q023",
+      "source_ref": "sources/05-security-cloud-devops.md#q023",
+      "kind": "numbered",
+      "original": "Explain secretless authentication using managed identities.",
+      "group_id": "security-service-identity",
+      "original_group_id": "security-service-identity",
+      "canonical_id": "S05-Q023"
+    },
+    {
+      "source_id": "S05-Q025",
+      "source_ref": "sources/05-security-cloud-devops.md#q025",
+      "kind": "numbered",
+      "original": "Discuss autoscaling, reliability and cost trade-offs.",
+      "group_id": "azure-operations-iac",
+      "original_group_id": "azure-operations-iac",
+      "canonical_id": "S05-Q025"
+    },
+    {
+      "source_id": "S05-Q026",
+      "source_ref": "sources/05-security-cloud-devops.md#q026",
+      "kind": "numbered",
+      "original": "Explain infrastructure-as-code concepts and deployment templates.",
+      "group_id": "azure-operations-iac",
+      "original_group_id": "azure-operations-iac",
+      "canonical_id": "S05-Q026"
+    },
+    {
+      "source_id": "S05-Q027",
+      "source_ref": "sources/05-security-cloud-devops.md#q027",
+      "kind": "numbered",
+      "original": "How should environment-specific configuration be managed?",
+      "group_id": "azure-operations-iac",
+      "original_group_id": "azure-operations-iac",
+      "canonical_id": "S05-Q027"
+    },
+    {
+      "source_id": "S05-Q028",
+      "source_ref": "sources/05-security-cloud-devops.md#q028",
+      "kind": "numbered",
+      "original": "Distinguish logs, metrics and traces.",
+      "group_id": "observability-request-diagnosis",
+      "original_group_id": "observability-request-diagnosis",
+      "canonical_id": "S05-Q028"
+    },
+    {
+      "source_id": "S05-Q029",
+      "source_ref": "sources/05-security-cloud-devops.md#q029",
+      "kind": "numbered",
+      "original": "How would you trace one request across frontend, gateway, multiple backend services and database calls?",
+      "group_id": "observability-request-diagnosis",
+      "original_group_id": "observability-request-diagnosis",
+      "canonical_id": "S05-Q029"
+    },
+    {
+      "source_id": "S05-Q030",
+      "source_ref": "sources/05-security-cloud-devops.md#q030",
+      "kind": "numbered",
+      "original": "Explain correlation IDs and distributed trace context.",
+      "group_id": "observability-request-diagnosis",
+      "original_group_id": "observability-request-diagnosis",
+      "canonical_id": "S05-Q030"
+    },
+    {
+      "source_id": "S05-Q031",
+      "source_ref": "sources/05-security-cloud-devops.md#q031",
+      "kind": "numbered",
+      "original": "How would you investigate a slow API?",
+      "group_id": "observability-request-diagnosis",
+      "original_group_id": "observability-request-diagnosis",
+      "canonical_id": "S05-Q031"
+    },
+    {
+      "source_id": "S05-Q032",
+      "source_ref": "sources/05-security-cloud-devops.md#q032",
+      "kind": "numbered",
+      "original": "What telemetry would you collect for latency, errors, dependencies and resource pressure?",
+      "group_id": "observability-request-diagnosis",
+      "original_group_id": "observability-request-diagnosis",
+      "canonical_id": "S05-Q032"
+    },
+    {
+      "source_id": "S05-Q033",
+      "source_ref": "sources/05-security-cloud-devops.md#q033",
+      "kind": "numbered",
+      "original": "How do you diagnose memory growth or ThreadPool starvation in production?",
+      "group_id": "observability-request-diagnosis",
+      "original_group_id": "observability-request-diagnosis",
+      "canonical_id": "S05-Q033"
+    },
+    {
+      "source_id": "S05-Q034",
+      "source_ref": "sources/05-security-cloud-devops.md#q034",
+      "kind": "numbered",
+      "original": "Why are p95/p99 latency measurements more useful than averages for many production investigations?",
+      "group_id": "observability-request-diagnosis",
+      "original_group_id": "observability-request-diagnosis",
+      "canonical_id": "S05-Q034"
+    },
+    {
+      "source_id": "S05-Q035",
+      "source_ref": "sources/05-security-cloud-devops.md#q035",
+      "kind": "numbered",
+      "original": "What problem does Docker solve in application delivery?",
+      "group_id": "devops-container-delivery",
+      "original_group_id": "devops-container-delivery",
+      "canonical_id": "S05-Q035"
+    },
+    {
+      "source_id": "S05-Q036",
+      "source_ref": "sources/05-security-cloud-devops.md#q036",
+      "kind": "numbered",
+      "original": "Compare containers and virtual machines.",
+      "group_id": "devops-container-delivery",
+      "original_group_id": "devops-container-delivery",
+      "canonical_id": "S05-Q036"
+    },
+    {
+      "source_id": "S05-Q037",
+      "source_ref": "sources/05-security-cloud-devops.md#q037",
+      "kind": "numbered",
+      "original": "Explain image layers and multi-stage builds.",
+      "group_id": "devops-container-delivery",
+      "original_group_id": "devops-container-delivery",
+      "canonical_id": "S05-Q037"
+    },
+    {
+      "source_id": "S05-Q038",
+      "source_ref": "sources/05-security-cloud-devops.md#q038",
+      "kind": "numbered",
+      "original": "How should configuration differ across development, staging and production without rebuilding application code?",
+      "group_id": "devops-container-delivery",
+      "original_group_id": "devops-container-delivery",
+      "canonical_id": "S05-Q027"
+    },
+    {
+      "source_id": "S05-Q039",
+      "source_ref": "sources/05-security-cloud-devops.md#q039",
+      "kind": "numbered",
+      "original": "What belongs in environment variables versus a secret store?",
+      "group_id": "devops-container-delivery",
+      "original_group_id": "devops-container-delivery",
+      "canonical_id": "S05-Q039"
+    },
+    {
+      "source_id": "S05-Q040",
+      "source_ref": "sources/05-security-cloud-devops.md#q040",
+      "kind": "numbered",
+      "original": "Explain CI/CD gates.",
+      "group_id": "devops-safe-release",
+      "original_group_id": "devops-safe-release",
+      "canonical_id": "S05-Q040"
+    },
+    {
+      "source_id": "S05-Q041",
+      "source_ref": "sources/05-security-cloud-devops.md#q041",
+      "kind": "numbered",
+      "original": "Compare blue/green, canary and deployment-slot strategies.",
+      "group_id": "devops-safe-release",
+      "original_group_id": "devops-safe-release",
+      "canonical_id": "S05-Q041"
+    },
+    {
+      "source_id": "S05-Q042",
+      "source_ref": "sources/05-security-cloud-devops.md#q042",
+      "kind": "numbered",
+      "original": "What is required for safe rollback?",
+      "group_id": "devops-safe-release",
+      "original_group_id": "devops-safe-release",
+      "canonical_id": "S05-Q042"
+    },
+    {
+      "source_id": "S05-Q043",
+      "source_ref": "sources/05-security-cloud-devops.md#q043",
+      "kind": "numbered",
+      "original": "Explain health, readiness and graceful shutdown concerns.",
+      "group_id": "devops-safe-release",
+      "original_group_id": "devops-safe-release",
+      "canonical_id": "S05-Q043"
+    },
+    {
+      "source_id": "S05-Q047",
+      "source_ref": "sources/05-security-cloud-devops.md#q047",
+      "kind": "numbered",
+      "original": "What should happen to work that repeatedly fails?",
+      "group_id": "messaging-delivery-recovery",
+      "original_group_id": "messaging-delivery-recovery",
+      "canonical_id": "S04-Q023"
+    },
+    {
+      "source_id": "S05-Q044",
+      "source_ref": "sources/05-security-cloud-devops.md#q044",
+      "kind": "numbered",
+      "original": "When should resource-intensive work run outside the synchronous request path?",
+      "group_id": "aspnet-background-jobs",
+      "original_group_id": "aspnet-background-jobs",
+      "canonical_id": "S02-Q019"
+    },
+    {
+      "source_id": "S05-Q045",
+      "source_ref": "sources/05-security-cloud-devops.md#q045",
+      "kind": "numbered",
+      "original": "How should retry policies avoid retry storms?",
+      "group_id": "reliability-dependency-failures",
+      "original_group_id": "reliability-dependency-failures",
+      "canonical_id": "S04-Q013"
+    },
+    {
+      "source_id": "S05-Q046",
+      "source_ref": "sources/05-security-cloud-devops.md#q046",
+      "kind": "numbered",
+      "original": "How do you make scheduled/background processing safe across multiple replicas?",
+      "group_id": "aspnet-background-jobs",
+      "original_group_id": "aspnet-background-jobs",
+      "canonical_id": "S02-Q023"
+    },
+    {
+      "source_id": "S05-Q048",
+      "source_ref": "sources/05-security-cloud-devops.md#q048",
+      "kind": "numbered",
+      "original": "How do monitoring and alerting connect technical symptoms to an actionable incident?",
+      "group_id": "reliability-dependency-failures",
+      "original_group_id": "reliability-dependency-failures",
+      "canonical_id": "S05-Q048"
+    },
+    {
+      "source_id": "S06-Q001",
+      "source_ref": "sources/06-frontend-behavioral.md#q001",
+      "kind": "numbered",
+      "original": "Explain the core architecture of an Angular application.",
+      "group_id": "frontend-angular-architecture",
+      "original_group_id": "frontend-angular-architecture",
+      "canonical_id": "S06-Q001"
+    },
+    {
+      "source_id": "S06-Q002",
+      "source_ref": "sources/06-frontend-behavioral.md#q002",
+      "kind": "numbered",
+      "original": "How does Angular Dependency Injection work?",
+      "group_id": "frontend-angular-architecture",
+      "original_group_id": "frontend-angular-architecture",
+      "canonical_id": "S06-Q002"
+    },
+    {
+      "source_id": "S06-Q003",
+      "source_ref": "sources/06-frontend-behavioral.md#q003",
+      "kind": "numbered",
+      "original": "Explain routing and lazy loading.",
+      "group_id": "frontend-angular-architecture",
+      "original_group_id": "frontend-angular-architecture",
+      "canonical_id": "S06-Q003"
+    },
+    {
+      "source_id": "S06-Q004",
+      "source_ref": "sources/06-frontend-behavioral.md#q004",
+      "kind": "numbered",
+      "original": "How would you implement HTTP caching with an interceptor when caching is actually appropriate?",
+      "group_id": "frontend-http-auth",
+      "original_group_id": "frontend-http-auth",
+      "canonical_id": "S06-Q004"
+    },
+    {
+      "source_id": "S06-Q005",
+      "source_ref": "sources/06-frontend-behavioral.md#q005",
+      "kind": "numbered",
+      "original": "How should authentication headers and token refresh interact with HTTP interceptors?",
+      "group_id": "frontend-http-auth",
+      "original_group_id": "frontend-http-auth",
+      "canonical_id": "S06-Q005"
+    },
+    {
+      "source_id": "S06-Q006",
+      "source_ref": "sources/06-frontend-behavioral.md#q006",
+      "kind": "numbered",
+      "original": "Explain component rendering/change detection and common performance problems.",
+      "group_id": "frontend-angular-architecture",
+      "original_group_id": "frontend-angular-architecture",
+      "canonical_id": "S06-Q006"
+    },
+    {
+      "source_id": "S06-Q007",
+      "source_ref": "sources/06-frontend-behavioral.md#q007",
+      "kind": "numbered",
+      "original": "How do you structure state management for a medium or large SPA?",
+      "group_id": "frontend-angular-architecture",
+      "original_group_id": "frontend-angular-architecture",
+      "canonical_id": "S06-Q007"
+    },
+    {
+      "source_id": "S06-Q008",
+      "source_ref": "sources/06-frontend-behavioral.md#q008",
+      "kind": "numbered",
+      "original": "Explain reactive forms and validation.",
+      "group_id": "frontend-angular-architecture",
+      "original_group_id": "frontend-angular-architecture",
+      "canonical_id": "S06-Q008"
+    },
+    {
+      "source_id": "S06-Q009",
+      "source_ref": "sources/06-frontend-behavioral.md#q009",
+      "kind": "numbered",
+      "original": "How do browser storage choices affect authentication security?",
+      "group_id": "frontend-http-auth",
+      "original_group_id": "frontend-http-auth",
+      "canonical_id": "S06-Q009"
+    },
+    {
+      "source_id": "S06-Q010",
+      "source_ref": "sources/06-frontend-behavioral.md#q010",
+      "kind": "numbered",
+      "original": "Explain bundle/code splitting and frontend performance.",
+      "group_id": "frontend-angular-architecture",
+      "original_group_id": "frontend-angular-architecture",
+      "canonical_id": "S06-Q010"
+    },
+    {
+      "source_id": "S06-Q011",
+      "source_ref": "sources/06-frontend-behavioral.md#q011",
+      "kind": "numbered",
+      "original": "Compare `==` and `===`.",
+      "group_id": "frontend-typescript-semantics",
+      "original_group_id": "frontend-typescript-semantics",
+      "canonical_id": "S06-Q011"
+    },
+    {
+      "source_id": "S06-Q012",
+      "source_ref": "sources/06-frontend-behavioral.md#q012",
+      "kind": "numbered",
+      "original": "Compare `let` and `const`.",
+      "group_id": "frontend-typescript-semantics",
+      "original_group_id": "frontend-typescript-semantics",
+      "canonical_id": "S06-Q012"
+    },
+    {
+      "source_id": "S06-Q013",
+      "source_ref": "sources/06-frontend-behavioral.md#q013",
+      "kind": "numbered",
+      "original": "Explain TypeScript's role in a frontend codebase.",
+      "group_id": "frontend-typescript-semantics",
+      "original_group_id": "frontend-typescript-semantics",
+      "canonical_id": "S06-Q013"
+    },
+    {
+      "source_id": "S06-Q014",
+      "source_ref": "sources/06-frontend-behavioral.md#q014",
+      "kind": "numbered",
+      "original": "Explain structural typing at a practical level.",
+      "group_id": "frontend-typescript-semantics",
+      "original_group_id": "frontend-typescript-semantics",
+      "canonical_id": "S06-Q014"
+    },
+    {
+      "source_id": "S06-Q015",
+      "source_ref": "sources/06-frontend-behavioral.md#q015",
+      "kind": "numbered",
+      "original": "Explain asynchronous browser behavior and Promises/Observables where relevant.",
+      "group_id": "frontend-typescript-semantics",
+      "original_group_id": "frontend-typescript-semantics",
+      "canonical_id": "S06-Q015"
+    },
+    {
+      "source_id": "S06-Q016",
+      "source_ref": "sources/06-frontend-behavioral.md#q016",
+      "kind": "numbered",
+      "original": "Introduce yourself professionally in 60-90 seconds.",
+      "group_id": "communication-behavioral-stories",
+      "original_group_id": "communication-behavioral-stories",
+      "canonical_id": "S06-Q016"
+    },
+    {
+      "source_id": "S06-Q017",
+      "source_ref": "sources/06-frontend-behavioral.md#q017",
+      "kind": "numbered",
+      "original": "Explain a technically challenging system without revealing confidential details.",
+      "group_id": "communication-behavioral-stories",
+      "original_group_id": "communication-behavioral-stories",
+      "canonical_id": "S06-Q017"
+    },
+    {
+      "source_id": "S06-Q018",
+      "source_ref": "sources/06-frontend-behavioral.md#q018",
+      "kind": "numbered",
+      "original": "Describe your responsibilities in terms of engineering outcomes rather than company/project names.",
+      "group_id": "communication-behavioral-stories",
+      "original_group_id": "communication-behavioral-stories",
+      "canonical_id": "S06-Q018"
+    },
+    {
+      "source_id": "S06-Q019",
+      "source_ref": "sources/06-frontend-behavioral.md#q019",
+      "kind": "numbered",
+      "original": "Explain a design decision and the alternatives you rejected.",
+      "group_id": "communication-system-explanation",
+      "original_group_id": "communication-system-explanation",
+      "canonical_id": "S06-Q019"
+    },
+    {
+      "source_id": "S06-Q020",
+      "source_ref": "sources/06-frontend-behavioral.md#q020",
+      "kind": "numbered",
+      "original": "Describe a production problem, how you diagnosed it and what evidence confirmed the fix.",
+      "group_id": "communication-behavioral-stories",
+      "original_group_id": "communication-behavioral-stories",
+      "canonical_id": "S06-Q020"
+    },
+    {
+      "source_id": "S06-Q021",
+      "source_ref": "sources/06-frontend-behavioral.md#q021",
+      "kind": "numbered",
+      "original": "Explain a disagreement with QA/product/engineering and how evidence was used to resolve it.",
+      "group_id": "communication-behavioral-stories",
+      "original_group_id": "communication-behavioral-stories",
+      "canonical_id": "S06-Q021"
+    },
+    {
+      "source_id": "S06-Q022",
+      "source_ref": "sources/06-frontend-behavioral.md#q022",
+      "kind": "numbered",
+      "original": "Explain why you are looking for a new role without criticizing a current or former employer.",
+      "group_id": "communication-behavioral-stories",
+      "original_group_id": "communication-behavioral-stories",
+      "canonical_id": "S06-Q022"
+    },
+    {
+      "source_id": "S06-Q023",
+      "source_ref": "sources/06-frontend-behavioral.md#q023",
+      "kind": "numbered",
+      "original": "Describe how you learn an unfamiliar technology.",
+      "group_id": "communication-behavioral-stories",
+      "original_group_id": "communication-behavioral-stories",
+      "canonical_id": "S06-Q023"
+    },
+    {
+      "source_id": "S06-Q024",
+      "source_ref": "sources/06-frontend-behavioral.md#q024",
+      "kind": "numbered",
+      "original": "Explain a technical trade-off clearly to a non-specialist.",
+      "group_id": "communication-system-explanation",
+      "original_group_id": "communication-system-explanation",
+      "canonical_id": "S06-Q024"
+    },
+    {
+      "source_id": "S06-Q025",
+      "source_ref": "sources/06-frontend-behavioral.md#q025",
+      "kind": "numbered",
+      "original": "Answer follow-up questions with concrete constraints, failure modes and measurable evidence.",
+      "group_id": "communication-system-explanation",
+      "original_group_id": "communication-system-explanation",
+      "canonical_id": "S06-Q025"
+    },
+    {
+      "source_id": "S02-SC001",
+      "source_ref": "sources/02-aspnet-api-ef.md#large-file-processing-scenario",
+      "kind": "source-scenario",
+      "original": "**Source scenario · Senior**\n\nDesign a flow for importing a large file containing tens of thousands of records:\n\n- avoid holding an HTTP request open until processing finishes;\n- stream or chunk the input where appropriate;\n- validate format and business rules;\n- choose between all-or-nothing transaction and partial-success processing;\n- perform bulk database writes efficiently;\n- generate a validation/error report;\n- prevent duplicate jobs when the same file is submitted repeatedly;\n- prevent duplicate records both within the file and against existing data;\n- expose processing status to the caller;\n- make retries safe.\n\nPossible technologies raised by the source notes include background jobs, message queues, `SqlBulkCopy`, EF bulk operations, unique constraints and idempotency mechanisms. Treat these as design options, not universal answers.\n\n**Canonical topics:** [Idempotent APIs and large-file job submission](../curriculum/domains/aspnet-api.md#aspnet-idempotent-operations) · [Bulk import, transaction size and validation](../curriculum/domains/sql-data.md#sql-bulk-import)",
+      "group_id": "aspnet-idempotent-operations",
+      "original_group_id": "aspnet-idempotent-operations",
+      "canonical_id": "S02-SC001"
+    },
+    {
+      "source_id": "S03-SC001",
+      "source_ref": "sources/03-sql-data-performance.md#query-optimization",
+      "kind": "source-scenario",
+      "original": "**Source scenario · Senior**\n\nGiven a large database where a query joining several tables is slow, explain how you would investigate it.\n\nTopics raised in the source material:\n\n- inspect the generated query;\n- execution plans;\n- indexing;\n- query profiling/monitoring;\n- retrieve only required columns and rows;\n- cardinality/selectivity;\n- SARGability;\n- statistics;\n- logical reads and duration;\n- compare measurements before and after a change.\n\nDo not answer only with “add an index”; explain how evidence determines the optimization.\n\n**Canonical topics:** [Evidence-led SQL query optimization](../curriculum/domains/sql-data.md#sql-query-investigation)",
+      "group_id": "sql-query-investigation",
+      "original_group_id": "sql-query-investigation",
+      "canonical_id": "S03-SC001"
+    },
+    {
+      "source_id": "S04-SC001",
+      "source_ref": "sources/04-architecture-distributed-systems.md#production-scenario",
+      "kind": "source-scenario",
+      "original": "**Source scenario · Senior**\n\nA client submits the same large import request several times while the first job is still processing. Design the system so that:\n\n- only the intended work is performed;\n- retries remain safe;\n- duplicated messages do not create duplicated database rows;\n- failed messages are recoverable;\n- processing state is observable;\n- multiple worker replicas can scale horizontally.\n\n**Canonical topics:** [Atomic inbox and idempotent consumer](../curriculum/domains/messaging-event-driven.md#messaging-idempotent-consumer) · [Idempotent APIs and large-file job submission](../curriculum/domains/aspnet-api.md#aspnet-idempotent-operations) · [Tracing requests and diagnosing production latency](../curriculum/domains/observability-reliability.md#observability-request-diagnosis)",
+      "group_id": "messaging-idempotent-consumer",
+      "original_group_id": "messaging-idempotent-consumer",
+      "canonical_id": "S04-SC001"
+    },
+    {
+      "source_id": "S06-SC001",
+      "source_ref": "sources/06-frontend-behavioral.md#cross-stack-request-flow",
+      "kind": "source-scenario",
+      "original": "**Source scenario · Senior**\n\nBe able to explain one request from the browser through:\n\n1. component/UI event;\n2. frontend service/client;\n3. authentication information;\n4. gateway/reverse proxy;\n5. ASP.NET Core middleware;\n6. routing and authorization;\n7. application/domain logic;\n8. EF Core/database or external dependency;\n9. telemetry;\n10. HTTP response and UI state update.\n\n**Canonical topics:** [Concise architecture explanations and evidence](../curriculum/domains/engineering-communication.md#communication-system-explanation) · [Tracing requests and diagnosing production latency](../curriculum/domains/observability-reliability.md#observability-request-diagnosis)",
+      "group_id": "communication-system-explanation",
+      "original_group_id": "communication-system-explanation",
+      "canonical_id": "S06-SC001"
+    }
+  ],
+  "canonical_questions": [
+    {
+      "question_id": "S01-Q001",
+      "group_id": "dotnet-members-inheritance",
+      "source_ids": [
+        "S01-Q001"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q001"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S01-Q002",
+      "group_id": "dotnet-collections-delegates",
+      "source_ids": [
+        "S01-Q002"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q002"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S01-Q003",
+      "group_id": "dotnet-members-inheritance",
+      "source_ids": [
+        "S01-Q003"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q003"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S01-Q004",
+      "group_id": "dotnet-type-semantics",
+      "source_ids": [
+        "S01-Q004"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q004"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S01-Q005",
+      "group_id": "dotnet-type-semantics",
+      "source_ids": [
+        "S01-Q005"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q005"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S01-Q006",
+      "group_id": "dotnet-members-inheritance",
+      "source_ids": [
+        "S01-Q006"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q006"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S01-Q007",
+      "group_id": "dotnet-members-inheritance",
+      "source_ids": [
+        "S01-Q007"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q007"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S01-Q008",
+      "group_id": "dotnet-type-semantics",
+      "source_ids": [
+        "S01-Q008"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q008"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S01-Q009",
+      "group_id": "dotnet-collections-delegates",
+      "source_ids": [
+        "S01-Q009"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q009"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S01-Q010",
+      "group_id": "ef-query-execution",
+      "source_ids": [
+        "S01-Q010",
+        "S02-Q025"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q010",
+        "sources/02-aspnet-api-ef.md#q025"
+      ],
+      "kind": "numbered",
+      "merge_rationale": "Both compare IEnumerable/IQueryable; preserve execution timing and provider scope.",
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S01-Q011",
+      "group_id": "dotnet-type-semantics",
+      "source_ids": [
+        "S01-Q011"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q011"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S01-Q012",
+      "group_id": "dotnet-members-inheritance",
+      "source_ids": [
+        "S01-Q012"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q012"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S01-Q013",
+      "group_id": "dotnet-members-inheritance",
+      "source_ids": [
+        "S01-Q013"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q013"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S01-Q014",
+      "group_id": "dotnet-members-inheritance",
+      "source_ids": [
+        "S01-Q014"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q014"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S01-Q015",
+      "group_id": "dotnet-members-inheritance",
+      "source_ids": [
+        "S01-Q015"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q015"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S01-Q016",
+      "group_id": "dotnet-members-inheritance",
+      "source_ids": [
+        "S01-Q016"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q016"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S01-Q017",
+      "group_id": "dotnet-members-inheritance",
+      "source_ids": [
+        "S01-Q017"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q017"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S01-Q018",
+      "group_id": "dotnet-members-inheritance",
+      "source_ids": [
+        "S01-Q018"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q018"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S01-Q019",
+      "group_id": "dotnet-collections-delegates",
+      "source_ids": [
+        "S01-Q019"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q019"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S01-Q020",
+      "group_id": "dotnet-type-semantics",
+      "source_ids": [
+        "S01-Q020"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q020"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S01-Q021",
+      "group_id": "dotnet-collections-delegates",
+      "source_ids": [
+        "S01-Q021"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q021"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S01-Q022",
+      "group_id": "dotnet-collections-delegates",
+      "source_ids": [
+        "S01-Q022"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q022"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S01-Q023",
+      "group_id": "dotnet-collections-delegates",
+      "source_ids": [
+        "S01-Q023"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q023"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S01-Q024",
+      "group_id": "dotnet-async-io",
+      "source_ids": [
+        "S01-Q024"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q024"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S01-Q025",
+      "group_id": "dotnet-async-io",
+      "source_ids": [
+        "S01-Q025"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q025"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S01-Q026",
+      "group_id": "dotnet-async-io",
+      "source_ids": [
+        "S01-Q026"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q026"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S01-Q027",
+      "group_id": "dotnet-threadpool-starvation",
+      "source_ids": [
+        "S01-Q027"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q027"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S01-Q028",
+      "group_id": "dotnet-memory-lifetime",
+      "source_ids": [
+        "S01-Q028"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q028"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S01-Q029",
+      "group_id": "dotnet-memory-lifetime",
+      "source_ids": [
+        "S01-Q029"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q029"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S01-Q030",
+      "group_id": "dotnet-async-io",
+      "source_ids": [
+        "S01-Q030"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q030"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S01-Q031",
+      "group_id": "dotnet-async-io",
+      "source_ids": [
+        "S01-Q031"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q031"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S01-Q032",
+      "group_id": "dotnet-di-solid",
+      "source_ids": [
+        "S01-Q032",
+        "S01-Q037"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q032",
+        "sources/01-csharp-dotnet.md#q037"
+      ],
+      "kind": "numbered",
+      "merge_rationale": "Shared DIP/DI comparison; retain IoC explicitly from Q032.",
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S01-Q033",
+      "group_id": "dotnet-di-solid",
+      "source_ids": [
+        "S01-Q033"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q033"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S01-Q034",
+      "group_id": "dotnet-di-solid",
+      "source_ids": [
+        "S01-Q034"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q034"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S01-Q035",
+      "group_id": "dotnet-di-solid",
+      "source_ids": [
+        "S01-Q035"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q035"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S01-Q036",
+      "group_id": "dotnet-di-solid",
+      "source_ids": [
+        "S01-Q036"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q036"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S01-Q038",
+      "group_id": "dotnet-di-solid",
+      "source_ids": [
+        "S01-Q038"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q038"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S01-Q039",
+      "group_id": "ef-context-concurrency",
+      "source_ids": [
+        "S01-Q039"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q039"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S01-Q040",
+      "group_id": "ef-context-concurrency",
+      "source_ids": [
+        "S01-Q040"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q040"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S01-Q041",
+      "group_id": "dotnet-behavioral-patterns",
+      "source_ids": [
+        "S01-Q041"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q041"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S01-Q042",
+      "group_id": "architecture-boundaries",
+      "source_ids": [
+        "S01-Q042",
+        "S04-Q003"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q042",
+        "sources/04-architecture-distributed-systems.md#q003"
+      ],
+      "kind": "numbered",
+      "merge_rationale": "Identical Clean Architecture and dependency-direction prompt.",
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S01-Q043",
+      "group_id": "architecture-cache-replicas",
+      "source_ids": [
+        "S01-Q043"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q043"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S01-Q044",
+      "group_id": "architecture-cache-replicas",
+      "source_ids": [
+        "S01-Q044"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q044"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S01-Q045",
+      "group_id": "architecture-cache-replicas",
+      "source_ids": [
+        "S01-Q045"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q045"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S01-Q046",
+      "group_id": "observability-request-diagnosis",
+      "source_ids": [
+        "S01-Q046"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q046"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S01-Q047",
+      "group_id": "reliability-dependency-failures",
+      "source_ids": [
+        "S01-Q047"
+      ],
+      "source_refs": [
+        "sources/01-csharp-dotnet.md#q047"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S02-Q001",
+      "group_id": "aspnet-request-pipeline",
+      "source_ids": [
+        "S02-Q001"
+      ],
+      "source_refs": [
+        "sources/02-aspnet-api-ef.md#q001"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S02-Q002",
+      "group_id": "aspnet-request-pipeline",
+      "source_ids": [
+        "S02-Q002"
+      ],
+      "source_refs": [
+        "sources/02-aspnet-api-ef.md#q002"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S02-Q003",
+      "group_id": "aspnet-request-pipeline",
+      "source_ids": [
+        "S02-Q003"
+      ],
+      "source_refs": [
+        "sources/02-aspnet-api-ef.md#q003"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S02-Q004",
+      "group_id": "aspnet-request-pipeline",
+      "source_ids": [
+        "S02-Q004"
+      ],
+      "source_refs": [
+        "sources/02-aspnet-api-ef.md#q004"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S02-Q005",
+      "group_id": "aspnet-request-pipeline",
+      "source_ids": [
+        "S02-Q005"
+      ],
+      "source_refs": [
+        "sources/02-aspnet-api-ef.md#q005"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S02-Q006",
+      "group_id": "aspnet-request-pipeline",
+      "source_ids": [
+        "S02-Q006"
+      ],
+      "source_refs": [
+        "sources/02-aspnet-api-ef.md#q006"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S02-Q007",
+      "group_id": "aspnet-request-pipeline",
+      "source_ids": [
+        "S02-Q007"
+      ],
+      "source_refs": [
+        "sources/02-aspnet-api-ef.md#q007"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S02-Q008",
+      "group_id": "aspnet-request-pipeline",
+      "source_ids": [
+        "S02-Q008"
+      ],
+      "source_refs": [
+        "sources/02-aspnet-api-ef.md#q008"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S02-Q009",
+      "group_id": "aspnet-request-pipeline",
+      "source_ids": [
+        "S02-Q009"
+      ],
+      "source_refs": [
+        "sources/02-aspnet-api-ef.md#q009"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S02-Q010",
+      "group_id": "aspnet-http-contracts",
+      "source_ids": [
+        "S02-Q010"
+      ],
+      "source_refs": [
+        "sources/02-aspnet-api-ef.md#q010"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S02-Q011",
+      "group_id": "aspnet-http-contracts",
+      "source_ids": [
+        "S02-Q011"
+      ],
+      "source_refs": [
+        "sources/02-aspnet-api-ef.md#q011"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S02-Q012",
+      "group_id": "aspnet-http-contracts",
+      "source_ids": [
+        "S02-Q012"
+      ],
+      "source_refs": [
+        "sources/02-aspnet-api-ef.md#q012"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S02-Q013",
+      "group_id": "aspnet-http-contracts",
+      "source_ids": [
+        "S02-Q013"
+      ],
+      "source_refs": [
+        "sources/02-aspnet-api-ef.md#q013"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S02-Q014",
+      "group_id": "aspnet-http-contracts",
+      "source_ids": [
+        "S02-Q014"
+      ],
+      "source_refs": [
+        "sources/02-aspnet-api-ef.md#q014"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S02-Q015",
+      "group_id": "aspnet-http-contracts",
+      "source_ids": [
+        "S02-Q015"
+      ],
+      "source_refs": [
+        "sources/02-aspnet-api-ef.md#q015"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S02-Q016",
+      "group_id": "aspnet-http-contracts",
+      "source_ids": [
+        "S02-Q016"
+      ],
+      "source_refs": [
+        "sources/02-aspnet-api-ef.md#q016"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S02-Q017",
+      "group_id": "aspnet-background-jobs",
+      "source_ids": [
+        "S02-Q017"
+      ],
+      "source_refs": [
+        "sources/02-aspnet-api-ef.md#q017"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S02-Q018",
+      "group_id": "aspnet-idempotent-operations",
+      "source_ids": [
+        "S02-Q018"
+      ],
+      "source_refs": [
+        "sources/02-aspnet-api-ef.md#q018"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S02-Q019",
+      "group_id": "aspnet-background-jobs",
+      "source_ids": [
+        "S02-Q019",
+        "S05-Q044"
+      ],
+      "source_refs": [
+        "sources/02-aspnet-api-ef.md#q019",
+        "sources/05-security-cloud-devops.md#q044"
+      ],
+      "kind": "numbered",
+      "merge_rationale": "Same offload decision; retain resource-intensive work as the concrete context.",
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S02-Q020",
+      "group_id": "aspnet-background-jobs",
+      "source_ids": [
+        "S02-Q020"
+      ],
+      "source_refs": [
+        "sources/02-aspnet-api-ef.md#q020"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S02-Q021",
+      "group_id": "aspnet-background-jobs",
+      "source_ids": [
+        "S02-Q021"
+      ],
+      "source_refs": [
+        "sources/02-aspnet-api-ef.md#q021"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S02-Q022",
+      "group_id": "aspnet-background-jobs",
+      "source_ids": [
+        "S02-Q022"
+      ],
+      "source_refs": [
+        "sources/02-aspnet-api-ef.md#q022"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S02-Q023",
+      "group_id": "aspnet-background-jobs",
+      "source_ids": [
+        "S02-Q023",
+        "S05-Q046"
+      ],
+      "source_refs": [
+        "sources/02-aspnet-api-ef.md#q023",
+        "sources/05-security-cloud-devops.md#q046"
+      ],
+      "kind": "numbered",
+      "merge_rationale": "Same multi-replica scheduler safety question; retain scheduled/background scope.",
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S02-Q024",
+      "group_id": "ef-query-execution",
+      "source_ids": [
+        "S02-Q024"
+      ],
+      "source_refs": [
+        "sources/02-aspnet-api-ef.md#q024"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S02-Q026",
+      "group_id": "ef-query-execution",
+      "source_ids": [
+        "S02-Q026"
+      ],
+      "source_refs": [
+        "sources/02-aspnet-api-ef.md#q026"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S02-Q027",
+      "group_id": "ef-loading-performance",
+      "source_ids": [
+        "S02-Q027"
+      ],
+      "source_refs": [
+        "sources/02-aspnet-api-ef.md#q027"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S02-Q028",
+      "group_id": "ef-loading-performance",
+      "source_ids": [
+        "S02-Q028"
+      ],
+      "source_refs": [
+        "sources/02-aspnet-api-ef.md#q028"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S02-Q029",
+      "group_id": "ef-loading-performance",
+      "source_ids": [
+        "S02-Q029"
+      ],
+      "source_refs": [
+        "sources/02-aspnet-api-ef.md#q029"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S02-Q030",
+      "group_id": "ef-loading-performance",
+      "source_ids": [
+        "S02-Q030"
+      ],
+      "source_refs": [
+        "sources/02-aspnet-api-ef.md#q030"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S02-Q031",
+      "group_id": "ef-loading-performance",
+      "source_ids": [
+        "S02-Q031"
+      ],
+      "source_refs": [
+        "sources/02-aspnet-api-ef.md#q031"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S02-Q032",
+      "group_id": "ef-loading-performance",
+      "source_ids": [
+        "S02-Q032"
+      ],
+      "source_refs": [
+        "sources/02-aspnet-api-ef.md#q032"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S02-Q033",
+      "group_id": "ef-context-concurrency",
+      "source_ids": [
+        "S02-Q033"
+      ],
+      "source_refs": [
+        "sources/02-aspnet-api-ef.md#q033"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S02-Q034",
+      "group_id": "ef-context-concurrency",
+      "source_ids": [
+        "S02-Q034"
+      ],
+      "source_refs": [
+        "sources/02-aspnet-api-ef.md#q034"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S02-Q035",
+      "group_id": "ef-context-concurrency",
+      "source_ids": [
+        "S02-Q035"
+      ],
+      "source_refs": [
+        "sources/02-aspnet-api-ef.md#q035"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S02-SC001",
+      "group_id": "aspnet-idempotent-operations",
+      "source_ids": [
+        "S02-SC001"
+      ],
+      "source_refs": [
+        "sources/02-aspnet-api-ef.md#large-file-processing-scenario"
+      ],
+      "kind": "source-scenario",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S03-Q001",
+      "group_id": "sql-objects-boundaries",
+      "source_ids": [
+        "S03-Q001"
+      ],
+      "source_refs": [
+        "sources/03-sql-data-performance.md#q001"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S03-Q002",
+      "group_id": "sql-objects-boundaries",
+      "source_ids": [
+        "S03-Q002"
+      ],
+      "source_refs": [
+        "sources/03-sql-data-performance.md#q002"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S03-Q003",
+      "group_id": "sql-objects-boundaries",
+      "source_ids": [
+        "S03-Q003"
+      ],
+      "source_refs": [
+        "sources/03-sql-data-performance.md#q003"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S03-Q004",
+      "group_id": "sql-objects-boundaries",
+      "source_ids": [
+        "S03-Q004"
+      ],
+      "source_refs": [
+        "sources/03-sql-data-performance.md#q004"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S03-Q005",
+      "group_id": "sql-objects-boundaries",
+      "source_ids": [
+        "S03-Q005"
+      ],
+      "source_refs": [
+        "sources/03-sql-data-performance.md#q005"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S03-Q006",
+      "group_id": "sql-objects-boundaries",
+      "source_ids": [
+        "S03-Q006"
+      ],
+      "source_refs": [
+        "sources/03-sql-data-performance.md#q006"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S03-Q007",
+      "group_id": "sql-index-design",
+      "source_ids": [
+        "S03-Q007"
+      ],
+      "source_refs": [
+        "sources/03-sql-data-performance.md#q007"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S03-Q008",
+      "group_id": "sql-index-design",
+      "source_ids": [
+        "S03-Q008"
+      ],
+      "source_refs": [
+        "sources/03-sql-data-performance.md#q008"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S03-Q009",
+      "group_id": "sql-index-design",
+      "source_ids": [
+        "S03-Q009"
+      ],
+      "source_refs": [
+        "sources/03-sql-data-performance.md#q009"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S03-Q010",
+      "group_id": "sql-index-design",
+      "source_ids": [
+        "S03-Q010"
+      ],
+      "source_refs": [
+        "sources/03-sql-data-performance.md#q010"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S03-Q011",
+      "group_id": "sql-index-design",
+      "source_ids": [
+        "S03-Q011"
+      ],
+      "source_refs": [
+        "sources/03-sql-data-performance.md#q011"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S03-Q012",
+      "group_id": "sql-index-design",
+      "source_ids": [
+        "S03-Q012"
+      ],
+      "source_refs": [
+        "sources/03-sql-data-performance.md#q012"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S03-Q013",
+      "group_id": "sql-index-design",
+      "source_ids": [
+        "S03-Q013"
+      ],
+      "source_refs": [
+        "sources/03-sql-data-performance.md#q013"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S03-Q014",
+      "group_id": "sql-index-design",
+      "source_ids": [
+        "S03-Q014"
+      ],
+      "source_refs": [
+        "sources/03-sql-data-performance.md#q014"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S03-Q015",
+      "group_id": "sql-index-design",
+      "source_ids": [
+        "S03-Q015"
+      ],
+      "source_refs": [
+        "sources/03-sql-data-performance.md#q015"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S03-Q016",
+      "group_id": "sql-index-design",
+      "source_ids": [
+        "S03-Q016"
+      ],
+      "source_refs": [
+        "sources/03-sql-data-performance.md#q016"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S03-Q017",
+      "group_id": "sql-transactions-concurrency",
+      "source_ids": [
+        "S03-Q017"
+      ],
+      "source_refs": [
+        "sources/03-sql-data-performance.md#q017"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S03-Q018",
+      "group_id": "sql-transactions-concurrency",
+      "source_ids": [
+        "S03-Q018"
+      ],
+      "source_refs": [
+        "sources/03-sql-data-performance.md#q018"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S03-Q019",
+      "group_id": "sql-transactions-concurrency",
+      "source_ids": [
+        "S03-Q019"
+      ],
+      "source_refs": [
+        "sources/03-sql-data-performance.md#q019"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S03-Q020",
+      "group_id": "sql-transactions-concurrency",
+      "source_ids": [
+        "S03-Q020"
+      ],
+      "source_refs": [
+        "sources/03-sql-data-performance.md#q020"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S03-Q021",
+      "group_id": "sql-transactions-concurrency",
+      "source_ids": [
+        "S03-Q021"
+      ],
+      "source_refs": [
+        "sources/03-sql-data-performance.md#q021"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S03-Q022",
+      "group_id": "sql-transactions-concurrency",
+      "source_ids": [
+        "S03-Q022"
+      ],
+      "source_refs": [
+        "sources/03-sql-data-performance.md#q022"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S03-Q023",
+      "group_id": "sql-transactions-concurrency",
+      "source_ids": [
+        "S03-Q023"
+      ],
+      "source_refs": [
+        "sources/03-sql-data-performance.md#q023"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S03-Q024",
+      "group_id": "sql-transactions-concurrency",
+      "source_ids": [
+        "S03-Q024"
+      ],
+      "source_refs": [
+        "sources/03-sql-data-performance.md#q024"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S03-Q025",
+      "group_id": "sql-transactions-concurrency",
+      "source_ids": [
+        "S03-Q025"
+      ],
+      "source_refs": [
+        "sources/03-sql-data-performance.md#q025"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S03-Q026",
+      "group_id": "sql-transactions-concurrency",
+      "source_ids": [
+        "S03-Q026"
+      ],
+      "source_refs": [
+        "sources/03-sql-data-performance.md#q026"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S03-Q027",
+      "group_id": "sql-bulk-import",
+      "source_ids": [
+        "S03-Q027"
+      ],
+      "source_refs": [
+        "sources/03-sql-data-performance.md#q027"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S03-Q028",
+      "group_id": "sql-bulk-import",
+      "source_ids": [
+        "S03-Q028"
+      ],
+      "source_refs": [
+        "sources/03-sql-data-performance.md#q028"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S03-Q029",
+      "group_id": "sql-bulk-import",
+      "source_ids": [
+        "S03-Q029"
+      ],
+      "source_refs": [
+        "sources/03-sql-data-performance.md#q029"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S03-Q030",
+      "group_id": "sql-bulk-import",
+      "source_ids": [
+        "S03-Q030"
+      ],
+      "source_refs": [
+        "sources/03-sql-data-performance.md#q030"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S03-Q031",
+      "group_id": "sql-bulk-import",
+      "source_ids": [
+        "S03-Q031"
+      ],
+      "source_refs": [
+        "sources/03-sql-data-performance.md#q031"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S03-Q032",
+      "group_id": "algorithms-department-headcount",
+      "source_ids": [
+        "S03-Q032"
+      ],
+      "source_refs": [
+        "sources/03-sql-data-performance.md#q032"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S03-Q033",
+      "group_id": "algorithms-sql-relations",
+      "source_ids": [
+        "S03-Q033"
+      ],
+      "source_refs": [
+        "sources/03-sql-data-performance.md#q033"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S03-Q034",
+      "group_id": "algorithms-sql-relations",
+      "source_ids": [
+        "S03-Q034"
+      ],
+      "source_refs": [
+        "sources/03-sql-data-performance.md#q034"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S03-Q035",
+      "group_id": "algorithms-sql-relations",
+      "source_ids": [
+        "S03-Q035"
+      ],
+      "source_refs": [
+        "sources/03-sql-data-performance.md#q035"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S03-Q036",
+      "group_id": "sql-query-investigation",
+      "source_ids": [
+        "S03-Q036"
+      ],
+      "source_refs": [
+        "sources/03-sql-data-performance.md#q036"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S03-SC001",
+      "group_id": "sql-query-investigation",
+      "source_ids": [
+        "S03-SC001"
+      ],
+      "source_refs": [
+        "sources/03-sql-data-performance.md#query-optimization"
+      ],
+      "kind": "source-scenario",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S04-Q001",
+      "group_id": "communication-system-explanation",
+      "source_ids": [
+        "S04-Q001"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q001"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S04-Q002",
+      "group_id": "communication-system-explanation",
+      "source_ids": [
+        "S04-Q002"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q002"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S04-Q004",
+      "group_id": "architecture-boundaries",
+      "source_ids": [
+        "S04-Q004"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q004"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S04-Q005",
+      "group_id": "architecture-boundaries",
+      "source_ids": [
+        "S04-Q005"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q005"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S04-Q006",
+      "group_id": "architecture-boundaries",
+      "source_ids": [
+        "S04-Q006"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q006"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S04-Q007",
+      "group_id": "architecture-boundaries",
+      "source_ids": [
+        "S04-Q007"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q007"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S04-Q008",
+      "group_id": "architecture-boundaries",
+      "source_ids": [
+        "S04-Q008"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q008"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S04-Q009",
+      "group_id": "architecture-boundaries",
+      "source_ids": [
+        "S04-Q009"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q009"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S04-Q010",
+      "group_id": "architecture-boundaries",
+      "source_ids": [
+        "S04-Q010"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q010"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S04-Q011",
+      "group_id": "architecture-communication",
+      "source_ids": [
+        "S04-Q011"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q011"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S04-Q012",
+      "group_id": "reliability-dependency-failures",
+      "source_ids": [
+        "S04-Q012"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q012"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S04-Q013",
+      "group_id": "reliability-dependency-failures",
+      "source_ids": [
+        "S04-Q013",
+        "S05-Q045"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q013",
+        "sources/05-security-cloud-devops.md#q045"
+      ],
+      "kind": "numbered",
+      "merge_rationale": "Shared retry-storm policy; retain timeout, backoff and circuit-breaker constraints.",
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S04-Q014",
+      "group_id": "architecture-communication",
+      "source_ids": [
+        "S04-Q014"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q014"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S04-Q015",
+      "group_id": "architecture-api-gateway",
+      "source_ids": [
+        "S04-Q015",
+        "S05-Q024"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q015",
+        "sources/05-security-cloud-devops.md#q024"
+      ],
+      "kind": "numbered",
+      "merge_rationale": "Shared gateway responsibility contract; retain reverse-proxy and API-management contexts.",
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S04-Q016",
+      "group_id": "architecture-api-gateway",
+      "source_ids": [
+        "S04-Q016"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q016"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S04-Q017",
+      "group_id": "architecture-api-gateway",
+      "source_ids": [
+        "S04-Q017"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q017"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S04-Q018",
+      "group_id": "architecture-api-gateway",
+      "source_ids": [
+        "S04-Q018"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q018"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S04-Q019",
+      "group_id": "messaging-delivery-recovery",
+      "source_ids": [
+        "S04-Q019"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q019"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S04-Q020",
+      "group_id": "messaging-delivery-recovery",
+      "source_ids": [
+        "S04-Q020"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q020"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S04-Q021",
+      "group_id": "messaging-delivery-recovery",
+      "source_ids": [
+        "S04-Q021"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q021"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S04-Q022",
+      "group_id": "messaging-delivery-recovery",
+      "source_ids": [
+        "S04-Q022"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q022"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S04-Q023",
+      "group_id": "messaging-delivery-recovery",
+      "source_ids": [
+        "S04-Q023",
+        "S05-Q047"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q023",
+        "sources/05-security-cloud-devops.md#q047"
+      ],
+      "kind": "numbered",
+      "merge_rationale": "Shared recovery policy for repeatedly failing work; retain retry and poison/dead-letter scope.",
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S04-Q024",
+      "group_id": "messaging-idempotent-consumer",
+      "source_ids": [
+        "S04-Q024",
+        "S04-Q025"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q024",
+        "sources/04-architecture-distributed-systems.md#q025"
+      ],
+      "kind": "numbered",
+      "merge_rationale": "Same duplicate-effect/idempotent-consumer contract under repeated delivery.",
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S04-Q026",
+      "group_id": "messaging-idempotent-consumer",
+      "source_ids": [
+        "S04-Q026"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q026"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S04-Q027",
+      "group_id": "messaging-ordering-correlation",
+      "source_ids": [
+        "S04-Q027"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q027"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S04-Q028",
+      "group_id": "messaging-ordering-correlation",
+      "source_ids": [
+        "S04-Q028"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q028"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S04-Q029",
+      "group_id": "messaging-ordering-correlation",
+      "source_ids": [
+        "S04-Q029"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q029"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S04-Q030",
+      "group_id": "messaging-outbox",
+      "source_ids": [
+        "S04-Q030"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q030"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S04-Q031",
+      "group_id": "architecture-ddd-cqrs",
+      "source_ids": [
+        "S04-Q031"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q031"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S04-Q032",
+      "group_id": "architecture-ddd-cqrs",
+      "source_ids": [
+        "S04-Q032"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q032"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S04-Q033",
+      "group_id": "architecture-ddd-cqrs",
+      "source_ids": [
+        "S04-Q033"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q033"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S04-Q034",
+      "group_id": "architecture-ddd-cqrs",
+      "source_ids": [
+        "S04-Q034"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q034"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S04-Q035",
+      "group_id": "architecture-ddd-cqrs",
+      "source_ids": [
+        "S04-Q035"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q035"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S04-Q036",
+      "group_id": "architecture-ddd-cqrs",
+      "source_ids": [
+        "S04-Q036"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q036"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S04-Q037",
+      "group_id": "architecture-ddd-cqrs",
+      "source_ids": [
+        "S04-Q037"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q037"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S04-Q038",
+      "group_id": "architecture-ddd-cqrs",
+      "source_ids": [
+        "S04-Q038"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q038"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S04-Q039",
+      "group_id": "architecture-saga-compensation",
+      "source_ids": [
+        "S04-Q039"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q039"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S04-Q040",
+      "group_id": "architecture-saga-compensation",
+      "source_ids": [
+        "S04-Q040"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q040"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S04-Q041",
+      "group_id": "architecture-saga-compensation",
+      "source_ids": [
+        "S04-Q041"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q041"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S04-Q042",
+      "group_id": "architecture-saga-compensation",
+      "source_ids": [
+        "S04-Q042"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q042"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S04-Q043",
+      "group_id": "architecture-saga-compensation",
+      "source_ids": [
+        "S04-Q043"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#q043"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S04-SC001",
+      "group_id": "messaging-idempotent-consumer",
+      "source_ids": [
+        "S04-SC001"
+      ],
+      "source_refs": [
+        "sources/04-architecture-distributed-systems.md#production-scenario"
+      ],
+      "kind": "source-scenario",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S05-Q001",
+      "group_id": "security-token-lifecycle",
+      "source_ids": [
+        "S05-Q001"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q001"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S05-Q002",
+      "group_id": "security-token-lifecycle",
+      "source_ids": [
+        "S05-Q002"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q002"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S05-Q003",
+      "group_id": "security-token-lifecycle",
+      "source_ids": [
+        "S05-Q003"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q003"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S05-Q004",
+      "group_id": "security-token-lifecycle",
+      "source_ids": [
+        "S05-Q004"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q004"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S05-Q005",
+      "group_id": "security-token-lifecycle",
+      "source_ids": [
+        "S05-Q005"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q005"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S05-Q006",
+      "group_id": "security-token-lifecycle",
+      "source_ids": [
+        "S05-Q006"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q006"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S05-Q007",
+      "group_id": "security-token-lifecycle",
+      "source_ids": [
+        "S05-Q007"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q007"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S05-Q008",
+      "group_id": "security-token-lifecycle",
+      "source_ids": [
+        "S05-Q008"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q008"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S05-Q009",
+      "group_id": "security-service-identity",
+      "source_ids": [
+        "S05-Q009"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q009"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S05-Q010",
+      "group_id": "security-service-identity",
+      "source_ids": [
+        "S05-Q010"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q010"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S05-Q011",
+      "group_id": "security-service-identity",
+      "source_ids": [
+        "S05-Q011"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q011"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S05-Q012",
+      "group_id": "security-service-identity",
+      "source_ids": [
+        "S05-Q012"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q012"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S05-Q013",
+      "group_id": "security-browser-transport",
+      "source_ids": [
+        "S05-Q013"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q013"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S05-Q014",
+      "group_id": "security-browser-transport",
+      "source_ids": [
+        "S05-Q014"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q014"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S05-Q015",
+      "group_id": "security-browser-transport",
+      "source_ids": [
+        "S05-Q015"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q015"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S05-Q016",
+      "group_id": "security-service-identity",
+      "source_ids": [
+        "S05-Q016"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q016"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S05-Q017",
+      "group_id": "security-browser-transport",
+      "source_ids": [
+        "S05-Q017"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q017"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S05-Q018",
+      "group_id": "azure-service-selection",
+      "source_ids": [
+        "S05-Q018"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q018"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S05-Q019",
+      "group_id": "azure-service-selection",
+      "source_ids": [
+        "S05-Q019"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q019"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S05-Q020",
+      "group_id": "azure-service-selection",
+      "source_ids": [
+        "S05-Q020"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q020"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S05-Q021",
+      "group_id": "azure-service-selection",
+      "source_ids": [
+        "S05-Q021"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q021"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S05-Q022",
+      "group_id": "azure-service-selection",
+      "source_ids": [
+        "S05-Q022"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q022"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S05-Q023",
+      "group_id": "security-service-identity",
+      "source_ids": [
+        "S05-Q023"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q023"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S05-Q025",
+      "group_id": "azure-operations-iac",
+      "source_ids": [
+        "S05-Q025"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q025"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S05-Q026",
+      "group_id": "azure-operations-iac",
+      "source_ids": [
+        "S05-Q026"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q026"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S05-Q027",
+      "group_id": "azure-operations-iac",
+      "source_ids": [
+        "S05-Q027",
+        "S05-Q038"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q027",
+        "sources/05-security-cloud-devops.md#q038"
+      ],
+      "kind": "numbered",
+      "merge_rationale": "Same environment configuration contract; retain cloud deployment and immutable container/artifact contexts.",
+      "related_group_ids": [
+        "devops-container-delivery"
+      ]
+    },
+    {
+      "question_id": "S05-Q028",
+      "group_id": "observability-request-diagnosis",
+      "source_ids": [
+        "S05-Q028"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q028"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S05-Q029",
+      "group_id": "observability-request-diagnosis",
+      "source_ids": [
+        "S05-Q029"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q029"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S05-Q030",
+      "group_id": "observability-request-diagnosis",
+      "source_ids": [
+        "S05-Q030"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q030"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S05-Q031",
+      "group_id": "observability-request-diagnosis",
+      "source_ids": [
+        "S05-Q031"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q031"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S05-Q032",
+      "group_id": "observability-request-diagnosis",
+      "source_ids": [
+        "S05-Q032"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q032"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S05-Q033",
+      "group_id": "observability-request-diagnosis",
+      "source_ids": [
+        "S05-Q033"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q033"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S05-Q034",
+      "group_id": "observability-request-diagnosis",
+      "source_ids": [
+        "S05-Q034"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q034"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S05-Q035",
+      "group_id": "devops-container-delivery",
+      "source_ids": [
+        "S05-Q035"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q035"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S05-Q036",
+      "group_id": "devops-container-delivery",
+      "source_ids": [
+        "S05-Q036"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q036"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S05-Q037",
+      "group_id": "devops-container-delivery",
+      "source_ids": [
+        "S05-Q037"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q037"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S05-Q039",
+      "group_id": "devops-container-delivery",
+      "source_ids": [
+        "S05-Q039"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q039"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S05-Q040",
+      "group_id": "devops-safe-release",
+      "source_ids": [
+        "S05-Q040"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q040"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S05-Q041",
+      "group_id": "devops-safe-release",
+      "source_ids": [
+        "S05-Q041"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q041"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S05-Q042",
+      "group_id": "devops-safe-release",
+      "source_ids": [
+        "S05-Q042"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q042"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S05-Q043",
+      "group_id": "devops-safe-release",
+      "source_ids": [
+        "S05-Q043"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q043"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S05-Q048",
+      "group_id": "reliability-dependency-failures",
+      "source_ids": [
+        "S05-Q048"
+      ],
+      "source_refs": [
+        "sources/05-security-cloud-devops.md#q048"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S06-Q001",
+      "group_id": "frontend-angular-architecture",
+      "source_ids": [
+        "S06-Q001"
+      ],
+      "source_refs": [
+        "sources/06-frontend-behavioral.md#q001"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S06-Q002",
+      "group_id": "frontend-angular-architecture",
+      "source_ids": [
+        "S06-Q002"
+      ],
+      "source_refs": [
+        "sources/06-frontend-behavioral.md#q002"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S06-Q003",
+      "group_id": "frontend-angular-architecture",
+      "source_ids": [
+        "S06-Q003"
+      ],
+      "source_refs": [
+        "sources/06-frontend-behavioral.md#q003"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S06-Q004",
+      "group_id": "frontend-http-auth",
+      "source_ids": [
+        "S06-Q004"
+      ],
+      "source_refs": [
+        "sources/06-frontend-behavioral.md#q004"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S06-Q005",
+      "group_id": "frontend-http-auth",
+      "source_ids": [
+        "S06-Q005"
+      ],
+      "source_refs": [
+        "sources/06-frontend-behavioral.md#q005"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S06-Q006",
+      "group_id": "frontend-angular-architecture",
+      "source_ids": [
+        "S06-Q006"
+      ],
+      "source_refs": [
+        "sources/06-frontend-behavioral.md#q006"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S06-Q007",
+      "group_id": "frontend-angular-architecture",
+      "source_ids": [
+        "S06-Q007"
+      ],
+      "source_refs": [
+        "sources/06-frontend-behavioral.md#q007"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S06-Q008",
+      "group_id": "frontend-angular-architecture",
+      "source_ids": [
+        "S06-Q008"
+      ],
+      "source_refs": [
+        "sources/06-frontend-behavioral.md#q008"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S06-Q009",
+      "group_id": "frontend-http-auth",
+      "source_ids": [
+        "S06-Q009"
+      ],
+      "source_refs": [
+        "sources/06-frontend-behavioral.md#q009"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S06-Q010",
+      "group_id": "frontend-angular-architecture",
+      "source_ids": [
+        "S06-Q010"
+      ],
+      "source_refs": [
+        "sources/06-frontend-behavioral.md#q010"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S06-Q011",
+      "group_id": "frontend-typescript-semantics",
+      "source_ids": [
+        "S06-Q011"
+      ],
+      "source_refs": [
+        "sources/06-frontend-behavioral.md#q011"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S06-Q012",
+      "group_id": "frontend-typescript-semantics",
+      "source_ids": [
+        "S06-Q012"
+      ],
+      "source_refs": [
+        "sources/06-frontend-behavioral.md#q012"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S06-Q013",
+      "group_id": "frontend-typescript-semantics",
+      "source_ids": [
+        "S06-Q013"
+      ],
+      "source_refs": [
+        "sources/06-frontend-behavioral.md#q013"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S06-Q014",
+      "group_id": "frontend-typescript-semantics",
+      "source_ids": [
+        "S06-Q014"
+      ],
+      "source_refs": [
+        "sources/06-frontend-behavioral.md#q014"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S06-Q015",
+      "group_id": "frontend-typescript-semantics",
+      "source_ids": [
+        "S06-Q015"
+      ],
+      "source_refs": [
+        "sources/06-frontend-behavioral.md#q015"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S06-Q016",
+      "group_id": "communication-behavioral-stories",
+      "source_ids": [
+        "S06-Q016"
+      ],
+      "source_refs": [
+        "sources/06-frontend-behavioral.md#q016"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S06-Q017",
+      "group_id": "communication-behavioral-stories",
+      "source_ids": [
+        "S06-Q017"
+      ],
+      "source_refs": [
+        "sources/06-frontend-behavioral.md#q017"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S06-Q018",
+      "group_id": "communication-behavioral-stories",
+      "source_ids": [
+        "S06-Q018"
+      ],
+      "source_refs": [
+        "sources/06-frontend-behavioral.md#q018"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S06-Q019",
+      "group_id": "communication-system-explanation",
+      "source_ids": [
+        "S06-Q019"
+      ],
+      "source_refs": [
+        "sources/06-frontend-behavioral.md#q019"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S06-Q020",
+      "group_id": "communication-behavioral-stories",
+      "source_ids": [
+        "S06-Q020"
+      ],
+      "source_refs": [
+        "sources/06-frontend-behavioral.md#q020"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S06-Q021",
+      "group_id": "communication-behavioral-stories",
+      "source_ids": [
+        "S06-Q021"
+      ],
+      "source_refs": [
+        "sources/06-frontend-behavioral.md#q021"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S06-Q022",
+      "group_id": "communication-behavioral-stories",
+      "source_ids": [
+        "S06-Q022"
+      ],
+      "source_refs": [
+        "sources/06-frontend-behavioral.md#q022"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S06-Q023",
+      "group_id": "communication-behavioral-stories",
+      "source_ids": [
+        "S06-Q023"
+      ],
+      "source_refs": [
+        "sources/06-frontend-behavioral.md#q023"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S06-Q024",
+      "group_id": "communication-system-explanation",
+      "source_ids": [
+        "S06-Q024"
+      ],
+      "source_refs": [
+        "sources/06-frontend-behavioral.md#q024"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S06-Q025",
+      "group_id": "communication-system-explanation",
+      "source_ids": [
+        "S06-Q025"
+      ],
+      "source_refs": [
+        "sources/06-frontend-behavioral.md#q025"
+      ],
+      "kind": "numbered",
+      "merge_rationale": null,
+      "related_group_ids": []
+    },
+    {
+      "question_id": "S06-SC001",
+      "group_id": "communication-system-explanation",
+      "source_ids": [
+        "S06-SC001"
+      ],
+      "source_refs": [
+        "sources/06-frontend-behavioral.md#cross-stack-request-flow"
+      ],
+      "kind": "source-scenario",
+      "merge_rationale": null,
+      "related_group_ids": []
+    }
+  ],
+  "merge_sets": [
+    {
+      "canonical_id": "S01-Q010",
+      "source_ids": [
+        "S01-Q010",
+        "S02-Q025"
+      ],
+      "rationale": "Both compare IEnumerable/IQueryable; preserve execution timing and provider scope.",
+      "rationale_vi": "Cùng so sánh IEnumerable/IQueryable; giữ rõ thời điểm thực thi và phạm vi query provider."
+    },
+    {
+      "canonical_id": "S01-Q032",
+      "source_ids": [
+        "S01-Q032",
+        "S01-Q037"
+      ],
+      "rationale": "Shared DIP/DI comparison; retain IoC explicitly from Q032.",
+      "rationale_vi": "Cùng phân biệt DIP/DI; giữ thêm IoC được nêu rõ ở Q032."
+    },
+    {
+      "canonical_id": "S01-Q042",
+      "source_ids": [
+        "S01-Q042",
+        "S04-Q003"
+      ],
+      "rationale": "Identical Clean Architecture and dependency-direction prompt.",
+      "rationale_vi": "Trùng nguyên văn câu hỏi về Clean Architecture và hướng phụ thuộc."
+    },
+    {
+      "canonical_id": "S04-Q024",
+      "source_ids": [
+        "S04-Q024",
+        "S04-Q025"
+      ],
+      "rationale": "Same duplicate-effect/idempotent-consumer contract under repeated delivery.",
+      "rationale_vi": "Cùng xét tác động bị lặp và hợp đồng idempotent consumer khi message được giao lại."
+    },
+    {
+      "canonical_id": "S04-Q015",
+      "source_ids": [
+        "S04-Q015",
+        "S05-Q024"
+      ],
+      "rationale": "Shared gateway responsibility contract; retain reverse-proxy and API-management contexts.",
+      "rationale_vi": "Cùng xét trách nhiệm gateway; giữ riêng bối cảnh reverse proxy và API management."
+    },
+    {
+      "canonical_id": "S02-Q019",
+      "source_ids": [
+        "S02-Q019",
+        "S05-Q044"
+      ],
+      "rationale": "Same offload decision; retain resource-intensive work as the concrete context.",
+      "rationale_vi": "Cùng quyết định tách việc khỏi request; giữ công việc tốn tài nguyên làm bối cảnh cụ thể."
+    },
+    {
+      "canonical_id": "S02-Q023",
+      "source_ids": [
+        "S02-Q023",
+        "S05-Q046"
+      ],
+      "rationale": "Same multi-replica scheduler safety question; retain scheduled/background scope.",
+      "rationale_vi": "Cùng xét độ an toàn của scheduler khi có nhiều replica; giữ cả công việc theo lịch và background."
+    },
+    {
+      "canonical_id": "S04-Q013",
+      "source_ids": [
+        "S04-Q013",
+        "S05-Q045"
+      ],
+      "rationale": "Shared retry-storm policy; retain timeout, backoff and circuit-breaker constraints.",
+      "rationale_vi": "Cùng xây chính sách tránh retry storm; giữ ràng buộc timeout, backoff và circuit breaker."
+    },
+    {
+      "canonical_id": "S04-Q023",
+      "source_ids": [
+        "S04-Q023",
+        "S05-Q047"
+      ],
+      "rationale": "Shared recovery policy for repeatedly failing work; retain retry and poison/dead-letter scope.",
+      "rationale_vi": "Cùng xét phục hồi công việc thất bại nhiều lần; giữ phạm vi retry và poison/dead-letter."
+    },
+    {
+      "canonical_id": "S05-Q027",
+      "source_ids": [
+        "S05-Q027",
+        "S05-Q038"
+      ],
+      "rationale": "Same environment configuration contract; retain cloud deployment and immutable container/artifact contexts.",
+      "rationale_vi": "Cùng xét hợp đồng cấu hình theo môi trường; giữ cả triển khai cloud và container/artifact bất biến."
+    }
+  ],
+  "documents": [
+    {
+      "path": "AGENTS.md",
+      "role": "guidance-or-navigation",
+      "sha256": "a6ca79f947508dc882c951697e46d2d8b7c1796246111713e6313fcb577bcecc"
+    },
+    {
+      "path": "README.md",
+      "role": "guidance-or-navigation",
+      "sha256": "52146bb04a78fc4c1e6e1e776f3b3f7a44e43af7083d880bd562772cdb5e6895"
+    },
+    {
+      "path": "_includes/interview/department-headcount-30s.md",
+      "role": "shared-example",
+      "sha256": "a10761de9b186c8b7a2aa9f2a13364b03a386d09b572bd88eb5a3a73640068a6"
+    },
+    {
+      "path": "_includes/interview/department-headcount-90s.md",
+      "role": "shared-example",
+      "sha256": "ebc42f224660b1f34fbe682af4f17044389838b864409cf8379c421c9cef563a"
+    },
+    {
+      "path": "_includes/interview/inbox-30s.md",
+      "role": "shared-example",
+      "sha256": "fd43bc791967e5f02f1d142b1fb60e75416a202402e32d5e74d1bcb27625298c"
+    },
+    {
+      "path": "_includes/interview/inbox-90s.md",
+      "role": "shared-example",
+      "sha256": "1dae9515417444b0440ea48bb008fa4740520ae2bc3f4bed48a70b5a0f427e47"
+    },
+    {
+      "path": "_includes/lab-code/atomic-inbox-solution.md",
+      "role": "shared-example",
+      "sha256": "66cde2d4b70b89538efa653f4b0fa216663de1a25aa0b6bc8e6351a17e21b2bb"
+    },
+    {
+      "path": "_includes/lab-code/department-headcount-all.md",
+      "role": "shared-example",
+      "sha256": "2bb2856af545e27a58323fba1dcf7a60b24e5dcd35547e024ac4ea1ccb8d8d24"
+    },
+    {
+      "path": "_includes/lab-code/department-headcount-exercise.md",
+      "role": "shared-example",
+      "sha256": "cade9af3287a8313beb9af6e796c660c5d9734d5f95fbd8d1a7e816896d831f3"
+    },
+    {
+      "path": "_includes/lab-code/department-headcount-setup.md",
+      "role": "shared-example",
+      "sha256": "b8e91475614a3cf83ca6325918794c88d3676da1bfc17dd92f11a0e3e93c542f"
+    },
+    {
+      "path": "_includes/lab-code/department-headcount-solution.md",
+      "role": "shared-example",
+      "sha256": "d668db2bd43e12094e3e3e6c6a2628db97bca01ea8fc5ee71cbac06962300360"
+    },
+    {
+      "path": "_includes/lab-code/department-headcount-transfer.md",
+      "role": "shared-example",
+      "sha256": "4cc7be29784ddc34eaef3bfd7e0b019de826ac31cbe87e17f03a186ff35de43c"
+    },
+    {
+      "path": "_includes/lab-code/sql-server-procedure.md",
+      "role": "shared-example",
+      "sha256": "fea4bb13120d34a43fc5ef13a60a76ad6d97d935306759d45c2a9265e24eda85"
+    },
+    {
+      "path": "_includes/lab-code/sql-server-setup.md",
+      "role": "shared-example",
+      "sha256": "b4599e51b1a915aeab3f0a62df20ea6f1e31644257a68e4c89854140012cd104"
+    },
+    {
+      "path": "agent/INTERVIEW_METHOD.md",
+      "role": "guidance-or-navigation",
+      "sha256": "1d95082805945fb49c05689aa25ddaaba82440d53fcf324151d21dc302ca7daf"
+    },
+    {
+      "path": "agent/LESSON_TEMPLATE.md",
+      "role": "template",
+      "sha256": "79f82cbdede2f6cc4556e0f4f39995b76cc20a71bd59409f1596f0fddd235a69"
+    },
+    {
+      "path": "agent/SESSION_TEMPLATE.md",
+      "role": "template",
+      "sha256": "164bd273a1029d571774c1250b7d7c2cd9a81fe1ad08396689830bfd19d44768"
+    },
+    {
+      "path": "agent/SKILL.md",
+      "role": "guidance-or-navigation",
+      "sha256": "69615906df271c183e2ab65c676035ff8590f86fe0553806e3cb0be4cf24e139"
+    },
+    {
+      "path": "agent/TOPIC_TAXONOMY.md",
+      "role": "guidance-or-navigation",
+      "sha256": "25fa7f14a55518461689eab1ad2b8b53ba6892c5f4943e209544c6c97a71b5a2"
+    },
+    {
+      "path": "curriculum/domains/algorithms-debugging.md",
+      "role": "curriculum",
+      "sha256": "8531a5f56eb587fb162705148b786a46b6b3ff5feb56d0fb2354807a054db75c"
+    },
+    {
+      "path": "curriculum/domains/architecture-distributed.md",
+      "role": "curriculum",
+      "sha256": "420d3cd8fdfebf8e263b664159d34d0dc6edd5c07d49a84301c7793e1af8a257"
+    },
+    {
+      "path": "curriculum/domains/aspnet-api.md",
+      "role": "curriculum",
+      "sha256": "4d889039b8f27504ab268bdc10c4deab9149d5a71ae2399d685f55a0c8c3a323"
+    },
+    {
+      "path": "curriculum/domains/azure-cloud.md",
+      "role": "curriculum",
+      "sha256": "7e840cf989b524512f228ac66ccb2cfaae0b61079a22988102af09d52e77dca7"
+    },
+    {
+      "path": "curriculum/domains/devops-delivery.md",
+      "role": "curriculum",
+      "sha256": "d211e795f9ea06d49091b8519913ba3552316282a1bf77a90b1a4cad73017a60"
+    },
+    {
+      "path": "curriculum/domains/dotnet-runtime.md",
+      "role": "curriculum",
+      "sha256": "c0e2855c49971b35d237939e700a37c228bb41dd6319cb795df40f73a1833391"
+    },
+    {
+      "path": "curriculum/domains/ef-linq.md",
+      "role": "curriculum",
+      "sha256": "6be68317dd0b6416d952038099de7f0ec5abbf9c176aefb78e8ee42f9024e4d9"
+    },
+    {
+      "path": "curriculum/domains/engineering-communication.md",
+      "role": "curriculum",
+      "sha256": "89eb98780cd28c82b583a44236914ccb8248a8a155b0b5b1136dd333403ce3c5"
+    },
+    {
+      "path": "curriculum/domains/frontend-typescript.md",
+      "role": "curriculum",
+      "sha256": "d9bcc8870d472f603d9a7ae3e607f8c7068c0df579df90893ba4b560ed5bdc9d"
+    },
+    {
+      "path": "curriculum/domains/messaging-event-driven.md",
+      "role": "curriculum",
+      "sha256": "7e15534f6a4ca3bfc68745742d9ec70a19870d923d9eae815d3d46106689f32a"
+    },
+    {
+      "path": "curriculum/domains/observability-reliability.md",
+      "role": "curriculum",
+      "sha256": "2f50c1513018c38340600c9312ee1d65537e245e3acc0f0c19fc6486480a06c0"
+    },
+    {
+      "path": "curriculum/domains/security-identity.md",
+      "role": "curriculum",
+      "sha256": "0454dfea1c9f440d9e80953d47c4cec996bfecce5bbd29af67f41058761f6425"
+    },
+    {
+      "path": "curriculum/domains/sql-data.md",
+      "role": "curriculum",
+      "sha256": "7b4bfa3c690beeed752d078650645a52806ac4da7def6e0ea93f9e2015432d58"
+    },
+    {
+      "path": "curriculum/index.md",
+      "role": "curriculum",
+      "sha256": "00126a35989b6e489fbe25f2ad000f79fcff29262bd5be04c4b9ea8d714dc450"
+    },
+    {
+      "path": "curriculum/source-coverage.md",
+      "role": "curriculum",
+      "sha256": "399c6de103551748f49f2549ee9d11c17753256f0a5d154f3a845f8af23d2cca"
+    },
+    {
+      "path": "docs/localization.md",
+      "role": "guidance-or-navigation",
+      "sha256": "4ab039f679a78e891dd864c32c411f9a8d3a5cec060f4fbbf4d6ac3206c69bb2"
+    },
+    {
+      "path": "docs/verification.md",
+      "role": "guidance-or-navigation",
+      "sha256": "94baddd86524cf83d3562efe1cfa80b2c5ee87c0ec3338411c1336184bbda88a"
+    },
+    {
+      "path": "docs/workflow.md",
+      "role": "guidance-or-navigation",
+      "sha256": "673440c60da66292508df77e182ce9dc861812b2fac8ff42f206b174349363d4"
+    },
+    {
+      "path": "index.md",
+      "role": "guidance-or-navigation",
+      "sha256": "2b4f4a9066645ae7a175721cb4b041805a868700afff7b8a85d8e566fb48a670"
+    },
+    {
+      "path": "labs/atomic-inbox/README.md",
+      "role": "lab",
+      "sha256": "dde55279e35718bcb747667ce4a5955c84f565511e2d50ed37bbfa4ee3a92cda"
+    },
+    {
+      "path": "labs/department-headcount/README.md",
+      "role": "lab",
+      "sha256": "676e02c90b1dd19c90c10a7d32b3cc6cceb403735bd288bbb1227a788e9a8667"
+    },
+    {
+      "path": "learning/README.md",
+      "role": "guidance-or-navigation",
+      "sha256": "ffb4eccf3d494733dee38c75e7867be21947e2c0404568afd172c2b621f3cd88"
+    },
+    {
+      "path": "lessons/2026-10-08-messaging-idempotent-consumer.md",
+      "role": "generated-lesson",
+      "sha256": "af2dfb9dcea6513c71a5729628ba454d96a05a2cbdc50b13094db0e03f1364c4"
+    },
+    {
+      "path": "lessons/2026-10-10-algorithms-department-headcount.md",
+      "role": "generated-lesson",
+      "sha256": "490356006a9ceea98eecd18eff98b106047c2607cb942253580032e0f452ab8d"
+    },
+    {
+      "path": "lessons/index.md",
+      "role": "guidance-or-navigation",
+      "sha256": "aa9980e49a6a183b21a3a32dae75d502d850066d8e1432b0086001c3eea3d680"
+    },
+    {
+      "path": "practice/interview.md",
+      "role": "guidance-or-navigation",
+      "sha256": "14627ec1f8f0d83aad27aad72b4d22fb4a207d9e7f93be10ddd5b60780f25d70"
+    },
+    {
+      "path": "practice/review.md",
+      "role": "guidance-or-navigation",
+      "sha256": "48b1dd8c08de6898f4d4820eb90f965b7d51ee83b38de7d563fd76df692b014b"
+    },
+    {
+      "path": "sources/01-csharp-dotnet.md",
+      "role": "source",
+      "sha256": "ccfe8241274f52733a17601d132d5fe95163017e48c55c2187d721e2d1c79558"
+    },
+    {
+      "path": "sources/02-aspnet-api-ef.md",
+      "role": "source",
+      "sha256": "4e254ed98624a6bc1682d24bf38542e71ef0625fd9f85b814f265ca65a5ed411"
+    },
+    {
+      "path": "sources/03-sql-data-performance.md",
+      "role": "source",
+      "sha256": "ff0e463e58874418d1a7d7953e43a6c44d11c889d24c41f0874813651e0a36a8"
+    },
+    {
+      "path": "sources/04-architecture-distributed-systems.md",
+      "role": "source",
+      "sha256": "eaff88a7c32f605025e993f4728e515dab3990d9d18f9c3bdbc92119529dd9a8"
+    },
+    {
+      "path": "sources/05-security-cloud-devops.md",
+      "role": "source",
+      "sha256": "5fa0bca0d4d63b89e1c582497133bd2662bc616edc6c62aec510817dba3ed7d6"
+    },
+    {
+      "path": "sources/06-frontend-behavioral.md",
+      "role": "source",
+      "sha256": "62f7d5a49ce9e872ed6a82e28aa6a3d3054fb26ec2a0ac5fc3f4eb67b1aafa6f"
+    },
+    {
+      "path": "vi/README.md",
+      "role": "guidance-or-navigation",
+      "sha256": "1ad9872feeacf5fb869f719ae8bb35eeb245cca243a495e18e110a17b3fdecb7"
+    },
+    {
+      "path": "vi/agent/INTERVIEW_METHOD.md",
+      "role": "guidance-or-navigation",
+      "sha256": "a6bcfd4712bf32bf33fa23e572664bb7b7e31f85061f309231532cb0cc31e49e"
+    },
+    {
+      "path": "vi/curriculum/index.md",
+      "role": "guidance-or-navigation",
+      "sha256": "777672c2edce6f865ff02dd64ab057c2200478ebce32abfeb2b29c12f8bacc55"
+    },
+    {
+      "path": "vi/docs/workflow.md",
+      "role": "guidance-or-navigation",
+      "sha256": "8d32af5d2daaca4b3abb7288b444173182264dde0ff35db74e31875725c5ec51"
+    },
+    {
+      "path": "vi/index.md",
+      "role": "guidance-or-navigation",
+      "sha256": "b313559acd97ef043d7593e0b8a175633f04ca5e1626e70385cf599c31ded1c8"
+    },
+    {
+      "path": "vi/lessons/2026-10-08-messaging-idempotent-consumer.md",
+      "role": "generated-lesson",
+      "sha256": "854664f2fba731bd41f34072d8c50798c0a0351287300c3bf5bde60da0b183e6"
+    },
+    {
+      "path": "vi/lessons/2026-10-10-algorithms-department-headcount.md",
+      "role": "generated-lesson",
+      "sha256": "589076696c4a9deb54b0b2a9892e4783790fce190f961e3a96b2da8870f020d1"
+    },
+    {
+      "path": "vi/lessons/index.md",
+      "role": "guidance-or-navigation",
+      "sha256": "3ea7cfe3decaca763432cd9b26b674abbf6b830f25e10c2ba6b46e9eb331a467"
+    },
+    {
+      "path": "vi/practice/interview.md",
+      "role": "guidance-or-navigation",
+      "sha256": "b53d80497ed7fa05150f6a5b147c5628fbf0d1209abea0422dee9c002a34b1b4"
+    },
+    {
+      "path": "vi/practice/review.md",
+      "role": "guidance-or-navigation",
+      "sha256": "51b7e39627b2b1852054f07c7e7260f2020ff496ecfcdf6a1228026c1b427d92"
+    }
+  ],
+  "retained_advice": [
+    {
+      "source_ref": "sources/06-frontend-behavioral.md#interview-answer-structure",
+      "classification": "answer-structure-advice",
+      "counted_as_question": false
+    }
+  ]
+}

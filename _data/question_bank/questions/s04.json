@@ -1,0 +1,1682 @@
+[
+  {
+    "question_id": "S04-Q001",
+    "phase": "application",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "Draw a system you can explain and follow one request from the client to its final result. Where does responsibility pass between components?",
+      "explanation": "Use the request to make the diagram meaningful: show the component that receives each step and the data it reads or changes.",
+      "intent": "Explain an end-to-end flow through clear ownership and state transitions.",
+      "scope": "Use a generic design or privacy-safe real example. State whether the final result is synchronous or arrives later.",
+      "senior_signals": [
+        "Connect diagram arrows to specific request and data transitions.",
+        "Identify a failure boundary and the evidence needed to locate it."
+      ],
+      "pitfalls": [
+        "Listing technologies without explaining how the request moves through them."
+      ],
+      "followups": [
+        "If the response never arrives, which boundary would you investigate first?",
+        "How does the diagram change when a background worker produces the result?"
+      ]
+    },
+    "vi": {
+      "question": "Vẽ một hệ thống bạn có thể giải thích và lần theo một request từ client đến kết quả cuối cùng. Trách nhiệm được chuyển giữa các thành phần ở đâu?",
+      "explanation": "Dùng request để làm rõ sơ đồ: ở mỗi bước, chỉ ra thành phần nhận việc và dữ liệu được đọc hoặc thay đổi.",
+      "intent": "Giải thích luồng xuyên suốt qua trách nhiệm và chuyển đổi trạng thái cụ thể.",
+      "scope": "Dùng thiết kế giả định hoặc ví dụ thực tế đã bỏ thông tin riêng tư. Nêu rõ kết quả trả ngay hay được cung cấp sau.",
+      "senior_signals": [
+        "Gắn từng mũi tên trong sơ đồ với bước xử lý request và dữ liệu cụ thể.",
+        "Chỉ ra một ranh giới có thể xảy ra lỗi và bằng chứng cần để khoanh vùng."
+      ],
+      "pitfalls": [
+        "Liệt kê công nghệ nhưng không giải thích request đi qua chúng thế nào."
+      ],
+      "followups": [
+        "Nếu không nhận được response, bạn sẽ kiểm tra ranh giới nào trước?",
+        "Sơ đồ thay đổi thế nào khi worker chạy nền tạo ra kết quả?"
+      ]
+    }
+  },
+  {
+    "question_id": "S04-Q002",
+    "phase": "tradeoff",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "For the system you drew, why did you choose these technologies and responsibility boundaries? What constraint would make you choose differently?",
+      "explanation": "Explain one consequential choice rather than defending every tool. A boundary separates who owns a rule, data or operational responsibility.",
+      "intent": "Defend an architectural choice using constraints and a credible alternative.",
+      "scope": "State workload, team and deployment assumptions. Distinguish observed experience from a proposed design.",
+      "senior_signals": [
+        "Connect the choice to a concrete requirement and an alternative rejected for a stated reason.",
+        "Name a cost and the evidence that would justify revisiting the boundary."
+      ],
+      "pitfalls": [
+        "Presenting popularity or an architecture label as sufficient justification."
+      ],
+      "followups": [
+        "Which change in requirements would invalidate this choice?",
+        "What would you measure before replacing the chosen technology?"
+      ]
+    },
+    "vi": {
+      "question": "Với hệ thống vừa vẽ, vì sao bạn chọn các công nghệ và ranh giới trách nhiệm này? Ràng buộc nào thay đổi sẽ khiến bạn chọn khác?",
+      "explanation": "Giải thích một quyết định quan trọng thay vì bảo vệ mọi công cụ. Ranh giới xác định bên sở hữu quy tắc, dữ liệu hoặc trách nhiệm vận hành.",
+      "intent": "Bảo vệ một lựa chọn kiến trúc bằng ràng buộc và phương án thay thế có cơ sở.",
+      "scope": "Nêu giả định về workload, đội ngũ và triển khai. Phân biệt trải nghiệm đã quan sát với thiết kế đề xuất.",
+      "senior_signals": [
+        "Gắn lựa chọn với yêu cầu cụ thể và giải thích lý do loại một phương án khác.",
+        "Nêu chi phí và bằng chứng khiến bạn xem lại ranh giới đã chọn."
+      ],
+      "pitfalls": [
+        "Dùng độ phổ biến hoặc tên kiến trúc làm lý do đủ để lựa chọn."
+      ],
+      "followups": [
+        "Thay đổi yêu cầu nào sẽ khiến lựa chọn này không còn phù hợp?",
+        "Bạn sẽ đo gì trước khi thay công nghệ đã chọn?"
+      ]
+    }
+  },
+  {
+    "question_id": "S04-Q004",
+    "phase": "mechanism",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "Compare layered, Clean, Onion and Hexagonal approaches with a modular monolith. For one business operation, how would each choice shape dependencies and responsibilities?",
+      "explanation": "Compare what the labels organize: code dependencies, access to infrastructure and application modules. Clarify where the approaches can coexist.",
+      "intent": "Reason about dependency structure without treating architecture labels as exclusive products.",
+      "scope": "Use one application example; distinguish source-code boundaries from runtime deployment boundaries.",
+      "senior_signals": [
+        "Trace a business operation across the proposed dependency boundaries.",
+        "Explain which change becomes easier and which complexity remains."
+      ],
+      "pitfalls": [
+        "Assuming a modular monolith and Clean Architecture are mutually exclusive options."
+      ],
+      "followups": [
+        "How would you check that the intended dependency direction is respected?",
+        "What changes when a module must be deployed independently?"
+      ]
+    },
+    "vi": {
+      "question": "So sánh layered, Clean, Onion, Hexagonal và modular monolith. Với một thao tác nghiệp vụ, từng lựa chọn tổ chức dependency và trách nhiệm thế nào?",
+      "explanation": "So sánh điều mà mỗi tên gọi tổ chức: dependency trong code, cách tiếp cận hạ tầng và các module ứng dụng. Làm rõ những cách tổ chức có thể kết hợp.",
+      "intent": "Lập luận về cấu trúc dependency mà không coi các tên kiến trúc là sản phẩm loại trừ nhau.",
+      "scope": "Dùng một ví dụ ứng dụng; phân biệt ranh giới trong mã nguồn với ranh giới triển khai khi chạy.",
+      "senior_signals": [
+        "Lần theo một thao tác nghiệp vụ qua các ranh giới dependency đề xuất.",
+        "Giải thích thay đổi nào dễ hơn và phần phức tạp nào vẫn còn."
+      ],
+      "pitfalls": [
+        "Cho rằng modular monolith và Clean Architecture không thể dùng cùng nhau."
+      ],
+      "followups": [
+        "Bạn kiểm tra việc tuân thủ hướng dependency dự kiến thế nào?",
+        "Điều gì thay đổi khi một module cần triển khai độc lập?"
+      ]
+    }
+  },
+  {
+    "question_id": "S04-Q005",
+    "phase": "tradeoff",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "When would you keep a modular monolith instead of splitting it into microservices? What evidence would justify changing that decision?",
+      "explanation": "Compare keeping modules in one deployment with accepting separate service operations. Identify the problem that a split would actually solve.",
+      "intent": "Choose a deployment structure from business and operational constraints.",
+      "scope": "Assume either structure is feasible; establish team size, change patterns, scale needs and consistency requirements.",
+      "senior_signals": [
+        "Compare independent deployment benefits with communication and operational costs.",
+        "Set a measurable trigger for reconsidering the decision rather than assuming growth requires a split."
+      ],
+      "pitfalls": [
+        "Treating microservices as the inevitable next stage for every growing system."
+      ],
+      "followups": [
+        "Which module would you separate first, and why that one?",
+        "What would make you cancel or reverse an extraction?"
+      ]
+    },
+    "vi": {
+      "question": "Khi nào bạn giữ modular monolith thay vì tách thành microservices? Bằng chứng nào đủ để xem lại quyết định đó?",
+      "explanation": "So sánh việc giữ module trong một đơn vị triển khai với việc vận hành các service riêng. Xác định vấn đề thực sự được giải quyết bằng cách tách.",
+      "intent": "Chọn cách triển khai từ ràng buộc nghiệp vụ và vận hành.",
+      "scope": "Giả sử cả hai cách đều khả thi; xác định quy mô đội ngũ, kiểu thay đổi, nhu cầu scale và yêu cầu nhất quán dữ liệu.",
+      "senior_signals": [
+        "So sánh lợi ích triển khai độc lập với chi phí giao tiếp và vận hành.",
+        "Đặt tín hiệu đo được để xem lại quyết định, thay vì mặc định cứ tăng trưởng là phải tách."
+      ],
+      "pitfalls": [
+        "Coi microservices là bước tiếp theo bắt buộc của mọi hệ thống đang lớn lên."
+      ],
+      "followups": [
+        "Bạn sẽ tách module nào trước, và vì sao chọn module đó?",
+        "Điều gì khiến bạn hủy hoặc đảo ngược việc tách service?"
+      ]
+    }
+  },
+  {
+    "question_id": "S04-Q006",
+    "phase": "application",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "Given a business workflow, how would you decide where one service ends and another begins? Show a boundary you would consider and explain how you would test it.",
+      "explanation": "A service boundary assigns responsibility for rules, data and changes. Explain your discovery process instead of starting from table names.",
+      "intent": "Derive service boundaries from business behavior and change coupling.",
+      "scope": "Choose a generic workflow; clarify ownership, consistency and deployment constraints before proposing a split.",
+      "senior_signals": [
+        "Connect the proposed boundary to business rules and data ownership.",
+        "Use change history or a workflow trace to challenge the proposed separation."
+      ],
+      "pitfalls": [
+        "Creating one service per database table without examining the workflow."
+      ],
+      "followups": [
+        "What would frequent coordinated deployments reveal about the boundary?",
+        "How would you handle a rule that appears to cross both services?"
+      ]
+    },
+    "vi": {
+      "question": "Với một quy trình nghiệp vụ, bạn xác định nơi service này kết thúc và service khác bắt đầu thế nào? Đưa ra một ranh giới dự kiến và cách kiểm tra nó.",
+      "explanation": "Ranh giới service phân chia trách nhiệm về quy tắc, dữ liệu và thay đổi. Giải thích cách tìm ranh giới thay vì bắt đầu từ tên bảng.",
+      "intent": "Suy ra ranh giới service từ hành vi nghiệp vụ và mức độ phụ thuộc khi thay đổi.",
+      "scope": "Chọn quy trình giả định; làm rõ quyền sở hữu, yêu cầu nhất quán và triển khai trước khi đề xuất tách.",
+      "senior_signals": [
+        "Gắn ranh giới đề xuất với quy tắc nghiệp vụ và quyền sở hữu dữ liệu.",
+        "Dùng lịch sử thay đổi hoặc trace quy trình để thử thách cách phân chia."
+      ],
+      "pitfalls": [
+        "Tạo một service cho mỗi bảng mà không xét quy trình nghiệp vụ."
+      ],
+      "followups": [
+        "Việc thường xuyên phải triển khai phối hợp cho biết gì về ranh giới?",
+        "Bạn xử lý quy tắc dường như nằm ở cả hai service thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S04-Q007",
+    "phase": "mechanism",
+    "order": 20,
+    "version_sensitive": false,
+    "en": {
+      "question": "What does data ownership mean when services must be independently deployable? Explain how another service may use that data without making every schema change a coordinated release.",
+      "explanation": "Focus on who can change authoritative data and who depends on its contract. Separate physical database placement from ownership rules.",
+      "intent": "Explain how data access contracts affect independent change.",
+      "scope": "Assume separate service releases; clarify whether shared storage, replicas or direct database access currently exist.",
+      "senior_signals": [
+        "Identify who owns writes and the contract exposed to consumers.",
+        "Trace the impact of a schema change and propose a compatibility check."
+      ],
+      "pitfalls": [
+        "Calling data private while other services freely modify its tables."
+      ],
+      "followups": [
+        "How would consumers learn that the data has changed?",
+        "What would you do when a report needs data owned by several services?"
+      ]
+    },
+    "vi": {
+      "question": "Quyền sở hữu dữ liệu có nghĩa gì khi các service phải triển khai độc lập? Service khác sử dụng dữ liệu đó thế nào để không phải phối hợp release cho mọi thay đổi schema?",
+      "explanation": "Tập trung vào bên được thay đổi dữ liệu gốc và bên phụ thuộc vào hợp đồng truy cập. Phân biệt nơi đặt database với quy tắc sở hữu.",
+      "intent": "Giải thích tác động của hợp đồng truy cập dữ liệu đến khả năng thay đổi độc lập.",
+      "scope": "Giả sử các service release riêng; làm rõ hiện có dùng chung storage, bản sao dữ liệu hoặc truy cập database trực tiếp hay không.",
+      "senior_signals": [
+        "Chỉ ra bên sở hữu thao tác ghi và hợp đồng cung cấp cho consumer.",
+        "Lần theo tác động của thay đổi schema và đề xuất kiểm tra tương thích."
+      ],
+      "pitfalls": [
+        "Gọi dữ liệu là riêng tư trong khi service khác được tự sửa bảng."
+      ],
+      "followups": [
+        "Consumer biết dữ liệu đã thay đổi bằng cách nào?",
+        "Bạn làm gì khi báo cáo cần dữ liệu thuộc nhiều service?"
+      ]
+    }
+  },
+  {
+    "question_id": "S04-Q008",
+    "phase": "foundation",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "What makes a system a microservice architecture beyond having many small services? Illustrate the defining responsibilities with one example.",
+      "explanation": "Explain what the service boundaries enable, not a preferred service size. Separate independent responsibility from a diagram with many boxes.",
+      "intent": "Define microservices through architectural properties and consequences.",
+      "scope": "Use a generic system; clarify business ownership and release behavior without assuming a particular platform.",
+      "senior_signals": [
+        "Connect the definition to ownership and the ability to change a service.",
+        "Recognize when separate processes still behave as a tightly coupled system."
+      ],
+      "pitfalls": [
+        "Defining a microservice by line count or number of endpoints alone."
+      ],
+      "followups": [
+        "Can two small services still require coordinated releases?",
+        "Which observation would show that a boundary is useful?"
+      ]
+    },
+    "vi": {
+      "question": "Ngoài việc có nhiều service nhỏ, điều gì khiến một hệ thống được xem là kiến trúc microservices? Minh họa các trách nhiệm cốt lõi bằng một ví dụ.",
+      "explanation": "Giải thích ranh giới service tạo khả năng gì, thay vì chọn kích thước service. Phân biệt trách nhiệm độc lập với sơ đồ có nhiều ô.",
+      "intent": "Định nghĩa microservices qua đặc tính kiến trúc và hệ quả.",
+      "scope": "Dùng hệ thống giả định; làm rõ quyền sở hữu nghiệp vụ và cách release, không mặc định một nền tảng cụ thể.",
+      "senior_signals": [
+        "Gắn định nghĩa với quyền sở hữu và khả năng thay đổi một service.",
+        "Nhận ra khi các tiến trình riêng vẫn tạo thành hệ thống phụ thuộc chặt."
+      ],
+      "pitfalls": [
+        "Chỉ định nghĩa microservice bằng số dòng code hoặc số endpoint."
+      ],
+      "followups": [
+        "Hai service nhỏ có thể vẫn cần release phối hợp không?",
+        "Quan sát nào cho thấy một ranh giới thực sự có ích?"
+      ]
+    }
+  },
+  {
+    "question_id": "S04-Q009",
+    "phase": "tradeoff",
+    "order": 20,
+    "version_sensitive": false,
+    "en": {
+      "question": "Which benefits would justify operating microservices for a particular system? Compare those benefits with the extra work your team would need to own.",
+      "explanation": "Make the justification specific: a desired capability must outweigh a cost in the stated context. Avoid presenting every possible benefit as guaranteed.",
+      "intent": "Evaluate architectural value against operational responsibility.",
+      "scope": "State current bottlenecks, team capacity and deployment needs; no production scale or improvement is assumed.",
+      "senior_signals": [
+        "Tie each claimed benefit to a real constraint and a way to verify improvement.",
+        "Account for deployment, incident handling and cross-service coordination costs."
+      ],
+      "pitfalls": [
+        "Claiming better speed or reliability solely because services were separated."
+      ],
+      "followups": [
+        "What additional operational capability must exist before the split?",
+        "How would you know after six months whether the change was worthwhile?"
+      ]
+    },
+    "vi": {
+      "question": "Lợi ích nào đủ để chấp nhận vận hành microservices cho một hệ thống cụ thể? So sánh với phần việc mới mà đội ngũ phải chịu trách nhiệm.",
+      "explanation": "Lập luận cụ thể: khả năng mong muốn phải đáng với chi phí trong bối cảnh đã nêu. Không xem mọi lợi ích tiềm năng là kết quả chắc chắn.",
+      "intent": "Đánh giá giá trị kiến trúc cùng trách nhiệm vận hành.",
+      "scope": "Nêu điểm nghẽn hiện tại, năng lực đội ngũ và nhu cầu triển khai; không mặc định quy mô production hay mức cải thiện.",
+      "senior_signals": [
+        "Gắn mỗi lợi ích với ràng buộc thực tế và cách xác nhận cải thiện.",
+        "Tính cả chi phí triển khai, xử lý sự cố và phối hợp giữa các service."
+      ],
+      "pitfalls": [
+        "Khẳng định nhanh hoặc tin cậy hơn chỉ vì đã tách service."
+      ],
+      "followups": [
+        "Cần có thêm năng lực vận hành nào trước khi tách?",
+        "Sau sáu tháng, bạn biết thay đổi có đáng hay không bằng cách nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S04-Q010",
+    "phase": "failure",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "After a monolith is split into services, what new failure modes would you investigate? Trace one failure from its cause to the user-visible outcome.",
+      "explanation": "Show how moving work across a network changes the failure boundary. Focus on a concrete chain rather than a catalog of pattern names.",
+      "intent": "Diagnose failure introduced by distributed responsibility.",
+      "scope": "Choose one generic workflow and distinguish the previous in-process behavior from the new service interaction.",
+      "senior_signals": [
+        "Explain how latency, partial success or communication failure affects the workflow.",
+        "Propose evidence that distinguishes a suspected cause from another plausible cause."
+      ],
+      "pitfalls": [
+        "Assuming every service either succeeds or fails together."
+      ],
+      "followups": [
+        "What would the client observe if a service committed but its reply was lost?",
+        "How would you test this failure before production?"
+      ]
+    },
+    "vi": {
+      "question": "Sau khi tách monolith thành các service, bạn sẽ điều tra những kiểu lỗi mới nào? Lần theo một lỗi từ nguyên nhân đến kết quả người dùng thấy.",
+      "explanation": "Chỉ ra việc đưa xử lý qua mạng thay đổi ranh giới lỗi thế nào. Tập trung vào chuỗi cụ thể thay vì liệt kê tên pattern.",
+      "intent": "Chẩn đoán lỗi phát sinh khi trách nhiệm được phân tán.",
+      "scope": "Chọn quy trình giả định; phân biệt cách xử lý trong cùng tiến trình trước đây với giao tiếp service mới.",
+      "senior_signals": [
+        "Giải thích latency, thành công một phần hoặc lỗi giao tiếp tác động đến quy trình.",
+        "Đề xuất bằng chứng phân biệt nguyên nhân nghi ngờ với nguyên nhân khác có thể xảy ra."
+      ],
+      "pitfalls": [
+        "Mặc định tất cả service cùng thành công hoặc cùng thất bại."
+      ],
+      "followups": [
+        "Client thấy gì nếu service đã commit nhưng response bị mất?",
+        "Bạn kiểm tra lỗi này trước production thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S04-Q011",
+    "phase": "tradeoff",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "For a service interaction, how would you choose between synchronous REST/gRPC and asynchronous messaging? Explain what the choice means for the caller and for failure handling.",
+      "explanation": "Compare waiting for a response with arranging work whose result may arrive later. Clarify which parts concern interaction timing and which concern protocol.",
+      "intent": "Choose a communication style from response and reliability requirements.",
+      "scope": "State when the caller needs an outcome, acceptable delay and delivery requirements; verify provider-specific guarantees separately.",
+      "senior_signals": [
+        "Trace response ownership and failure propagation for both options.",
+        "Give a requirement that changes the preferred choice and a validation plan."
+      ],
+      "pitfalls": [
+        "Assuming asynchronous messaging removes failures or that REST alone specifies the timing contract."
+      ],
+      "followups": [
+        "What should the caller do if the outcome is still unknown?",
+        "How would you compare latency and operational cost for the two designs?"
+      ]
+    },
+    "vi": {
+      "question": "Với một tương tác giữa các service, bạn chọn REST/gRPC đồng bộ hay messaging bất đồng bộ thế nào? Lựa chọn đó có ý nghĩa gì với bên gọi và xử lý lỗi?",
+      "explanation": "So sánh chờ response với giao việc có kết quả đến sau. Làm rõ phần nào thuộc thời điểm tương tác, phần nào thuộc giao thức.",
+      "intent": "Chọn cách giao tiếp từ yêu cầu về kết quả và độ tin cậy.",
+      "scope": "Nêu lúc bên gọi cần kết quả, độ trễ chấp nhận được và yêu cầu delivery; kiểm chứng riêng bảo đảm của provider.",
+      "senior_signals": [
+        "Lần theo bên chịu trách nhiệm trả kết quả và cách lỗi lan truyền ở cả hai lựa chọn.",
+        "Nêu yêu cầu khiến lựa chọn đổi chiều và cách kiểm chứng."
+      ],
+      "pitfalls": [
+        "Cho rằng messaging bất đồng bộ loại bỏ lỗi hoặc REST tự xác định toàn bộ hợp đồng thời gian."
+      ],
+      "followups": [
+        "Bên gọi nên làm gì nếu kết quả vẫn chưa xác định?",
+        "Bạn so sánh latency và chi phí vận hành của hai thiết kế thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S04-Q012",
+    "phase": "failure",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "When a downstream dependency becomes unavailable, how should the calling service respond? Define what the user sees and how the system can recover.",
+      "explanation": "Unavailable may mean a fast error or a response that never arrives. Connect the chosen behavior to the operation rather than using one fallback for everything.",
+      "intent": "Design dependency-failure behavior from the user contract.",
+      "scope": "Clarify whether the dependency is required for correctness, whether the operation changes state and the allowed latency.",
+      "senior_signals": [
+        "Distinguish failure, degraded success and an unknown outcome in the chosen workflow.",
+        "Specify observable recovery conditions and a test of the failure path."
+      ],
+      "pitfalls": [
+        "Returning success with substitute data without checking whether it preserves the contract."
+      ],
+      "followups": [
+        "What changes if the dependency may have committed before the connection failed?",
+        "How will you know it is safe to resume normal traffic?"
+      ]
+    },
+    "vi": {
+      "question": "Khi dependency phía sau không còn khả dụng, service gọi nó nên phản hồi thế nào? Xác định người dùng thấy gì và hệ thống phục hồi ra sao.",
+      "explanation": "Không khả dụng có thể là lỗi trả nhanh hoặc không nhận được response. Gắn cách xử lý với thao tác cụ thể thay vì dùng một fallback cho mọi trường hợp.",
+      "intent": "Thiết kế hành vi khi dependency lỗi từ hợp đồng với người dùng.",
+      "scope": "Làm rõ dependency có bắt buộc để kết quả đúng không, thao tác có đổi trạng thái không và latency cho phép.",
+      "senior_signals": [
+        "Phân biệt thất bại, thành công với chất lượng giảm và kết quả chưa xác định trong quy trình đã chọn.",
+        "Nêu điều kiện phục hồi quan sát được và cách kiểm tra đường lỗi."
+      ],
+      "pitfalls": [
+        "Trả thành công bằng dữ liệu thay thế mà không kiểm tra hợp đồng còn được giữ hay không."
+      ],
+      "followups": [
+        "Điều gì thay đổi nếu dependency có thể đã commit trước khi mất kết nối?",
+        "Bạn biết khi nào có thể nhận traffic bình thường trở lại bằng cách nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S04-Q013",
+    "phase": "mechanism",
+    "order": 10,
+    "version_sensitive": true,
+    "en": {
+      "question": "How would you combine timeout, retry, exponential backoff and circuit-breaker decisions without creating a retry storm? Trace what happens when many callers encounter the same outage.",
+      "explanation": "A retry storm is repeated attempts that amplify load during trouble. Explain how the controls interact, including the caller's total waiting time.",
+      "intent": "Reason about bounded recovery attempts under shared dependency failure.",
+      "scope": "State the request deadline, retryable outcomes and whether repeating the operation is safe. Establish library/provider versions before relying on documented policy behavior.",
+      "senior_signals": [
+        "Account for attempts across multiple layers, not only one client.",
+        "Give evidence for retry bounds and a recovery test under many callers."
+      ],
+      "pitfalls": [
+        "Stacking retries at every layer without examining multiplied traffic."
+      ],
+      "followups": [
+        "When would another attempt be harmful even after waiting longer?",
+        "How would you validate that recovery does not overload the dependency again?"
+      ]
+    },
+    "vi": {
+      "question": "Bạn phối hợp timeout, retry, exponential backoff và circuit breaker thế nào để không tạo retry storm? Lần theo diễn biến khi nhiều bên gọi cùng gặp một sự cố.",
+      "explanation": "Retry storm là các lần thử lại khuếch đại tải trong lúc hệ thống gặp vấn đề. Giải thích tương tác giữa các cơ chế, gồm tổng thời gian bên gọi phải chờ.",
+      "intent": "Lập luận về số lần thử phục hồi có giới hạn khi nhiều bên dùng chung dependency bị lỗi.",
+      "scope": "Nêu deadline, kết quả nào có thể retry và việc lặp thao tác có an toàn không. Xác định phiên bản thư viện/provider trước khi dựa vào hành vi policy trong tài liệu.",
+      "senior_signals": [
+        "Tính số lần thử qua nhiều tầng, không chỉ một client.",
+        "Đưa bằng chứng về giới hạn retry và thử nghiệm phục hồi khi có nhiều bên gọi."
+      ],
+      "pitfalls": [
+        "Đặt retry ở mọi tầng mà không xét traffic bị nhân lên."
+      ],
+      "followups": [
+        "Khi nào một lần thử nữa vẫn có hại dù đã chờ lâu hơn?",
+        "Bạn kiểm chứng quá trình phục hồi không lại làm dependency quá tải thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S04-Q014",
+    "phase": "mechanism",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "How do horizontal scaling, load balancing, backpressure and load shedding address increasing traffic? Explain their roles when a downstream resource is already saturated.",
+      "explanation": "Horizontal scaling adds replicas; the question asks what happens to work as it enters and moves through the system. Define overload behavior rather than assuming more workers solve every bottleneck.",
+      "intent": "Trace capacity and overload behavior across a service interaction.",
+      "scope": "State the arrival pattern, shared resource limits and acceptable rejection or delay; use proposed measurements, not invented capacity figures.",
+      "senior_signals": [
+        "Locate the limiting resource and explain how incoming work affects it.",
+        "Compare delay, rejection and added replicas against user and recovery constraints."
+      ],
+      "pitfalls": [
+        "Adding application replicas while ignoring the saturated shared dependency."
+      ],
+      "followups": [
+        "How would you determine whether traffic should wait or be rejected?",
+        "Which measurement would show that scaling added useful capacity?"
+      ]
+    },
+    "vi": {
+      "question": "Horizontal scaling, load balancing, backpressure và load shedding xử lý traffic tăng thế nào? Giải thích vai trò của chúng khi tài nguyên phía sau đã bão hòa.",
+      "explanation": "Horizontal scaling là thêm replica; câu hỏi yêu cầu lần theo công việc khi vào và đi qua hệ thống. Xác định hành vi quá tải thay vì mặc định thêm worker giải quyết mọi điểm nghẽn.",
+      "intent": "Lần theo năng lực xử lý và hành vi quá tải trong tương tác giữa các service.",
+      "scope": "Nêu kiểu traffic đến, giới hạn tài nguyên dùng chung và mức từ chối hoặc chờ chấp nhận được; đề xuất phép đo, không bịa số năng lực.",
+      "senior_signals": [
+        "Khoanh vùng tài nguyên giới hạn và giải thích công việc mới tác động đến nó.",
+        "So sánh việc chờ, từ chối và thêm replica theo yêu cầu người dùng và phục hồi."
+      ],
+      "pitfalls": [
+        "Thêm replica ứng dụng nhưng bỏ qua dependency dùng chung đã bão hòa."
+      ],
+      "followups": [
+        "Bạn xác định khi nào nên cho traffic chờ hoặc từ chối thế nào?",
+        "Phép đo nào cho thấy scale đã tăng năng lực có ích?"
+      ]
+    }
+  },
+  {
+    "question_id": "S04-Q015",
+    "phase": "foundation",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "What responsibilities would you assign to an API gateway or reverse proxy, and what would remain in downstream services? How does the scope change when the component also provides API management?",
+      "explanation": "Compare request forwarding with broader API policy and lifecycle concerns. Establish the boundary before naming a gateway product.",
+      "intent": "Define gateway responsibility without centralizing all application behavior.",
+      "scope": "The source includes reverse-proxy and API-management contexts. Clarify required capabilities; do not assume every product implements the same features.",
+      "senior_signals": [
+        "Assign responsibility and ownership for a request policy and a domain rule.",
+        "Explain a centralization cost and how the boundary can be tested."
+      ],
+      "pitfalls": [
+        "Treating reverse proxy, gateway and API management as identical feature sets."
+      ],
+      "followups": [
+        "Which check must a service still own if traffic can bypass the gateway?",
+        "What would you check before moving a policy into a managed gateway?"
+      ]
+    },
+    "vi": {
+      "question": "Bạn giao trách nhiệm nào cho API gateway hoặc reverse proxy, và giữ phần nào trong service phía sau? Phạm vi thay đổi thế nào khi thành phần còn cung cấp API management?",
+      "explanation": "So sánh chuyển tiếp request với các vấn đề rộng hơn về policy và vòng đời API. Chốt ranh giới trước khi chọn tên sản phẩm gateway.",
+      "intent": "Xác định trách nhiệm gateway mà không tập trung mọi hành vi ứng dụng vào đó.",
+      "scope": "Nguồn có cả bối cảnh reverse proxy và API management. Làm rõ năng lực cần dùng; không mặc định mọi sản phẩm có tính năng giống nhau.",
+      "senior_signals": [
+        "Phân định trách nhiệm và quyền sở hữu của một policy request và một quy tắc nghiệp vụ.",
+        "Giải thích một chi phí tập trung hóa và cách kiểm tra ranh giới."
+      ],
+      "pitfalls": [
+        "Coi reverse proxy, gateway và API management có bộ tính năng giống hệt nhau."
+      ],
+      "followups": [
+        "Service vẫn phải chịu trách nhiệm kiểm tra gì nếu traffic có thể bỏ qua gateway?",
+        "Bạn kiểm tra gì trước khi đưa policy vào gateway do provider quản lý?"
+      ]
+    }
+  },
+  {
+    "question_id": "S04-Q016",
+    "phase": "mechanism",
+    "order": 10,
+    "version_sensitive": true,
+    "en": {
+      "question": "What configuration would a gateway need to route an incoming request to the intended downstream service? Walk through one route and explain how you would verify it.",
+      "explanation": "Trace how the request is matched, transformed if necessary and forwarded. Explain the contract between the public endpoint and the destination.",
+      "intent": "Make routing behavior inspectable from configuration to destination.",
+      "scope": "Specify gateway product/version, environment and downstream protocol. Consult its official documentation before claiming syntax, precedence or defaults.",
+      "senior_signals": [
+        "Trace a request using explicit matching and destination assumptions.",
+        "Test both the intended route and an ambiguous or unmatched request."
+      ],
+      "pitfalls": [
+        "Listing a destination URL without explaining how the incoming request selects it."
+      ],
+      "followups": [
+        "How would you detect two routes that overlap unexpectedly?",
+        "Which forwarded request details does the downstream service require?"
+      ]
+    },
+    "vi": {
+      "question": "Gateway cần cấu hình gì để đưa request đến đúng service phía sau? Lần theo một route và giải thích cách kiểm chứng.",
+      "explanation": "Theo dõi cách request được nhận diện, biến đổi nếu cần và chuyển tiếp. Giải thích hợp đồng giữa endpoint công khai với đích đến.",
+      "intent": "Làm rõ hành vi routing từ cấu hình đến service đích.",
+      "scope": "Nêu sản phẩm/phiên bản gateway, môi trường và giao thức phía sau. Đọc tài liệu chính thức trước khi khẳng định cú pháp, độ ưu tiên hoặc giá trị mặc định.",
+      "senior_signals": [
+        "Lần theo request với giả định rõ về điều kiện khớp và đích đến.",
+        "Kiểm tra route mong muốn lẫn request mơ hồ hoặc không khớp."
+      ],
+      "pitfalls": [
+        "Chỉ liệt kê URL đích mà không giải thích request đầu vào chọn nó thế nào."
+      ],
+      "followups": [
+        "Bạn phát hiện hai route chồng lấn ngoài ý muốn thế nào?",
+        "Service phía sau cần giữ những chi tiết nào từ request được chuyển tiếp?"
+      ]
+    }
+  },
+  {
+    "question_id": "S04-Q017",
+    "phase": "application",
+    "order": 10,
+    "version_sensitive": true,
+    "en": {
+      "question": "How would you allow routing or gateway configuration to change without redeploying the gateway for every change? Explain how the change would be validated, applied and recovered if it is wrong.",
+      "explanation": "The goal is reducing deployment coupling, not removing control over configuration. Describe ownership and the sequence of a safe update.",
+      "intent": "Design a controlled configuration-change path.",
+      "scope": "Identify gateway product/version and its supported update mechanisms in official documentation. Clarify who can publish changes and whether replicas update together.",
+      "senior_signals": [
+        "Separate configuration ownership from executable deployment while retaining validation.",
+        "Account for inconsistent replica configuration and a recoverable bad update."
+      ],
+      "pitfalls": [
+        "Assuming external configuration makes changes automatically safe or immediately consistent."
+      ],
+      "followups": [
+        "What should happen if the configuration source is temporarily unavailable?",
+        "How would you find replicas still using an old route?"
+      ]
+    },
+    "vi": {
+      "question": "Bạn cho phép đổi routing hoặc cấu hình gateway mà không redeploy gateway cho từng thay đổi thế nào? Giải thích cách xác nhận, áp dụng và khôi phục nếu thay đổi sai.",
+      "explanation": "Mục tiêu là giảm phụ thuộc vào deployment, không phải bỏ kiểm soát cấu hình. Nêu bên chịu trách nhiệm và các bước cập nhật an toàn.",
+      "intent": "Thiết kế quy trình thay đổi cấu hình có kiểm soát.",
+      "scope": "Xác định sản phẩm/phiên bản gateway và cơ chế cập nhật được hỗ trợ trong tài liệu chính thức. Làm rõ ai được công bố cấu hình và các replica có cập nhật cùng lúc không.",
+      "senior_signals": [
+        "Tách quyền sở hữu cấu hình khỏi triển khai code nhưng vẫn giữ bước xác nhận.",
+        "Xét cấu hình không đồng nhất giữa replica và khả năng phục hồi cập nhật sai."
+      ],
+      "pitfalls": [
+        "Mặc định cấu hình bên ngoài khiến mọi thay đổi tự an toàn hoặc đồng nhất ngay."
+      ],
+      "followups": [
+        "Nên làm gì khi nguồn cấu hình tạm thời không khả dụng?",
+        "Bạn tìm replica vẫn dùng route cũ thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S04-Q018",
+    "phase": "tradeoff",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "Which business concerns should remain outside the gateway? Use one proposed gateway change to explain where routing or policy ends and domain behavior begins.",
+      "explanation": "Domain behavior determines a business outcome; routing and policy govern request handling. The question asks you to defend the responsibility boundary.",
+      "intent": "Evaluate whether a gateway change creates business coupling.",
+      "scope": "Use a generic API; clarify whether traffic also enters through internal or non-HTTP paths and who owns the business rule.",
+      "senior_signals": [
+        "Explain the effect of the placement on ownership and independent change.",
+        "Show how the rule stays consistent across entry points and how to verify it."
+      ],
+      "pitfalls": [
+        "Putting a rule in the gateway solely because every current request passes through it."
+      ],
+      "followups": [
+        "What happens to this rule when a message consumer invokes the same operation?",
+        "When would response aggregation be appropriate without moving domain ownership?"
+      ]
+    },
+    "vi": {
+      "question": "Những vấn đề nghiệp vụ nào nên nằm ngoài gateway? Dùng một thay đổi gateway dự kiến để giải thích nơi routing hoặc policy kết thúc và hành vi nghiệp vụ bắt đầu.",
+      "explanation": "Hành vi nghiệp vụ quyết định kết quả kinh doanh; routing và policy điều chỉnh xử lý request. Câu hỏi yêu cầu bảo vệ ranh giới trách nhiệm.",
+      "intent": "Đánh giá thay đổi gateway có tạo phụ thuộc nghiệp vụ hay không.",
+      "scope": "Dùng API giả định; làm rõ traffic có đi qua đường nội bộ hoặc ngoài HTTP không và ai sở hữu quy tắc.",
+      "senior_signals": [
+        "Giải thích vị trí đặt quy tắc ảnh hưởng đến quyền sở hữu và thay đổi độc lập.",
+        "Chỉ ra cách giữ quy tắc nhất quán qua các lối vào và cách kiểm chứng."
+      ],
+      "pitfalls": [
+        "Đưa quy tắc vào gateway chỉ vì mọi request hiện tại đều đi qua đó."
+      ],
+      "followups": [
+        "Quy tắc này được xử lý thế nào khi message consumer gọi cùng thao tác?",
+        "Khi nào tổng hợp response phù hợp mà không chuyển quyền sở hữu nghiệp vụ?"
+      ]
+    }
+  },
+  {
+    "question_id": "S04-Q019",
+    "phase": "foundation",
+    "order": 10,
+    "version_sensitive": true,
+    "en": {
+      "question": "How do queue and topic/subscription models differ in who should receive a message? Choose a model for distributing work and for notifying independent interested services.",
+      "explanation": "Explain the recipient contract: one logical work item and several independently interested recipients are different requirements.",
+      "intent": "Choose a delivery model from recipient needs.",
+      "scope": "State the broker/version before claiming delivery or retention guarantees and check official documentation. Do not assume a model alone fixes redelivery behavior.",
+      "senior_signals": [
+        "Describe recipients and subscription ownership for both examples.",
+        "Explain what happens to the requirement when a new independent consumer is added."
+      ],
+      "pitfalls": [
+        "Assuming every consumer attached to a queue receives its own copy of each message."
+      ],
+      "followups": [
+        "What should happen if one interested service is unavailable?",
+        "Can different subscribers need different recovery policies?"
+      ]
+    },
+    "vi": {
+      "question": "Queue và topic/subscription khác nhau thế nào về bên cần nhận message? Chọn mô hình cho việc phân chia công việc và việc thông báo cho các service quan tâm độc lập.",
+      "explanation": "Giải thích hợp đồng người nhận: một công việc logic và nhiều bên quan tâm độc lập là hai yêu cầu khác nhau.",
+      "intent": "Chọn mô hình delivery từ nhu cầu người nhận.",
+      "scope": "Nêu broker/phiên bản và đọc tài liệu chính thức trước khi khẳng định bảo đảm delivery hoặc lưu giữ. Không mặc định mô hình tự quyết định toàn bộ hành vi redelivery.",
+      "senior_signals": [
+        "Mô tả người nhận và bên sở hữu subscription trong cả hai ví dụ.",
+        "Giải thích yêu cầu thay đổi thế nào khi thêm consumer độc lập."
+      ],
+      "pitfalls": [
+        "Mặc định mọi consumer của một queue đều nhận bản riêng của mỗi message."
+      ],
+      "followups": [
+        "Nên làm gì nếu một service quan tâm đang không khả dụng?",
+        "Các subscriber khác nhau có thể cần policy phục hồi khác nhau không?"
+      ]
+    }
+  },
+  {
+    "question_id": "S04-Q020",
+    "phase": "mechanism",
+    "order": 20,
+    "version_sensitive": true,
+    "en": {
+      "question": "How do competing consumers share work, and what changes when you add worker replicas? Trace one message while a worker is processing it and another worker becomes available.",
+      "explanation": "Competing consumers share a work stream rather than representing separate business subscribers. Explain distribution and responsibility for finishing an attempt.",
+      "intent": "Reason about worker coordination during message delivery.",
+      "scope": "Specify broker/version and processing mode; consult official documentation for acknowledgment, locking and redelivery guarantees.",
+      "senior_signals": [
+        "Separate work distribution from the business effect of processing.",
+        "Explain a worker-failure case and identify evidence needed to inspect ownership."
+      ],
+      "pitfalls": [
+        "Equating more workers with a guarantee that each message has only one processing attempt."
+      ],
+      "followups": [
+        "What could happen if a worker loses its processing ownership?",
+        "Which resource might limit throughput after workers are added?"
+      ]
+    },
+    "vi": {
+      "question": "Competing consumers chia việc thế nào, và điều gì thay đổi khi thêm worker replica? Lần theo một message đang được xử lý khi worker khác sẵn sàng.",
+      "explanation": "Competing consumers dùng chung luồng công việc, khác với các subscriber nghiệp vụ độc lập. Giải thích cách phân phối và trách nhiệm kết thúc một lần xử lý.",
+      "intent": "Lập luận về phối hợp worker khi message được delivery.",
+      "scope": "Nêu broker/phiên bản và chế độ xử lý; đọc tài liệu chính thức về acknowledgment, lock và bảo đảm redelivery.",
+      "senior_signals": [
+        "Phân biệt phân chia công việc với tác động nghiệp vụ của việc xử lý.",
+        "Giải thích trường hợp worker lỗi và bằng chứng cần để xem quyền xử lý."
+      ],
+      "pitfalls": [
+        "Coi thêm worker là bảo đảm mỗi message chỉ có một lần xử lý."
+      ],
+      "followups": [
+        "Điều gì có thể xảy ra nếu worker mất quyền xử lý?",
+        "Tài nguyên nào có thể giới hạn throughput sau khi thêm worker?"
+      ]
+    }
+  },
+  {
+    "question_id": "S04-Q021",
+    "phase": "mechanism",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "How does a message broker decouple a producer from a consumer? Explain which dependencies are reduced and which agreements the two sides still share.",
+      "explanation": "Decoupling means reducing a particular dependency, such as simultaneous availability. It does not mean the consumer can ignore message meaning.",
+      "intent": "Identify the exact coupling changed by introducing a broker.",
+      "scope": "Use a generic producer/consumer pair; state delivery and storage assumptions instead of assuming a broker product.",
+      "senior_signals": [
+        "Trace publishing and processing when the consumer is delayed.",
+        "Identify remaining schema, meaning and operational dependencies with a compatibility check."
+      ],
+      "pitfalls": [
+        "Claiming that a broker eliminates all coupling between services."
+      ],
+      "followups": [
+        "How would you change a message contract without breaking existing consumers?",
+        "What happens to producers if broker capacity is exhausted?"
+      ]
+    },
+    "vi": {
+      "question": "Message broker giảm phụ thuộc giữa producer và consumer thế nào? Giải thích loại phụ thuộc được giảm và những thỏa thuận hai bên vẫn phải giữ.",
+      "explanation": "Decoupling là giảm một loại phụ thuộc cụ thể, chẳng hạn phải cùng khả dụng tại một thời điểm. Không có nghĩa consumer được bỏ qua ý nghĩa message.",
+      "intent": "Xác định chính xác mức phụ thuộc thay đổi khi đưa broker vào.",
+      "scope": "Dùng cặp producer/consumer giả định; nêu giả định delivery và lưu trữ thay vì mặc định sản phẩm broker.",
+      "senior_signals": [
+        "Lần theo publish và xử lý khi consumer bị chậm.",
+        "Chỉ ra phụ thuộc còn lại về schema, ý nghĩa và vận hành cùng cách kiểm tra tương thích."
+      ],
+      "pitfalls": [
+        "Khẳng định broker loại bỏ mọi phụ thuộc giữa các service."
+      ],
+      "followups": [
+        "Bạn đổi hợp đồng message thế nào để không làm hỏng consumer hiện có?",
+        "Producer gặp điều gì nếu broker hết năng lực chứa hoặc xử lý?"
+      ]
+    }
+  },
+  {
+    "question_id": "S04-Q022",
+    "phase": "failure",
+    "order": 10,
+    "version_sensitive": true,
+    "en": {
+      "question": "What can happen after a message-processing attempt fails? Trace the message and any business changes for a failure before commit and a failure after commit but before acknowledgment.",
+      "explanation": "An acknowledgment reports processing progress to the broker. Separating that report from business state exposes the uncertainty the question asks you to reason about.",
+      "intent": "Trace message and business-state outcomes across a failed attempt.",
+      "scope": "Choose broker/version and transaction boundaries. Check official delivery and acknowledgment documentation before stating the next delivery behavior.",
+      "senior_signals": [
+        "Distinguish attempt failure from absence of a committed business effect.",
+        "Propose observations or failure injection for both interruption points."
+      ],
+      "pitfalls": [
+        "Assuming an exception proves that no business change was committed."
+      ],
+      "followups": [
+        "What if the worker cannot determine whether the commit succeeded?",
+        "Which state would a later attempt need to inspect?"
+      ]
+    },
+    "vi": {
+      "question": "Sau một lần xử lý message thất bại, điều gì có thể xảy ra? Lần theo message và thay đổi nghiệp vụ khi lỗi trước commit, rồi khi lỗi sau commit nhưng trước acknowledgment.",
+      "explanation": "Acknowledgment báo tiến độ xử lý cho broker. Tách thông báo đó khỏi trạng thái nghiệp vụ làm rõ sự không chắc chắn cần phân tích.",
+      "intent": "Lần theo kết quả của message và trạng thái nghiệp vụ qua một lần xử lý lỗi.",
+      "scope": "Chọn broker/phiên bản và ranh giới transaction. Đọc tài liệu delivery và acknowledgment chính thức trước khi khẳng định hành vi delivery tiếp theo.",
+      "senior_signals": [
+        "Phân biệt lần xử lý lỗi với việc chưa có tác động nghiệp vụ đã commit.",
+        "Đề xuất quan sát hoặc mô phỏng lỗi ở cả hai điểm gián đoạn."
+      ],
+      "pitfalls": [
+        "Mặc định exception chứng minh không có thay đổi nghiệp vụ được commit."
+      ],
+      "followups": [
+        "Nếu worker không biết commit có thành công không thì sao?",
+        "Lần thử sau cần kiểm tra trạng thái nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S04-Q023",
+    "phase": "failure",
+    "order": 20,
+    "version_sensitive": true,
+    "en": {
+      "question": "How would you handle work that repeatedly fails, including retryable messages and poison messages? Explain when attempts should stop and how quarantined work can be investigated and recovered.",
+      "explanation": "A poison message cannot currently be processed successfully; a dead-letter area holds work removed from normal delivery. Neither label alone defines a recovery process.",
+      "intent": "Design bounded retry and accountable recovery for failed work.",
+      "scope": "Preserve both source contexts: message handling and repeatedly failing background work. Specify provider/version and consult official retry/dead-letter documentation for concrete behavior.",
+      "senior_signals": [
+        "Distinguish a transient failure from a persistent invalid input using evidence.",
+        "Assign investigation, safe replay and monitoring ownership."
+      ],
+      "pitfalls": [
+        "Treating a dead-letter destination as successful completion or automatic recovery."
+      ],
+      "followups": [
+        "How do you avoid repeating side effects when replaying repaired work?",
+        "Which evidence would justify another attempt instead of quarantine?"
+      ]
+    },
+    "vi": {
+      "question": "Bạn xử lý công việc lỗi lặp lại thế nào, gồm message có thể retry và poison message? Giải thích khi nào dừng thử và cách điều tra, phục hồi công việc bị tách khỏi luồng chính.",
+      "explanation": "Poison message hiện không thể xử lý thành công; vùng dead-letter giữ công việc bị loại khỏi delivery bình thường. Tên gọi không tự xác định quy trình phục hồi.",
+      "intent": "Thiết kế retry có giới hạn và phục hồi có bên chịu trách nhiệm.",
+      "scope": "Giữ cả hai bối cảnh nguồn: xử lý message và công việc nền lỗi lặp lại. Nêu provider/phiên bản, đọc tài liệu retry/dead-letter chính thức trước khi nêu hành vi cụ thể.",
+      "senior_signals": [
+        "Dùng bằng chứng phân biệt lỗi tạm thời với đầu vào sai kéo dài.",
+        "Phân công trách nhiệm điều tra, replay an toàn và theo dõi."
+      ],
+      "pitfalls": [
+        "Coi đích dead-letter là hoàn thành thành công hoặc tự động phục hồi."
+      ],
+      "followups": [
+        "Bạn tránh lặp side effect khi replay công việc đã sửa thế nào?",
+        "Bằng chứng nào đủ để thử tiếp thay vì tách công việc ra?"
+      ]
+    }
+  },
+  {
+    "question_id": "S04-Q024",
+    "phase": "application",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "How would you design an idempotent consumer so repeated at-least-once deliveries do not repeat an intended business effect? Trace your design under a retry and concurrent deliveries.",
+      "explanation": "Idempotent means repetition preserves the intended outcome. The question concerns duplicate effects, not a promise that the broker performs only one delivery.",
+      "intent": "Protect a business invariant across repeated and concurrent processing attempts.",
+      "scope": "Clarify stable operation identity, the local transaction boundary and any external effects. Provider-specific delivery guarantees require separate verification.",
+      "senior_signals": [
+        "Explain the relationship between identifying an operation and committing its effect.",
+        "Test interruption after commit and simultaneous attempts, stating the guarantee boundary."
+      ],
+      "pitfalls": [
+        "Relying on a process-local check to coordinate all worker replicas."
+      ],
+      "followups": [
+        "What if the same operation ID arrives with different business data?",
+        "How would deduplication retention affect a later replay?"
+      ]
+    },
+    "vi": {
+      "question": "Bạn thiết kế idempotent consumer thế nào để delivery at-least-once lặp lại không lặp tác động nghiệp vụ dự định? Lần theo thiết kế khi retry và khi nhiều delivery đồng thời.",
+      "explanation": "Idempotent nghĩa là lặp lại vẫn giữ kết quả dự định. Câu hỏi xét tác động trùng, không hứa broker chỉ delivery một lần.",
+      "intent": "Bảo vệ bất biến nghiệp vụ qua các lần xử lý lặp lại và đồng thời.",
+      "scope": "Làm rõ danh tính thao tác ổn định, ranh giới transaction cục bộ và side effect bên ngoài. Kiểm chứng riêng bảo đảm delivery của provider.",
+      "senior_signals": [
+        "Giải thích quan hệ giữa nhận diện thao tác và commit tác động của nó.",
+        "Kiểm tra gián đoạn sau commit và các lần thử đồng thời, nêu rõ giới hạn bảo đảm."
+      ],
+      "pitfalls": [
+        "Dựa vào kiểm tra trong một tiến trình để phối hợp mọi worker replica."
+      ],
+      "followups": [
+        "Nếu cùng operation ID đến với dữ liệu nghiệp vụ khác thì sao?",
+        "Thời gian lưu dữ liệu khử trùng ảnh hưởng đến replay về sau thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S04-Q026",
+    "phase": "mechanism",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "How can a database unique constraint support deduplication when several workers process the same operation? Explain what it protects and what still needs a transaction-level design.",
+      "explanation": "A unique constraint restricts repeated key values in stored data. Connect that restriction to the business effect instead of assuming that rejecting one insert solves the whole operation.",
+      "intent": "Reason about database-enforced identity under concurrency.",
+      "scope": "Assume a relational database and a non-null stable operation key. State the transaction boundary; check product-specific conflict behavior before choosing error handling.",
+      "senior_signals": [
+        "Trace competing inserts together with the associated business update.",
+        "Identify a failure window and a test that would expose an unprotected effect."
+      ],
+      "pitfalls": [
+        "Marking an operation handled before ensuring its business update succeeds."
+      ],
+      "followups": [
+        "How would you distinguish a duplicate operation from a different constraint violation?",
+        "What happens if the operation marker and business update use different databases?"
+      ]
+    },
+    "vi": {
+      "question": "Unique constraint trong database hỗ trợ khử trùng thế nào khi nhiều worker xử lý cùng thao tác? Giải thích nó bảo vệ gì và phần nào vẫn cần thiết kế transaction.",
+      "explanation": "Unique constraint hạn chế giá trị khóa trùng trong dữ liệu lưu. Gắn hạn chế đó với tác động nghiệp vụ, thay vì cho rằng chặn một insert đã giải quyết toàn bộ thao tác.",
+      "intent": "Lập luận về danh tính được database bảo vệ khi xử lý đồng thời.",
+      "scope": "Giả sử database quan hệ và operation key ổn định, không NULL. Nêu ranh giới transaction; kiểm tra hành vi xung đột của sản phẩm trước khi chọn cách bắt lỗi.",
+      "senior_signals": [
+        "Lần theo các insert cạnh tranh cùng cập nhật nghiệp vụ liên quan.",
+        "Chỉ ra khoảng lỗi và phép thử có thể phát hiện tác động chưa được bảo vệ."
+      ],
+      "pitfalls": [
+        "Đánh dấu thao tác đã xử lý trước khi bảo đảm cập nhật nghiệp vụ thành công."
+      ],
+      "followups": [
+        "Bạn phân biệt thao tác trùng với vi phạm constraint khác thế nào?",
+        "Điều gì xảy ra nếu dấu đã xử lý và cập nhật nghiệp vụ nằm ở database khác nhau?"
+      ]
+    }
+  },
+  {
+    "question_id": "S04-Q027",
+    "phase": "tradeoff",
+    "order": 10,
+    "version_sensitive": true,
+    "en": {
+      "question": "How would you decide the ordering boundary for messages while retaining useful throughput? Compare ordering all work with ordering only related work.",
+      "explanation": "Ordering is about which operations must be observed in sequence. Explain the business dependency before deciding how much work may proceed in parallel.",
+      "intent": "Choose an ordering scope from correctness and capacity requirements.",
+      "scope": "Clarify whether order concerns delivery, processing start or committed effects. State broker/version and verify official guarantees, including failure and redelivery behavior.",
+      "senior_signals": [
+        "Tie the required sequence to a specific business invariant.",
+        "Explain a slow-item or retry case and how to measure its throughput impact."
+      ],
+      "pitfalls": [
+        "Claiming global order while processing messages concurrently without tracing completion order."
+      ],
+      "followups": [
+        "What should happen when an earlier operation is delayed?",
+        "How would you handle a message that arrives out of the required business sequence?"
+      ]
+    },
+    "vi": {
+      "question": "Bạn chọn phạm vi giữ thứ tự message thế nào để vẫn có throughput hữu ích? So sánh giữ thứ tự toàn bộ công việc với chỉ giữ thứ tự những việc liên quan.",
+      "explanation": "Thứ tự xác định thao tác nào phải được quan sát theo trình tự. Giải thích phụ thuộc nghiệp vụ trước khi quyết định phần nào được chạy song song.",
+      "intent": "Chọn phạm vi thứ tự từ yêu cầu đúng đắn và năng lực xử lý.",
+      "scope": "Làm rõ thứ tự delivery, bắt đầu xử lý hay tác động đã commit. Nêu broker/phiên bản, kiểm tra bảo đảm chính thức, gồm lỗi và redelivery.",
+      "senior_signals": [
+        "Gắn trình tự bắt buộc với bất biến nghiệp vụ cụ thể.",
+        "Giải thích trường hợp việc chậm hoặc retry và cách đo tác động đến throughput."
+      ],
+      "pitfalls": [
+        "Khẳng định thứ tự toàn cục khi xử lý đồng thời mà không xét thứ tự hoàn thành."
+      ],
+      "followups": [
+        "Nên làm gì khi thao tác trước bị chậm?",
+        "Bạn xử lý message đến khác trình tự nghiệp vụ bắt buộc thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S04-Q028",
+    "phase": "application",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "If work is accepted asynchronously, how would the caller receive or find its eventual result? Explain the contract for progress, completion and failure.",
+      "explanation": "Acceptance and completion are separate events. Follow one request from submission until the caller can determine its outcome.",
+      "intent": "Design an observable asynchronous result contract.",
+      "scope": "State caller capabilities, expected duration and who may read the result. Do not assume an HTTP response means the background operation has finished.",
+      "senior_signals": [
+        "Connect submission identity to progress and the final outcome.",
+        "Handle a lost notification or disconnected caller with a verifiable recovery path."
+      ],
+      "pitfalls": [
+        "Returning accepted and leaving the caller no way to learn whether work succeeded."
+      ],
+      "followups": [
+        "What should a repeated submission return while the original is running?",
+        "How do you prevent one caller from reading another caller's result?"
+      ]
+    },
+    "vi": {
+      "question": "Nếu công việc được tiếp nhận bất đồng bộ, bên gọi nhận hoặc tìm kết quả cuối cùng thế nào? Giải thích hợp đồng về tiến độ, hoàn thành và lỗi.",
+      "explanation": "Tiếp nhận và hoàn thành là hai sự kiện riêng. Lần theo một request từ lúc gửi đến khi bên gọi xác định được kết quả.",
+      "intent": "Thiết kế hợp đồng kết quả bất đồng bộ có thể quan sát.",
+      "scope": "Nêu khả năng của bên gọi, thời lượng dự kiến và ai được đọc kết quả. Không mặc định response HTTP có nghĩa thao tác nền đã xong.",
+      "senior_signals": [
+        "Gắn danh tính lần gửi với tiến độ và kết quả cuối cùng.",
+        "Xử lý thông báo bị mất hoặc client ngắt kết nối bằng đường phục hồi kiểm chứng được."
+      ],
+      "pitfalls": [
+        "Trả trạng thái đã tiếp nhận nhưng không cho bên gọi biết công việc có thành công không."
+      ],
+      "followups": [
+        "Lần gửi lặp lại nên nhận gì khi công việc gốc vẫn chạy?",
+        "Bạn ngăn bên gọi đọc kết quả của người khác thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S04-Q029",
+    "phase": "foundation",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "What do correlation and causation identifiers represent in a message workflow? Trace both identifiers through a request that produces more than one event.",
+      "explanation": "One workflow can contain related events and direct triggering links. Explain which relationship each identifier records rather than assuming one identifier serves both purposes.",
+      "intent": "Distinguish investigation context from direct causal relationships.",
+      "scope": "Choose a generic workflow and establish naming conventions. Keep message identity, business-operation identity and trace context distinct.",
+      "senior_signals": [
+        "Use a branching example to explain the two relationships.",
+        "Show how identifiers help investigate a failure without treating them as a deduplication guarantee."
+      ],
+      "pitfalls": [
+        "Using one identifier for every purpose without defining its meaning."
+      ],
+      "followups": [
+        "What should be recorded when one message causes two different events?",
+        "Which identifier would you inspect to find the immediate trigger of a failed event?"
+      ]
+    },
+    "vi": {
+      "question": "Correlation ID và causation ID biểu thị điều gì trong luồng message? Lần theo cả hai qua request tạo ra nhiều hơn một event.",
+      "explanation": "Một quy trình có thể có các event liên quan và quan hệ kích hoạt trực tiếp. Giải thích quan hệ mà mỗi ID ghi nhận, thay vì mặc định một ID dùng cho cả hai mục đích.",
+      "intent": "Phân biệt ngữ cảnh điều tra với quan hệ nguyên nhân trực tiếp.",
+      "scope": "Chọn quy trình giả định và nêu quy ước đặt ID. Phân biệt danh tính message, danh tính thao tác nghiệp vụ và trace context.",
+      "senior_signals": [
+        "Dùng ví dụ có nhánh để giải thích hai quan hệ.",
+        "Chỉ ra ID hỗ trợ điều tra lỗi mà không coi chúng là bảo đảm khử trùng."
+      ],
+      "pitfalls": [
+        "Dùng một ID cho mọi mục đích mà không định nghĩa ý nghĩa."
+      ],
+      "followups": [
+        "Cần ghi gì khi một message tạo ra hai event khác nhau?",
+        "Bạn xem ID nào để tìm tác nhân trực tiếp của event lỗi?"
+      ]
+    }
+  },
+  {
+    "question_id": "S04-Q030",
+    "phase": "mechanism",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "What problems do transactional outbox and inbox patterns address? Trace a business update, an outgoing event and a receiving consumer across their failure boundaries.",
+      "explanation": "The question concerns coordination between durable business state and messages. Explain the sender and receiver responsibilities without assuming one transaction spans the entire system.",
+      "intent": "Reason about local atomicity and remote delivery boundaries.",
+      "scope": "State which records share a database transaction and which effects occur remotely. Verify any chosen database or broker guarantees separately.",
+      "senior_signals": [
+        "Trace interruption before and after local commit on both sides.",
+        "Explain duplicate publication or delivery and a test of the remaining failure window."
+      ],
+      "pitfalls": [
+        "Claiming that an outbox alone guarantees every downstream effect happens exactly once."
+      ],
+      "followups": [
+        "What must a dispatcher do after an uncertain publish outcome?",
+        "How does the design change if the consumer calls an external payment API?"
+      ]
+    },
+    "vi": {
+      "question": "Transactional outbox và inbox giải quyết vấn đề gì? Lần theo cập nhật nghiệp vụ, event gửi đi và consumer nhận qua các ranh giới lỗi.",
+      "explanation": "Câu hỏi xét phối hợp trạng thái nghiệp vụ bền vững với message. Giải thích trách nhiệm bên gửi và nhận mà không mặc định có một transaction bao trùm hệ thống.",
+      "intent": "Lập luận về tính nguyên tử cục bộ và ranh giới delivery từ xa.",
+      "scope": "Nêu record nào cùng transaction database và tác động nào nằm bên ngoài. Kiểm chứng riêng bảo đảm database hoặc broker đã chọn.",
+      "senior_signals": [
+        "Lần theo gián đoạn trước và sau commit cục bộ ở cả hai bên.",
+        "Giải thích publish hoặc delivery trùng và cách kiểm tra khoảng lỗi còn lại."
+      ],
+      "pitfalls": [
+        "Khẳng định chỉ cần outbox là mọi tác động phía sau xảy ra đúng một lần."
+      ],
+      "followups": [
+        "Dispatcher cần làm gì khi không biết publish có thành công không?",
+        "Thiết kế đổi thế nào nếu consumer gọi API thanh toán bên ngoài?"
+      ]
+    }
+  },
+  {
+    "question_id": "S04-Q031",
+    "phase": "foundation",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "What problem does Domain-Driven Design try to solve? Use a business rule that is hard to express consistently to explain when the approach would be useful.",
+      "explanation": "Connect modeling choices to understanding the business. Explain the problem first, before selecting tactical patterns or framework support.",
+      "intent": "Relate domain modeling to business complexity and communication.",
+      "scope": "Use a generic rule; distinguish complex business behavior from complexity caused only by traffic or infrastructure.",
+      "senior_signals": [
+        "Explain how a shared model would change implementation decisions.",
+        "Describe a situation where the modeling effort would not be justified."
+      ],
+      "pitfalls": [
+        "Defining DDD as a collection of entity, repository and service classes."
+      ],
+      "followups": [
+        "What would you ask a domain expert before writing the model?",
+        "How would you notice that the model no longer matches the business?"
+      ]
+    },
+    "vi": {
+      "question": "Domain-Driven Design muốn giải quyết vấn đề gì? Dùng một quy tắc nghiệp vụ khó diễn đạt nhất quán để giải thích khi nào cách tiếp cận này có ích.",
+      "explanation": "Gắn lựa chọn mô hình với hiểu biết nghiệp vụ. Giải thích vấn đề trước khi chọn tactical pattern hoặc framework hỗ trợ.",
+      "intent": "Liên hệ mô hình domain với độ phức tạp nghiệp vụ và giao tiếp.",
+      "scope": "Dùng quy tắc giả định; phân biệt nghiệp vụ phức tạp với sự phức tạp chỉ do traffic hoặc hạ tầng.",
+      "senior_signals": [
+        "Giải thích mô hình chung sẽ thay đổi quyết định triển khai thế nào.",
+        "Nêu bối cảnh không đáng đầu tư công sức mô hình hóa."
+      ],
+      "pitfalls": [
+        "Định nghĩa DDD bằng một tập lớp entity, repository và service."
+      ],
+      "followups": [
+        "Bạn hỏi domain expert điều gì trước khi viết mô hình?",
+        "Bạn nhận ra mô hình không còn khớp nghiệp vụ bằng cách nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S04-Q032",
+    "phase": "foundation",
+    "order": 20,
+    "version_sensitive": false,
+    "en": {
+      "question": "What does Ubiquitous Language mean in a domain model? Show how a business term would be used consistently in discussion, code and tests.",
+      "explanation": "The question asks how a team gives a term a shared meaning. Explain what happens when everyday language hides different business rules.",
+      "intent": "Make business terminology precise enough to guide implementation.",
+      "scope": "Choose a generic term such as order or reservation; define the context and avoid assuming it means the same thing everywhere.",
+      "senior_signals": [
+        "Connect the term to observable behavior and a concrete test.",
+        "Explain how disagreement or a changed meaning would update the model."
+      ],
+      "pitfalls": [
+        "Treating a vocabulary document as sufficient while code uses a different meaning."
+      ],
+      "followups": [
+        "How would you resolve two teams using the same word differently?",
+        "What test would expose an ambiguous definition?"
+      ]
+    },
+    "vi": {
+      "question": "Ubiquitous Language có nghĩa gì trong mô hình domain? Minh họa cách dùng một thuật ngữ nghiệp vụ nhất quán trong trao đổi, code và test.",
+      "explanation": "Câu hỏi yêu cầu giải thích cách đội ngũ thống nhất ý nghĩa thuật ngữ. Xét điều xảy ra khi ngôn ngữ thông thường che giấu các quy tắc nghiệp vụ khác nhau.",
+      "intent": "Làm rõ thuật ngữ nghiệp vụ đủ để dẫn dắt triển khai.",
+      "scope": "Chọn từ giả định như đơn hàng hoặc đặt chỗ; xác định bối cảnh và không mặc định từ đó có cùng nghĩa ở mọi nơi.",
+      "senior_signals": [
+        "Gắn thuật ngữ với hành vi quan sát được và test cụ thể.",
+        "Giải thích cách cập nhật mô hình khi bất đồng hoặc ý nghĩa thay đổi."
+      ],
+      "pitfalls": [
+        "Coi tài liệu từ vựng là đủ trong khi code dùng ý nghĩa khác."
+      ],
+      "followups": [
+        "Bạn giải quyết việc hai đội dùng cùng một từ với nghĩa khác nhau thế nào?",
+        "Test nào giúp lộ ra định nghĩa mơ hồ?"
+      ]
+    }
+  },
+  {
+    "question_id": "S04-Q033",
+    "phase": "foundation",
+    "order": 30,
+    "version_sensitive": false,
+    "en": {
+      "question": "What is a Bounded Context, and how would you recognize one in a business workflow? Explain what should happen when information crosses into another context.",
+      "explanation": "Focus on where a model and its terms apply. Distinguish a semantic boundary from automatically choosing a new deployment unit.",
+      "intent": "Identify model boundaries and explicit integration meaning.",
+      "scope": "Choose two generic business contexts; clarify team and data ownership without assuming each context must be a microservice.",
+      "senior_signals": [
+        "Show a term whose meaning differs across contexts and explain the consequence.",
+        "Describe an integration contract and how to test that it preserves the intended meaning."
+      ],
+      "pitfalls": [
+        "Equating each Bounded Context with exactly one service or database."
+      ],
+      "followups": [
+        "Can two contexts live in the same application?",
+        "How would a change in one context's model affect the integration?"
+      ]
+    },
+    "vi": {
+      "question": "Bounded Context là gì, và bạn nhận diện nó trong quy trình nghiệp vụ thế nào? Giải thích điều cần xảy ra khi thông tin đi sang context khác.",
+      "explanation": "Tập trung vào phạm vi áp dụng của mô hình và thuật ngữ. Phân biệt ranh giới về ý nghĩa với việc tự động chọn một đơn vị triển khai mới.",
+      "intent": "Nhận diện ranh giới mô hình và làm rõ ý nghĩa khi tích hợp.",
+      "scope": "Chọn hai bối cảnh nghiệp vụ giả định; làm rõ quyền sở hữu đội ngũ và dữ liệu, không mặc định mỗi context phải là một microservice.",
+      "senior_signals": [
+        "Chỉ ra thuật ngữ có nghĩa khác giữa các context và giải thích hệ quả.",
+        "Mô tả hợp đồng tích hợp và cách kiểm tra nó giữ đúng ý nghĩa dự định."
+      ],
+      "pitfalls": [
+        "Đồng nhất mỗi Bounded Context với đúng một service hoặc database."
+      ],
+      "followups": [
+        "Hai context có thể nằm trong cùng ứng dụng không?",
+        "Thay đổi mô hình ở một context ảnh hưởng đến tích hợp thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S04-Q034",
+    "phase": "mechanism",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "What are an Aggregate and its Aggregate Root? Use one business invariant to explain how you would choose their boundary and allow changes.",
+      "explanation": "An invariant is a rule that must remain true. Focus on which related state must be protected together rather than grouping objects by convenient navigation.",
+      "intent": "Reason about a consistency boundary from a business invariant.",
+      "scope": "Choose a generic rule and state concurrency assumptions. Distinguish the domain boundary from ORM loading and physical table layout.",
+      "senior_signals": [
+        "Trace a state change and explain which rule must still hold.",
+        "Discuss contention or boundary size and a test involving competing changes."
+      ],
+      "pitfalls": [
+        "Making every reachable object part of one aggregate because the ORM can load it."
+      ],
+      "followups": [
+        "What if a rule seems to span two aggregates?",
+        "How would concurrent requests challenge the proposed invariant?"
+      ]
+    },
+    "vi": {
+      "question": "Aggregate và Aggregate Root là gì? Dùng một bất biến nghiệp vụ để giải thích cách chọn ranh giới và cho phép thay đổi.",
+      "explanation": "Bất biến là quy tắc phải luôn được giữ. Tập trung vào trạng thái liên quan cần bảo vệ cùng nhau, thay vì gom object theo sự tiện lợi khi truy cập.",
+      "intent": "Suy ra ranh giới nhất quán từ bất biến nghiệp vụ.",
+      "scope": "Chọn quy tắc giả định và nêu giả định xử lý đồng thời. Phân biệt ranh giới domain với cách ORM tải dữ liệu và bố trí bảng vật lý.",
+      "senior_signals": [
+        "Lần theo thay đổi trạng thái và giải thích quy tắc phải tiếp tục đúng.",
+        "Bàn về tranh chấp hoặc kích thước ranh giới và test thay đổi cạnh tranh."
+      ],
+      "pitfalls": [
+        "Đưa mọi object có thể truy cập vào một aggregate vì ORM tải được chúng."
+      ],
+      "followups": [
+        "Nếu một quy tắc dường như nằm ở hai aggregate thì sao?",
+        "Request đồng thời thử thách bất biến đề xuất thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S04-Q035",
+    "phase": "mechanism",
+    "order": 20,
+    "version_sensitive": false,
+    "en": {
+      "question": "What makes an event a Domain Event? Describe a business transition and explain what an interested component needs to understand about that event.",
+      "explanation": "Separate a meaningful business fact from a low-level change notification. Clarify the event contract and the point at which it becomes valid.",
+      "intent": "Express a business transition through an explicit event contract.",
+      "scope": "Choose a generic transition; distinguish an in-process event from a published integration event and state the commit boundary.",
+      "senior_signals": [
+        "Connect event meaning to an actual business transition and relevant data.",
+        "Trace what happens if publication or consumer processing fails."
+      ],
+      "pitfalls": [
+        "Treating every database update as a useful domain event without explaining its meaning."
+      ],
+      "followups": [
+        "Should an external consumer receive the same representation as an internal handler?",
+        "How would you evolve the event without changing its meaning unexpectedly?"
+      ]
+    },
+    "vi": {
+      "question": "Điều gì khiến một event được xem là Domain Event? Mô tả chuyển đổi nghiệp vụ và giải thích thành phần quan tâm cần hiểu gì về event đó.",
+      "explanation": "Phân biệt sự kiện nghiệp vụ có ý nghĩa với thông báo thay đổi mức thấp. Làm rõ hợp đồng event và thời điểm nó có hiệu lực.",
+      "intent": "Diễn đạt chuyển đổi nghiệp vụ bằng hợp đồng event rõ ràng.",
+      "scope": "Chọn chuyển đổi giả định; phân biệt event trong tiến trình với integration event được publish và nêu ranh giới commit.",
+      "senior_signals": [
+        "Gắn ý nghĩa event với chuyển đổi nghiệp vụ thực sự và dữ liệu liên quan.",
+        "Lần theo điều xảy ra nếu publish hoặc xử lý ở consumer thất bại."
+      ],
+      "pitfalls": [
+        "Coi mọi cập nhật database là domain event hữu ích mà không giải thích ý nghĩa."
+      ],
+      "followups": [
+        "Consumer bên ngoài có nên nhận cùng biểu diễn với handler nội bộ không?",
+        "Bạn phát triển event thế nào mà không bất ngờ đổi ý nghĩa của nó?"
+      ]
+    }
+  },
+  {
+    "question_id": "S04-Q036",
+    "phase": "foundation",
+    "order": 40,
+    "version_sensitive": false,
+    "en": {
+      "question": "What does CQRS separate, and what does that separation require in a simple application? Describe the read and write responsibilities without assuming separate databases.",
+      "explanation": "Expand Command Query Responsibility Segregation through a concrete operation. Explain the responsibility split before choosing a storage or event architecture.",
+      "intent": "Define CQRS at its responsibility boundary.",
+      "scope": "Use a generic update and read; clarify whether both paths share storage. Event sourcing and asynchronous projections are not assumed.",
+      "senior_signals": [
+        "Distinguish the responsibilities with a concrete read and state-changing command.",
+        "Explain which additional architecture choices are separate decisions."
+      ],
+      "pitfalls": [
+        "Equating CQRS with event sourcing or requiring two databases in every design."
+      ],
+      "followups": [
+        "Could both responsibilities use one database?",
+        "What would a reader observe if a separate projection has not caught up?"
+      ]
+    },
+    "vi": {
+      "question": "CQRS tách trách nhiệm gì, và sự tách biệt đó cần gì trong một ứng dụng đơn giản? Mô tả bên đọc và bên ghi mà không mặc định có database riêng.",
+      "explanation": "Giải thích Command Query Responsibility Segregation qua thao tác cụ thể. Làm rõ phân chia trách nhiệm trước khi chọn kiến trúc lưu trữ hoặc event.",
+      "intent": "Định nghĩa CQRS tại ranh giới trách nhiệm.",
+      "scope": "Dùng thao tác đọc và cập nhật giả định; làm rõ hai đường có chung storage không. Không mặc định event sourcing hoặc projection bất đồng bộ.",
+      "senior_signals": [
+        "Phân biệt trách nhiệm bằng một thao tác đọc và command thay đổi trạng thái cụ thể.",
+        "Giải thích lựa chọn kiến trúc bổ sung nào là quyết định riêng."
+      ],
+      "pitfalls": [
+        "Đồng nhất CQRS với event sourcing hoặc bắt buộc mọi thiết kế có hai database."
+      ],
+      "followups": [
+        "Hai trách nhiệm có thể dùng một database không?",
+        "Bên đọc thấy gì nếu projection riêng chưa cập nhật kịp?"
+      ]
+    }
+  },
+  {
+    "question_id": "S04-Q037",
+    "phase": "application",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "When would separate read and write models help a system? Describe one mismatch between the two workloads and how you would test whether separation is worthwhile.",
+      "explanation": "A read model serves information needs; a write model protects state changes. Explain the difficulty caused by using one representation before proposing another.",
+      "intent": "Justify model separation using a concrete workload and validation.",
+      "scope": "State query shape, update rules and freshness requirements. Separate models need not imply separate storage or asynchronous delivery.",
+      "senior_signals": [
+        "Relate the proposed models to different user and correctness needs.",
+        "Compare a simpler alternative and evidence for benefits and synchronization costs."
+      ],
+      "pitfalls": [
+        "Choosing two models simply because CQRS is an architectural goal."
+      ],
+      "followups": [
+        "What freshness contract would the read side expose?",
+        "What would you measure before adding a separate projection?"
+      ]
+    },
+    "vi": {
+      "question": "Khi nào mô hình đọc và ghi riêng giúp ích cho hệ thống? Mô tả một điểm lệch giữa hai workload và cách kiểm tra việc tách có đáng hay không.",
+      "explanation": "Mô hình đọc phục vụ nhu cầu thông tin; mô hình ghi bảo vệ thay đổi trạng thái. Giải thích khó khăn khi dùng chung biểu diễn trước khi đề xuất cách khác.",
+      "intent": "Bảo vệ việc tách mô hình bằng workload cụ thể và kiểm chứng.",
+      "scope": "Nêu hình dạng query, quy tắc cập nhật và yêu cầu độ mới dữ liệu. Mô hình riêng không nhất thiết có storage riêng hoặc delivery bất đồng bộ.",
+      "senior_signals": [
+        "Gắn mô hình đề xuất với nhu cầu người dùng và yêu cầu đúng đắn khác nhau.",
+        "So sánh phương án đơn giản hơn và bằng chứng về lợi ích, chi phí đồng bộ."
+      ],
+      "pitfalls": [
+        "Chọn hai mô hình chỉ vì muốn áp dụng CQRS."
+      ],
+      "followups": [
+        "Phía đọc sẽ công bố hợp đồng độ mới dữ liệu nào?",
+        "Bạn đo gì trước khi thêm projection riêng?"
+      ]
+    }
+  },
+  {
+    "question_id": "S04-Q038",
+    "phase": "tradeoff",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "When would CQRS introduce more complexity than value? Describe a simpler design you would keep and the evidence that would make you reconsider.",
+      "explanation": "Evaluate the actual responsibility split and any extra projection or synchronization work. The decision depends on the problem, not the pattern's popularity.",
+      "intent": "Reject unnecessary model separation with defensible criteria.",
+      "scope": "State business complexity, read/write needs and team capacity; distinguish lightweight separation from a distributed projection architecture.",
+      "senior_signals": [
+        "Explain why the simpler design satisfies the present requirements.",
+        "Name a changed requirement that would justify a deeper separation."
+      ],
+      "pitfalls": [
+        "Treating either universal adoption or universal rejection of CQRS as sound judgment."
+      ],
+      "followups": [
+        "Which additional failure path would a separate read store introduce?",
+        "How could you retain a useful responsibility split without extra infrastructure?"
+      ]
+    },
+    "vi": {
+      "question": "Khi nào CQRS tạo nhiều phức tạp hơn giá trị? Mô tả thiết kế đơn giản hơn bạn sẽ giữ và bằng chứng khiến bạn xem lại.",
+      "explanation": "Đánh giá sự phân chia trách nhiệm thực tế cùng phần việc projection hoặc đồng bộ phát sinh. Quyết định dựa vào vấn đề, không dựa vào độ phổ biến pattern.",
+      "intent": "Loại bỏ việc tách mô hình không cần thiết bằng tiêu chí có thể bảo vệ.",
+      "scope": "Nêu độ phức tạp nghiệp vụ, nhu cầu đọc/ghi và năng lực đội ngũ; phân biệt cách tách nhẹ với kiến trúc projection phân tán.",
+      "senior_signals": [
+        "Giải thích vì sao thiết kế đơn giản đáp ứng yêu cầu hiện tại.",
+        "Nêu yêu cầu thay đổi đủ để biện minh cho việc tách sâu hơn."
+      ],
+      "pitfalls": [
+        "Coi luôn áp dụng hoặc luôn từ chối CQRS là phán đoán đúng."
+      ],
+      "followups": [
+        "Storage đọc riêng đưa thêm đường lỗi nào?",
+        "Bạn giữ phân chia trách nhiệm hữu ích mà không thêm hạ tầng thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S04-Q039",
+    "phase": "mechanism",
+    "order": 10,
+    "version_sensitive": true,
+    "en": {
+      "question": "Why might one ACID transaction be unavailable or unsuitable across databases owned by independently deployable services? Explain the practical boundary and any assumptions behind your answer.",
+      "explanation": "ACID describes database transaction guarantees. Examine coordination across owners and systems rather than assuming a local transaction automatically extends to a remote call.",
+      "intent": "Reason about transaction scope and distributed coordination constraints.",
+      "scope": "The source says usually, not impossible. Establish database/provider support, ownership and availability requirements; verify official capabilities before making a product-specific claim.",
+      "senior_signals": [
+        "Trace which state is protected by each local commit and which remains outside it.",
+        "Compare a supported coordination option with its deployment and failure costs."
+      ],
+      "pitfalls": [
+        "Claiming cross-database atomic transactions are categorically impossible."
+      ],
+      "followups": [
+        "What changes if both participants support a distributed transaction coordinator?",
+        "Which failure would leave the business workflow partially completed?"
+      ]
+    },
+    "vi": {
+      "question": "Vì sao một ACID transaction có thể không khả dụng hoặc không phù hợp giữa database do các service triển khai độc lập sở hữu? Giải thích ranh giới thực tế và giả định của câu trả lời.",
+      "explanation": "ACID mô tả bảo đảm transaction database. Xét việc phối hợp nhiều bên sở hữu và hệ thống, thay vì mặc định transaction cục bộ bao trùm lời gọi từ xa.",
+      "intent": "Lập luận về phạm vi transaction và ràng buộc phối hợp phân tán.",
+      "scope": "Nguồn nói thường không có, không nói bất khả thi. Xác định hỗ trợ của database/provider, quyền sở hữu và yêu cầu khả dụng; kiểm tra tài liệu chính thức trước khi khẳng định tính năng sản phẩm.",
+      "senior_signals": [
+        "Lần theo trạng thái được từng commit cục bộ bảo vệ và trạng thái nằm ngoài.",
+        "So sánh phương án phối hợp được hỗ trợ với chi phí triển khai và xử lý lỗi."
+      ],
+      "pitfalls": [
+        "Khẳng định transaction nguyên tử giữa các database tuyệt đối không thể có."
+      ],
+      "followups": [
+        "Điều gì thay đổi nếu hai bên hỗ trợ distributed transaction coordinator?",
+        "Lỗi nào khiến quy trình nghiệp vụ hoàn thành một phần?"
+      ]
+    }
+  },
+  {
+    "question_id": "S04-Q040",
+    "phase": "foundation",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "What does eventual consistency mean for a user observing a business operation? Give an example of temporarily different views and explain what the system must eventually establish.",
+      "explanation": "Describe a convergence contract and its assumptions. Do not use the label as a substitute for explaining how unfinished work is detected.",
+      "intent": "Make delayed consistency observable and bounded by an explicit contract.",
+      "scope": "State the affected records, expected delay and failure assumptions. Do not imply a fixed convergence deadline without a supported design or measurement.",
+      "senior_signals": [
+        "Explain which observations may differ and what condition counts as convergence.",
+        "Describe detection and recovery when progress stops rather than merely waiting."
+      ],
+      "pitfalls": [
+        "Saying the data will become correct eventually without naming the convergence mechanism."
+      ],
+      "followups": [
+        "What should the UI show before the views agree?",
+        "How would you distinguish expected lag from a stuck workflow?"
+      ]
+    },
+    "vi": {
+      "question": "Eventual consistency có nghĩa gì với người dùng quan sát thao tác nghiệp vụ? Đưa ví dụ các góc nhìn tạm khác nhau và giải thích điều hệ thống phải đạt về sau.",
+      "explanation": "Mô tả hợp đồng hội tụ và các giả định. Không dùng tên gọi thay cho giải thích cách phát hiện công việc chưa hoàn tất.",
+      "intent": "Làm cho sự nhất quán trễ có thể quan sát và có hợp đồng rõ ràng.",
+      "scope": "Nêu record liên quan, độ trễ mong muốn và giả định về lỗi. Không hứa deadline hội tụ cố định khi chưa có thiết kế hoặc phép đo hỗ trợ.",
+      "senior_signals": [
+        "Giải thích quan sát nào có thể khác và điều kiện được coi là hội tụ.",
+        "Mô tả phát hiện và phục hồi khi tiến độ dừng, thay vì chỉ chờ."
+      ],
+      "pitfalls": [
+        "Nói dữ liệu rồi sẽ đúng nhưng không nêu cơ chế hội tụ."
+      ],
+      "followups": [
+        "UI nên hiển thị gì trước khi các góc nhìn thống nhất?",
+        "Bạn phân biệt lag bình thường với quy trình bị kẹt thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S04-Q041",
+    "phase": "tradeoff",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "How would you choose between Saga orchestration and choreography for a multi-service workflow? Compare who tracks progress and what happens when a step fails.",
+      "explanation": "A Saga coordinates a workflow composed of local steps. Explain control and responsibility for the complete workflow, not just whether messages are used.",
+      "intent": "Compare workflow coordination from ownership and recovery needs.",
+      "scope": "Choose a generic workflow with local commits; state visibility, team ownership and change requirements. Neither style is assumed to eliminate partial failure.",
+      "senior_signals": [
+        "Trace the happy path and a failed step under both coordination styles.",
+        "Explain a condition that changes the choice and how workflow progress is inspected."
+      ],
+      "pitfalls": [
+        "Calling choreography fully decoupled without examining implicit event dependencies."
+      ],
+      "followups": [
+        "Who decides that the entire workflow has finished?",
+        "How would you change a step without breaking an in-progress workflow?"
+      ]
+    },
+    "vi": {
+      "question": "Bạn chọn Saga orchestration hay choreography cho quy trình nhiều service thế nào? So sánh bên theo dõi tiến độ và diễn biến khi một bước lỗi.",
+      "explanation": "Saga phối hợp quy trình gồm các bước cục bộ. Giải thích quyền điều khiển và trách nhiệm với toàn quy trình, không chỉ việc có dùng message hay không.",
+      "intent": "So sánh cách phối hợp quy trình từ quyền sở hữu và nhu cầu phục hồi.",
+      "scope": "Chọn quy trình giả định có commit cục bộ; nêu yêu cầu quan sát, sở hữu đội ngũ và thay đổi. Không mặc định cách nào loại bỏ thất bại một phần.",
+      "senior_signals": [
+        "Lần theo happy path và bước lỗi ở cả hai kiểu phối hợp.",
+        "Giải thích điều kiện khiến lựa chọn thay đổi và cách xem tiến độ quy trình."
+      ],
+      "pitfalls": [
+        "Gọi choreography là hoàn toàn độc lập mà không xét phụ thuộc event ngầm."
+      ],
+      "followups": [
+        "Ai quyết định toàn quy trình đã hoàn tất?",
+        "Bạn đổi một bước thế nào để không làm hỏng quy trình đang chạy?"
+      ]
+    }
+  },
+  {
+    "question_id": "S04-Q042",
+    "phase": "mechanism",
+    "order": 20,
+    "version_sensitive": false,
+    "en": {
+      "question": "What is compensation in a distributed workflow, and how is it different from database rollback? Use a completed business step to explain what can and cannot be reversed.",
+      "explanation": "Focus on the business meaning of recovery after a local step has committed. Explain the resulting state rather than assuming every effect has a perfect inverse.",
+      "intent": "Distinguish business recovery from undoing an uncommitted transaction.",
+      "scope": "Choose a generic action with visible effects; state which changes are reversible and whether other actors may already have observed them.",
+      "senior_signals": [
+        "Describe a valid recovery state and why it meets the business contract.",
+        "Consider repeated or failed compensation and how to inspect its progress."
+      ],
+      "pitfalls": [
+        "Calling compensation a rollback that restores every prior observation."
+      ],
+      "followups": [
+        "What if the compensation itself fails?",
+        "What would you do for an action with no meaningful inverse?"
+      ]
+    },
+    "vi": {
+      "question": "Compensation trong quy trình phân tán là gì, và khác database rollback thế nào? Dùng một bước nghiệp vụ đã hoàn tất để giải thích phần nào có thể hoặc không thể đảo lại.",
+      "explanation": "Tập trung vào ý nghĩa nghiệp vụ của phục hồi sau khi bước cục bộ đã commit. Giải thích trạng thái kết quả thay vì mặc định mọi tác động có phép đảo hoàn hảo.",
+      "intent": "Phân biệt phục hồi nghiệp vụ với hoàn tác transaction chưa commit.",
+      "scope": "Chọn hành động giả định có tác động nhìn thấy; nêu thay đổi nào đảo được và bên khác có thể đã quan sát chúng chưa.",
+      "senior_signals": [
+        "Mô tả trạng thái phục hồi hợp lệ và vì sao nó đáp ứng hợp đồng nghiệp vụ.",
+        "Xét compensation lặp lại hoặc lỗi và cách xem tiến độ."
+      ],
+      "pitfalls": [
+        "Gọi compensation là rollback khôi phục mọi quan sát trước đó."
+      ],
+      "followups": [
+        "Nếu compensation cũng thất bại thì sao?",
+        "Bạn làm gì với hành động không có phép đảo có ý nghĩa?"
+      ]
+    }
+  },
+  {
+    "question_id": "S04-Q043",
+    "phase": "failure",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "One service has committed successfully but a later service fails. How would you recover the business workflow and make its current outcome visible?",
+      "explanation": "Start from the actual committed state, not an assumed all-or-nothing result. Explain the next valid action and how it can be attempted safely.",
+      "intent": "Design recoverable progress after a partial distributed failure.",
+      "scope": "Use a generic workflow with independent local transactions; clarify deadlines, reversible actions and who owns recovery.",
+      "senior_signals": [
+        "Trace partial success through a recovery decision and an inspectable state transition.",
+        "Test repeated recovery, an unknown remote outcome and recovery failure."
+      ],
+      "pitfalls": [
+        "Retrying the whole workflow without checking effects already committed."
+      ],
+      "followups": [
+        "What if the later service timed out but might have committed?",
+        "When should an operator intervene instead of another automatic attempt?"
+      ]
+    },
+    "vi": {
+      "question": "Một service đã commit thành công nhưng service ở bước sau lỗi. Bạn phục hồi quy trình nghiệp vụ và làm rõ kết quả hiện tại thế nào?",
+      "explanation": "Bắt đầu từ trạng thái thực sự đã commit, không mặc định kết quả tất cả hoặc không gì. Giải thích hành động hợp lệ tiếp theo và cách thử an toàn.",
+      "intent": "Thiết kế tiến độ có thể phục hồi sau thất bại phân tán một phần.",
+      "scope": "Dùng quy trình giả định có transaction cục bộ độc lập; làm rõ deadline, hành động đảo được và bên sở hữu phục hồi.",
+      "senior_signals": [
+        "Lần theo thành công một phần qua quyết định phục hồi và chuyển đổi trạng thái quan sát được.",
+        "Kiểm tra phục hồi lặp lại, kết quả từ xa chưa biết và phục hồi thất bại."
+      ],
+      "pitfalls": [
+        "Retry toàn bộ quy trình mà không kiểm tra tác động đã commit."
+      ],
+      "followups": [
+        "Nếu service sau timeout nhưng có thể đã commit thì sao?",
+        "Khi nào operator nên can thiệp thay vì thử tự động thêm lần nữa?"
+      ]
+    }
+  },
+  {
+    "question_id": "S04-SC001",
+    "phase": "production",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "A client repeatedly submits the same large import while its first job is still running. Design the submission and worker flow so that retries are safe and only the intended work is performed.",
+      "explanation": "Preserve every source constraint: duplicate messages must not create duplicate database rows; failed messages must be recoverable; processing state must be observable; multiple worker replicas must scale horizontally.",
+      "intent": "Design an inspectable import workflow that protects intended effects under repetition and failure.",
+      "scope": "Clarify what identifies the same import, concurrent-submission behavior, transaction boundaries and caller-visible state. The source does not prescribe an API, broker or import format.",
+      "senior_signals": [
+        "Trace repeated submission, concurrent workers and interruption around commit.",
+        "Provide a failure matrix showing safe recovery, visible state and horizontal-scale constraints."
+      ],
+      "pitfalls": [
+        "Deduplicating only at submission while ignoring duplicate worker deliveries."
+      ],
+      "followups": [
+        "What should happen when the same request identity contains different import data?",
+        "How would you resume a partially processed import without duplicating rows?"
+      ]
+    },
+    "vi": {
+      "question": "Client gửi lặp cùng một yêu cầu import lớn khi job đầu vẫn đang chạy. Thiết kế luồng tiếp nhận và worker để retry an toàn, chỉ thực hiện công việc dự định.",
+      "explanation": "Giữ mọi ràng buộc nguồn: message trùng không tạo dòng database trùng; message lỗi có thể phục hồi; trạng thái xử lý quan sát được; nhiều worker replica có thể scale ngang.",
+      "intent": "Thiết kế quy trình import có thể kiểm tra và bảo vệ tác động dự định khi lặp lại hoặc lỗi.",
+      "scope": "Làm rõ điều gì xác định cùng một import, hành vi gửi đồng thời, ranh giới transaction và trạng thái client thấy. Nguồn không bắt buộc API, broker hoặc định dạng import.",
+      "senior_signals": [
+        "Lần theo gửi lặp, worker đồng thời và gián đoạn quanh commit.",
+        "Đưa ma trận lỗi thể hiện phục hồi an toàn, trạng thái quan sát được và ràng buộc scale ngang."
+      ],
+      "pitfalls": [
+        "Chỉ khử trùng lúc tiếp nhận mà bỏ qua delivery trùng đến worker."
+      ],
+      "followups": [
+        "Nên làm gì khi cùng request identity chứa dữ liệu import khác nhau?",
+        "Bạn tiếp tục import dở mà không tạo dòng trùng thế nào?"
+      ]
+    }
+  }
+]

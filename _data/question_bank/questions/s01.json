@@ -1,0 +1,1750 @@
+[
+  {
+    "question_id": "S01-Q001",
+    "phase": "tradeoff",
+    "order": 10,
+    "version_sensitive": false,
+    "en": {
+      "question": "When would you choose const rather than static readonly for a C# value? Explain the consequences when a shared library changes that value.",
+      "explanation": "Compare the value’s initialization and the contract seen by code that consumes it. This asks about observable behavior, not which keyword looks shorter.",
+      "intent": "Choose a member declaration from initialization and compatibility requirements.",
+      "scope": "Use a hypothetical public library and consuming application; state whether both are rebuilt and redeployed together.",
+      "senior_signals": [
+        "Predicts behavior for unchanged and rebuilt consumers with a small example.",
+        "Explains the requirement that would change the declaration and a way to check it."
+      ],
+      "pitfalls": [
+        "Calling both declarations simply immutable without explaining initialization or consumer compatibility."
+      ],
+      "followups": [
+        "What would you test if the library ships independently of its consumers?"
+      ]
+    },
+    "vi": {
+      "question": "Khi nào bạn chọn const thay vì static readonly cho một giá trị trong C#? Nếu thư viện dùng chung đổi giá trị đó, ứng dụng sử dụng thư viện có thể chịu ảnh hưởng gì?",
+      "explanation": "So sánh thời điểm khởi tạo và hợp đồng mà mã sử dụng giá trị nhìn thấy. Câu hỏi cần hành vi có thể quan sát, không phải từ khóa nào viết ngắn hơn.",
+      "intent": "Chọn cách khai báo thành viên dựa trên yêu cầu khởi tạo và tương thích.",
+      "scope": "Dùng thư viện công khai và ứng dụng giả định; nói rõ hai bên có được build và triển khai lại cùng nhau không.",
+      "senior_signals": [
+        "Dự đoán hành vi khi ứng dụng dùng thư viện được build lại hoặc giữ nguyên, bằng ví dụ nhỏ.",
+        "Nêu điều kiện khiến lựa chọn thay đổi và cách kiểm tra điều đó."
+      ],
+      "pitfalls": [
+        "Gọi cả hai là bất biến nhưng không giải thích khởi tạo hoặc tương thích với ứng dụng sử dụng thư viện."
+      ],
+      "followups": [
+        "Bạn kiểm tra gì nếu thư viện được phát hành độc lập với các ứng dụng sử dụng nó?"
+      ]
+    }
+  },
+  {
+    "question_id": "S01-Q002",
+    "phase": "foundation",
+    "order": 20,
+    "version_sensitive": false,
+    "en": {
+      "question": "How would you compare an empty string literal with String.Empty in ordinary C# code? Which differences actually matter to the caller?",
+      "explanation": "Separate representation, readable intent and observable string behavior. Avoid treating a stylistic preference as a performance measurement.",
+      "intent": "Distinguish semantic requirements from unsupported micro-optimization claims.",
+      "scope": "Compare non-null empty strings, not null or whitespace; name the runtime and workload before discussing measured cost.",
+      "senior_signals": [
+        "Checks equality and relevant API contracts with a minimal example.",
+        "States which style choice is conventional and which performance claim needs evidence."
+      ],
+      "pitfalls": [
+        "Confusing empty with null, or promising that one spelling is always faster."
+      ],
+      "followups": [
+        "How would your validation change if null and whitespace were also allowed?"
+      ]
+    },
+    "vi": {
+      "question": "Bạn so sánh chuỗi literal rỗng với String.Empty trong mã C# thông thường thế nào? Khác biệt nào thực sự ảnh hưởng đến mã sử dụng chuỗi?",
+      "explanation": "Tách cách biểu diễn, ý định dễ đọc và hành vi chuỗi có thể quan sát. Không biến sở thích trình bày thành kết luận về hiệu năng.",
+      "intent": "Phân biệt yêu cầu ngữ nghĩa với nhận định tối ưu nhỏ chưa có bằng chứng.",
+      "scope": "So sánh chuỗi rỗng khác null, không phải null hay khoảng trắng; nêu runtime và workload trước khi nói về chi phí đã đo.",
+      "senior_signals": [
+        "Kiểm tra phép so sánh và hợp đồng API liên quan bằng ví dụ tối thiểu.",
+        "Nói rõ lựa chọn nào là quy ước trình bày và nhận định hiệu năng nào cần đo."
+      ],
+      "pitfalls": [
+        "Nhầm chuỗi rỗng với null, hoặc khẳng định một cách viết luôn nhanh hơn."
+      ],
+      "followups": [
+        "Cách kiểm tra đầu vào thay đổi ra sao nếu cũng cho phép null và khoảng trắng?"
+      ]
+    }
+  },
+  {
+    "question_id": "S01-Q003",
+    "phase": "foundation",
+    "order": 30,
+    "version_sensitive": false,
+    "en": {
+      "question": "What is the difference between a field and a property in C#? Which would you expose for state that may later need validation?",
+      "explanation": "Compare stored state with a member access contract. Explain what a caller depends on and what an implementation may need to change.",
+      "intent": "Choose a public member shape while preserving a clear state contract.",
+      "scope": "Use an ordinary class and a hypothetical evolving API; distinguish direct storage, auto-properties and custom accessors.",
+      "senior_signals": [
+        "Connects the choice to validation, mutability and caller expectations.",
+        "Shows a small API change and identifies compatibility or surprising side effects."
+      ],
+      "pitfalls": [
+        "Saying a property is just a field with different syntax."
+      ],
+      "followups": [
+        "What would make a property getter surprising or expensive for callers?"
+      ]
+    },
+    "vi": {
+      "question": "Field và property trong C# khác nhau thế nào? Bạn muốn công khai trạng thái có thể cần kiểm tra hợp lệ về sau thì chọn cách nào?",
+      "explanation": "So sánh dữ liệu được lưu với hợp đồng truy cập một thành viên. Giải thích mã gọi phụ thuộc vào điều gì và phần triển khai có thể cần thay đổi gì.",
+      "intent": "Chọn cách công khai thành viên nhưng vẫn giữ hợp đồng trạng thái rõ ràng.",
+      "scope": "Dùng class thông thường và API giả định đang phát triển; phân biệt lưu trực tiếp, auto-property và accessor tự viết.",
+      "senior_signals": [
+        "Liên hệ lựa chọn với kiểm tra hợp lệ, khả năng thay đổi và kỳ vọng của mã gọi.",
+        "Minh họa thay đổi API nhỏ và chỉ ra rủi ro tương thích hoặc tác dụng phụ bất ngờ."
+      ],
+      "pitfalls": [
+        "Nói property chỉ là field viết bằng cú pháp khác."
+      ],
+      "followups": [
+        "Điều gì khiến getter của property gây bất ngờ hoặc tốn chi phí cho mã gọi?"
+      ]
+    }
+  },
+  {
+    "question_id": "S01-Q004",
+    "phase": "mechanism",
+    "order": 40,
+    "version_sensitive": false,
+    "en": {
+      "question": "Explain boxing and unboxing using a value passed through object. What must you check before predicting the resulting value or exception?",
+      "explanation": "Trace a conversion step by step rather than memorizing terms. Boxing is the name of a value-type conversion that this example asks you to examine.",
+      "intent": "Predict conversion behavior from declared and actual types.",
+      "scope": "Use a small C# value-type example; keep numeric conversion, object identity and nullable input assumptions explicit.",
+      "senior_signals": [
+        "Tracks types and values across the conversion and a failed attempt.",
+        "Uses a runnable example before drawing allocation or hot-path conclusions."
+      ],
+      "pitfalls": [
+        "Treating an unboxing operation as an arbitrary numeric conversion."
+      ],
+      "followups": [
+        "How would you investigate repeated conversions in a performance-sensitive loop?"
+      ]
+    },
+    "vi": {
+      "question": "Giải thích boxing và unboxing qua một giá trị được truyền dưới dạng object. Cần kiểm tra điều gì trước khi dự đoán giá trị hoặc exception?",
+      "explanation": "Theo dõi từng bước chuyển đổi thay vì học thuộc thuật ngữ. Boxing là tên một dạng chuyển đổi kiểu giá trị mà ví dụ này yêu cầu bạn phân tích.",
+      "intent": "Dự đoán hành vi chuyển đổi từ kiểu khai báo và kiểu thực tế.",
+      "scope": "Dùng ví dụ C# nhỏ với kiểu giá trị; nói rõ giả định về chuyển đổi số, danh tính object và đầu vào nullable.",
+      "senior_signals": [
+        "Theo dõi kiểu và giá trị qua cả lần chuyển đổi thành công lẫn thất bại.",
+        "Dùng ví dụ có thể chạy trước khi kết luận về cấp phát hoặc đường xử lý thường xuyên."
+      ],
+      "pitfalls": [
+        "Coi unboxing là phép chuyển đổi tùy ý giữa các kiểu số."
+      ],
+      "followups": [
+        "Bạn điều tra các chuyển đổi lặp lại trong vòng lặp nhạy cảm hiệu năng thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S01-Q005",
+    "phase": "application",
+    "order": 50,
+    "version_sensitive": false,
+    "en": {
+      "question": "When can == and Equals() give different results in C#? Show how you would determine the intended comparison for a particular type.",
+      "explanation": "The question contrasts an operator with a method call. Explain how declared types and the type’s equality contract affect your prediction.",
+      "intent": "Select and defend a comparison operation for an explicit input contract.",
+      "scope": "Name the concrete type, possible nulls and any overloaded operator or overridden equality method; do not generalize from strings alone.",
+      "senior_signals": [
+        "Predicts results for a representative type and checks null boundaries.",
+        "Explains how the chosen comparison relates to the application’s meaning of equal."
+      ],
+      "pitfalls": [
+        "Assuming one operation always compares values and the other always compares references."
+      ],
+      "followups": [
+        "How would you test a custom type whose equality implementation is changed?"
+      ]
+    },
+    "vi": {
+      "question": "Trong C#, khi nào == và Equals() có thể cho kết quả khác nhau? Với một kiểu cụ thể, bạn xác định phép so sánh phù hợp thế nào?",
+      "explanation": "Câu hỏi đối chiếu toán tử với lời gọi phương thức. Giải thích kiểu khai báo và hợp đồng equality của kiểu ảnh hưởng đến dự đoán ra sao.",
+      "intent": "Chọn và bảo vệ phép so sánh cho một hợp đồng đầu vào rõ ràng.",
+      "scope": "Nêu kiểu cụ thể, khả năng có null và operator được overload hoặc phương thức equality được override; không suy rộng chỉ từ string.",
+      "senior_signals": [
+        "Dự đoán kết quả cho kiểu đại diện và kiểm tra các biên null.",
+        "Giải thích phép so sánh được chọn phù hợp với ý nghĩa bằng nhau của ứng dụng thế nào."
+      ],
+      "pitfalls": [
+        "Cho rằng một phép luôn so giá trị, phép còn lại luôn so tham chiếu."
+      ],
+      "followups": [
+        "Bạn kiểm thử một kiểu tự viết khi cách triển khai equality thay đổi thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S01-Q006",
+    "phase": "foundation",
+    "order": 180,
+    "version_sensitive": true,
+    "en": {
+      "question": "How do an abstract class and an interface express an extension point? Explain the contract and shared behavior before deciding which fits a library requirement.",
+      "explanation": "Compare the contract that implementations must satisfy with the implementation or state they may share. Tie the choice to a concrete change requirement.",
+      "intent": "Defend an abstraction choice with a relevant alternative.",
+      "scope": "State the C# and runtime versions and check official documentation for supported interface features before relying on them.",
+      "senior_signals": [
+        "Explains implementation sharing, inheritance constraints and consumer expectations using one example.",
+        "Identifies a requirement that would favor the alternative and tests substitutability."
+      ],
+      "pitfalls": [
+        "Using an outdated slogan about interfaces without establishing the target language version."
+      ],
+      "followups": [
+        "What changes if unrelated types must participate in the same contract?"
+      ]
+    },
+    "vi": {
+      "question": "Abstract class và interface thể hiện điểm mở rộng thế nào? Giải thích hợp đồng và hành vi dùng chung trước khi chọn cách phù hợp với yêu cầu thư viện.",
+      "explanation": "So sánh hợp đồng mà các kiểu triển khai phải đáp ứng với phần mã hoặc trạng thái có thể dùng chung. Gắn lựa chọn với một yêu cầu thay đổi cụ thể.",
+      "intent": "Bảo vệ lựa chọn abstraction và một phương án thay thế phù hợp.",
+      "scope": "Nêu phiên bản C# và runtime; kiểm tra tài liệu chính thức về tính năng interface được hỗ trợ trước khi dựa vào chúng.",
+      "senior_signals": [
+        "Giải thích mã dùng chung, giới hạn kế thừa và kỳ vọng của mã sử dụng bằng một ví dụ.",
+        "Nêu yêu cầu khiến phương án khác phù hợp hơn và kiểm tra khả năng thay thế."
+      ],
+      "pitfalls": [
+        "Dùng khẩu quyết cũ về interface mà chưa xác định phiên bản ngôn ngữ."
+      ],
+      "followups": [
+        "Lựa chọn thay đổi ra sao nếu nhiều kiểu không cùng hệ kế thừa phải đáp ứng một hợp đồng?"
+      ]
+    }
+  },
+  {
+    "question_id": "S01-Q007",
+    "phase": "mechanism",
+    "order": 70,
+    "version_sensitive": false,
+    "en": {
+      "question": "How do virtual and abstract methods differ when a derived class supplies behavior? Trace a call through a base-typed reference.",
+      "explanation": "Explain the implementation obligation and the dispatch of a method call. Dispatch means selecting which implementation handles the call.",
+      "intent": "Predict method behavior across an inheritance boundary.",
+      "scope": "Use ordinary instance methods in a named C# hierarchy; keep method hiding separate from overriding.",
+      "senior_signals": [
+        "Traces the chosen implementation and required derived-class work in a small example.",
+        "Explains how an extension preserves the base contract and how to test that contract."
+      ],
+      "pitfalls": [
+        "Describing both keywords as identical ways to replace a method."
+      ],
+      "followups": [
+        "What would your example show if a derived method hid rather than overrode the base method?"
+      ]
+    },
+    "vi": {
+      "question": "Virtual method và abstract method khác nhau thế nào khi class con cung cấp hành vi? Hãy theo dõi một lời gọi qua biến có kiểu class cha.",
+      "explanation": "Giải thích nghĩa vụ triển khai và cách chọn phần triển khai khi gọi phương thức. Dispatch là việc xác định phần triển khai nào xử lý lời gọi.",
+      "intent": "Dự đoán hành vi phương thức qua ranh giới kế thừa.",
+      "scope": "Dùng phương thức instance thông thường trong hệ class C# cụ thể; tách việc che phương thức khỏi override.",
+      "senior_signals": [
+        "Theo dõi phần triển khai được chọn và phần class con phải cung cấp bằng ví dụ nhỏ.",
+        "Giải thích cách phần mở rộng giữ hợp đồng class cha và cách kiểm tra hợp đồng đó."
+      ],
+      "pitfalls": [
+        "Mô tả hai từ khóa là hai cách giống nhau để thay phương thức."
+      ],
+      "followups": [
+        "Ví dụ của bạn cho thấy điều gì nếu phương thức class con che thay vì override phương thức cha?"
+      ]
+    }
+  },
+  {
+    "question_id": "S01-Q008",
+    "phase": "application",
+    "order": 80,
+    "version_sensitive": true,
+    "en": {
+      "question": "How would you choose between is and as when examining an object whose type is uncertain? Include an unsuccessful match and a null input.",
+      "explanation": "Compare a type test with a conversion attempt and explain how the surrounding code handles the outcome. Keep the required output contract clear.",
+      "intent": "Handle uncertain input types without hiding invalid assumptions.",
+      "scope": "Name the C# version and exact syntax; consult official documentation for pattern forms or type restrictions being used.",
+      "senior_signals": [
+        "Predicts successful, unsuccessful and null cases for the chosen types.",
+        "Explains how the caller distinguishes an accepted input from an invalid one."
+      ],
+      "pitfalls": [
+        "Assuming every form of type checking and casting has the same supported types or failure behavior."
+      ],
+      "followups": [
+        "What changes when the accepted input is a value type rather than a reference type?"
+      ]
+    },
+    "vi": {
+      "question": "Khi chưa chắc kiểu của một object, bạn chọn is hay as thế nào? Hãy xét cả trường hợp không khớp kiểu và đầu vào null.",
+      "explanation": "So sánh kiểm tra kiểu với thử chuyển kiểu, rồi giải thích mã xung quanh xử lý kết quả ra sao. Giữ yêu cầu về đầu ra rõ ràng.",
+      "intent": "Xử lý kiểu đầu vào chưa xác định mà không che giấu giả định sai.",
+      "scope": "Nêu phiên bản C# và cú pháp cụ thể; tra tài liệu chính thức về dạng pattern hoặc giới hạn kiểu đang dùng.",
+      "senior_signals": [
+        "Dự đoán trường hợp khớp, không khớp và null với các kiểu đã chọn.",
+        "Giải thích mã gọi phân biệt đầu vào được chấp nhận với đầu vào không hợp lệ thế nào."
+      ],
+      "pitfalls": [
+        "Cho rằng mọi dạng kiểm tra và chuyển kiểu đều hỗ trợ cùng loại kiểu, cùng hành vi khi thất bại."
+      ],
+      "followups": [
+        "Điều gì thay đổi nếu kiểu đầu vào được chấp nhận là kiểu giá trị thay vì kiểu tham chiếu?"
+      ]
+    }
+  },
+  {
+    "question_id": "S01-Q009",
+    "phase": "foundation",
+    "order": 90,
+    "version_sensitive": false,
+    "en": {
+      "question": "Compare IEnumerable, arrays, IList and List for a caller that needs to read or modify a collection. What contract would you expose?",
+      "explanation": "Separate an interface’s promises from a concrete collection’s behavior. Explain which operations the caller needs instead of ranking every collection together.",
+      "intent": "Choose a collection contract from access and mutation requirements.",
+      "scope": "State generic or non-generic forms and whether size, indexing and mutation are required; distinguish the exposed contract from the backing implementation.",
+      "senior_signals": [
+        "Maps required operations to a suitable contract and tests its limitations.",
+        "Explains what consumers may assume without depending on one concrete implementation."
+      ],
+      "pitfalls": [
+        "Treating enumeration as proof that the collection is mutable, indexed or already materialized."
+      ],
+      "followups": [
+        "What changes when consumers must not alter the collection?"
+      ]
+    },
+    "vi": {
+      "question": "So sánh IEnumerable, array, IList và List khi mã sử dụng cần đọc hoặc thay đổi collection. Bạn sẽ công khai hợp đồng nào?",
+      "explanation": "Tách cam kết của interface khỏi hành vi của collection cụ thể. Giải thích thao tác mã gọi cần thay vì xếp hạng mọi collection chung một bảng.",
+      "intent": "Chọn hợp đồng collection từ yêu cầu truy cập và thay đổi dữ liệu.",
+      "scope": "Nêu dạng generic hay non-generic, có cần kích thước, chỉ mục và thay đổi hay không; tách hợp đồng công khai khỏi phần lưu dữ liệu.",
+      "senior_signals": [
+        "Ánh xạ thao tác cần thiết vào hợp đồng phù hợp và kiểm tra giới hạn của nó.",
+        "Giải thích mã sử dụng được giả định điều gì mà không phụ thuộc một cách triển khai cụ thể."
+      ],
+      "pitfalls": [
+        "Coi khả năng duyệt là bằng chứng collection có thể thay đổi, có chỉ mục hoặc đã chứa toàn bộ kết quả."
+      ],
+      "followups": [
+        "Lựa chọn thay đổi ra sao nếu mã sử dụng không được sửa collection?"
+      ]
+    }
+  },
+  {
+    "question_id": "S01-Q010",
+    "phase": "mechanism",
+    "order": 100,
+    "version_sensitive": true,
+    "en": {
+      "question": "Compare IEnumerable and IQueryable from an execution perspective. For a filtering pipeline, how would you determine when and where its operations run?",
+      "explanation": "Trace query construction, enumeration and materialization. A provider is the component interpreting a query; its capabilities must be established rather than assumed.",
+      "intent": "Predict query execution and verify the provider boundary.",
+      "scope": "Name the sequence source, provider and framework version; check official provider documentation before claiming translation or evaluation behavior.",
+      "senior_signals": [
+        "Distinguishes the exposed interface from the actual source and traces a terminal operation.",
+        "Checks generated commands or local execution with an example instead of assuming that every IQueryable means SQL."
+      ],
+      "pitfalls": [
+        "Saying IEnumerable always runs eagerly in memory or IQueryable always runs in a database."
+      ],
+      "followups": [
+        "What evidence would show that a filter ran after materialization?"
+      ]
+    },
+    "vi": {
+      "question": "So sánh IEnumerable và IQueryable về cách thực thi. Với chuỗi thao tác lọc, bạn xác định chúng chạy khi nào và ở đâu thế nào?",
+      "explanation": "Theo dõi lúc xây dựng truy vấn, duyệt và lấy kết quả cụ thể. Provider là thành phần diễn giải truy vấn; cần xác định khả năng của nó thay vì tự giả định.",
+      "intent": "Dự đoán thực thi truy vấn và kiểm chứng ranh giới provider.",
+      "scope": "Nêu nguồn dữ liệu, provider và phiên bản framework; tra tài liệu chính thức của provider trước khi khẳng định cách dịch hoặc đánh giá truy vấn.",
+      "senior_signals": [
+        "Phân biệt interface được công khai với nguồn dữ liệu thực tế và theo dõi thao tác lấy kết quả.",
+        "Kiểm tra lệnh được tạo hoặc thực thi cục bộ bằng ví dụ, không coi mọi IQueryable đều là SQL."
+      ],
+      "pitfalls": [
+        "Nói IEnumerable luôn chạy ngay trong bộ nhớ hoặc IQueryable luôn chạy trong database."
+      ],
+      "followups": [
+        "Bằng chứng nào cho thấy một điều kiện lọc chạy sau khi kết quả đã được lấy về?"
+      ]
+    }
+  },
+  {
+    "question_id": "S01-Q011",
+    "phase": "foundation",
+    "order": 110,
+    "version_sensitive": false,
+    "en": {
+      "question": "Explain value types and reference types through assignment and mutation. How would you predict whether changing one variable affects another?",
+      "explanation": "Trace what is copied and what object or value each variable refers to. This asks for semantic behavior before discussing memory layout.",
+      "intent": "Predict observable assignment and mutation behavior.",
+      "scope": "Use named C# types, including a reference nested inside a value if helpful; do not infer behavior from stack-versus-heap slogans.",
+      "senior_signals": [
+        "Draws the relationship between variables and state before and after assignment.",
+        "Checks a boundary case and explains the assumptions needed for a memory-placement claim."
+      ],
+      "pitfalls": [
+        "Reducing the distinction to where memory is stored."
+      ],
+      "followups": [
+        "How would your prediction change for a struct containing a mutable reference?"
+      ]
+    },
+    "vi": {
+      "question": "Giải thích kiểu giá trị và kiểu tham chiếu qua phép gán và thay đổi dữ liệu. Bạn dự đoán việc sửa một biến có ảnh hưởng biến khác thế nào?",
+      "explanation": "Theo dõi thứ gì được sao chép và mỗi biến liên hệ với object hoặc giá trị nào. Câu hỏi cần hành vi ngữ nghĩa trước khi bàn bố trí bộ nhớ.",
+      "intent": "Dự đoán hành vi có thể quan sát của phép gán và thay đổi dữ liệu.",
+      "scope": "Dùng kiểu C# cụ thể, có thể xét tham chiếu nằm trong kiểu giá trị; không suy luận từ khẩu quyết stack và heap.",
+      "senior_signals": [
+        "Vẽ quan hệ giữa các biến và trạng thái trước, sau phép gán.",
+        "Kiểm tra một trường hợp biên và nêu giả định cần có trước khi kết luận vị trí bộ nhớ."
+      ],
+      "pitfalls": [
+        "Rút gọn khác biệt thành dữ liệu được lưu ở đâu."
+      ],
+      "followups": [
+        "Dự đoán thay đổi thế nào với struct chứa tham chiếu đến một object có thể thay đổi?"
+      ]
+    }
+  },
+  {
+    "question_id": "S01-Q012",
+    "phase": "foundation",
+    "order": 120,
+    "version_sensitive": true,
+    "en": {
+      "question": "What does “class types” mean in your C# answer, and how would you compare the class forms relevant to that scope?",
+      "explanation": "Resolve the source’s broad wording first. Then explain how forms such as ordinary, abstract, sealed and static classes express different intended uses.",
+      "intent": "Define an ambiguous classification and connect it to design intent.",
+      "scope": "Start with class modifiers, not all .NET types; state the language version and check official documentation before adding version-specific forms.",
+      "senior_signals": [
+        "States the chosen classification and relates each form to an instantiation or extension requirement.",
+        "Uses a small example to justify one form and its limitation."
+      ],
+      "pitfalls": [
+        "Listing many language keywords without defining the classification or why it matters."
+      ],
+      "followups": [
+        "Which form would fit a type that must not be extended, and how would you verify that choice?"
+      ]
+    },
+    "vi": {
+      "question": "Trong câu trả lời của bạn, “các loại class” trong C# có nghĩa gì? Bạn so sánh các dạng class trong phạm vi đó thế nào?",
+      "explanation": "Làm rõ cách hỏi khá rộng của nguồn trước. Sau đó giải thích các dạng như class thông thường, abstract, sealed và static thể hiện mục đích sử dụng khác nhau ra sao.",
+      "intent": "Xác định cách phân loại còn mơ hồ và liên hệ nó với ý định thiết kế.",
+      "scope": "Bắt đầu từ modifier của class, không liệt kê mọi kiểu .NET; nêu phiên bản ngôn ngữ và tra tài liệu chính thức trước khi thêm dạng phụ thuộc phiên bản.",
+      "senior_signals": [
+        "Nêu cách phân loại đã chọn và gắn từng dạng với yêu cầu tạo instance hoặc mở rộng.",
+        "Dùng ví dụ nhỏ để bảo vệ một lựa chọn và giới hạn của nó."
+      ],
+      "pitfalls": [
+        "Liệt kê nhiều từ khóa mà không định nghĩa cách phân loại hoặc giá trị của nó."
+      ],
+      "followups": [
+        "Dạng nào phù hợp với kiểu không được phép mở rộng, và bạn kiểm chứng lựa chọn thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S01-Q013",
+    "phase": "application",
+    "order": 130,
+    "version_sensitive": false,
+    "en": {
+      "question": "What boundary does internal accessibility express in C#? How would you use it when deciding which library members consumers may depend on?",
+      "explanation": "Explain access from the consumer’s location, not from a folder diagram. Relate that boundary to the public contract you are willing to maintain.",
+      "intent": "Design an intentional accessibility boundary for a library.",
+      "scope": "Use a library with separate consuming assemblies; state any friend-assembly arrangement before predicting access.",
+      "senior_signals": [
+        "Predicts access for callers inside and outside the stated boundary.",
+        "Explains a maintainability benefit and distinguishes access control from data-security guarantees."
+      ],
+      "pitfalls": [
+        "Treating internal as a namespace restriction or a security boundary."
+      ],
+      "followups": [
+        "How would tests access implementation details without accidentally enlarging the public API?"
+      ]
+    },
+    "vi": {
+      "question": "Internal trong C# thể hiện ranh giới truy cập nào? Bạn dùng nó thế nào để quyết định thành viên nào của thư viện được phép sử dụng từ từng phía của ranh giới?",
+      "explanation": "Giải thích quyền truy cập dựa trên vị trí của mã gọi, không dựa vào sơ đồ thư mục. Liên hệ ranh giới đó với hợp đồng công khai bạn sẵn sàng duy trì.",
+      "intent": "Thiết kế ranh giới truy cập có chủ đích cho thư viện.",
+      "scope": "Dùng thư viện và các assembly sử dụng riêng; nói rõ cấu hình friend assembly nếu có trước khi dự đoán quyền truy cập.",
+      "senior_signals": [
+        "Dự đoán quyền truy cập của mã gọi bên trong và ngoài ranh giới đã nêu.",
+        "Giải thích lợi ích bảo trì và tách giới hạn truy cập khỏi bảo đảm an toàn dữ liệu."
+      ],
+      "pitfalls": [
+        "Coi internal là giới hạn namespace hoặc ranh giới bảo mật."
+      ],
+      "followups": [
+        "Test có thể truy cập chi tiết triển khai thế nào mà không vô tình mở rộng public API?"
+      ]
+    }
+  },
+  {
+    "question_id": "S01-Q014",
+    "phase": "mechanism",
+    "order": 140,
+    "version_sensitive": true,
+    "en": {
+      "question": "Which accessibility rules apply to interface members in the C# version you are targeting? Show how you would check a declaration and its implementation.",
+      "explanation": "Distinguish the interface’s contract from how a class exposes its implementation. The question requires a version-specific scope before applying a remembered rule.",
+      "intent": "Verify interface-member legality and caller visibility.",
+      "scope": "State the language version and member form, including any body or static modifier; consult official C# documentation for those exact forms.",
+      "senior_signals": [
+        "Separates valid declarations, implementation requirements and access through different caller types.",
+        "Uses compilation and documentation to check a boundary example."
+      ],
+      "pitfalls": [
+        "Repeating “all interface members are public” without qualifying the member form and language version."
+      ],
+      "followups": [
+        "What changes in caller access if an implementation is explicit?"
+      ]
+    },
+    "vi": {
+      "question": "Với phiên bản C# đang dùng, thành viên interface chịu những quy tắc accessibility nào? Bạn kiểm tra một khai báo và phần triển khai thế nào?",
+      "explanation": "Tách hợp đồng interface khỏi cách class công khai phần triển khai. Cần xác định phạm vi phiên bản trước khi áp dụng quy tắc nhớ sẵn.",
+      "intent": "Kiểm chứng khai báo interface hợp lệ và khả năng truy cập của mã gọi.",
+      "scope": "Nêu phiên bản ngôn ngữ và dạng thành viên, gồm body hoặc modifier static nếu có; tra tài liệu C# chính thức cho đúng dạng đó.",
+      "senior_signals": [
+        "Tách khai báo hợp lệ, yêu cầu triển khai và quyền truy cập qua các kiểu biến khác nhau.",
+        "Dùng biên dịch và tài liệu để kiểm tra một ví dụ biên."
+      ],
+      "pitfalls": [
+        "Lặp lại “mọi thành viên interface đều public” mà không giới hạn dạng thành viên và phiên bản."
+      ],
+      "followups": [
+        "Quyền truy cập của mã gọi thay đổi ra sao khi phần triển khai là explicit implementation?"
+      ]
+    }
+  },
+  {
+    "question_id": "S01-Q015",
+    "phase": "mechanism",
+    "order": 150,
+    "version_sensitive": true,
+    "en": {
+      "question": "What problem would you use a static constructor to solve? Explain the initialization boundary and what you would investigate if initialization failed.",
+      "explanation": "Focus on type-level setup and the consequences of placing work there. Do not describe it only as a constructor with the static keyword.",
+      "intent": "Reason about initialization ownership and failure impact.",
+      "scope": "State the runtime, type and initialization form; consult official documentation before asserting precise triggering, concurrency or failure behavior.",
+      "senior_signals": [
+        "Traces the proposed initialization and identifies observable failure effects.",
+        "Justifies why this boundary suits the work and considers a simpler explicit initialization path."
+      ],
+      "pitfalls": [
+        "Putting blocking or fragile external work in initialization without discussing its failure boundary."
+      ],
+      "followups": [
+        "What evidence would distinguish a type-initialization failure from an ordinary method failure?"
+      ]
+    },
+    "vi": {
+      "question": "Bạn dùng static constructor để giải quyết vấn đề gì? Giải thích ranh giới khởi tạo và cách điều tra nếu quá trình khởi tạo thất bại.",
+      "explanation": "Tập trung vào thiết lập ở cấp kiểu và hệ quả của việc đặt công việc tại đó. Không chỉ mô tả đây là constructor có thêm từ khóa static.",
+      "intent": "Lập luận về bên chịu trách nhiệm khởi tạo và ảnh hưởng khi thất bại.",
+      "scope": "Nêu runtime, kiểu và dạng khởi tạo; tra tài liệu chính thức trước khi khẳng định chi tiết thời điểm chạy, concurrency hoặc hành vi thất bại.",
+      "senior_signals": [
+        "Theo dõi quá trình khởi tạo đề xuất và chỉ ra ảnh hưởng thất bại có thể quan sát.",
+        "Bảo vệ việc chọn ranh giới này và cân nhắc đường khởi tạo tường minh đơn giản hơn."
+      ],
+      "pitfalls": [
+        "Đặt công việc ngoài hệ thống dễ lỗi hoặc blocking vào khởi tạo mà không bàn ranh giới thất bại."
+      ],
+      "followups": [
+        "Bằng chứng nào giúp phân biệt lỗi khởi tạo kiểu với lỗi trong một phương thức thông thường?"
+      ]
+    }
+  },
+  {
+    "question_id": "S01-Q016",
+    "phase": "foundation",
+    "order": 160,
+    "version_sensitive": false,
+    "en": {
+      "question": "How does an abstract class differ from an ordinary concrete class? Use a small hierarchy to explain the responsibilities of the base and derived types.",
+      "explanation": "Compare whether a type represents a complete usable implementation or an extension contract. Keep this question separate from the interface comparison.",
+      "intent": "Describe the responsibilities of an incomplete base implementation.",
+      "scope": "Use ordinary C# classes and instance members; establish which behavior is shared and which a derived class must provide.",
+      "senior_signals": [
+        "Shows an instantiation and extension example that matches the declared class intent.",
+        "Explains when adding a base abstraction would create more complexity than useful structure."
+      ],
+      "pitfalls": [
+        "Assuming an abstract class is merely a class containing no implemented methods."
+      ],
+      "followups": [
+        "When would you keep a concrete class instead of introducing a base hierarchy?"
+      ]
+    },
+    "vi": {
+      "question": "Abstract class khác class thông thường có thể tạo instance thế nào? Dùng hệ class nhỏ để giải thích trách nhiệm của kiểu cha và kiểu con.",
+      "explanation": "So sánh kiểu thể hiện một triển khai hoàn chỉnh với kiểu thể hiện hợp đồng mở rộng. Giữ câu hỏi này riêng với việc so sánh interface.",
+      "intent": "Mô tả trách nhiệm của phần triển khai nền chưa hoàn chỉnh.",
+      "scope": "Dùng class C# và thành viên instance thông thường; xác định hành vi dùng chung và hành vi class con phải cung cấp.",
+      "senior_signals": [
+        "Minh họa tạo instance và mở rộng đúng với ý định khai báo class.",
+        "Giải thích khi nào thêm abstraction nền tạo nhiều phức tạp hơn giá trị."
+      ],
+      "pitfalls": [
+        "Cho rằng abstract class chỉ là class không có phương thức nào đã được triển khai."
+      ],
+      "followups": [
+        "Khi nào bạn giữ class cụ thể thay vì tạo thêm hệ kế thừa?"
+      ]
+    }
+  },
+  {
+    "question_id": "S01-Q017",
+    "phase": "application",
+    "order": 170,
+    "version_sensitive": true,
+    "en": {
+      "question": "Which combinations and uses of abstract, sealed and static classes are valid in your target C# version? Explain how the restrictions express design intent.",
+      "explanation": "Check both compiler legality and the requirement behind a declaration. A list of forbidden combinations does not explain why a class should use one of them.",
+      "intent": "Connect class restrictions to an intentional extension boundary.",
+      "scope": "Name the language version and exact declarations; check official documentation and compiler diagnostics instead of extending rules to unrelated member forms.",
+      "senior_signals": [
+        "Tests representative valid and invalid declarations with clear expected intent.",
+        "Explains the consequence for instantiation or inheritance without applying one rule to every type form."
+      ],
+      "pitfalls": [
+        "Memorizing modifier combinations while ignoring the reason to restrict extension."
+      ],
+      "followups": [
+        "What simpler declaration would meet the same requirement?"
+      ]
+    },
+    "vi": {
+      "question": "Trong phiên bản C# đang dùng, cách kết hợp và sử dụng abstract, sealed, static class nào hợp lệ? Các giới hạn thể hiện ý định thiết kế gì?",
+      "explanation": "Kiểm tra cả tính hợp lệ khi biên dịch lẫn yêu cầu đứng sau khai báo. Liệt kê tổ hợp bị cấm chưa giải thích được vì sao class nên dùng một modifier.",
+      "intent": "Liên hệ giới hạn của class với ranh giới mở rộng có chủ đích.",
+      "scope": "Nêu phiên bản ngôn ngữ và khai báo cụ thể; tra tài liệu chính thức và lỗi biên dịch, không áp dụng rộng sang dạng thành viên khác.",
+      "senior_signals": [
+        "Kiểm tra khai báo hợp lệ và không hợp lệ đại diện với ý định rõ ràng.",
+        "Giải thích hệ quả với việc tạo instance hoặc kế thừa mà không áp một quy tắc cho mọi dạng kiểu."
+      ],
+      "pitfalls": [
+        "Học thuộc tổ hợp modifier nhưng bỏ qua lý do giới hạn mở rộng."
+      ],
+      "followups": [
+        "Khai báo đơn giản hơn nào đáp ứng cùng yêu cầu?"
+      ]
+    }
+  },
+  {
+    "question_id": "S01-Q018",
+    "phase": "mechanism",
+    "order": 180,
+    "version_sensitive": false,
+    "en": {
+      "question": "Compare overriding and overloading in C#. How would you predict which method is called when declared and actual object types differ?",
+      "explanation": "Separate choosing a method signature from choosing an implementation. Trace the call using the exact types available at each decision point.",
+      "intent": "Predict method selection without conflating two mechanisms.",
+      "scope": "Use ordinary statically typed calls in a small class hierarchy; state if generics, dynamic or optional arguments enter the example.",
+      "senior_signals": [
+        "Traces an overloaded and an overridden call with explicit declared types.",
+        "Demonstrates an edge case and explains the maintenance risk of an unclear overload set."
+      ],
+      "pitfalls": [
+        "Using overriding and overloading as interchangeable names for changing a method."
+      ],
+      "followups": [
+        "How would you reduce ambiguity in an API with several similar overloads?"
+      ]
+    },
+    "vi": {
+      "question": "So sánh overriding và overloading trong C#. Khi kiểu khai báo và kiểu thực tế của object khác nhau, bạn dự đoán phương thức được gọi thế nào?",
+      "explanation": "Tách việc chọn chữ ký phương thức khỏi chọn phần triển khai. Theo dõi lời gọi bằng đúng các kiểu có tại mỗi điểm quyết định.",
+      "intent": "Dự đoán lựa chọn phương thức mà không nhập hai cơ chế thành một.",
+      "scope": "Dùng lời gọi được xác định kiểu tĩnh thông thường trong hệ class nhỏ; nói rõ nếu ví dụ có generic, dynamic hoặc tham số tùy chọn.",
+      "senior_signals": [
+        "Theo dõi lời gọi overload và override với kiểu khai báo rõ ràng.",
+        "Minh họa trường hợp biên và giải thích rủi ro bảo trì của nhóm overload khó phân biệt."
+      ],
+      "pitfalls": [
+        "Dùng overriding và overloading như hai tên tương đương của việc sửa phương thức."
+      ],
+      "followups": [
+        "Bạn giảm mơ hồ trong API có nhiều overload gần giống nhau thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S01-Q019",
+    "phase": "tradeoff",
+    "order": 190,
+    "version_sensitive": false,
+    "en": {
+      "question": "When would you choose string operations or StringBuilder to construct text? Explain how the workload would influence your choice.",
+      "explanation": "Relate the text-building pattern to the work performed rather than recommending one API universally. State what evidence could justify an optimization.",
+      "intent": "Choose a text-building strategy from actual workload characteristics.",
+      "scope": "Specify input size, number of appends and runtime before comparing measured cost; include a simple case as well as repeated construction.",
+      "senior_signals": [
+        "Explains the relevant construction mechanism and predicts where cost may accumulate.",
+        "Proposes a representative measurement while considering readability and allocation."
+      ],
+      "pitfalls": [
+        "Claiming StringBuilder is always faster without considering the size or construction pattern."
+      ],
+      "followups": [
+        "What would your benchmark need to prevent a misleading comparison?"
+      ]
+    },
+    "vi": {
+      "question": "Khi xây dựng văn bản, bạn chọn thao tác string hay StringBuilder lúc nào? Đặc điểm công việc ảnh hưởng lựa chọn ra sao?",
+      "explanation": "Gắn cách ghép văn bản với công việc thực tế thay vì khuyên dùng một API cho mọi trường hợp. Nêu bằng chứng có thể biện minh cho tối ưu.",
+      "intent": "Chọn chiến lược tạo văn bản dựa trên đặc điểm workload thực tế.",
+      "scope": "Nêu kích thước đầu vào, số lần thêm và runtime trước khi so chi phí đã đo; xét cả trường hợp đơn giản và tạo chuỗi lặp lại.",
+      "senior_signals": [
+        "Giải thích cơ chế tạo văn bản liên quan và dự đoán nơi chi phí có thể tích lũy.",
+        "Đề xuất phép đo đại diện, đồng thời cân nhắc độ dễ đọc và cấp phát."
+      ],
+      "pitfalls": [
+        "Khẳng định StringBuilder luôn nhanh hơn mà không xét kích thước hay cách tạo chuỗi."
+      ],
+      "followups": [
+        "Benchmark cần điều gì để tránh một phép so sánh gây hiểu lầm?"
+      ]
+    }
+  },
+  {
+    "question_id": "S01-Q020",
+    "phase": "mechanism",
+    "order": 200,
+    "version_sensitive": false,
+    "en": {
+      "question": "What does equality mean for the value and reference types in your example? Distinguish equal state from referring to the same object.",
+      "explanation": "Define the application’s meaning of equality, then examine the type’s default or customized behavior. This question focuses on type semantics, not just choosing an operator.",
+      "intent": "Explain and verify an equality contract for concrete types.",
+      "scope": "Name the types and any custom equality or hashing; do not assume all value types or all reference types share one behavior.",
+      "senior_signals": [
+        "Separates state equality, identity and the method used to compare them.",
+        "Tests equal and unequal inputs and checks consistency when the type is used as a key."
+      ],
+      "pitfalls": [
+        "Equating every reference-type comparison with object identity."
+      ],
+      "followups": [
+        "What can go wrong if a key’s equality-relevant state changes after insertion?"
+      ]
+    },
+    "vi": {
+      "question": "Với các kiểu giá trị và tham chiếu trong ví dụ, bằng nhau có nghĩa gì? Phân biệt trạng thái bằng nhau với cùng trỏ đến một object.",
+      "explanation": "Định nghĩa ý nghĩa equality của ứng dụng rồi xem hành vi mặc định hoặc tự viết của kiểu. Câu hỏi tập trung vào ngữ nghĩa của kiểu, không chỉ chọn toán tử.",
+      "intent": "Giải thích và kiểm chứng hợp đồng equality của các kiểu cụ thể.",
+      "scope": "Nêu kiểu và phần equality hoặc hashing tự viết nếu có; không coi mọi kiểu giá trị hay mọi kiểu tham chiếu đều có cùng hành vi.",
+      "senior_signals": [
+        "Tách bằng nhau về trạng thái, danh tính và phương thức dùng để so sánh.",
+        "Kiểm tra đầu vào bằng và khác nhau, đồng thời kiểm tra tính nhất quán khi dùng kiểu làm key."
+      ],
+      "pitfalls": [
+        "Đồng nhất mọi phép so sánh kiểu tham chiếu với danh tính object."
+      ],
+      "followups": [
+        "Điều gì có thể sai nếu trạng thái ảnh hưởng equality của key đổi sau khi được thêm vào collection?"
+      ]
+    }
+  },
+  {
+    "question_id": "S01-Q021",
+    "phase": "application",
+    "order": 210,
+    "version_sensitive": false,
+    "en": {
+      "question": "Which collections would you choose for common work such as ordered processing, keyed lookup or duplicate detection? Explain one choice in depth.",
+      "explanation": "Connect an actual access pattern to a collection contract. The source asks about familiarity; a truthful example or a clearly hypothetical design is sufficient.",
+      "intent": "Defend a collection choice with correctness and cost requirements.",
+      "scope": "State ordering, duplicates, mutation and expected input size; distinguish personal use from a proposed example rather than inventing experience.",
+      "senior_signals": [
+        "Explains the required operations and a condition that changes the choice.",
+        "Checks correctness before presenting complexity assumptions or measured resource costs."
+      ],
+      "pitfalls": [
+        "Listing collection names or claiming one is best for all access patterns."
+      ],
+      "followups": [
+        "Which requirement would make your chosen collection unsuitable?"
+      ]
+    },
+    "vi": {
+      "question": "Bạn chọn collection nào cho xử lý có thứ tự, tìm theo key hoặc phát hiện trùng? Hãy giải thích sâu một lựa chọn.",
+      "explanation": "Gắn cách truy cập thực tế với hợp đồng collection. Nguồn hỏi mức độ quen thuộc; dùng kinh nghiệm có thật hoặc thiết kế được nói rõ là giả định.",
+      "intent": "Bảo vệ lựa chọn collection bằng yêu cầu tính đúng và chi phí.",
+      "scope": "Nêu yêu cầu thứ tự, trùng lặp, thay đổi và kích thước đầu vào dự kiến; tách việc đã làm với ví dụ đề xuất, không bịa kinh nghiệm.",
+      "senior_signals": [
+        "Giải thích thao tác cần thiết và điều kiện khiến lựa chọn thay đổi.",
+        "Kiểm tra tính đúng trước khi trình bày giả định độ phức tạp hoặc chi phí tài nguyên đã đo."
+      ],
+      "pitfalls": [
+        "Liệt kê tên collection hoặc nói một loại tốt nhất cho mọi cách truy cập."
+      ],
+      "followups": [
+        "Yêu cầu nào khiến collection bạn chọn không còn phù hợp?"
+      ]
+    }
+  },
+  {
+    "question_id": "S01-Q022",
+    "phase": "tradeoff",
+    "order": 220,
+    "version_sensitive": false,
+    "en": {
+      "question": "When would you use Dictionary and when would you use HashSet? Describe the contract for keys or members before comparing their costs.",
+      "explanation": "Choose based on whether the operation needs associated values, membership or uniqueness. Make the application’s definition of duplicate explicit.",
+      "intent": "Select a keyed or set-based collection for a stated operation.",
+      "scope": "Specify equality rules, duplicates, input scale and mutation; cost claims need appropriate implementation and workload assumptions.",
+      "senior_signals": [
+        "Demonstrates the required lookup or duplicate-handling behavior on a small input.",
+        "Explains equality consistency and when a different collection would fit better."
+      ],
+      "pitfalls": [
+        "Choosing solely from a memorized constant-time claim without specifying the operation or equality contract."
+      ],
+      "followups": [
+        "How would case-insensitive string input change your requirements?"
+      ]
+    },
+    "vi": {
+      "question": "Khi nào bạn dùng Dictionary, khi nào dùng HashSet? Mô tả hợp đồng key hoặc phần tử trước khi so chi phí.",
+      "explanation": "Chọn theo nhu cầu lưu giá trị đi kèm, kiểm tra phần tử hay bảo đảm duy nhất. Nói rõ ứng dụng định nghĩa trùng lặp thế nào.",
+      "intent": "Chọn collection theo key hoặc tập hợp cho một thao tác đã xác định.",
+      "scope": "Nêu quy tắc equality, trùng lặp, quy mô và thay đổi dữ liệu; nhận định chi phí cần giả định phù hợp về triển khai và workload.",
+      "senior_signals": [
+        "Minh họa cách tìm hoặc xử lý trùng cần có bằng đầu vào nhỏ.",
+        "Giải thích tính nhất quán của equality và khi nào collection khác phù hợp hơn."
+      ],
+      "pitfalls": [
+        "Chọn chỉ từ câu “thời gian hằng số” học thuộc mà chưa nêu thao tác và hợp đồng equality."
+      ],
+      "followups": [
+        "Yêu cầu thay đổi ra sao khi đầu vào chuỗi không phân biệt chữ hoa, chữ thường?"
+      ]
+    }
+  },
+  {
+    "question_id": "S01-Q023",
+    "phase": "mechanism",
+    "order": 230,
+    "version_sensitive": false,
+    "en": {
+      "question": "Explain delegates, Action, Func and Predicate through a callback contract. How would you choose a signature that expresses what the caller expects?",
+      "explanation": "A callback is behavior supplied to be invoked by another operation. Compare inputs, outputs and intent instead of only reciting generic parameter counts.",
+      "intent": "Express a behavior boundary with a clear callable contract.",
+      "scope": "Use a synchronous callback first; state separately whether closures, multiple handlers or asynchronous returns are part of the example.",
+      "senior_signals": [
+        "Explains the chosen inputs and return contract using a concrete invocation.",
+        "Discusses an exception or captured-state boundary and how the caller handles it."
+      ],
+      "pitfalls": [
+        "Naming delegate types without explaining the behavior supplied or the result expected."
+      ],
+      "followups": [
+        "What would change if the callback needed to perform asynchronous work?"
+      ]
+    },
+    "vi": {
+      "question": "Giải thích delegate, Action, Func và Predicate qua hợp đồng callback. Bạn chọn chữ ký để thể hiện kỳ vọng của mã gọi thế nào?",
+      "explanation": "Callback là hành vi được truyền vào để một thao tác khác gọi. So sánh đầu vào, đầu ra và ý định thay vì chỉ đọc số tham số generic.",
+      "intent": "Thể hiện ranh giới hành vi bằng hợp đồng gọi rõ ràng.",
+      "scope": "Bắt đầu với callback đồng bộ; nêu riêng nếu ví dụ có closure, nhiều handler hoặc kết quả bất đồng bộ.",
+      "senior_signals": [
+        "Giải thích đầu vào và hợp đồng kết quả bằng một lời gọi cụ thể.",
+        "Bàn ranh giới exception hoặc trạng thái được giữ lại và cách mã gọi xử lý."
+      ],
+      "pitfalls": [
+        "Nêu tên các loại delegate mà không giải thích hành vi được truyền hay kết quả cần nhận."
+      ],
+      "followups": [
+        "Điều gì thay đổi nếu callback phải thực hiện công việc bất đồng bộ?"
+      ]
+    }
+  },
+  {
+    "question_id": "S01-Q024",
+    "phase": "foundation",
+    "order": 240,
+    "version_sensitive": true,
+    "en": {
+      "question": "How does async/await organize the execution of a C# operation that waits for I/O? Trace the caller before, during and after an awaited operation.",
+      "explanation": "Explain the sequence of work and waiting before discussing implementation details. Keep an asynchronous operation separate from a claim about a dedicated thread.",
+      "intent": "Build a causal model of an awaited operation.",
+      "scope": "State runtime and application context; consult official documentation before depending on continuation scheduling or context-capture behavior.",
+      "senior_signals": [
+        "Traces completion, an already-completed operation and an actual asynchronous wait.",
+        "Distinguishes the operation’s result from how code resumes and proposes an observable check."
+      ],
+      "pitfalls": [
+        "Saying async automatically creates a new thread or makes CPU computation faster."
+      ],
+      "followups": [
+        "What changes in your trace if the awaited operation is already complete?"
+      ]
+    },
+    "vi": {
+      "question": "Async/await tổ chức một thao tác C# phải đợi I/O thế nào? Theo dõi mã gọi trước, trong và sau thao tác được await.",
+      "explanation": "Giải thích trình tự làm việc và chờ trước khi bàn chi tiết triển khai. Tách thao tác bất đồng bộ khỏi khẳng định nó có một thread riêng.",
+      "intent": "Xây dựng mental model có quan hệ nguyên nhân và kết quả cho thao tác được await.",
+      "scope": "Nêu runtime và loại ứng dụng; tra tài liệu chính thức trước khi dựa vào cách xếp lịch tiếp tục hoặc giữ lại context.",
+      "senior_signals": [
+        "Theo dõi khi hoàn tất, khi thao tác đã hoàn tất sẵn và khi thực sự phải đợi bất đồng bộ.",
+        "Tách kết quả thao tác khỏi cách mã tiếp tục, rồi đề xuất phép kiểm tra có thể quan sát."
+      ],
+      "pitfalls": [
+        "Nói async tự tạo thread mới hoặc làm tính toán CPU nhanh hơn."
+      ],
+      "followups": [
+        "Luồng giải thích thay đổi thế nào nếu thao tác được await đã hoàn tất sẵn?"
+      ]
+    }
+  },
+  {
+    "question_id": "S01-Q025",
+    "phase": "foundation",
+    "order": 250,
+    "version_sensitive": false,
+    "en": {
+      "question": "What is the difference between Task and Thread when designing a concurrent .NET operation? Explain what each represents before choosing one.",
+      "explanation": "Compare a unit of work or completion contract with an execution resource. Use the workload to explain the decision rather than treating their names as equivalents.",
+      "intent": "Separate operation lifetime from execution-resource lifetime.",
+      "scope": "State whether the work waits for I/O, consumes CPU or needs a dedicated execution resource; precise scheduling claims require the target runtime.",
+      "senior_signals": [
+        "Explains completion, waiting and execution in one concrete example.",
+        "Justifies a choice and identifies the evidence needed for any throughput or resource claim."
+      ],
+      "pitfalls": [
+        "Assuming every Task owns a thread for its whole lifetime."
+      ],
+      "followups": [
+        "When would a dedicated thread be a consequential requirement rather than an implementation preference?"
+      ]
+    },
+    "vi": {
+      "question": "Khi thiết kế thao tác chạy đồng thời trong .NET, Task và Thread khác nhau thế nào? Giải thích mỗi thứ đại diện điều gì trước khi lựa chọn.",
+      "explanation": "So sánh đơn vị công việc hoặc hợp đồng hoàn tất với tài nguyên thực thi. Dùng đặc điểm công việc để giải thích quyết định, không coi hai tên là tương đương.",
+      "intent": "Tách vòng đời thao tác khỏi vòng đời tài nguyên thực thi.",
+      "scope": "Nêu công việc đợi I/O, dùng CPU hay cần tài nguyên thực thi riêng; khẳng định chi tiết về xếp lịch cần runtime cụ thể.",
+      "senior_signals": [
+        "Giải thích hoàn tất, chờ và thực thi bằng một ví dụ cụ thể.",
+        "Bảo vệ lựa chọn và nêu bằng chứng cần cho nhận định throughput hoặc tài nguyên."
+      ],
+      "pitfalls": [
+        "Cho rằng mỗi Task sở hữu một thread suốt vòng đời."
+      ],
+      "followups": [
+        "Khi nào thread riêng là yêu cầu quan trọng thay vì chỉ là sở thích triển khai?"
+      ]
+    }
+  },
+  {
+    "question_id": "S01-Q026",
+    "phase": "mechanism",
+    "order": 260,
+    "version_sensitive": false,
+    "en": {
+      "question": "How does asynchronous I/O differ from using a blocking thread to wait for I/O? Compare what happens while a request is waiting.",
+      "explanation": "Follow the operation and execution resources through the waiting period. Keep I/O waiting separate from CPU work and from promises about faster individual requests.",
+      "intent": "Explain resource use during waiting and its relevance to concurrent load.",
+      "scope": "Use an API calling a slow external dependency; identify its actual async support and avoid assuming all wrappers provide asynchronous I/O.",
+      "senior_signals": [
+        "Traces where work and waiting occur for the two approaches.",
+        "Relates the difference to capacity and proposes measurements under representative concurrency."
+      ],
+      "pitfalls": [
+        "Calling Task.Run around a blocking operation equivalent to genuine asynchronous I/O."
+      ],
+      "followups": [
+        "Which metrics would distinguish less blocking from a faster external dependency?"
+      ]
+    },
+    "vi": {
+      "question": "I/O bất đồng bộ khác dùng một thread blocking để đợi I/O thế nào? So sánh điều xảy ra trong lúc request đang chờ.",
+      "explanation": "Theo dõi thao tác và tài nguyên thực thi qua khoảng chờ. Tách việc đợi I/O khỏi tính toán CPU và khỏi lời hứa mỗi request sẽ nhanh hơn.",
+      "intent": "Giải thích tài nguyên dùng trong lúc chờ và ý nghĩa với tải đồng thời.",
+      "scope": "Dùng API gọi phụ thuộc bên ngoài chậm; xác định khả năng async thực tế, không coi mọi lớp bao ngoài đều cung cấp I/O bất đồng bộ.",
+      "senior_signals": [
+        "Theo dõi công việc và thời gian chờ nằm ở đâu trong hai cách.",
+        "Liên hệ khác biệt với sức chứa tải và đề xuất phép đo ở mức concurrency đại diện."
+      ],
+      "pitfalls": [
+        "Coi Task.Run bọc thao tác blocking tương đương I/O bất đồng bộ thực sự."
+      ],
+      "followups": [
+        "Metric nào phân biệt việc ít blocking hơn với việc phụ thuộc bên ngoài chạy nhanh hơn?"
+      ]
+    }
+  },
+  {
+    "question_id": "S01-Q027",
+    "phase": "failure",
+    "order": 270,
+    "version_sensitive": true,
+    "en": {
+      "question": "When can blocking asynchronous code contribute to deadlock or ThreadPool starvation? How would you distinguish those explanations for a slow application?",
+      "explanation": "Investigate progress, waiting and available workers. Deadlock and starvation are different hypotheses; a blocked call alone does not prove either diagnosis.",
+      "intent": "Discriminate failure hypotheses using runtime and request evidence.",
+      "scope": "State runtime, application context and blocking call; check official diagnostics guidance before relying on context or ThreadPool behavior.",
+      "senior_signals": [
+        "Traces a specific dependency or waiting cycle and identifies distinguishing observations.",
+        "Proposes a targeted change and validates latency and throughput without merely increasing thread counts."
+      ],
+      "pitfalls": [
+        "Claiming every .Result or .Wait call necessarily deadlocks in every application."
+      ],
+      "followups": [
+        "What evidence would make you investigate downstream latency instead?"
+      ]
+    },
+    "vi": {
+      "question": "Khi nào mã bất đồng bộ bị blocking có thể góp phần gây deadlock hoặc ThreadPool starvation? Bạn phân biệt hai giả thuyết cho ứng dụng chậm thế nào?",
+      "explanation": "Điều tra khả năng tiến triển, trạng thái chờ và worker sẵn có. Deadlock và starvation là hai giả thuyết khác nhau; một lời gọi bị chặn chưa đủ chứng minh.",
+      "intent": "Phân biệt giả thuyết lỗi bằng bằng chứng runtime và request.",
+      "scope": "Nêu runtime, loại ứng dụng và lời gọi blocking; tra hướng dẫn chẩn đoán chính thức trước khi dựa vào hành vi context hoặc ThreadPool.",
+      "senior_signals": [
+        "Theo dõi một phụ thuộc hoặc chu trình chờ cụ thể và chỉ ra quan sát giúp phân biệt.",
+        "Đề xuất thay đổi có mục tiêu, kiểm chứng latency và throughput thay vì chỉ tăng số thread."
+      ],
+      "pitfalls": [
+        "Khẳng định mọi .Result hoặc .Wait đều chắc chắn gây deadlock trong mọi ứng dụng."
+      ],
+      "followups": [
+        "Bằng chứng nào khiến bạn chuyển sang điều tra latency của phụ thuộc bên ngoài?"
+      ]
+    }
+  },
+  {
+    "question_id": "S01-Q028",
+    "phase": "failure",
+    "order": 280,
+    "version_sensitive": true,
+    "en": {
+      "question": "A .NET application’s memory use grows over time. How would you determine whether it is a leak, expected retention or another resource issue?",
+      "explanation": "Start from a reproducible symptom and competing explanations. Retention means objects or resources remain reachable or held; the cause must be established with evidence.",
+      "intent": "Design a memory investigation that distinguishes causes.",
+      "scope": "State runtime, workload and the memory metric that grows; check official tooling documentation before interpreting counters, snapshots or collection behavior.",
+      "senior_signals": [
+        "Compares observations over time and identifies what keeps suspect state alive.",
+        "Explains a test that could falsify the diagnosis and verifies the change under comparable load."
+      ],
+      "pitfalls": [
+        "Calling every increase in process memory a managed-memory leak."
+      ],
+      "followups": [
+        "What would you check if managed-heap observations did not explain process growth?"
+      ]
+    },
+    "vi": {
+      "question": "Ứng dụng .NET dùng ngày càng nhiều bộ nhớ. Bạn xác định đó là leak, dữ liệu được giữ theo thiết kế hay vấn đề tài nguyên khác thế nào?",
+      "explanation": "Bắt đầu từ triệu chứng có thể tái hiện và các giải thích cạnh tranh. Retention là object hoặc tài nguyên còn được giữ; cần bằng chứng để xác định nguyên nhân.",
+      "intent": "Thiết kế điều tra bộ nhớ có thể phân biệt các nguyên nhân.",
+      "scope": "Nêu runtime, workload và metric bộ nhớ tăng; tra tài liệu tooling chính thức trước khi diễn giải counter, snapshot hoặc hành vi thu gom.",
+      "senior_signals": [
+        "So sánh quan sát theo thời gian và tìm thứ giữ trạng thái đáng ngờ còn sống.",
+        "Nêu phép kiểm tra có thể bác bỏ chẩn đoán, rồi kiểm chứng sửa đổi dưới tải tương đương."
+      ],
+      "pitfalls": [
+        "Gọi mọi lần tăng bộ nhớ process là leak bộ nhớ managed."
+      ],
+      "followups": [
+        "Bạn kiểm tra gì nếu quan sát managed heap không giải thích được bộ nhớ process tăng?"
+      ]
+    }
+  },
+  {
+    "question_id": "S01-Q029",
+    "phase": "mechanism",
+    "order": 290,
+    "version_sensitive": true,
+    "en": {
+      "question": "How would you explain the roles of the Garbage Collector, IDisposable and deterministic cleanup in a .NET component that owns resources?",
+      "explanation": "Separate reclaiming memory from ending a resource’s useful lifetime. Deterministic cleanup means an explicit cleanup boundary rather than relying on an unspecified later moment.",
+      "intent": "Assign ownership and cleanup responsibilities clearly.",
+      "scope": "Name managed and external resources, ownership and runtime; consult official documentation for finalization, disposal and framework-specific ownership rules.",
+      "senior_signals": [
+        "Traces creation, use and cleanup, including an exception path.",
+        "Distinguishes owned and borrowed resources and explains how cleanup behavior would be checked."
+      ],
+      "pitfalls": [
+        "Assuming garbage collection makes resource ownership or disposal unnecessary."
+      ],
+      "followups": [
+        "Who should perform cleanup when the component receives a resource it did not create?"
+      ]
+    },
+    "vi": {
+      "question": "Bạn giải thích vai trò của Garbage Collector, IDisposable và dọn tài nguyên đúng thời điểm trong một component .NET sở hữu tài nguyên thế nào?",
+      "explanation": "Tách thu hồi bộ nhớ khỏi kết thúc thời gian sử dụng tài nguyên. Dọn đúng thời điểm nghĩa là có ranh giới dọn tường minh, thay vì trông chờ một lúc nào đó về sau.",
+      "intent": "Phân định rõ trách nhiệm sở hữu và dọn tài nguyên.",
+      "scope": "Nêu tài nguyên managed, bên ngoài, quyền sở hữu và runtime; tra tài liệu chính thức về finalization, disposal và quy tắc sở hữu của framework.",
+      "senior_signals": [
+        "Theo dõi tạo, dùng và dọn tài nguyên, gồm cả đường đi có exception.",
+        "Tách tài nguyên sở hữu với tài nguyên được mượn và giải thích cách kiểm tra hành vi dọn."
+      ],
+      "pitfalls": [
+        "Cho rằng garbage collection làm trách nhiệm sở hữu hoặc disposal không còn cần thiết."
+      ],
+      "followups": [
+        "Ai nên dọn tài nguyên nếu component nhận một tài nguyên mà nó không tạo ra?"
+      ]
+    }
+  },
+  {
+    "question_id": "S01-Q030",
+    "phase": "failure",
+    "order": 300,
+    "version_sensitive": true,
+    "en": {
+      "question": "How do exceptions reach the caller through asynchronous C# code? Trace an awaited failure and explain what you would examine when an operation is not awaited.",
+      "explanation": "Identify where failure is represented and where it is observed. The goal is a clear error boundary, not merely adding a try/catch somewhere.",
+      "intent": "Predict failure observation across asynchronous call boundaries.",
+      "scope": "State runtime, return type and calling context; check official documentation before asserting behavior for async void, task composition or unobserved failures.",
+      "senior_signals": [
+        "Traces invocation, completion and the point where the caller can handle an error.",
+        "Includes a failure test and a deliberate strategy for reporting work outside the request lifetime."
+      ],
+      "pitfalls": [
+        "Assuming a synchronous try/catch around invocation observes every later failure."
+      ],
+      "followups": [
+        "What changes when several asynchronous operations are composed?"
+      ]
+    },
+    "vi": {
+      "question": "Exception đi đến mã gọi qua mã C# bất đồng bộ thế nào? Theo dõi một lỗi được await và nói bạn kiểm tra gì nếu thao tác không được await.",
+      "explanation": "Xác định lỗi được biểu diễn ở đâu và được quan sát ở đâu. Mục tiêu là ranh giới xử lý lỗi rõ ràng, không chỉ thêm try/catch ở một chỗ bất kỳ.",
+      "intent": "Dự đoán nơi quan sát lỗi qua ranh giới lời gọi bất đồng bộ.",
+      "scope": "Nêu runtime, kiểu kết quả và context gọi; tra tài liệu chính thức trước khi khẳng định hành vi async void, kết hợp Task hoặc lỗi không được quan sát.",
+      "senior_signals": [
+        "Theo dõi lúc gọi, hoàn tất và điểm mã gọi có thể xử lý lỗi.",
+        "Có test lỗi và chiến lược rõ ràng để báo lỗi công việc sống lâu hơn request."
+      ],
+      "pitfalls": [
+        "Cho rằng try/catch đồng bộ quanh lúc gọi sẽ thấy mọi lỗi xảy ra về sau."
+      ],
+      "followups": [
+        "Điều gì thay đổi khi kết hợp nhiều thao tác bất đồng bộ?"
+      ]
+    }
+  },
+  {
+    "question_id": "S01-Q031",
+    "phase": "tradeoff",
+    "order": 310,
+    "version_sensitive": false,
+    "en": {
+      "question": "When should CPU-bound work use parallelism instead of being treated as asynchronous I/O? Explain how you would decide the amount of concurrency.",
+      "explanation": "Distinguish waiting for an external operation from doing computation. A choice must account for available capacity and the effect on other requests.",
+      "intent": "Choose concurrency from workload and resource constraints.",
+      "scope": "Use a hypothetical compute-heavy task in a service; state input size, CPU budget and competing workload before making performance claims.",
+      "senior_signals": [
+        "Explains which work could run concurrently and what limits useful parallelism.",
+        "Proposes comparable measurements of throughput, latency and CPU use before increasing concurrency."
+      ],
+      "pitfalls": [
+        "Assuming an async signature or more tasks automatically accelerates CPU work."
+      ],
+      "followups": [
+        "How would your choice change when the service is already CPU-saturated?"
+      ]
+    },
+    "vi": {
+      "question": "Khi nào công việc dùng CPU nên dùng parallelism thay vì được xem như I/O bất đồng bộ? Bạn quyết định mức chạy đồng thời thế nào?",
+      "explanation": "Phân biệt chờ thao tác bên ngoài với thực hiện tính toán. Lựa chọn phải tính đến tài nguyên sẵn có và ảnh hưởng lên request khác.",
+      "intent": "Chọn mức đồng thời theo workload và giới hạn tài nguyên.",
+      "scope": "Dùng tác vụ tính toán nặng giả định trong service; nêu kích thước đầu vào, ngân sách CPU và tải cạnh tranh trước khi khẳng định hiệu năng.",
+      "senior_signals": [
+        "Giải thích phần việc có thể chạy đồng thời và giới hạn lợi ích của parallelism.",
+        "Đề xuất phép đo throughput, latency và CPU tương đương trước khi tăng concurrency."
+      ],
+      "pitfalls": [
+        "Cho rằng chữ ký async hoặc thêm Task tự động tăng tốc công việc CPU."
+      ],
+      "followups": [
+        "Lựa chọn thay đổi thế nào khi service đã dùng hết năng lực CPU?"
+      ]
+    }
+  },
+  {
+    "question_id": "S01-Q032",
+    "phase": "foundation",
+    "order": 320,
+    "version_sensitive": false,
+    "en": {
+      "question": "Compare Dependency Inversion, Inversion of Control and Dependency Injection using one small design. What distinguishes the ideas and how do they relate?",
+      "explanation": "Separate the design principle, control relationship and construction technique in your explanation. Show their relationship without treating the three names as synonyms.",
+      "intent": "Reason about dependency direction independently of container configuration.",
+      "scope": "Use a hypothetical application service and replaceable dependency; include IoC from the broader source question as well as the DIP/DI comparison.",
+      "senior_signals": [
+        "Draws dependencies and object construction for the same concrete example.",
+        "Explains whether the design goal is met and how a change would test that claim."
+      ],
+      "pitfalls": [
+        "Claiming that registering services in a container alone proves good dependency direction."
+      ],
+      "followups": [
+        "Could your example retain its design goal without a DI container?"
+      ]
+    },
+    "vi": {
+      "question": "So sánh Dependency Inversion, Inversion of Control và Dependency Injection bằng một thiết kế nhỏ. Ba ý tưởng khác nhau và liên hệ thế nào?",
+      "explanation": "Tách nguyên tắc thiết kế, quan hệ điều khiển và kỹ thuật cung cấp dependency trong lời giải thích. Cho thấy mối liên hệ mà không coi ba tên là đồng nghĩa.",
+      "intent": "Lập luận về hướng dependency độc lập với cấu hình container.",
+      "scope": "Dùng application service giả định và dependency có thể thay thế; giữ cả IoC từ câu hỏi rộng lẫn phần so sánh DIP/DI.",
+      "senior_signals": [
+        "Vẽ dependency và cách tạo object trong cùng một ví dụ cụ thể.",
+        "Giải thích mục tiêu thiết kế đã được đáp ứng chưa và thay đổi nào giúp kiểm chứng."
+      ],
+      "pitfalls": [
+        "Cho rằng chỉ đăng ký service vào container đã chứng minh hướng dependency tốt."
+      ],
+      "followups": [
+        "Ví dụ có giữ được mục tiêu thiết kế nếu không dùng DI container không?"
+      ]
+    }
+  },
+  {
+    "question_id": "S01-Q033",
+    "phase": "mechanism",
+    "order": 330,
+    "version_sensitive": true,
+    "en": {
+      "question": "How do Transient, Scoped and Singleton lifetimes affect object creation, reuse and cleanup? Trace two requests resolving the same service registration.",
+      "explanation": "Follow the instances each consumer receives and the scope in which they live. Connect lifetime to state ownership rather than simply reciting three definitions.",
+      "intent": "Predict service-instance behavior from registration and scope boundaries.",
+      "scope": "Name the DI container, framework version and scope setup; consult official documentation for actual resolution and disposal rules.",
+      "senior_signals": [
+        "Traces instance identity across resolutions and requests with an explicit scope.",
+        "Explains how shared mutable state or resource ownership affects the lifetime choice."
+      ],
+      "pitfalls": [
+        "Assuming scoped always means one HTTP request in every hosting context."
+      ],
+      "followups": [
+        "How would you establish a suitable scope in a background worker?"
+      ]
+    },
+    "vi": {
+      "question": "Transient, Scoped và Singleton ảnh hưởng đến tạo, dùng lại và dọn object thế nào? Theo dõi hai request cùng resolve một đăng ký service.",
+      "explanation": "Theo dõi instance mà mỗi consumer nhận và scope nơi chúng sống. Gắn lifetime với quyền sở hữu trạng thái, không chỉ đọc ba định nghĩa.",
+      "intent": "Dự đoán hành vi instance từ đăng ký và ranh giới scope.",
+      "scope": "Nêu DI container, phiên bản framework và cách tạo scope; tra tài liệu chính thức về quy tắc resolve và disposal thực tế.",
+      "senior_signals": [
+        "Theo dõi danh tính instance qua các lần resolve và request trong scope rõ ràng.",
+        "Giải thích trạng thái thay đổi dùng chung hoặc sở hữu tài nguyên ảnh hưởng lựa chọn lifetime thế nào."
+      ],
+      "pitfalls": [
+        "Cho rằng scoped luôn có nghĩa là một HTTP request trong mọi kiểu hosting."
+      ],
+      "followups": [
+        "Bạn tạo scope phù hợp trong background worker thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S01-Q034",
+    "phase": "failure",
+    "order": 340,
+    "version_sensitive": true,
+    "en": {
+      "question": "What can go wrong when a longer-lived service retains a shorter-lived dependency? Trace the dependency’s use across the shorter lifetime boundary.",
+      "explanation": "A captive dependency is a dependency retained beyond the lifetime its design intended. Investigate the resulting state and ownership problem, not only the registration syntax.",
+      "intent": "Diagnose a lifetime mismatch and defend a repair.",
+      "scope": "Name the container, versions, scope and resource ownership; consult official documentation before claiming the container detects or prevents the problem.",
+      "senior_signals": [
+        "Shows a concrete use after the intended boundary and its observable risk.",
+        "Compares a lifetime change with an explicit scope boundary and checks cleanup and concurrency."
+      ],
+      "pitfalls": [
+        "Treating successful resolution as proof that dependency lifetimes are safe."
+      ],
+      "followups": [
+        "How would you test the repair under overlapping requests or jobs?"
+      ]
+    },
+    "vi": {
+      "question": "Điều gì có thể sai khi service sống lâu giữ lại dependency có lifetime ngắn hơn? Theo dõi việc dùng dependency qua ranh giới lifetime ngắn đó.",
+      "explanation": "Captive dependency là dependency bị giữ lâu hơn vòng đời thiết kế dự kiến. Điều tra vấn đề trạng thái và quyền sở hữu phát sinh, không chỉ cú pháp đăng ký.",
+      "intent": "Chẩn đoán lifetime không khớp và bảo vệ cách sửa.",
+      "scope": "Nêu container, phiên bản, scope và quyền sở hữu tài nguyên; tra tài liệu chính thức trước khi nói container phát hiện hoặc ngăn được vấn đề.",
+      "senior_signals": [
+        "Minh họa một lần sử dụng sau ranh giới dự kiến và rủi ro có thể quan sát.",
+        "So sánh đổi lifetime với tạo scope tường minh, đồng thời kiểm tra cleanup và concurrency."
+      ],
+      "pitfalls": [
+        "Coi resolve thành công là bằng chứng lifetime dependency an toàn."
+      ],
+      "followups": [
+        "Bạn kiểm tra cách sửa khi request hoặc job chồng lấn nhau thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S01-Q035",
+    "phase": "foundation",
+    "order": 300,
+    "version_sensitive": false,
+    "en": {
+      "question": "Explain the SOLID principles with concrete production-oriented examples. For one principle, show the change pressure and how you would assess a proposed design.",
+      "explanation": "Retain the full set of principles but go deeper on one relevant example. An example should explain responsibility, contract or dependency effects rather than just label classes.",
+      "intent": "Use design principles to reason about a concrete change.",
+      "scope": "Clearly mark proposed examples as hypothetical unless they are genuine experience; do not invent incidents, team outcomes or measured benefits.",
+      "senior_signals": [
+        "Connects each principle to a meaningful design concern and traces one change in detail.",
+        "Considers a simpler alternative and the evidence needed to justify extra abstractions."
+      ],
+      "pitfalls": [
+        "Reciting the acronym or declaring that more interfaces automatically means better design."
+      ],
+      "followups": [
+        "When would applying your proposed abstraction create more cost than benefit?"
+      ]
+    },
+    "vi": {
+      "question": "Giải thích các nguyên tắc SOLID bằng ví dụ hướng đến production. Với một nguyên tắc, nêu áp lực thay đổi và cách đánh giá thiết kế đề xuất.",
+      "explanation": "Giữ đủ các nguyên tắc nhưng đi sâu một ví dụ phù hợp. Ví dụ cần giải thích ảnh hưởng đến trách nhiệm, hợp đồng hoặc dependency, không chỉ gắn nhãn class.",
+      "intent": "Dùng nguyên tắc thiết kế để lập luận về một thay đổi cụ thể.",
+      "scope": "Nói rõ ví dụ đề xuất là giả định nếu không phải kinh nghiệm thật; không bịa sự cố, kết quả của nhóm hay lợi ích đã đo.",
+      "senior_signals": [
+        "Gắn từng nguyên tắc với một vấn đề thiết kế có ý nghĩa và theo dõi sâu một thay đổi.",
+        "Cân nhắc phương án đơn giản hơn và bằng chứng cần để biện minh cho abstraction bổ sung."
+      ],
+      "pitfalls": [
+        "Đọc chữ viết tắt hoặc khẳng định thêm interface tự động làm thiết kế tốt hơn."
+      ],
+      "followups": [
+        "Khi nào abstraction bạn đề xuất tạo chi phí lớn hơn lợi ích?"
+      ]
+    }
+  },
+  {
+    "question_id": "S01-Q036",
+    "phase": "mechanism",
+    "order": 360,
+    "version_sensitive": false,
+    "en": {
+      "question": "How do Liskov Substitution and Interface Segregation address different contract problems? Use an example to show which concern you are diagnosing.",
+      "explanation": "Examine what consumers can rely on when using an abstraction. Compare substitutability with the breadth of a contract instead of merging both into “small interfaces.”",
+      "intent": "Distinguish behavioral compatibility from unnecessary contract coupling.",
+      "scope": "Use a hypothetical caller and implementations; state valid inputs, expected outputs and obligations before labeling a violation.",
+      "senior_signals": [
+        "Demonstrates the caller expectation at risk for each principle.",
+        "Explains a targeted redesign and a contract check without introducing unrelated patterns."
+      ],
+      "pitfalls": [
+        "Calling every large interface a substitution violation without showing a failed behavioral contract."
+      ],
+      "followups": [
+        "Which tests would reveal that a replacement implementation breaks a caller?"
+      ]
+    },
+    "vi": {
+      "question": "Liskov Substitution và Interface Segregation xử lý hai vấn đề hợp đồng khác nhau thế nào? Dùng ví dụ để chỉ ra bạn đang chẩn đoán vấn đề nào.",
+      "explanation": "Xem mã sử dụng abstraction có thể dựa vào điều gì. So sánh khả năng thay thế với độ rộng hợp đồng, không nhập cả hai thành “interface nhỏ”.",
+      "intent": "Phân biệt tương thích hành vi với phụ thuộc vào phần hợp đồng không cần thiết.",
+      "scope": "Dùng mã gọi và các triển khai giả định; nêu đầu vào hợp lệ, đầu ra mong đợi và nghĩa vụ trước khi gắn nhãn vi phạm.",
+      "senior_signals": [
+        "Chỉ ra kỳ vọng của mã gọi bị ảnh hưởng trong mỗi nguyên tắc.",
+        "Giải thích thiết kế lại có mục tiêu và cách kiểm tra hợp đồng, không thêm pattern ngoài phạm vi."
+      ],
+      "pitfalls": [
+        "Gọi mọi interface lớn là vi phạm thay thế mà không chỉ ra hợp đồng hành vi bị phá."
+      ],
+      "followups": [
+        "Test nào cho thấy triển khai thay thế làm hỏng mã gọi?"
+      ]
+    }
+  },
+  {
+    "question_id": "S01-Q038",
+    "phase": "application",
+    "order": 380,
+    "version_sensitive": false,
+    "en": {
+      "question": "Show a concrete violation of the Open/Closed Principle and propose a refactor. Which expected changes should become easier, and what should remain stable?",
+      "explanation": "Identify the change that repeatedly forces edits, then assess an extension boundary. The task needs before-and-after reasoning rather than a pattern name.",
+      "intent": "Refactor a recurring change pressure with bounded complexity.",
+      "scope": "Use a small hypothetical module; state the expected family of changes and preserve existing behavior instead of promising no future edits anywhere.",
+      "senior_signals": [
+        "Shows the affected code or design and a regression-check plan.",
+        "Explains the abstraction’s cost and a case where the original simple implementation is preferable."
+      ],
+      "pitfalls": [
+        "Interpreting the principle as a ban on all modifications or solving unknown future changes in advance."
+      ],
+      "followups": [
+        "What new requirement would challenge the boundary you selected?"
+      ]
+    },
+    "vi": {
+      "question": "Cho ví dụ cụ thể vi phạm Open/Closed Principle và đề xuất refactor. Thay đổi dự kiến nào cần dễ hơn, phần nào phải giữ ổn định?",
+      "explanation": "Xác định loại thay đổi thường xuyên buộc sửa mã rồi đánh giá ranh giới mở rộng. Cần lập luận trước và sau, không chỉ nêu tên pattern.",
+      "intent": "Refactor áp lực thay đổi lặp lại với mức phức tạp có giới hạn.",
+      "scope": "Dùng module giả định nhỏ; nêu nhóm thay đổi dự kiến và giữ hành vi hiện có, không hứa mọi nơi sẽ không bao giờ cần sửa.",
+      "senior_signals": [
+        "Chỉ ra mã hoặc thiết kế bị ảnh hưởng và kế hoạch kiểm tra hồi quy.",
+        "Giải thích chi phí abstraction và trường hợp giữ triển khai đơn giản ban đầu tốt hơn."
+      ],
+      "pitfalls": [
+        "Hiểu nguyên tắc thành cấm mọi sửa đổi hoặc giải trước các thay đổi tương lai chưa biết."
+      ],
+      "followups": [
+        "Yêu cầu mới nào sẽ thử thách ranh giới bạn chọn?"
+      ]
+    }
+  },
+  {
+    "question_id": "S01-Q039",
+    "phase": "foundation",
+    "order": 390,
+    "version_sensitive": false,
+    "en": {
+      "question": "Explain Repository, Generic Repository and Unit of Work through one data-changing use case. Which responsibility belongs to each abstraction?",
+      "explanation": "Trace retrieval, changes and the intended consistency boundary. A generic abstraction uses a shared shape across entities; assess what that shape does and does not express.",
+      "intent": "Explain data-access responsibilities without conflating patterns.",
+      "scope": "Use a hypothetical operation over related data; state transaction expectations and keep the conceptual patterns distinct from provider-specific implementation.",
+      "senior_signals": [
+        "Traces the operation and makes the commit or consistency boundary explicit.",
+        "Explains where a uniform abstraction fits or obscures entity-specific requirements."
+      ],
+      "pitfalls": [
+        "Describing all three as interchangeable wrappers around CRUD."
+      ],
+      "followups": [
+        "How would the design express an operation that changes two related entities together?"
+      ]
+    },
+    "vi": {
+      "question": "Giải thích Repository, Generic Repository và Unit of Work qua một use case thay đổi dữ liệu. Mỗi abstraction chịu trách nhiệm gì?",
+      "explanation": "Theo dõi lấy dữ liệu, thay đổi và ranh giới nhất quán mong muốn. Abstraction generic dùng một khuôn chung cho các entity; đánh giá khuôn đó biểu đạt được và không được điều gì.",
+      "intent": "Giải thích trách nhiệm truy cập dữ liệu mà không nhập các pattern thành một.",
+      "scope": "Dùng thao tác giả định trên dữ liệu liên quan; nêu kỳ vọng transaction và tách khái niệm pattern khỏi triển khai riêng của provider.",
+      "senior_signals": [
+        "Theo dõi thao tác và chỉ rõ ranh giới commit hoặc nhất quán.",
+        "Giải thích nơi abstraction chung phù hợp hoặc che mất yêu cầu riêng của entity."
+      ],
+      "pitfalls": [
+        "Mô tả cả ba là các lớp bọc CRUD có thể thay thế nhau."
+      ],
+      "followups": [
+        "Thiết kế thể hiện thao tác đổi hai entity liên quan cùng nhau thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S01-Q040",
+    "phase": "tradeoff",
+    "order": 400,
+    "version_sensitive": true,
+    "en": {
+      "question": "With EF Core already handling data access and change coordination, when would an additional repository abstraction help? When would you leave it out?",
+      "explanation": "Assess the requirements served by the extra boundary. Compare meaningful encapsulation with duplication or lost query expressiveness, rather than prescribing a pattern universally.",
+      "intent": "Justify an abstraction from requirements and measurable design consequences.",
+      "scope": "Name EF Core and provider versions; check official documentation for the capabilities the comparison depends on and state the use case being encapsulated.",
+      "senior_signals": [
+        "Shows the capability added by the abstraction and the caller it protects.",
+        "Compares the simpler option and a realistic testing or query requirement."
+      ],
+      "pitfalls": [
+        "Claiming a repository is mandatory for testability or useless in every EF Core application."
+      ],
+      "followups": [
+        "How would your abstraction support a specialized query without leaking every provider detail?"
+      ]
+    },
+    "vi": {
+      "question": "Khi EF Core đã xử lý truy cập dữ liệu và phối hợp thay đổi, lúc nào thêm repository abstraction có ích? Lúc nào bạn không thêm?",
+      "explanation": "Đánh giá yêu cầu mà ranh giới bổ sung phục vụ. So sánh việc đóng gói có ý nghĩa với lặp chức năng hoặc mất khả năng biểu đạt truy vấn, không áp pattern cho mọi nơi.",
+      "intent": "Biện minh abstraction từ yêu cầu và hệ quả thiết kế có thể đánh giá.",
+      "scope": "Nêu phiên bản EF Core và provider; tra tài liệu chính thức về khả năng mà phép so sánh dựa vào, đồng thời nêu use case cần đóng gói.",
+      "senior_signals": [
+        "Chỉ ra khả năng abstraction bổ sung và mã sử dụng được nó bảo vệ.",
+        "So sánh phương án đơn giản hơn cùng yêu cầu test hoặc truy vấn thực tế."
+      ],
+      "pitfalls": [
+        "Khẳng định repository bắt buộc để test được hoặc vô ích trong mọi ứng dụng EF Core."
+      ],
+      "followups": [
+        "Abstraction hỗ trợ truy vấn chuyên biệt thế nào mà không lộ mọi chi tiết provider?"
+      ]
+    }
+  },
+  {
+    "question_id": "S01-Q041",
+    "phase": "tradeoff",
+    "order": 410,
+    "version_sensitive": false,
+    "en": {
+      "question": "When would you choose Factory, Strategy or Template Method for a changing requirement? Explain what varies and compare your choice with a simpler design.",
+      "explanation": "Separate object creation, interchangeable behavior and a reusable workflow. Use the pattern only when its boundary matches the actual variation.",
+      "intent": "Select a pattern from change pressure rather than name recognition.",
+      "scope": "Use one hypothetical scenario with a defined extension requirement; do not claim experience or performance benefits from using the pattern alone.",
+      "senior_signals": [
+        "Traces how a new variant enters the design and what existing code changes.",
+        "Explains dependency, testing and complexity consequences relative to a simple alternative."
+      ],
+      "pitfalls": [
+        "Presenting all three as interchangeable ways to remove an if statement."
+      ],
+      "followups": [
+        "What requirement would make inheritance less suitable than composition in your example?"
+      ]
+    },
+    "vi": {
+      "question": "Với một yêu cầu đang thay đổi, khi nào bạn chọn Factory, Strategy hoặc Template Method? Nêu phần biến đổi và so lựa chọn với thiết kế đơn giản hơn.",
+      "explanation": "Tách việc tạo object, thay hành vi và dùng lại một workflow. Chỉ dùng pattern khi ranh giới của nó khớp phần thực sự thay đổi.",
+      "intent": "Chọn pattern từ áp lực thay đổi thay vì nhận ra tên gọi.",
+      "scope": "Dùng một tình huống giả định có yêu cầu mở rộng rõ; không khẳng định kinh nghiệm hoặc lợi ích hiệu năng chỉ vì dùng pattern.",
+      "senior_signals": [
+        "Theo dõi cách thêm một biến thể và mã hiện có cần sửa gì.",
+        "Giải thích hệ quả về dependency, test và độ phức tạp so với phương án đơn giản."
+      ],
+      "pitfalls": [
+        "Coi cả ba là cách tương đương để bỏ một câu if."
+      ],
+      "followups": [
+        "Yêu cầu nào khiến kế thừa kém phù hợp hơn composition trong ví dụ của bạn?"
+      ]
+    }
+  },
+  {
+    "question_id": "S01-Q042",
+    "phase": "mechanism",
+    "order": 420,
+    "version_sensitive": false,
+    "en": {
+      "question": "Explain Clean Architecture through the dependency direction in a small application. How would you check that business rules do not accidentally depend on infrastructure details?",
+      "explanation": "Draw both code dependencies and runtime collaboration; they answer different questions. Relate the boundaries to replacing or testing a concrete external component.",
+      "intent": "Reason about architecture from dependency relationships and ownership.",
+      "scope": "Use a hypothetical application, not a required folder template; preserve both the C# pattern context and the broader architecture source framing.",
+      "senior_signals": [
+        "Names the owner of interfaces and traces a use case across the boundaries.",
+        "Explains a change or test that demonstrates the intended independence and its cost."
+      ],
+      "pitfalls": [
+        "Treating folders or project names as proof that dependency direction is correct."
+      ],
+      "followups": [
+        "What would a compiler dependency check reveal that a runtime flow diagram would not?"
+      ]
+    },
+    "vi": {
+      "question": "Giải thích Clean Architecture qua hướng dependency trong một ứng dụng nhỏ. Bạn kiểm tra business rule không vô tình phụ thuộc chi tiết infrastructure thế nào?",
+      "explanation": "Vẽ cả dependency trong mã và sự phối hợp khi chạy; hai sơ đồ trả lời hai câu hỏi khác nhau. Gắn ranh giới với việc thay hoặc test một thành phần bên ngoài cụ thể.",
+      "intent": "Lập luận về kiến trúc từ quan hệ dependency và quyền sở hữu.",
+      "scope": "Dùng ứng dụng giả định, không bắt buộc một mẫu thư mục; giữ cả bối cảnh pattern C# và cách hỏi kiến trúc rộng hơn của nguồn.",
+      "senior_signals": [
+        "Nêu bên sở hữu interface và theo dõi một use case qua các ranh giới.",
+        "Giải thích thay đổi hoặc test chứng minh tính độc lập mong muốn cùng chi phí của nó."
+      ],
+      "pitfalls": [
+        "Coi tên thư mục hoặc project là bằng chứng hướng dependency đúng."
+      ],
+      "followups": [
+        "Kiểm tra dependency khi biên dịch cho biết điều gì mà sơ đồ luồng chạy không cho biết?"
+      ]
+    }
+  },
+  {
+    "question_id": "S01-Q043",
+    "phase": "foundation",
+    "order": 430,
+    "version_sensitive": false,
+    "en": {
+      "question": "What caching approaches would you consider for a .NET application? Explain the decision factors before choosing a particular technology.",
+      "explanation": "Identify what is cached, who owns the authoritative data and how readers tolerate older values. A catalog of cache products is not a caching strategy.",
+      "intent": "Frame a caching decision from data and workload requirements.",
+      "scope": "Use a hypothetical read path with an explicit freshness requirement; product-specific APIs or defaults require separate official verification.",
+      "senior_signals": [
+        "Connects placement, lifetime and invalidation to the data contract.",
+        "Explains a case where caching adds risk or provides too little benefit and proposes validation."
+      ],
+      "pitfalls": [
+        "Adding a cache without specifying freshness, invalidation or the source of truth."
+      ],
+      "followups": [
+        "How would you decide whether this read path needs a cache at all?"
+      ]
+    },
+    "vi": {
+      "question": "Bạn cân nhắc những cách cache nào cho ứng dụng .NET? Giải thích yếu tố quyết định trước khi chọn công nghệ cụ thể.",
+      "explanation": "Xác định thứ được cache, nơi sở hữu dữ liệu gốc đáng tin cậy và mức dữ liệu cũ mà bên đọc chấp nhận. Danh sách sản phẩm cache chưa phải chiến lược.",
+      "intent": "Đặt bài toán cache từ yêu cầu dữ liệu và workload.",
+      "scope": "Dùng luồng đọc giả định có yêu cầu độ mới rõ; API hoặc default của sản phẩm cần kiểm chứng chính thức riêng.",
+      "senior_signals": [
+        "Gắn vị trí cache, thời gian sống và invalidation với hợp đồng dữ liệu.",
+        "Nêu trường hợp cache tăng rủi ro hoặc ít lợi ích, rồi đề xuất cách kiểm chứng."
+      ],
+      "pitfalls": [
+        "Thêm cache mà không xác định độ mới, invalidation hoặc nguồn dữ liệu gốc."
+      ],
+      "followups": [
+        "Bạn quyết định luồng đọc này có cần cache hay không thế nào?"
+      ]
+    }
+  },
+  {
+    "question_id": "S01-Q044",
+    "phase": "tradeoff",
+    "order": 440,
+    "version_sensitive": false,
+    "en": {
+      "question": "How would you choose between in-memory and distributed caching for a service? Explain the constraint that would make you switch approaches.",
+      "explanation": "Compare where cached state lives and how readers reach it. Include consistency, dependency failures and operational cost rather than using speed as the only criterion.",
+      "intent": "Defend cache placement under a stated service contract.",
+      "scope": "State replica count, tolerated staleness and the authoritative data source; do not assume a distributed cache provides every desired consistency guarantee.",
+      "senior_signals": [
+        "Traces a read and an update across the proposed cache boundary.",
+        "Explains the principal failure mode and a condition that favors the alternative."
+      ],
+      "pitfalls": [
+        "Claiming local caching is always faster overall or distributed caching is automatically consistent."
+      ],
+      "followups": [
+        "What should the service do if the selected cache is unavailable?"
+      ]
+    },
+    "vi": {
+      "question": "Bạn chọn cache trong bộ nhớ hay cache phân tán cho service thế nào? Giới hạn nào khiến bạn chuyển sang cách còn lại?",
+      "explanation": "So sánh nơi lưu trạng thái cache và cách bên đọc truy cập. Xét nhất quán, lỗi phụ thuộc và chi phí vận hành, không chỉ tốc độ.",
+      "intent": "Bảo vệ vị trí cache theo hợp đồng service đã nêu.",
+      "scope": "Nêu số replica, mức dữ liệu cũ chấp nhận được và nguồn dữ liệu gốc; không giả định cache phân tán có mọi bảo đảm nhất quán mong muốn.",
+      "senior_signals": [
+        "Theo dõi một lần đọc và cập nhật qua ranh giới cache đề xuất.",
+        "Giải thích failure mode chính và điều kiện có lợi cho phương án khác."
+      ],
+      "pitfalls": [
+        "Nói cache cục bộ luôn nhanh hơn tổng thể hoặc cache phân tán tự động nhất quán."
+      ],
+      "followups": [
+        "Service nên làm gì khi cache được chọn không truy cập được?"
+      ]
+    }
+  },
+  {
+    "question_id": "S01-Q045",
+    "phase": "production",
+    "order": 450,
+    "version_sensitive": false,
+    "en": {
+      "question": "What changes in a caching design when a .NET service moves from one instance to multiple replicas? Trace an update and later reads on different instances.",
+      "explanation": "Keep the source’s caching context: reason about ownership, separate state and stale reads across replicas. Do not turn this into an unrelated catalogue of scaling technologies.",
+      "intent": "Reassess shared-state assumptions across deployment replicas.",
+      "scope": "Use a hypothetical multi-instance service, a stated freshness contract and rolling deployment; any provider-specific guarantees need official verification.",
+      "senior_signals": [
+        "Traces what different readers can observe and identifies invalidation or refresh boundaries.",
+        "Plans checks for replica divergence, cache failure and deployment transitions."
+      ],
+      "pitfalls": [
+        "Assuming adding replicas leaves every in-process state assumption unchanged."
+      ],
+      "followups": [
+        "How would you detect inconsistent cached values without inspecting each instance manually?"
+      ]
+    },
+    "vi": {
+      "question": "Thiết kế cache thay đổi gì khi service .NET từ một instance chuyển sang nhiều replica? Theo dõi cập nhật và các lần đọc ở những instance khác nhau.",
+      "explanation": "Giữ bối cảnh cache của nguồn: lập luận về quyền sở hữu, trạng thái riêng và dữ liệu cũ giữa các replica. Không biến thành danh sách công nghệ scale không liên quan.",
+      "intent": "Đánh giá lại giả định trạng thái dùng chung khi triển khai nhiều replica.",
+      "scope": "Dùng service nhiều instance giả định, hợp đồng độ mới rõ và rolling deployment; bảo đảm riêng của provider cần kiểm chứng chính thức.",
+      "senior_signals": [
+        "Theo dõi các bên đọc có thể thấy gì và chỉ ra ranh giới invalidation hoặc refresh.",
+        "Lập kiểm tra lệch dữ liệu giữa replica, cache lỗi và chuyển tiếp triển khai."
+      ],
+      "pitfalls": [
+        "Cho rằng thêm replica không làm thay đổi giả định nào về trạng thái trong process."
+      ],
+      "followups": [
+        "Bạn phát hiện giá trị cache không nhất quán thế nào mà không phải kiểm tra thủ công từng instance?"
+      ]
+    }
+  },
+  {
+    "question_id": "S01-Q046",
+    "phase": "failure",
+    "order": 460,
+    "version_sensitive": false,
+    "en": {
+      "question": "Under many concurrent requests, how would you identify the actual bottleneck in a .NET application? Explain the evidence that distinguishes your leading hypotheses.",
+      "explanation": "Start with the observed latency or throughput symptom and trace the request path. A bottleneck is a limiting resource or stage, not a component guessed from its name.",
+      "intent": "Design an evidence-led performance investigation.",
+      "scope": "State the load pattern, comparable baseline and affected request class; observations and benchmark results must be real, not invented.",
+      "senior_signals": [
+        "Connects request timing with resource, queue or dependency evidence.",
+        "Chooses a discriminating check and validates the repair under comparable load."
+      ],
+      "pitfalls": [
+        "Recommending caching or more replicas before locating the limiting stage."
+      ],
+      "followups": [
+        "What would make you rule out CPU saturation as the primary cause?"
+      ]
+    },
+    "vi": {
+      "question": "Khi có nhiều request đồng thời, bạn tìm bottleneck thực sự trong ứng dụng .NET thế nào? Bằng chứng nào giúp phân biệt các giả thuyết chính?",
+      "explanation": "Bắt đầu từ triệu chứng latency hoặc throughput quan sát được và theo dõi đường đi request. Bottleneck là tài nguyên hoặc bước giới hạn xử lý, không phải component đoán từ tên.",
+      "intent": "Thiết kế điều tra hiệu năng dựa trên bằng chứng.",
+      "scope": "Nêu dạng tải, baseline có thể so sánh và nhóm request bị ảnh hưởng; quan sát và kết quả benchmark phải có thật.",
+      "senior_signals": [
+        "Liên hệ thời gian request với bằng chứng về tài nguyên, hàng đợi hoặc phụ thuộc.",
+        "Chọn phép kiểm tra phân biệt nguyên nhân và kiểm chứng sửa đổi dưới tải tương đương."
+      ],
+      "pitfalls": [
+        "Khuyên thêm cache hoặc replica trước khi tìm bước đang giới hạn xử lý."
+      ],
+      "followups": [
+        "Điều gì khiến bạn loại CPU bão hòa khỏi nguyên nhân chính?"
+      ]
+    }
+  },
+  {
+    "question_id": "S01-Q047",
+    "phase": "tradeoff",
+    "order": 470,
+    "version_sensitive": false,
+    "en": {
+      "question": "How do load balancing, caching, queues, backpressure and horizontal scaling address different load problems? Choose a response for one observed constraint.",
+      "explanation": "Connect each approach to the resource or demand boundary it changes. Backpressure means limiting or slowing admission when downstream capacity cannot keep up.",
+      "intent": "Select a load response from a diagnosed constraint.",
+      "scope": "Use a hypothetical service with explicit latency, correctness and capacity requirements; do not assume that moving work to a queue removes its total cost.",
+      "senior_signals": [
+        "Explains what the selected response changes and what pressure remains.",
+        "Compares an alternative and proposes evidence for capacity and failure behavior."
+      ],
+      "pitfalls": [
+        "Presenting all five approaches as interchangeable cures for a slow system."
+      ],
+      "followups": [
+        "What would happen if queued work arrived faster than workers could finish it?"
+      ]
+    },
+    "vi": {
+      "question": "Load balancing, cache, queue, backpressure và horizontal scaling xử lý những vấn đề tải khác nhau thế nào? Chọn một cách ứng phó với giới hạn đã quan sát.",
+      "explanation": "Gắn từng cách với ranh giới tài nguyên hoặc nhu cầu mà nó thay đổi. Backpressure là hạn chế hoặc làm chậm tiếp nhận khi bên xử lý sau không theo kịp.",
+      "intent": "Chọn cách ứng phó tải từ giới hạn đã được chẩn đoán.",
+      "scope": "Dùng service giả định có yêu cầu latency, tính đúng và sức chứa rõ; không cho rằng đưa việc vào queue làm biến mất tổng chi phí.",
+      "senior_signals": [
+        "Giải thích cách được chọn thay đổi điều gì và áp lực nào còn lại.",
+        "So sánh phương án khác và đề xuất bằng chứng về năng lực xử lý và hành vi khi lỗi."
+      ],
+      "pitfalls": [
+        "Coi cả năm cách là các phương án tương đương chữa mọi hệ thống chậm."
+      ],
+      "followups": [
+        "Điều gì xảy ra nếu công việc vào queue nhanh hơn worker hoàn thành?"
+      ]
+    }
+  }
+]
